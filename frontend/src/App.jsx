@@ -1,0 +1,39 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import CookieBanner from './components/CookieBanner'
+import HomePage from './pages/HomePage'
+import SearchPage from './pages/SearchPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import TermsPage from './pages/TermsPage'
+import CookiesPage from './pages/CookiesPage'
+import ForCarriersPage from './pages/ForCarriersPage'
+import CarrierDetailsPage from './pages/CarrierDetailsPage'
+import './App.css'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/for-carriers" element={<ForCarriersPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
+        </Routes>
+      </main>
+      <Footer />
+      <CookieBanner />
+    </BrowserRouter>
+  )
+}
+
+export default App

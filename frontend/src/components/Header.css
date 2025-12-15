@@ -1,0 +1,105 @@
+.header {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s;
+}
+
+.logo:hover .logo-icon {
+  transform: scale(1.1);
+}
+
+.logo-text {
+  font-size: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: #ff6b35;
+}
+
+.user-menu {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-login,
+.btn-register,
+.btn-logout {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-login {
+  background: transparent;
+  color: #ff6b35;
+  border: 2px solid #ff6b35;
+}
+
+.btn-login:hover {
+  background: #ff6b35;
+  color: white;
+}
+
+.btn-register {
+  background: #ff6b35;
+  color: white;
+}
+
+.btn-register:hover {
+  background: #e55100;
+}
+
+.btn-logout {
+  background: #e55100;
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #cc4400;
+}

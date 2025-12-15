@@ -1,0 +1,58 @@
+.search-page {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: #f9f9f9;
+}
+
+.search-page h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.results-count {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.search-results {
+  min-height: 400px;
+}
+
+.carriers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 8px;
+  color: #666;
+}
+
+.loading,
+.error {
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.loading {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

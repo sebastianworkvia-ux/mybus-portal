@@ -1,0 +1,49 @@
+import { Link } from 'react-router-dom'
+import './CarrierCard.css'
+
+export default function CarrierCard({ carrier }) {
+  const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
+
+  return (
+    <div className="carrier-card">
+      <div className="card-header">
+        <h3>{carrier.companyName}</h3>
+        <span className="country-badge">{carrier.country}</span>
+      </div>
+
+      <p className="company-reg">{carrier.companyRegistration}</p>
+
+      <p className="description">{carrier.description}</p>
+
+      <div className="services">
+        {carrier.services?.map((service) => (
+          <span key={service} className="service-tag">
+            {service}
+          </span>
+        ))}
+      </div>
+
+      <div className="rating">
+        {stars && <span>{stars}</span>}
+        <span className="review-count">
+          ({carrier.reviewCount} ocen)
+        </span>
+      </div>
+
+      {carrier.phone && (
+        <p className="contact">
+          <strong>Tel:</strong> {carrier.phone}
+        </p>
+      )}
+      {carrier.email && (
+        <p className="contact">
+          <strong>Email:</strong> {carrier.email}
+        </p>
+      )}
+
+      <Link to={`/carrier/${carrier._id}`} className="btn-details">
+        Więcej szczegółów
+      </Link>
+    </div>
+  )
+}
