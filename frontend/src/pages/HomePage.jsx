@@ -16,6 +16,12 @@ export default function HomePage() {
   return (
     <div className="home-page">
       <section className="hero">
+        <div className="video-background">
+          <video autoPlay loop muted playsInline>
+            <source src="https://cdn.pixabay.com/video/2022/11/07/137685-769925905_large.mp4" type="video/mp4" />
+          </video>
+          <div className="video-overlay"></div>
+        </div>
         <div className="hero-content">
           <div className="hero-text">
             <h1>MyBus - Portal Transportowy</h1>
