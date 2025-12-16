@@ -15,7 +15,10 @@ export const getCarriers = async (req, res, next) => {
       ]
     }
 
-    const carriers = await Carrier.find(query).select('-__v')
+    // Premium carriers first, then free carriers
+    const carriers = await Carrier.find(query)
+      .select('-__v')
+      .sort({ isPremium: -1, createdAt: -1 })
     res.json(carriers)
   } catch (error) {
     next(error)

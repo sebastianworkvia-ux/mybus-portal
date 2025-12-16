@@ -30,6 +30,7 @@ export default function AddCarrierPage() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const isPremium = user?.isPremium || false
   
   const [formData, setFormData] = useState({
     companyName: '',
@@ -239,26 +240,40 @@ export default function AddCarrierPage() {
             </div>
           </section>
 
-          {/* Logo */}
-          <section className="form-section">
-            <h2>🖼️ Logo firmy</h2>
-            
-            <div className="form-group">
-              <label>Dodaj logo (opcjonalne)</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoChange}
-                className="file-input"
-              />
-              {logoPreview && (
-                <div className="logo-preview">
-                  <img src={logoPreview} alt="Logo preview" />
-                </div>
-              )}
-              <p className="help-text">Logo będzie wyświetlane w wynikach wyszukiwania</p>
-            </div>
-          </section>
+          {/* Logo - tylko Premium */}
+          {isPremium ? (
+            <section className="form-section">
+              <h2>⭐ Logo firmy (Premium)</h2>
+              
+              <div className="form-group">
+                <label>Dodaj logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoChange}
+                  className="file-input"
+                />
+                {logoPreview && (
+                  <div className="logo-preview">
+                    <img src={logoPreview} alt="Logo preview" />
+                  </div>
+                )}
+                <p className="help-text">Logo będzie wyświetlane w wynikach wyszukiwania</p>
+              </div>
+            </section>
+          ) : (
+            <section className="form-section premium-locked">
+              <h2>⭐ Logo firmy (Premium)</h2>
+              <div className="premium-notice">
+                <div className="premium-icon">🔒</div>
+                <h3>Wyróżnij się na tle konkurencji!</h3>
+                <p>Konta Premium mogą dodawać własne logo oraz są wyświetlane na wyższych pozycjach w wynikach wyszukiwania.</p>
+                <button type="button" className="btn-upgrade">
+                  ⭐ Przejdź na Premium
+                </button>
+              </div>
+            </section>
+          )}
 
           {/* Usługi */}
           <section className="form-section">

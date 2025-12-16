@@ -60,7 +60,11 @@ const carrierSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    logo: String, // URL do logo
+    logo: String, // URL do logo (tylko Premium)
+    isPremium: {
+      type: Boolean,
+      default: false
+    },
     isVerified: {
       type: Boolean,
       default: false

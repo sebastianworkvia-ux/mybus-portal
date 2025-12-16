@@ -32,6 +32,7 @@ export default function EditCarrierPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
+  const isPremium = user?.isPremium || false
   
   const [logoFile, setLogoFile] = useState(null)
   const [logoPreview, setLogoPreview] = useState(null)
@@ -273,37 +274,51 @@ export default function EditCarrierPage() {
             </div>
           </section>
 
-          <section className="form-section">
-            <h2>⭐ Logo firmy (Premium)</h2>
-            <p style={{color: '#667eea', marginBottom: '1rem', fontSize: '0.9rem'}}>
-              Wyróżnij się na tle konkurencji! Logo wyświetli się w wynikach wyszukiwania.
-            </p>
-            
-            <div className="form-group">
-              <label>Dodaj logo</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoChange}
-                className="file-input"
-              />
-              {logoPreview && (
-                <div className="logo-preview">
-                  <img src={logoPreview} alt="Logo preview" />
-                  <button 
-                    type="button" 
-                    onClick={handleRemoveLogo}
-                    className="btn-remove-logo"
-                  >
-                    ✕ Usuń logo
-                  </button>
-                </div>
-              )}
-              {!logoPreview && (
-                <p className="help-text">Format: JPG, PNG. Maksymalny rozmiar: 2MB</p>
-              )}
-            </div>
-          </section>
+          {isPremium ? (
+            <section className="form-section">
+              <h2>⭐ Logo firmy (Premium)</h2>
+              <p style={{color: '#667eea', marginBottom: '1rem', fontSize: '0.9rem'}}>
+                Wyróżnij się na tle konkurencji! Logo wyświetli się w wynikach wyszukiwania.
+              </p>
+              
+              <div className="form-group">
+                <label>Dodaj logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoChange}
+                  className="file-input"
+                />
+                {logoPreview && (
+                  <div className="logo-preview">
+                    <img src={logoPreview} alt="Logo preview" />
+                    <button 
+                      type="button" 
+                      onClick={handleRemoveLogo}
+                      className="btn-remove-logo"
+                    >
+                      ✕ Usuń logo
+                    </button>
+                  </div>
+                )}
+                {!logoPreview && (
+                  <p className="help-text">Format: JPG, PNG. Maksymalny rozmiar: 2MB</p>
+                )}
+              </div>
+            </section>
+          ) : (
+            <section className="form-section premium-locked">
+              <h2>⭐ Logo firmy (Premium)</h2>
+              <div className="premium-notice">
+                <div className="premium-icon">🔒</div>
+                <h3>Wyróżnij się na tle konkurencji!</h3>
+                <p>Konta Premium mogą dodawać własne logo oraz są wyświetlane na wyższych pozycjach w wynikach wyszukiwania.</p>
+                <button type="button" className="btn-upgrade">
+                  ⭐ Przejdź na Premium
+                </button>
+              </div>
+            </section>
+          )}
 
           <section className="form-section">
             <h2>🚐 Oferowane usługi *</h2>

@@ -7,6 +7,26 @@
   position: relative;
 }
 
+.carrier-card.premium-card {
+  border: 2px solid #f39c12;
+  background: linear-gradient(135deg, #ffffff 0%, #fef5e7 100%);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);
+}
+
+.premium-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+}
+
 .carrier-logo {
   display: flex;
   justify-content: center;

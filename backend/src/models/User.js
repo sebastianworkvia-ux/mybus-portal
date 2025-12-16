@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       enum: ['carrier', 'customer'],
       required: true
     },
+    isPremium: {
+      type: Boolean,
+      default: false
+    },
     // Dla type: 'carrier'
     carrierProfile: {
       companyName: String,

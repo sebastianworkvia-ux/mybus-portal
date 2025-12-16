@@ -5,8 +5,12 @@ export default function CarrierCard({ carrier }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
 
   return (
-    <div className="carrier-card">
-      {carrier.logo && (
+    <div className={`carrier-card ${carrier.isPremium ? 'premium-card' : ''}`}>
+      {carrier.isPremium && (
+        <div className="premium-badge">⭐ PREMIUM</div>
+      )}
+      
+      {carrier.logo && carrier.isPremium && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
         </div>
