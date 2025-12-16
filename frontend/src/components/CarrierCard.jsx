@@ -10,7 +10,7 @@ export default function CarrierCard({ carrier }) {
         <div className="premium-badge">⭐ PREMIUM</div>
       )}
       
-      {carrier.logo && carrier.isPremium && (
+      {carrier.logo && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
         </div>
