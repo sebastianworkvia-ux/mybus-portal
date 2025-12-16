@@ -13,3 +13,10 @@ export const carrierService = {
   updateCarrier: (data) => apiClient.put('/carriers', data),
   deleteCarrier: () => apiClient.delete('/carriers')
 }
+
+export const reviewService = {
+  getReviewsByCarrier: (carrierId) => apiClient.get(`/reviews/carrier/${carrierId}`),
+  createReview: (data) => apiClient.post('/reviews', data),
+  updateReview: (reviewId, data) => apiClient.put(`/reviews/${reviewId}`, data),
+  deleteReview: (reviewId) => apiClient.delete(`/reviews/${reviewId}`)
+}
