@@ -39,6 +39,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     // Dla type: 'carrier'
     carrierProfile: {
       companyName: String,

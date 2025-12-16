@@ -9,6 +9,7 @@ import carrierRoutes from './routes/carriers.js'
 import adminRoutes from './routes/admin.js'
 import adminStatsRoutes from './routes/adminStats.js'
 import reviewRoutes from './routes/reviews.js'
+import passwordResetRoutes from './routes/passwordReset.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -49,6 +50,7 @@ app.use('/carriers', carrierRoutes)
 app.use('/admin', adminRoutes)
 app.use('/admin', adminStatsRoutes)
 app.use('/reviews', reviewRoutes)
+app.use('/password', passwordResetRoutes)
 
 // Error handling middleware
 app.use(errorHandler)

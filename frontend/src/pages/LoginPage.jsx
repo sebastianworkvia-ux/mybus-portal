@@ -63,6 +63,10 @@ export default function LoginPage() {
           <button type="submit" disabled={loading} className="btn-submit">
             {loading ? 'Logowanie...' : 'Zaloguj się'}
           </button>
+
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">Zapomniałeś hasła?</Link>
+          </div>
         </form>
 
         <p className="auth-link">
