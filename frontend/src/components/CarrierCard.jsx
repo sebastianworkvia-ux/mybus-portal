@@ -6,6 +6,12 @@ export default function CarrierCard({ carrier }) {
 
   return (
     <div className="carrier-card">
+      {carrier.logo && (
+        <div className="carrier-logo">
+          <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
+        </div>
+      )}
+      
       <div className="card-header">
         <h3>{carrier.companyName}</h3>
         <span className="country-badge">{carrier.country}</span>
