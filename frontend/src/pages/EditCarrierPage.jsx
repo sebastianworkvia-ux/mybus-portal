@@ -33,6 +33,9 @@ export default function EditCarrierPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   
+  const [logoFile, setLogoFile] = useState(null)
+  const [logoPreview, setLogoPreview] = useState(null)
+  
   const [formData, setFormData] = useState({
     companyName: '',
     companyRegistration: '',
@@ -47,7 +50,8 @@ export default function EditCarrierPage() {
     isFlexible: false,
     luggageMaxPieces: 2,
     luggageMaxWeight: 25,
-    luggageAdditionalInfo: ''
+    luggageAdditionalInfo: '',
+    logo: ''
   })
 
   useEffect(() => {
@@ -75,8 +79,14 @@ export default function EditCarrierPage() {
           isFlexible: carrier.isFlexible || false,
           luggageMaxPieces: carrier.luggageInfo?.maxPieces || 2,
           luggageMaxWeight: carrier.luggageInfo?.maxWeight || 25,
-          luggageAdditionalInfo: carrier.luggageInfo?.additionalInfo || ''
+          luggageAdditionalInfo: carrier.luggageInfo?.additionalInfo || '',
+          logo: carrier.logo || ''
         })
+        
+        // Set existing logo preview if available
+        if (carrier.logo) {
+          setLogoPreview(carrier.logo)
+        }
       } catch (err) {
         setError('Nie udało się załadować danych firmy')
         console.error(err)
@@ -115,6 +125,24 @@ export default function EditCarrierPage() {
     }))
   }
 
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setLogoFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setLogoPreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleRemoveLogo = () => {
+    setLogoFile(null)
+    setLogoPreview(null)
+    setFormData(prev => ({ ...prev, logo: '' }))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
@@ -128,6 +156,11 @@ export default function EditCarrierPage() {
           maxWeight: formData.luggageMaxWeight,
           additionalInfo: formData.luggageAdditionalInfo
         }
+      }
+      
+      // Add logo if new file was uploaded
+      if (logoPreview && logoPreview !== formData.logo) {
+        updateData.logo = logoPreview
       }
 
       await carrierService.updateCarrier(updateData)
@@ -237,6 +270,38 @@ export default function EditCarrierPage() {
                 value={formData.website}
                 onChange={handleChange}
               />
+            </div>
+          </section>
+
+          <section className="form-section">
+            <h2>⭐ Logo firmy (Premium)</h2>
+            <p style={{color: '#667eea', marginBottom: '1rem', fontSize: '0.9rem'}}>
+              Wyróżnij się na tle konkurencji! Logo wyświetli się w wynikach wyszukiwania.
+            </p>
+            
+            <div className="form-group">
+              <label>Dodaj logo</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoChange}
+                className="file-input"
+              />
+              {logoPreview && (
+                <div className="logo-preview">
+                  <img src={logoPreview} alt="Logo preview" />
+                  <button 
+                    type="button" 
+                    onClick={handleRemoveLogo}
+                    className="btn-remove-logo"
+                  >
+                    ✕ Usuń logo
+                  </button>
+                </div>
+              )}
+              {!logoPreview && (
+                <p className="help-text">Format: JPG, PNG. Maksymalny rozmiar: 2MB</p>
+              )}
             </div>
           </section>
 

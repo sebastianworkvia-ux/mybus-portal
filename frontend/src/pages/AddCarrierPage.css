@@ -140,6 +140,8 @@
 .logo-preview {
   margin-top: 1rem;
   text-align: center;
+  position: relative;
+  display: inline-block;
 }
 
 .logo-preview img {
@@ -147,6 +149,24 @@
   max-height: 200px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+.btn-remove-logo {
+  margin-top: 0.5rem;
+  background: #fc8181;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-remove-logo:hover {
+  background: #f56565;
+  transform: scale(1.05);
 }
 
 .help-text {
