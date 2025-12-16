@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
-import { SearchIllustration, TravelIllustration, CommunityIllustration } from '../components/Illustrations'
+import { SearchIllustration, TravelIllustration, CommunityIllustration, VerifiedIllustration } from '../components/Illustrations'
 import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
 
@@ -56,7 +56,7 @@ export default function HomePage() {
             <p>Filtruj po kraju, typie usługi i znajdź idealnego przewoźnika</p>
           </div>
           <div className="feature-card">
-            <TravelIllustration />
+            <VerifiedIllustration />
             <h3>Sprawdzone firmy</h3>
             <p>Wszystkie firmy z rejestracją i opiniami klientów</p>
           </div>

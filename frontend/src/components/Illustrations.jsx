@@ -26,6 +26,29 @@ export function SearchIllustration() {
   )
 }
 
+export function VerifiedIllustration() {
+  return (
+    <svg width="300" height="250" viewBox="0 0 300 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Shield background */}
+      <path d="M150 40 L220 70 L220 140 Q220 180, 150 210 Q80 180, 80 140 L80 70 Z" fill="#4CAF50" />
+      <path d="M150 50 L210 75 L210 140 Q210 175, 150 200 Q90 175, 90 140 L90 75 Z" fill="#66BB6A" />
+      
+      {/* Checkmark */}
+      <path d="M120 125 L140 150 L185 100" stroke="white" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      
+      {/* Stars around */}
+      <circle cx="80" cy="80" r="4" fill="#FFD700" />
+      <circle cx="220" cy="80" r="4" fill="#FFD700" />
+      <circle cx="70" cy="160" r="4" fill="#FFD700" />
+      <circle cx="230" cy="160" r="4" fill="#FFD700" />
+      
+      {/* Document lines */}
+      <rect x="110" y="180" width="80" height="4" rx="2" fill="#E0E0E0" />
+      <rect x="120" y="190" width="60" height="4" rx="2" fill="#E0E0E0" />
+    </svg>
+  )
+}
+
 export function TravelIllustration() {
   return (
     <svg width="300" height="250" viewBox="0 0 300 250" fill="none" xmlns="http://www.w3.org/2000/svg" className="travel-illustration">
