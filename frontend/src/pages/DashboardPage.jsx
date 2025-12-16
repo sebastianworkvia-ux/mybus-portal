@@ -56,9 +56,23 @@ export default function DashboardPage() {
         </div>
 
         <div className="user-info">
-          <h2>Witaj, {user.firstName}!</h2>
+          <div className="user-header">
+            <h2>Witaj, {user.firstName}!</h2>
+            {user.isPremium && <span className="premium-badge-large">⭐ PREMIUM</span>}
+          </div>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Typ konta:</strong> {user.userType === 'carrier' ? 'Przewoźnik' : 'Klient'}</p>
+          <p><strong>Status:</strong> {user.isPremium ? '⭐ Premium' : '🆓 Free'}</p>
+          
+          {!user.isPremium && user.userType === 'carrier' && (
+            <div className="upgrade-notice">
+              <p><strong>💡 Przejdź na Premium!</strong></p>
+              <p>Dodaj logo swojej firmy i wyświetlaj się wyżej w wynikach wyszukiwania.</p>
+              <a href="mailto:kontakt@mybus.pl?subject=Upgrade do Premium" className="btn-upgrade-small">
+                ⭐ Przejdź na Premium
+              </a>
+            </div>
+          )}
         </div>
 
         {user.userType === 'carrier' && (

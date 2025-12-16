@@ -49,7 +49,8 @@ export const register = async (req, res, next) => {
         id: user._id,
         email: user.email,
         firstName: user.firstName,
-        userType: user.userType
+        userType: user.userType,
+        isPremium: user.isPremium || false
       }
     })
   } catch (error) {
@@ -88,7 +89,8 @@ export const login = async (req, res, next) => {
         id: user._id,
         email: user.email,
         firstName: user.firstName,
-        userType: user.userType
+        userType: user.userType,
+        isPremium: user.isPremium || false
       }
     })
   } catch (error) {

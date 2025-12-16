@@ -45,9 +45,61 @@
   margin-bottom: 2rem;
 }
 
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .user-info h2 {
   color: #2d3748;
-  margin-bottom: 1rem;
+  margin: 0;
+}
+
+.premium-badge-large {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+}
+
+.upgrade-notice {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+  border: 2px solid #f39c12;
+  border-radius: 12px;
+}
+
+.upgrade-notice p {
+  margin: 0.5rem 0;
+}
+
+.upgrade-notice p:first-child {
+  color: #f39c12;
+  font-size: 1.1rem;
+}
+
+.btn-upgrade-small {
+  display: inline-block;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition: all 0.3s;
+}
+
+.btn-upgrade-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
 }
 
 .user-info p {
@@ -243,5 +295,25 @@
   .btn-view,
   .btn-edit {
     width: 100%;
+  }
+
+  .user-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .premium-badge-large {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .upgrade-notice {
+    padding: 1rem;
+  }
+
+  .btn-upgrade-small {
+    width: 100%;
+    text-align: center;
   }
 }
