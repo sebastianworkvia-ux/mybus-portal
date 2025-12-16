@@ -1,8 +1,18 @@
 import { create } from 'zustand'
 import { authService } from '../services/services'
 
+// Helper functions for localStorage
+const getStoredUser = () => {
+  try {
+    const stored = localStorage.getItem('user')
+    return stored ? JSON.parse(stored) : null
+  } catch {
+    return null
+  }
+}
+
 export const useAuthStore = create((set) => ({
-  user: null,
+  user: getStoredUser(),
   token: localStorage.getItem('token') || null,
   loading: false,
   error: null,
@@ -12,6 +22,7 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await authService.register(data)
       localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
       set({
         user: response.data.user,
         token: response.data.token,
@@ -32,6 +43,7 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await authService.login(credentials)
       localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
       set({
         user: response.data.user,
         token: response.data.token,
@@ -49,6 +61,7 @@ export const useAuthStore = create((set) => ({
 
   logout: () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
     set({ user: null, token: null })
   },
 
