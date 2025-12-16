@@ -12,9 +12,14 @@ export default function AdminVerifyPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    // Check if user is admin (you can add isAdmin field to User model)
     if (!user) {
       navigate('/login')
+      return
+    }
+
+    if (!user.isAdmin) {
+      setError('Brak uprawnień. Ta strona jest dostępna tylko dla administratorów.')
+      setLoading(false)
       return
     }
 

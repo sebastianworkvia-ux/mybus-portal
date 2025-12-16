@@ -51,6 +51,9 @@ export default function Header() {
                 {user.userType === 'carrier' && (
                   <Link to="/dashboard">Mój panel</Link>
                 )}
+                {user.isAdmin && (
+                  <Link to="/admin/verify" className="admin-link">Panel Admina</Link>
+                )}
                 <button onClick={logout} className="btn-logout">
                   Wyloguj
                 </button>
