@@ -130,7 +130,7 @@ export default function AddCarrierPage() {
       // TODO: Dodać upload logo przez FormData gdy backend będzie obsługiwał
       await carrierService.createCarrier(carrierData)
       
-      alert('Firma dodana pomyślnie!')
+      alert('Zgłoszenie wysłane! Twoja firma zostanie dodana do listy po weryfikacji przez administratora.')
       navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')

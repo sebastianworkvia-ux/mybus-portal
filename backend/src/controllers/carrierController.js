@@ -4,7 +4,7 @@ import User from '../models/User.js'
 export const getCarriers = async (req, res, next) => {
   try {
     const { country, service, search } = req.query
-    const query = { isActive: true }
+    const query = { isActive: true, isVerified: true }
 
     if (country) query.country = country.toUpperCase()
     if (service) query.services = service
