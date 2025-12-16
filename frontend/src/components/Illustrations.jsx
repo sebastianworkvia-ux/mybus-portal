@@ -28,31 +28,97 @@ export function SearchIllustration() {
 
 export function TravelIllustration() {
   return (
-    <svg width="300" height="250" viewBox="0 0 300 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Van */}
-      <rect x="80" y="120" width="140" height="80" rx="12" fill="#FF6B35" />
-      <rect x="95" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
-      <rect x="130" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
-      <rect x="165" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
+    <svg width="300" height="250" viewBox="0 0 300 250" fill="none" xmlns="http://www.w3.org/2000/svg" className="travel-illustration">
+      <defs>
+        <style>{`
+          @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+          }
+          @keyframes wheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          @keyframes treeSlide {
+            from { transform: translateX(0px); }
+            to { transform: translateX(-300px); }
+          }
+          @keyframes roadSlide {
+            from { transform: translateX(0px); }
+            to { transform: translateX(-60px); }
+          }
+          .van-body { 
+            animation: bounce 0.6s ease-in-out infinite;
+            transform-origin: center;
+          }
+          .wheel { 
+            animation: wheelSpin 0.5s linear infinite;
+            transform-origin: center;
+          }
+          .tree {
+            animation: treeSlide 4s linear infinite;
+          }
+          .road-line {
+            animation: roadSlide 1s linear infinite;
+          }
+        `}</style>
+      </defs>
       
-      {/* Wheels */}
-      <circle cx="110" cy="200" r="18" fill="#333" />
-      <circle cx="110" cy="200" r="10" fill="#666" />
-      <circle cx="190" cy="200" r="18" fill="#333" />
-      <circle cx="190" cy="200" r="10" fill="#666" />
+      {/* Trees moving in background */}
+      <g className="tree">
+        <ellipse cx="50" cy="100" rx="15" ry="25" fill="#4CAF50" />
+        <rect x="45" y="100" width="10" height="30" fill="#8B4513" />
+      </g>
+      <g className="tree">
+        <ellipse cx="150" cy="90" rx="18" ry="30" fill="#4CAF50" />
+        <rect x="144" y="90" width="12" height="35" fill="#8B4513" />
+      </g>
+      <g className="tree">
+        <ellipse cx="250" cy="95" rx="16" ry="28" fill="#4CAF50" />
+        <rect x="245" y="95" width="10" height="32" fill="#8B4513" />
+      </g>
+      <g className="tree">
+        <ellipse cx="350" cy="100" rx="15" ry="25" fill="#4CAF50" />
+        <rect x="345" y="100" width="10" height="30" fill="#8B4513" />
+      </g>
+      
+      {/* Van body with bounce */}
+      <g className="van-body">
+        <rect x="80" y="120" width="140" height="80" rx="12" fill="#FF6B35" />
+        <rect x="95" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
+        <rect x="130" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
+        <rect x="165" y="135" width="25" height="35" rx="4" fill="#87CEEB" />
+      </g>
+      
+      {/* Wheels with spin */}
+      <g className="wheel">
+        <circle cx="110" cy="200" r="18" fill="#333" />
+        <circle cx="110" cy="200" r="10" fill="#666" />
+        <line x1="110" y1="192" x2="110" y2="208" stroke="#888" strokeWidth="2" />
+        <line x1="102" y1="200" x2="118" y2="200" stroke="#888" strokeWidth="2" />
+      </g>
+      <g className="wheel">
+        <circle cx="190" cy="200" r="18" fill="#333" />
+        <circle cx="190" cy="200" r="10" fill="#666" />
+        <line x1="190" y1="192" x2="190" y2="208" stroke="#888" strokeWidth="2" />
+        <line x1="182" y1="200" x2="198" y2="200" stroke="#888" strokeWidth="2" />
+      </g>
       
       {/* Motion lines */}
-      <line x1="30" y1="140" x2="60" y2="140" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" />
-      <line x1="20" y1="160" x2="55" y2="160" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" />
-      <line x1="25" y1="180" x2="50" y2="180" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" />
+      <line x1="30" y1="140" x2="60" y2="140" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" opacity="0.6" />
+      <line x1="20" y1="160" x2="55" y2="160" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" opacity="0.6" />
+      <line x1="25" y1="180" x2="50" y2="180" stroke="#CBD5E1" strokeWidth="4" strokeLinecap="round" opacity="0.6" />
       
       {/* Road */}
       <rect x="0" y="215" width="300" height="35" fill="#94A3B8" />
-      <rect x="10" y="227" width="40" height="6" rx="3" fill="white" />
-      <rect x="70" y="227" width="40" height="6" rx="3" fill="white" />
-      <rect x="130" y="227" width="40" height="6" rx="3" fill="white" />
-      <rect x="190" y="227" width="40" height="6" rx="3" fill="white" />
-      <rect x="250" y="227" width="40" height="6" rx="3" fill="white" />
+      <g className="road-line">
+        <rect x="10" y="227" width="40" height="6" rx="3" fill="white" />
+        <rect x="70" y="227" width="40" height="6" rx="3" fill="white" />
+        <rect x="130" y="227" width="40" height="6" rx="3" fill="white" />
+        <rect x="190" y="227" width="40" height="6" rx="3" fill="white" />
+        <rect x="250" y="227" width="40" height="6" rx="3" fill="white" />
+        <rect x="310" y="227" width="40" height="6" rx="3" fill="white" />
+      </g>
     </svg>
   )
 }
