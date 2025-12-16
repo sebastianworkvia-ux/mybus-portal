@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit'
 import authRoutes from './routes/auth.js'
 import carrierRoutes from './routes/carriers.js'
 import adminRoutes from './routes/admin.js'
+import adminStatsRoutes from './routes/adminStats.js'
 import reviewRoutes from './routes/reviews.js'
 import { errorHandler } from './middleware/auth.js'
 
@@ -46,6 +47,7 @@ app.get('/health', (req, res) => {
 app.use('/auth', authRoutes)
 app.use('/carriers', carrierRoutes)
 app.use('/admin', adminRoutes)
+app.use('/admin', adminStatsRoutes)
 app.use('/reviews', reviewRoutes)
 
 // Error handling middleware

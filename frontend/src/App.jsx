@@ -14,6 +14,7 @@ import CarrierDetailsPage from './pages/CarrierDetailsPage'
 import DashboardPage from './pages/DashboardPage'
 import AddCarrierPage from './pages/AddCarrierPage'
 import EditCarrierPage from './pages/EditCarrierPage'
+import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminVerifyPage from './pages/AdminVerifyPage'
 import './App.css'
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/add-carrier" element={<AddCarrierPage />} />
           <Route path="/edit-carrier/:id" element={<EditCarrierPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/verify" element={<AdminVerifyPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

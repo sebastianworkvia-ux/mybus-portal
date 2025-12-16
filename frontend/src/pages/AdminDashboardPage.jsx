@@ -1,0 +1,200 @@
+import { useState, useEffect } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import apiClient from '../services/apiClient'
+import { useAuthStore } from '../stores/authStore'
+import './AdminDashboardPage.css'
+
+export default function AdminDashboardPage() {
+  const { user } = useAuthStore()
+  const navigate = useNavigate()
+  const [stats, setStats] = useState(null)
+  const [recent, setRecent] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+
+    if (!user.isAdmin) {
+      navigate('/')
+      return
+    }
+
+    fetchStats()
+  }, [user, navigate])
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true)
+      const response = await apiClient.get('/admin/stats')
+      setStats(response.data.stats)
+      setRecent(response.data.recent)
+    } catch (err) {
+      setError(err.response?.data?.error || 'Błąd podczas pobierania statystyk')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-dashboard-page">
+        <div className="container">
+          <p>Ładowanie...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="admin-dashboard-page">
+        <div className="container">
+          <div className="error-message">{error}</div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="admin-dashboard-page">
+      <div className="container">
+        <div className="dashboard-header">
+          <h1>🎛️ Panel Administracyjny</h1>
+          <div className="quick-actions">
+            <Link to="/admin/verify" className="btn-quick-action">
+              ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
+            </Link>
+          </div>
+        </div>
+
+        {/* Statistics Cards */}
+        <div className="stats-grid">
+          <div className="stat-card users">
+            <div className="stat-icon">👥</div>
+            <div className="stat-content">
+              <h3>{stats?.totalUsers || 0}</h3>
+              <p>Wszystkich użytkowników</p>
+              <div className="stat-breakdown">
+                <span>🚚 {stats?.totalCarriers || 0} przewoźników</span>
+                <span>👤 {stats?.totalCustomers || 0} klientów</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="stat-card carriers">
+            <div className="stat-icon">🚐</div>
+            <div className="stat-content">
+              <h3>{stats?.verifiedCarriers || 0}</h3>
+              <p>Zweryfikowane firmy</p>
+              <div className="stat-breakdown">
+                <span>⭐ {stats?.premiumCarriers || 0} Premium</span>
+                <span>⏳ {stats?.unverifiedCarriers || 0} czeka</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="stat-card reviews">
+            <div className="stat-icon">⭐</div>
+            <div className="stat-content">
+              <h3>{stats?.totalReviews || 0}</h3>
+              <p>Wszystkich recenzji</p>
+              <div className="stat-breakdown">
+                <span>📊 {stats?.totalReviews > 0 ? (stats.totalReviews / stats.verifiedCarriers).toFixed(1) : 0} śr./firmę</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="stat-card pending">
+            <div className="stat-icon">⏰</div>
+            <div className="stat-content">
+              <h3>{stats?.unverifiedCarriers || 0}</h3>
+              <p>Czeka na weryfikację</p>
+              <Link to="/admin/verify" className="stat-link">Zobacz →</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="recent-activity">
+          <div className="activity-section">
+            <h2>📝 Ostatnie rejestracje</h2>
+            <div className="activity-list">
+              {recent?.users?.length > 0 ? (
+                recent.users.map(u => (
+                  <div key={u._id} className="activity-item">
+                    <div className="activity-icon">{u.userType === 'carrier' ? '🚚' : '👤'}</div>
+                    <div className="activity-content">
+                      <strong>{u.firstName} {u.lastName}</strong>
+                      <span className="activity-meta">{u.email} • {u.userType}</span>
+                    </div>
+                    <div className="activity-date">
+                      {new Date(u.createdAt).toLocaleDateString('pl-PL')}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-data">Brak danych</p>
+              )}
+            </div>
+          </div>
+
+          <div className="activity-section">
+            <h2>🚐 Ostatnio dodane firmy</h2>
+            <div className="activity-list">
+              {recent?.carriers?.length > 0 ? (
+                recent.carriers.map(c => (
+                  <div key={c._id} className="activity-item">
+                    <div className="activity-icon">
+                      {c.isVerified ? '✅' : '⏳'}
+                    </div>
+                    <div className="activity-content">
+                      <strong>{c.companyName}</strong>
+                      <span className="activity-meta">
+                        {c.country} • {c.userId?.email}
+                        {c.isPremium && ' • ⭐ Premium'}
+                      </span>
+                    </div>
+                    <div className="activity-date">
+                      {new Date(c.createdAt).toLocaleDateString('pl-PL')}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-data">Brak danych</p>
+              )}
+            </div>
+          </div>
+
+          <div className="activity-section">
+            <h2>💬 Ostatnie recenzje</h2>
+            <div className="activity-list">
+              {recent?.reviews?.length > 0 ? (
+                recent.reviews.map(r => (
+                  <div key={r._id} className="activity-item">
+                    <div className="activity-icon">⭐</div>
+                    <div className="activity-content">
+                      <strong>{r.userId?.firstName} {r.userId?.lastName}</strong>
+                      <span className="activity-meta">
+                        {r.carrierId?.companyName} • {'⭐'.repeat(r.rating)} ({r.rating}/5)
+                      </span>
+                      <p className="review-comment">{r.comment?.substring(0, 80)}...</p>
+                    </div>
+                    <div className="activity-date">
+                      {new Date(r.createdAt).toLocaleDateString('pl-PL')}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-data">Brak danych</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

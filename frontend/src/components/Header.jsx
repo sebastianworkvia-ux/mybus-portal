@@ -52,7 +52,7 @@ export default function Header() {
                   <Link to="/dashboard">Mój panel</Link>
                 )}
                 {user.isAdmin && (
-                  <Link to="/admin/verify" className="admin-link">Panel Admina</Link>
+                  <Link to="/admin" className="admin-link">Panel Admina</Link>
                 )}
                 <button onClick={logout} className="btn-logout">
                   Wyloguj
