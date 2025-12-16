@@ -30,7 +30,7 @@ export const register = async (req, res, next) => {
       email,
       password,
       firstName: userType === 'carrier' ? companyName : firstName,
-      lastName: userType === 'carrier' ? '' : lastName,
+      lastName: userType === 'carrier' ? 'Firma' : lastName,
       userType
     })
 
