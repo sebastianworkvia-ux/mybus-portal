@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { carrierService, reviewService } from '../services/services'
 import { useAuthStore } from '../stores/authStore'
-import './CarrierDetailPage.css'
+import './CarrierDetailsPage.css'
 
 export default function CarrierDetailPage() {
   const { id } = useParams()
