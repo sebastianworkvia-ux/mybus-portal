@@ -7,10 +7,18 @@ import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
 
 export default function HomePage() {
-  const { carriers, getCarriers } = useCarrierStore()
+  const { carriers, loading, error, getCarriers } = useCarrierStore()
 
   useEffect(() => {
-    getCarriers()
+    const loadCarriers = async () => {
+      try {
+        await getCarriers()
+      } catch (err) {
+        console.error('Failed to load carriers:', err)
+      }
+    }
+    loadCarriers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -66,13 +74,31 @@ export default function HomePage() {
 
         <section className="featured-carriers">
           <h2>Polecani przewoźnicy</h2>
-          <div className="carriers-grid">
-            {carriers.slice(0, 6).map((carrier) => (
-              <CarrierCard key={carrier._id} carrier={carrier} />
-            ))}
-          </div>
+          
+          {loading && (
+            <div className="loading">
+              <p>Ładowanie przewoźników...</p>
+            </div>
+          )}
 
-          {carriers.length === 0 && (
+          {error && (
+            <div className="error">
+              <p>Błąd ładowania: {error}</p>
+              <button onClick={() => getCarriers()} className="btn-retry">
+                🔄 Spróbuj ponownie
+              </button>
+            </div>
+          )}
+
+          {!loading && !error && carriers.length > 0 && (
+            <div className="carriers-grid">
+              {carriers.slice(0, 6).map((carrier) => (
+                <CarrierCard key={carrier._id} carrier={carrier} />
+              ))}
+            </div>
+          )}
+
+          {!loading && !error && carriers.length === 0 && (
             <div className="no-carriers">
               <p>Brak dostępnych przewoźników</p>
               <p className="text-small">Bądź pierwszy - załóż konto!</p>
