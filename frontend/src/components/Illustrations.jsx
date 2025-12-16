@@ -53,7 +53,12 @@ export function TravelIllustration() {
           }
           .wheel { 
             animation: wheelSpin 0.5s linear infinite;
-            transform-origin: center;
+          }
+          .wheel:nth-of-type(5) {
+            transform-origin: 110px 200px;
+          }
+          .wheel:nth-of-type(6) {
+            transform-origin: 190px 200px;
           }
           .tree {
             animation: treeSlide 4s linear infinite;
