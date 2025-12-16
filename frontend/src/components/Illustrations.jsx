@@ -35,10 +35,6 @@ export function TravelIllustration() {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
           }
-          @keyframes wheelSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
           @keyframes treeSlide {
             from { transform: translateX(0px); }
             to { transform: translateX(-300px); }
@@ -50,15 +46,6 @@ export function TravelIllustration() {
           .van-body { 
             animation: bounce 0.6s ease-in-out infinite;
             transform-origin: center;
-          }
-          .wheel { 
-            animation: wheelSpin 0.5s linear infinite;
-          }
-          .wheel:nth-of-type(5) {
-            transform-origin: 110px 200px;
-          }
-          .wheel:nth-of-type(6) {
-            transform-origin: 190px 200px;
           }
           .tree {
             animation: treeSlide 4s linear infinite;
