@@ -54,6 +54,13 @@ const carrierSchema = new mongoose.Schema(
       maxWeight: Number,
       additionalInfo: String
     },
+    departureDays: [String], // dni wyjazdów do Polski
+    returnDays: [String], // dni powrotów z Polski
+    isFlexible: {
+      type: Boolean,
+      default: false
+    },
+    logo: String, // URL do logo
     isVerified: {
       type: Boolean,
       default: false

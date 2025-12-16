@@ -11,6 +11,8 @@ import TermsPage from './pages/TermsPage'
 import CookiesPage from './pages/CookiesPage'
 import ForCarriersPage from './pages/ForCarriersPage'
 import CarrierDetailsPage from './pages/CarrierDetailsPage'
+import DashboardPage from './pages/DashboardPage'
+import AddCarrierPage from './pages/AddCarrierPage'
 import './App.css'
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/add-carrier" element={<AddCarrierPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/for-carriers" element={<ForCarriersPage />} />
