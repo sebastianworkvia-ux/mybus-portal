@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import Logo from './Logo'
@@ -7,9 +7,32 @@ import './Header.css'
 export default function Header() {
   const { user, logout } = useAuthStore()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      if (currentScrollY < 10) {
+        setIsVisible(true)
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false)
+      } else {
+        // Scrolling up
+        setIsVisible(true)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
 
   return (
-    <header className="header">
+    <header className={`header ${!isVisible ? 'header-hidden' : ''}`}>
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
