@@ -56,3 +56,33 @@
   margin: 0 auto;
   padding: 0 1rem;
 }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .search-page {
+    padding: 1rem 0;
+  }
+
+  .search-page h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .results-count {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .carriers-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .no-results {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+}

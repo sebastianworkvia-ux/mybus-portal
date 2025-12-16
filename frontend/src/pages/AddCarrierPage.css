@@ -256,12 +256,28 @@
 }
 
 @media (max-width: 768px) {
+  .add-carrier-page {
+    padding: 1rem 3%;
+  }
+
   .form-container {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
   }
 
   .form-container h1 {
     font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .form-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .form-section h3 {
+    font-size: 1rem;
   }
 
   .form-row {
@@ -270,5 +286,44 @@
 
   .checkbox-group {
     grid-template-columns: 1fr;
+  }
+
+  .checkbox-label {
+    padding: 0.6rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-submit {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .premium-notice {
+    padding: 1.5rem 1rem;
+  }
+
+  .premium-icon {
+    font-size: 2.5rem;
+  }
+
+  .premium-notice h3 {
+    font-size: 1.1rem;
+  }
+
+  .btn-upgrade {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .logo-preview img {
+    max-width: 150px;
+    max-height: 150px;
   }
 }

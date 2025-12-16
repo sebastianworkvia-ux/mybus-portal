@@ -41,3 +41,27 @@
 .btn-search:hover {
   background: #e55100;
 }
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .search-group {
+    min-width: 100%;
+  }
+
+  .search-group input,
+  .search-group select {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-search {
+    width: 100%;
+    padding: 0.75rem;
+  }
+}
