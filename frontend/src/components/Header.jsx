@@ -54,6 +54,7 @@ export default function Header() {
                 {user.isAdmin && (
                   <Link to="/admin" className="admin-link">Panel Admina</Link>
                 )}
+                <Link to="/settings" className="settings-link">⚙️ Ustawienia</Link>
                 <button onClick={logout} className="btn-logout">
                   Wyloguj
                 </button>

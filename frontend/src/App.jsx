@@ -17,6 +17,7 @@ import EditCarrierPage from './pages/EditCarrierPage'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminVerifyPage from './pages/AdminVerifyPage'
 import AdminUsersPage from './pages/AdminUsersPage'
+import UserSettingsPage from './pages/UserSettingsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import './App.css'
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/verify" element={<AdminVerifyPage />} />
           <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />

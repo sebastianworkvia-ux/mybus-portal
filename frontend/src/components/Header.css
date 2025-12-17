@@ -96,6 +96,17 @@
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
+.settings-link {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.settings-link:hover {
+  color: #667eea;
+}
+
 .btn-login {
   background: transparent;
   color: #ff6b35;

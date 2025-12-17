@@ -50,9 +50,12 @@ export default function DashboardPage() {
       <div className="dashboard-container">
         <div className="dashboard-header">
           <h1>Panel użytkownika</h1>
-          <button onClick={handleLogout} className="btn-logout">
-            Wyloguj się
-          </button>
+          <div className="header-actions">
+            <Link to="/settings" className="btn-settings">⚙️ Ustawienia</Link>
+            <button onClick={handleLogout} className="btn-logout">
+              Wyloguj się
+            </button>
+          </div>
         </div>
 
         <div className="user-info">
