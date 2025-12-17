@@ -1,4 +1,5 @@
 import Announcement from '../models/Announcement.js'
+import User from '../models/User.js'
 
 // @desc    Get all announcements
 // @route   GET /api/announcements
@@ -53,18 +54,18 @@ export const createAnnouncement = async (req, res, next) => {
       return res.status(400).json({ error: 'Tytuł, opis i kraj są wymagane' })
     }
 
-    // Get user info from authenticated request
-    const userId = req.user.id
-    const userType = req.user.userType || 'customer'
-    const firstName = req.user.firstName
-    const email = req.user.email
+    // Get full user info from database (JWT token only has id and email)
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({ error: 'Użytkownik nie został znaleziony' })
+    }
 
     const announcement = await Announcement.create({
-      userId,
-      userType,
-      firstName,
-      email,
-      phone: phone || req.user.phone,
+      userId: user._id,
+      userType: user.userType || 'customer',
+      firstName: user.firstName,
+      email: user.email,
+      phone: phone || user.phone,
       country,
       title,
       description
