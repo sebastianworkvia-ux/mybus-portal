@@ -203,7 +203,7 @@ export default function MapPage() {
                       
                       <Link 
                         to={`/carrier/${carrier._id}`}
-                        className="btn-popup"
+                        className={`btn-popup ${carrier.isPremium ? 'btn-popup-premium' : ''}`}
                       >
                         Zobacz szczegóły →
                       </Link>
