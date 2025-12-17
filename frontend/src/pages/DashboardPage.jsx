@@ -71,7 +71,7 @@ export default function DashboardPage() {
             <div className="upgrade-notice">
               <p><strong>💡 Przejdź na Premium!</strong></p>
               <p>Dodaj logo swojej firmy i wyświetlaj się wyżej w wynikach wyszukiwania.</p>
-              <a href="mailto:kontakt@mybus.pl?subject=Upgrade do Premium" className="btn-upgrade-small">
+              <a href="mailto:kontakt.mybus@gmail.com?subject=Upgrade do Premium" className="btn-upgrade-small">
                 ⭐ Przejdź na Premium
               </a>
             </div>

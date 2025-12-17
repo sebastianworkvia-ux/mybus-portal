@@ -37,9 +37,9 @@ export default function Footer() {
           <div className="footer-section">
             <h4>Kontakt</h4>
             <ul>
-              <li>Email: <a href="mailto:kontakt@mybus.pl">kontakt@mybus.pl</a></li>
-              <li>Tel: +48 123 456 789</li>
-              <li>RODO: <a href="mailto:rodo@mybus.pl">rodo@mybus.pl</a></li>
+              <li>Email: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a></li>
+              <li>Tel: +48 518 970 399</li>
+              <li>RODO: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a></li>
             </ul>
           </div>
         </div>

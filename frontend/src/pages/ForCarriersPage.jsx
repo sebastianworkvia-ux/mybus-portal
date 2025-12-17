@@ -323,7 +323,7 @@ export default function ForCarriersPage() {
               Załóż darmowe konto teraz →
             </Link>
             <p className="cta-subtext">
-              Pytania? Napisz do nas: <a href="mailto:kontakt@mybus.pl">kontakt@mybus.pl</a>
+              Pytania? Napisz do nas: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>
             </p>
           </div>
         </div>

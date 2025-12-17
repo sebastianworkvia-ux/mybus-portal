@@ -128,7 +128,7 @@ export default function TermsPage() {
             2. Spory będą rozstrzygane przez sąd właściwy dla siedziby MyBus.
           </p>
           <p>
-            3. Kontakt: <a href="mailto:kontakt@mybus.pl">kontakt@mybus.pl</a>
+            3. Kontakt: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>
           </p>
         </section>
       </div>
