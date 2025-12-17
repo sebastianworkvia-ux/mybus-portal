@@ -55,6 +55,28 @@
   font-size: 1.1rem;
 }
 
+.section-note {
+  color: #718096;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.location-help {
+  background: #e3f2fd;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #1976d2;
+  margin-top: 1rem;
+}
+
+.location-help a {
+  color: #667eea;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }
