@@ -13,7 +13,22 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
 })
+// Customowe ikony dla Premium i standardowych
+const premiumIcon = L.divIcon({
+  className: 'custom-marker-premium',
+  html: '<div class="marker-pin marker-premium"><i class="marker-icon">📍</i></div>',
+  iconSize: [30, 42],
+  iconAnchor: [15, 42],
+  popupAnchor: [0, -42]
+})
 
+const standardIcon = L.divIcon({
+  className: 'custom-marker-standard',
+  html: '<div class="marker-pin marker-standard"><i class="marker-icon">📍</i></div>',
+  iconSize: [30, 42],
+  iconAnchor: [15, 42],
+  popupAnchor: [0, -42]
+})
 // Komponent do centrowania mapy na lokalizacji użytkownika
 function LocationMarker({ position, onLocationFound }) {
   const map = useMap()
@@ -164,6 +179,7 @@ export default function MapPage() {
                     carrier.location.coordinates.lat,
                     carrier.location.coordinates.lng
                   ]}
+                  icon={carrier.isPremium ? premiumIcon : standardIcon}
                 >
                   <Popup maxWidth={300}>
                     <div className="map-popup">
