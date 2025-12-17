@@ -18,7 +18,15 @@ export default function SearchPage() {
 
         <SearchBar />
 
-        {loading && <div className="loading">Ładowanie...</div>}
+        {loading && (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>Ładowanie przewoźników...</p>
+            <small style={{ opacity: 0.7, marginTop: '8px' }}>
+              Pierwsze ładowanie może potrwać do minuty (serwer startuje)
+            </small>
+          </div>
+        )}
 
         {error && <div className="error">{error}</div>}
 

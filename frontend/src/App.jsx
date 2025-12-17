@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CookieBanner from './components/CookieBanner'
@@ -20,9 +21,15 @@ import AdminUsersPage from './pages/AdminUsersPage'
 import UserSettingsPage from './pages/UserSettingsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
 
 function App() {
+  // Uruchom automatyczne pingowanie backendu aby nie zasnął (Render free tier)
+  useEffect(() => {
+    startKeepAlive()
+  }, [])
+
   return (
     <BrowserRouter>
       <Header />

@@ -7,7 +7,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 30000 // 30 sekund (dla "wake up" Render free tier)
+  timeout: 60000 // 60 sekund (dla "wake up" Render free tier - pierwsze połączenie może trwać 30-60s)
 })
 
 // Request interceptor - dodaj JWT token
