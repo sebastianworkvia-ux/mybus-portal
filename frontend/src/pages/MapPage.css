@@ -141,33 +141,9 @@
   color: #2563eb;
 }
 
-/* Customowe markery */
-.custom-marker-premium,
-.custom-marker-standard {
-  background: transparent !important;
-  border: none !important;
-}
-
-.marker-pin {
-  width: 30px;
-  height: 42px;
-  position: relative;
-  font-size: 2rem;
-  line-height: 1;
-  text-align: center;
-}
-
-.marker-premium .marker-icon {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-}
-
-.marker-standard .marker-icon {
-  color: #2563eb;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+/* Złota pinezka dla Premium */
+.premium-marker-icon {
+  filter: hue-rotate(30deg) saturate(200%) brightness(1.1);
 }
 
 /* Leaflet popup customization */

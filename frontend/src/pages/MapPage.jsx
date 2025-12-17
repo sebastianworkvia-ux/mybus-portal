@@ -6,28 +6,33 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import './MapPage.css'
 
-// Fix dla defaultowych ikonekrender.com używa innej ścieżki
+// Fix dla defaultowych ikon - render.com używa innej ścieżki
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
 })
-// Customowe ikony dla Premium i standardowych
-const premiumIcon = L.divIcon({
-  className: 'custom-marker-premium',
-  html: '<div class="marker-pin marker-premium"><i class="marker-icon">📍</i></div>',
-  iconSize: [30, 42],
-  iconAnchor: [15, 42],
-  popupAnchor: [0, -42]
+
+// Ikona Premium - złota pinezka
+const premiumIcon = new L.Icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  className: 'premium-marker-icon'
 })
 
-const standardIcon = L.divIcon({
-  className: 'custom-marker-standard',
-  html: '<div class="marker-pin marker-standard"><i class="marker-icon">📍</i></div>',
-  iconSize: [30, 42],
-  iconAnchor: [15, 42],
-  popupAnchor: [0, -42]
+// Ikona standardowa - domyślna niebieska
+const standardIcon = new L.Icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
 })
 // Komponent do centrowania mapy na lokalizacji użytkownika
 function LocationMarker({ position, onLocationFound }) {
