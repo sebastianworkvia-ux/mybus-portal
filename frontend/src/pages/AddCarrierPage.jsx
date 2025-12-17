@@ -48,10 +48,8 @@ export default function AddCarrierPage() {
     luggageMaxPieces: 2,
     luggageMaxWeight: 25,
     luggageAdditionalInfo: '',
-    locationCity: '',
-    locationAddress: '',
-    locationLat: '',
-    locationLng: ''
+    locationPostalCode: '',
+    locationCity: ''
   })
 
   const [logoFile, setLogoFile] = useState(null)
@@ -122,6 +120,32 @@ export default function AddCarrierPage() {
     setLoading(true)
 
     try {
+      // Geocoding - zamień kod pocztowy + miasto na współrzędne
+      let locationData = undefined
+      if (formData.locationPostalCode && formData.locationCity) {
+        try {
+          const query = `${formData.locationPostalCode} ${formData.locationCity}, ${formData.country}`
+          const geocodeResponse = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`
+          )
+          const geocodeData = await geocodeResponse.json()
+          
+          if (geocodeData && geocodeData.length > 0) {
+            locationData = {
+              postalCode: formData.locationPostalCode,
+              city: formData.locationCity,
+              coordinates: {
+                lat: parseFloat(geocodeData[0].lat),
+                lng: parseFloat(geocodeData[0].lon)
+              }
+            }
+          }
+        } catch (geocodeError) {
+          console.warn('Geocoding failed:', geocodeError)
+          // Kontynuuj bez lokalizacji jeśli geocoding się nie powiedzie
+        }
+      }
+
       const carrierData = {
         ...formData,
         luggageInfo: {
@@ -129,14 +153,7 @@ export default function AddCarrierPage() {
           maxWeight: formData.luggageMaxWeight,
           additionalInfo: formData.luggageAdditionalInfo
         },
-        location: (formData.locationLat && formData.locationLng) ? {
-          city: formData.locationCity,
-          address: formData.locationAddress,
-          coordinates: {
-            lat: parseFloat(formData.locationLat),
-            lng: parseFloat(formData.locationLng)
-          }
-        } : undefined
+        location: locationData
       }
 
       // TODO: Dodać upload logo przez FormData gdy backend będzie obsługiwał
@@ -254,65 +271,37 @@ export default function AddCarrierPage() {
 
           {/* Lokalizacja */}
           <section className="form-section">
-            <h2>📍 Lokalizacja (opcjonalnie)</h2>
+            <h2>📍 Lokalizacja na mapie (opcjonalnie)</h2>
             <p className="section-note">
-              Dodaj lokalizację aby Twoja firma była widoczna na mapie
+              Podaj kod pocztowy i miasto aby Twoja firma była widoczna na mapie
             </p>
             
-            <div className="form-group">
-              <label>Miasto</label>
-              <input
-                type="text"
-                name="locationCity"
-                value={formData.locationCity || ''}
-                onChange={handleChange}
-                placeholder="np. Berlin, Amsterdam, Warszawa"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Pełny adres</label>
-              <input
-                type="text"
-                name="locationAddress"
-                value={formData.locationAddress || ''}
-                onChange={handleChange}
-                placeholder="Ulica, kod pocztowy, miasto"
-              />
-            </div>
-
             <div className="form-row">
               <div className="form-group">
-                <label>Szerokość geograficzna (lat)</label>
+                <label>Kod pocztowy</label>
                 <input
-                  type="number"
-                  step="0.000001"
-                  name="locationLat"
-                  value={formData.locationLat || ''}
+                  type="text"
+                  name="locationPostalCode"
+                  value={formData.locationPostalCode || ''}
                   onChange={handleChange}
-                  placeholder="52.5200"
+                  placeholder="np. 10115, 1012 AB"
                 />
               </div>
 
               <div className="form-group">
-                <label>Długość geograficzna (lng)</label>
+                <label>Miasto</label>
                 <input
-                  type="number"
-                  step="0.000001"
-                  name="locationLng"
-                  value={formData.locationLng || ''}
+                  type="text"
+                  name="locationCity"
+                  value={formData.locationCity || ''}
                   onChange={handleChange}
-                  placeholder="13.4050"
+                  placeholder="np. Berlin, Amsterdam"
                 />
               </div>
             </div>
 
             <div className="location-help">
-              💡 Możesz znaleźć współrzędne na{' '}
-              <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
-                Google Maps
-              </a>
-              {' '}(kliknij prawym i wybierz "Kopiuj współrzędne")
+              💡 Podaj kod pocztowy i miasto, a Twoja firma automatycznie pojawi się na mapie
             </div>
           </section>
 

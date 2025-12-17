@@ -178,7 +178,7 @@ export default function MapPage() {
                       {carrier.isPremium && <span className="badge-premium">⭐ Premium</span>}
                       
                       <p className="popup-address">
-                        📍 {carrier.location.city || carrier.location.address}
+                        📍 {carrier.location.postalCode ? `${carrier.location.postalCode} ` : ''}{carrier.location.city}
                       </p>
                       
                       {carrier.phone && (

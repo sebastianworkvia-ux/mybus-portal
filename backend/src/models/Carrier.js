@@ -73,13 +73,13 @@ const carrierSchema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
-    // Lokalizacja geograficzna dla mapy
+    // Lokalizacja - tylko kod pocztowy i miasto
     location: {
-      address: String, // Pełny adres firmy
-      city: String, // Miasto
+      postalCode: String, // Kod pocztowy (np. "10115", "1012 AB")
+      city: String, // Miasto (np. "Berlin", "Amsterdam")
       coordinates: {
-        lat: Number, // Szerokość geograficzna
-        lng: Number  // Długość geograficzna
+        lat: Number, // Szerokość geograficzna (automatycznie z geocoding)
+        lng: Number  // Długość geograficzna (automatycznie z geocoding)
       }
     }
   },
