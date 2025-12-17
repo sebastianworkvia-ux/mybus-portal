@@ -14,15 +14,13 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
 })
 
-// Ikona Premium - złota pinezka
+// Ikona Premium - złota pinezka (SVG)
 const premiumIcon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iNDEiIHZpZXdCb3g9IjAgMCAyNSA0MSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjZmJiZjI0IiBzdHJva2U9IiNmNTllMGIiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTEyLjUsMkM3LjgsMiwzLjksNS45LDMuOSwxMC42YzAsNi40LDguNiwyMi40LDguNiwyMi40czguNi0xNiw4LjYtMjIuNEMyMS4xLDUuOSwxNy4yLDIsMTIuNSwyeiIvPjxjaXJjbGUgZmlsbD0iI2ZmZiIgY3g9IjEyLjUiIGN5PSIxMC42IiByPSI0Ii8+PC9zdmc+',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  className: 'premium-marker-icon'
+  popupAnchor: [1, -34]
 })
 
 // Ikona standardowa - domyślna niebieska

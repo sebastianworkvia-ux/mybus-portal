@@ -141,10 +141,7 @@
   color: #2563eb;
 }
 
-/* Złota pinezka dla Premium */
-.premium-marker-icon {
-  filter: hue-rotate(30deg) saturate(200%) brightness(1.1);
-}
+
 
 /* Leaflet popup customization */
 .map-popup {
