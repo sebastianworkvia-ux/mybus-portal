@@ -72,6 +72,15 @@ const carrierSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true
+    },
+    // Lokalizacja geograficzna dla mapy
+    location: {
+      address: String, // Pełny adres firmy
+      city: String, // Miasto
+      coordinates: {
+        lat: Number, // Szerokość geograficzna
+        lng: Number  // Długość geograficzna
+      }
     }
   },
   { timestamps: true }

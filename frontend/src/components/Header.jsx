@@ -43,6 +43,7 @@ export default function Header() {
           <nav className="nav">
             <Link to="/">Strona główna</Link>
             <Link to="/search">Szukaj przewoźników</Link>
+            <Link to="/map">🗺️ Mapa</Link>
             <Link to="/for-carriers">Dla przewoźników</Link>
 
             {user ? (

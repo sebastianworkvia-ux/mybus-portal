@@ -70,6 +70,11 @@ export default function HomePage() {
         <section className="search-section">
           <h2>Szukaj przewoźnika</h2>
           <SearchBar />
+          <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+            <Link to="/map" className="btn-map">
+              🗺️ Zobacz wszystkie firmy na mapie
+            </Link>
+          </div>
         </section>
 
         <section className="featured-carriers">
