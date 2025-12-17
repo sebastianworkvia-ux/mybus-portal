@@ -52,7 +52,11 @@ export default function EditCarrierPage() {
     luggageMaxPieces: 2,
     luggageMaxWeight: 25,
     luggageAdditionalInfo: '',
-    logo: ''
+    logo: '',
+    locationCity: '',
+    locationAddress: '',
+    locationLat: '',
+    locationLng: ''
   })
 
   useEffect(() => {
@@ -81,7 +85,11 @@ export default function EditCarrierPage() {
           luggageMaxPieces: carrier.luggageInfo?.maxPieces || 2,
           luggageMaxWeight: carrier.luggageInfo?.maxWeight || 25,
           luggageAdditionalInfo: carrier.luggageInfo?.additionalInfo || '',
-          logo: carrier.logo || ''
+          logo: carrier.logo || '',
+          locationCity: carrier.location?.city || '',
+          locationAddress: carrier.location?.address || '',
+          locationLat: carrier.location?.coordinates?.lat || '',
+          locationLng: carrier.location?.coordinates?.lng || ''
         })
         
         // Set existing logo preview if available
@@ -156,7 +164,15 @@ export default function EditCarrierPage() {
           maxPieces: formData.luggageMaxPieces,
           maxWeight: formData.luggageMaxWeight,
           additionalInfo: formData.luggageAdditionalInfo
-        }
+        },
+        location: (formData.locationLat && formData.locationLng) ? {
+          city: formData.locationCity,
+          address: formData.locationAddress,
+          coordinates: {
+            lat: parseFloat(formData.locationLat),
+            lng: parseFloat(formData.locationLng)
+          }
+        } : undefined
       }
       
       // Add logo if new file was uploaded
@@ -271,6 +287,70 @@ export default function EditCarrierPage() {
                 value={formData.website}
                 onChange={handleChange}
               />
+            </div>
+          </section>
+
+          {/* Lokalizacja */}
+          <section className="form-section">
+            <h2>📍 Lokalizacja (opcjonalnie)</h2>
+            <p className="section-note">
+              Dodaj lokalizację aby Twoja firma była widoczna na mapie
+            </p>
+            
+            <div className="form-group">
+              <label>Miasto</label>
+              <input
+                type="text"
+                name="locationCity"
+                value={formData.locationCity || ''}
+                onChange={handleChange}
+                placeholder="np. Berlin, Amsterdam, Warszawa"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Pełny adres</label>
+              <input
+                type="text"
+                name="locationAddress"
+                value={formData.locationAddress || ''}
+                onChange={handleChange}
+                placeholder="Ulica, kod pocztowy, miasto"
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Szerokość geograficzna (lat)</label>
+                <input
+                  type="number"
+                  step="0.000001"
+                  name="locationLat"
+                  value={formData.locationLat || ''}
+                  onChange={handleChange}
+                  placeholder="52.5200"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Długość geograficzna (lng)</label>
+                <input
+                  type="number"
+                  step="0.000001"
+                  name="locationLng"
+                  value={formData.locationLng || ''}
+                  onChange={handleChange}
+                  placeholder="13.4050"
+                />
+              </div>
+            </div>
+
+            <div className="location-help">
+              💡 Możesz znaleźć współrzędne na{' '}
+              <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
+                Google Maps
+              </a>
+              {' '}(kliknij prawym i wybierz "Kopiuj współrzędne")
             </div>
           </section>
 
