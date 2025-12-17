@@ -65,6 +65,9 @@ export default function AdminDashboardPage() {
         <div className="dashboard-header">
           <h1>🎛️ Panel Administracyjny</h1>
           <div className="quick-actions">
+            <Link to="/admin/users" className="btn-quick-action secondary">
+              👥 Wszyscy użytkownicy
+            </Link>
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
             </Link>
@@ -82,6 +85,7 @@ export default function AdminDashboardPage() {
                 <span>🚚 {stats?.totalCarriers || 0} przewoźników</span>
                 <span>👤 {stats?.totalCustomers || 0} klientów</span>
               </div>
+              <Link to="/admin/users" className="stat-link">Zobacz listę →</Link>
             </div>
           </div>
 

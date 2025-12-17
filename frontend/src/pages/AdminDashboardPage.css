@@ -35,9 +35,17 @@
   gap: 0.5rem;
 }
 
+.btn-quick-action.secondary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
 .btn-quick-action:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-quick-action.secondary:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 /* Statistics Grid */
