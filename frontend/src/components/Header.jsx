@@ -44,7 +44,6 @@ export default function Header() {
             <Link to="/">Strona główna</Link>
             <Link to="/search">Szukaj przewoźników</Link>
             <Link to="/map">🗺️ Mapa</Link>
-            <Link to="/announcements">📢 Ogłoszenia</Link>
             <Link to="/for-carriers">Dla przewoźników</Link>
 
             {user ? (

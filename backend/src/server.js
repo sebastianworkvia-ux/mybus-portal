@@ -11,7 +11,6 @@ import adminStatsRoutes from './routes/adminStats.js'
 import reviewRoutes from './routes/reviews.js'
 import passwordResetRoutes from './routes/passwordReset.js'
 import userSettingsRoutes from './routes/userSettings.js'
-import announcementRoutes from './routes/announcements.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -54,7 +53,6 @@ app.use('/admin', adminStatsRoutes)
 app.use('/reviews', reviewRoutes)
 app.use('/password', passwordResetRoutes)
 app.use('/user', userSettingsRoutes)
-app.use('/announcements', announcementRoutes)
 
 // Error handling middleware
 app.use(errorHandler)

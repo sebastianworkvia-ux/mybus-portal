@@ -22,7 +22,6 @@ import UserSettingsPage from './pages/UserSettingsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import MapPage from './pages/MapPage'
-import AnnouncementsPage from './pages/AnnouncementsPage'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
 
@@ -40,7 +39,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/map" element={<MapPage />} />
-          <Route path="/announcements" element={<AnnouncementsPage />} />
           <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/add-carrier" element={<AddCarrierPage />} />
