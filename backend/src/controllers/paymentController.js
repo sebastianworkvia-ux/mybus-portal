@@ -140,7 +140,22 @@ export const handleWebhook = async (req, res, next) => {
     if (molliePayment.isPaid()) {
       payment.paidAt = new Date()
       
-      // Aktywuj subskrypcję dla przewoźnika
+      // Aktywuj Premium dla użytkownika
+      const user = await User.findById(payment.userId)
+      if (user) {
+        user.isPremium = true
+        user.subscriptionPlan = payment.planType
+        
+        // Ustaw datę wygaśnięcia
+        const expiryDate = new Date()
+        expiryDate.setDate(expiryDate.getDate() + payment.metadata.duration)
+        user.subscriptionExpiry = expiryDate
+        
+        await user.save()
+        console.log(`✅ Aktywowano plan ${payment.planType} dla użytkownika ${user._id}`)
+      }
+      
+      // Aktywuj subskrypcję dla przewoźnika (jeśli istnieje)
       if (payment.carrierId) {
         const carrier = await Carrier.findById(payment.carrierId)
         if (carrier) {
@@ -154,7 +169,7 @@ export const handleWebhook = async (req, res, next) => {
           
           await carrier.save()
           
-          console.log(`Aktywowano plan ${payment.planType} dla przewoźnika ${carrier._id}`)
+          console.log(`✅ Aktywowano plan ${payment.planType} dla przewoźnika ${carrier._id}`)
         }
       }
     }
