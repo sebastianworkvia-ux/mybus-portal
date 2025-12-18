@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { paymentService } from '../services/services'
-import useAuthStore from '../stores/authStore'
+import { useAuthStore } from '../stores/authStore'
 import './PricingPage.css'
 
 const PRICING_PLANS = {
