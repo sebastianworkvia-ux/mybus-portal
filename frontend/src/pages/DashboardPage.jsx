@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { carrierService } from '../services/services'
+import { carrierService, paymentService } from '../services/services'
 import './DashboardPage.css'
 
 export default function DashboardPage() {
@@ -41,6 +41,23 @@ export default function DashboardPage() {
     navigate('/login')
   }
 
+  const handleUpgradeToPremium = async () => {
+    try {
+      setLoading(true)
+
+      // Utworzenie płatności w Mollie
+      const response = await paymentService.createPayment({
+        planType: 'premium'
+      })
+
+      // Przekierowanie do Mollie checkout
+      window.location.href = response.data.checkoutUrl
+    } catch (err) {
+      alert(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
+      setLoading(false)
+    }
+  }
+
   if (loading) {
     return <div className="dashboard-page">Ładowanie...</div>
   }
@@ -71,9 +88,13 @@ export default function DashboardPage() {
             <div className="upgrade-notice">
               <p><strong>💡 Przejdź na Premium!</strong></p>
               <p>Dodaj logo swojej firmy i wyświetlaj się wyżej w wynikach wyszukiwania.</p>
-              <a href="mailto:kontakt.mybus@gmail.com?subject=Upgrade do Premium" className="btn-upgrade-small">
+              <button 
+                onClick={handleUpgradeToPremium}
+                className="btn-upgrade-small"
+                disabled={loading}
+              >
                 ⭐ Przejdź na Premium
-              </a>
+              </button>
             </div>
           )}
         </div>

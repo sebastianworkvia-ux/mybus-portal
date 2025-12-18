@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { carrierService } from '../services/services'
+import { carrierService, paymentService } from '../services/services'
 import './AddCarrierPage.css'
 
 const COUNTRIES = [
@@ -164,6 +164,24 @@ export default function AddCarrierPage() {
     } catch (err) {
       setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')
     } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleUpgradeToPremium = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      // Utworzenie płatności w Mollie
+      const response = await paymentService.createPayment({
+        planType: 'premium'
+      })
+
+      // Przekierowanie do Mollie checkout
+      window.location.href = response.data.checkoutUrl
+    } catch (err) {
+      setError(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
       setLoading(false)
     }
   }
@@ -333,7 +351,12 @@ export default function AddCarrierPage() {
                 <div className="premium-icon">🔒</div>
                 <h3>Wyróżnij się na tle konkurencji!</h3>
                 <p>Konta Premium mogą dodawać własne logo oraz są wyświetlane na wyższych pozycjach w wynikach wyszukiwania.</p>
-                <button type="button" className="btn-upgrade">
+                <button 
+                  type="button" 
+                  className="btn-upgrade"
+                  onClick={handleUpgradeToPremium}
+                  disabled={loading}
+                >
                   ⭐ Przejdź na Premium
                 </button>
               </div>
