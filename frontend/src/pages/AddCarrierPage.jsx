@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { carrierService, paymentService } from '../services/services'
+import { carrierService } from '../services/services'
 import './AddCarrierPage.css'
 
 const COUNTRIES = [
@@ -164,33 +164,6 @@ export default function AddCarrierPage() {
     } catch (err) {
       setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')
     } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleUpgradeToPremium = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      console.log('🚀 Rozpoczynam proces płatności Premium...')
-
-      // Utworzenie płatności w Mollie
-      const response = await paymentService.createPayment({
-        planType: 'premium'
-      })
-
-      console.log('✅ Odpowiedź z serwera:', response.data)
-
-      if (!response.data.checkoutUrl) {
-        throw new Error('Brak URL do płatności')
-      }
-
-      // Przekierowanie do Mollie checkout
-      console.log('🔄 Przekierowanie do:', response.data.checkoutUrl)
-      window.location.href = response.data.checkoutUrl
-    } catch (err) {
-      console.error('❌ Błąd płatności:', err)
-      setError(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
       setLoading(false)
     }
   }
@@ -360,14 +333,12 @@ export default function AddCarrierPage() {
                 <div className="premium-icon">🔒</div>
                 <h3>Wyróżnij się na tle konkurencji!</h3>
                 <p>Konta Premium mogą dodawać własne logo oraz są wyświetlane na wyższych pozycjach w wynikach wyszukiwania.</p>
-                <button 
-                  type="button" 
+                <Link 
+                  to="/pricing"
                   className="btn-upgrade"
-                  onClick={handleUpgradeToPremium}
-                  disabled={loading}
                 >
-                  ⭐ Przejdź na Premium
-                </button>
+                  ⭐ Wybierz plan abonamentowy
+                </Link>
               </div>
             </section>
           )}

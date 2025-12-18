@@ -5,43 +5,36 @@ import useAuthStore from '../stores/authStore'
 import './PricingPage.css'
 
 const PRICING_PLANS = {
-  free: {
-    name: 'FREE',
-    price: 0,
-    period: 'na zawsze',
-    features: [
-      'Profil firmowy z podstawowymi danymi',
-      'Wyświetlanie w wynikach wyszukiwania',
-      'Możliwość dodania opisu usług',
-      'Kontakt przez formularz',
-      'Podstawowe statystyki'
-    ]
-  },
   premium: {
-    name: 'PREMIUM',
+    name: 'ProBus',
     price: 29.99,
-    period: 'miesięcznie',
+    period: '30 dni',
     features: [
-      'Wszystko z planu FREE',
-      'Priorytetowe wyświetlanie w wynikach',
-      'Własne logo firmy',
-      'Szczegółowe statystyki odwiedzin',
-      'Wsparcie e-mail'
+      '✅ Własne logo firmy',
+      '✅ Wyższe pozycje w wyszukiwaniu',
+      '✅ Badge "Premium" przy profilu',
+      '✅ Priorytetowy support',
+      '✅ Nielimitowane zdjęcia',
+      '✅ Statystyki wyświetleń'
     ],
-    popular: true
+    popular: true,
+    color: 'gold'
   },
   business: {
-    name: 'BUSINESS',
+    name: 'BizBus',
     price: 49.99,
-    period: 'miesięcznie',
+    period: '30 dni',
     features: [
-      'Wszystko z planu PREMIUM',
-      'Pierwsza pozycja w wynikach',
-      'Nieograniczone zdjęcia',
-      'Promocja w social media',
-      'Dedykowany opiekun klienta',
-      'Analiza konkurencji'
-    ]
+      '✨ Wszystko z ProBus +',
+      '✅ Najwyższa pozycja w wynikach',
+      '✅ Wyróżnienie kolorowe na liście',
+      '✅ Badge "Business Premium"',
+      '✅ Dedykowany opiekun klienta',
+      '✅ Promowanie w social media',
+      '✅ Dodatkowa reklama w newsletterze'
+    ],
+    popular: false,
+    color: 'purple'
   }
 }
 
@@ -59,9 +52,8 @@ function PricingPage() {
   }, [user, navigate])
 
   const handleSelectPlan = async (planType) => {
-    if (planType === 'free') {
-      // Plan darmowy - przekieruj do rejestracji przewoźnika
-      navigate('/add-carrier')
+    if (!user) {
+      navigate('/login')
       return
     }
 
@@ -70,21 +62,24 @@ function PricingPage() {
     setSelectedPlan(planType)
 
     try {
-      // Pobierz ID przewoźnika z użytkownika (jeśli istnieje)
-      // W przyszłości można to rozszerzyć o wybór konkretnego przewoźnika
+      console.log('🚀 Tworzenie płatności dla planu:', planType)
+
       const response = await paymentService.createPayment({
-        planType,
-        carrierId: null // Zostanie przypisane po utworzeniu przewoźnika
+        planType
       })
 
-      // Przekieruj do Mollie checkout
-      if (response.data.checkoutUrl) {
-        window.location.href = response.data.checkoutUrl
-      } else {
-        throw new Error('Nie otrzymano URL do płatności')
+      console.log('✅ Odpowiedź z serwera:', response.data)
+
+      if (!response.data.checkoutUrl) {
+        throw new Error('Brak URL do płatności')
       }
+
+      console.log('🔄 Przekierowanie do Mollie:', response.data.checkoutUrl)
+      window.location.href = response.data.checkoutUrl
+
     } catch (err) {
-      setError(err.response?.data?.error || 'Wystąpił błąd podczas tworzenia płatności')
+      console.error('❌ Błąd płatności:', err)
+      setError(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
       setLoading(false)
       setSelectedPlan(null)
     }
@@ -94,8 +89,8 @@ function PricingPage() {
     <div className="pricing-page">
       <div className="container">
         <div className="pricing-header">
-          <h1>Wybierz plan dla siebie</h1>
-          <p>Zwiększ widoczność swojej firmy i zdobądź więcej klientów</p>
+          <h1>Wybierz swój plan abonamentowy</h1>
+          <p>Wyróżnij swoją firmę i zdobądź więcej klientów</p>
         </div>
 
         {error && (
@@ -132,52 +127,43 @@ function PricingPage() {
               </ul>
 
               <button
-                className={`btn-pricing ${plan.popular ? 'primary' : ''}`}
+                className={`btn-pricing ${plan.color} ${plan.popular ? 'primary' : ''}`}
                 onClick={() => handleSelectPlan(key)}
-                disabled={loading}
+                disabled={loading && selectedPlan === key}
               >
                 {loading && selectedPlan === key ? (
-                  'Przetwarzanie...'
+                  <>
+                    <span className="spinner-small"></span>
+                    Przetwarzanie...
+                  </>
                 ) : (
-                  key === 'free' ? 'Rozpocznij za darmo' : 'Wybierz plan'
+                  `Wybierz ${plan.name}`
                 )}
               </button>
             </div>
           ))}
         </div>
 
-        <div className="pricing-faq">
-          <h2>Najczęściej zadawane pytania</h2>
-          <div className="faq-grid">
-            <div className="faq-item">
-              <h3>Czy plan FREE jest naprawdę darmowy?</h3>
+        <div className="pricing-info">
+          <h3>💳 Bezpieczne płatności</h3>
+          <p>Wszystkie płatności są przetwarzane przez Mollie - zaufanego operatora płatności w Europie.</p>
+          <p>Akceptujemy: karty kredytowe/debetowe, PayPal, BLIK, przelewy bankowe i więcej.</p>
+          
+          <h3>📋 Ważne informacje</h3>
+          <ul>
+            <li>Abonament jest ważny przez 30 dni od momentu aktywacji</li>
+            <li>Możesz anulować w dowolnym momencie</li>
+            <li>Po wygaśnięciu abonamentu konto wraca do wersji darmowej</li>
+            <li>Wszystkie dane pozostają zachowane</li>
+          </ul>
+
+          {!user && (
+            <div className="login-notice">
               <p>
-                Tak! Plan FREE jest bezpłatny na zawsze. Nie potrzebujesz karty 
-                kredytowej do rejestracji.
+                💡 Nie masz jeszcze konta? <a href="/register">Zarejestruj się</a> lub <a href="/login">zaloguj</a> aby kontynuować
               </p>
             </div>
-            <div className="faq-item">
-              <h3>Jak długo trwa subskrypcja?</h3>
-              <p>
-                Plany Premium i Business są odnawiane co 30 dni. Możesz anulować 
-                w dowolnym momencie bez żadnych zobowiązań.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h3>Czy mogę zmienić plan później?</h3>
-              <p>
-                Oczywiście! Możesz w każdej chwili przejść na wyższy lub niższy plan. 
-                Różnica zostanie proporcjonalnie przeliczona.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h3>Jakie metody płatności akceptujecie?</h3>
-              <p>
-                Akceptujemy wszystkie popularne metody: karty kredytowe/debetowe, 
-                PayPal, przelewy bankowe i płatności mobilne poprzez Mollie.
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

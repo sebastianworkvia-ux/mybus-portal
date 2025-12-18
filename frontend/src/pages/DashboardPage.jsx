@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { carrierService, paymentService } from '../services/services'
+import { carrierService } from '../services/services'
 import './DashboardPage.css'
 
 export default function DashboardPage() {
@@ -41,32 +41,6 @@ export default function DashboardPage() {
     navigate('/login')
   }
 
-  const handleUpgradeToPremium = async () => {
-    try {
-      setLoading(true)
-      console.log('🚀 Rozpoczynam proces płatności Premium...')
-
-      // Utworzenie płatności w Mollie
-      const response = await paymentService.createPayment({
-        planType: 'premium'
-      })
-
-      console.log('✅ Odpowiedź z serwera:', response.data)
-
-      if (!response.data.checkoutUrl) {
-        throw new Error('Brak URL do płatności')
-      }
-
-      // Przekierowanie do Mollie checkout
-      console.log('🔄 Przekierowanie do:', response.data.checkoutUrl)
-      window.location.href = response.data.checkoutUrl
-    } catch (err) {
-      console.error('❌ Błąd płatności:', err)
-      alert(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
-      setLoading(false)
-    }
-  }
-
   if (loading) {
     return <div className="dashboard-page">Ładowanie...</div>
   }
@@ -97,13 +71,12 @@ export default function DashboardPage() {
             <div className="upgrade-notice">
               <p><strong>💡 Przejdź na Premium!</strong></p>
               <p>Dodaj logo swojej firmy i wyświetlaj się wyżej w wynikach wyszukiwania.</p>
-              <button 
-                onClick={handleUpgradeToPremium}
+              <Link 
+                to="/pricing"
                 className="btn-upgrade-small"
-                disabled={loading}
               >
-                ⭐ Przejdź na Premium
-              </button>
+                ⭐ Wybierz plan abonamentowy
+              </Link>
             </div>
           )}
         </div>
