@@ -54,14 +54,14 @@ export const createPayment = async (req, res, next) => {
 
     const plan = PRICING_PLANS[planType]
     
-    // Utworzenie płatności w Mollie
-    const payment = await getMollieClient().payments.create({
+    // Najpierw tworzymy płatność bez redirectUrl (dostaniemy ID)
+    const tempPayment = await getMollieClient().payments.create({
       amount: {
         currency: 'EUR',
         value: plan.amount.toFixed(2)
       },
       description: plan.description,
-      redirectUrl: `${process.env.FRONTEND_URL}/payment/success?paymentId={id}`,
+      redirectUrl: `${process.env.FRONTEND_URL}/payment/success?paymentId=PLACEHOLDER`,
       webhookUrl: `${process.env.BACKEND_URL}/payments/webhook`,
       metadata: {
         userId: userId.toString(),
@@ -69,6 +69,11 @@ export const createPayment = async (req, res, next) => {
         planType,
         duration: plan.duration
       }
+    })
+    
+    // Teraz mamy ID, możemy zaktualizować płatność z prawidłowym redirectUrl
+    const payment = await getMollieClient().payments.update(tempPayment.id, {
+      redirectUrl: `${process.env.FRONTEND_URL}/payment/success?paymentId=${tempPayment.id}`
     })
 
     // Zapisanie płatności w bazie danych
@@ -89,9 +94,14 @@ export const createPayment = async (req, res, next) => {
 
     await paymentDoc.save()
 
+    // Zwróć URL z paymentId w query string
+    const checkoutUrl = payment.getCheckoutUrl()
+    const redirectUrl = `${process.env.FRONTEND_URL}/payment/success?paymentId=${payment.id}`
+
     res.json({
       paymentId: payment.id,
-      checkoutUrl: payment.getCheckoutUrl(),
+      checkoutUrl: checkoutUrl,
+      redirectUrl: redirectUrl,
       status: payment.status
     })
   } catch (error) {
