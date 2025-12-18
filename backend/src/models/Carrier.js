@@ -65,6 +65,15 @@ const carrierSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    subscriptionPlan: {
+      type: String,
+      enum: ['free', 'premium', 'business'],
+      default: 'free'
+    },
+    subscriptionExpiry: {
+      type: Date,
+      default: null
+    },
     isVerified: {
       type: Boolean,
       default: false

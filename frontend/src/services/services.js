@@ -20,3 +20,10 @@ export const reviewService = {
   updateReview: (reviewId, data) => apiClient.put(`/reviews/${reviewId}`, data),
   deleteReview: (reviewId) => apiClient.delete(`/reviews/${reviewId}`)
 }
+
+export const paymentService = {
+  createPayment: (data) => apiClient.post('/payments/create', data),
+  getPaymentStatus: (paymentId) => apiClient.get(`/payments/${paymentId}/status`),
+  getPaymentHistory: () => apiClient.get('/payments/history'),
+  cancelPayment: (paymentId) => apiClient.delete(`/payments/${paymentId}/cancel`)
+}
