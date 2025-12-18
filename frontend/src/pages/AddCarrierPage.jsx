@@ -172,15 +172,24 @@ export default function AddCarrierPage() {
     try {
       setLoading(true)
       setError(null)
+      console.log('🚀 Rozpoczynam proces płatności Premium...')
 
       // Utworzenie płatności w Mollie
       const response = await paymentService.createPayment({
         planType: 'premium'
       })
 
+      console.log('✅ Odpowiedź z serwera:', response.data)
+
+      if (!response.data.checkoutUrl) {
+        throw new Error('Brak URL do płatności')
+      }
+
       // Przekierowanie do Mollie checkout
+      console.log('🔄 Przekierowanie do:', response.data.checkoutUrl)
       window.location.href = response.data.checkoutUrl
     } catch (err) {
+      console.error('❌ Błąd płatności:', err)
       setError(err.response?.data?.error || 'Błąd podczas tworzenia płatności')
       setLoading(false)
     }
