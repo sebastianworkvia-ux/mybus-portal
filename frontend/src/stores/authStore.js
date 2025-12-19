@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { authService } from '../services/services'
+import { clearSession } from '../utils/analytics'
 
 // Helper functions for localStorage
 const getStoredUser = () => {
@@ -62,6 +63,7 @@ export const useAuthStore = create((set) => ({
   logout: () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    clearSession() // Clear analytics session on logout
     set({ user: null, token: null })
   },
 

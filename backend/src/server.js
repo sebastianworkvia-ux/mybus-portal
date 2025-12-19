@@ -12,6 +12,7 @@ import reviewRoutes from './routes/reviews.js'
 import passwordResetRoutes from './routes/passwordReset.js'
 import userSettingsRoutes from './routes/userSettings.js'
 import paymentRoutes from './routes/payments.js'
+import analyticsRoutes from './routes/analytics.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -55,6 +56,7 @@ app.use('/reviews', reviewRoutes)
 app.use('/password', passwordResetRoutes)
 app.use('/user', userSettingsRoutes)
 app.use('/payments', paymentRoutes)
+app.use('/analytics', analyticsRoutes)
 
 // Error handling middleware
 app.use(errorHandler)

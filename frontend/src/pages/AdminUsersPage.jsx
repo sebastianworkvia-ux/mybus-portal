@@ -40,6 +40,35 @@ export default function AdminUsersPage() {
     }
   }
 
+  const handleResetPassword = async (userId, email) => {
+    if (!window.confirm(`Czy na pewno chcesz wysłać link do resetu hasła dla użytkownika: ${email}?`)) {
+      return
+    }
+
+    try {
+      const response = await apiClient.post(`/admin/users/${userId}/send-reset-link`)
+      alert(`✅ Link do resetu hasła został wygenerowany!\n\nLink (tylko w trybie dev):\n${response.data.resetUrl}`)
+      // W produkcji: alert('✅ Link do resetu hasła został wysłany na email użytkownika')
+    } catch (err) {
+      alert(`❌ Błąd: ${err.response?.data?.error || 'Nie udało się wysłać linku do resetu hasła'}`)
+    }
+  }
+
+  const handleToggleActive = async (userId, currentStatus, email) => {
+    const action = currentStatus === false ? 'aktywować' : 'dezaktywować'
+    if (!window.confirm(`Czy na pewno chcesz ${action} konto użytkownika: ${email}?`)) {
+      return
+    }
+
+    try {
+      const response = await apiClient.post(`/admin/users/${userId}/toggle-active`)
+      alert(`✅ ${response.data.message}`)
+      fetchUsers() // Refresh list
+    } catch (err) {
+      alert(`❌ Błąd: ${err.response?.data?.error || 'Nie udało się zmienić statusu konta'}`)
+    }
+  }
+
   const filteredUsers = users.filter(u => {
     if (!searchTerm) return true
     const term = searchTerm.toLowerCase()
@@ -147,12 +176,13 @@ export default function AdminUsersPage() {
                 <th>Imię i nazwisko</th>
                 <th>Status</th>
                 <th>Data rejestracji</th>
+                <th>Akcje</th>
               </tr>
             </thead>
             <tbody>
               {filteredUsers.length > 0 ? (
                 filteredUsers.map(u => (
-                  <tr key={u._id}>
+                  <tr key={u._id} className={u.isActive === false ? 'inactive-row' : ''}>
                     <td>
                       <span className={`user-type-badge ${u.userType}`}>
                         {u.userType === 'carrier' ? '🚚 Przewoźnik' : '👤 Klient'}
@@ -162,6 +192,7 @@ export default function AdminUsersPage() {
                     <td>{u.firstName} {u.lastName}</td>
                     <td>
                       <div className="status-badges">
+                        {u.isActive === false && <span className="badge inactive">🚫 Dezaktywowane</span>}
                         {u.isPremium && <span className="badge premium">⭐ Premium</span>}
                         {u.isAdmin && <span className="badge admin">🔑 Admin</span>}
                       </div>
@@ -173,11 +204,29 @@ export default function AdminUsersPage() {
                         day: 'numeric'
                       })}
                     </td>
+                    <td>
+                      <div className="action-buttons">
+                        <button 
+                          className="action-btn reset-password"
+                          onClick={() => handleResetPassword(u._id, u.email)}
+                          title="Wyślij link do resetu hasła"
+                        >
+                          🔄 Reset hasła
+                        </button>
+                        <button 
+                          className={`action-btn toggle-active ${u.isActive === false ? 'activate' : 'deactivate'}`}
+                          onClick={() => handleToggleActive(u._id, u.isActive, u.email)}
+                          title={u.isActive === false ? 'Aktywuj konto' : 'Dezaktywuj konto'}
+                        >
+                          {u.isActive === false ? '✅ Aktywuj' : '🚫 Dezaktywuj'}
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="no-data">
+                  <td colSpan="6" className="no-data">
                     {searchTerm ? 'Brak użytkowników pasujących do wyszukiwania' : 'Brak użytkowników'}
                   </td>
                 </tr>

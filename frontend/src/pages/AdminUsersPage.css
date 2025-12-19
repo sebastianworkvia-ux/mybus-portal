@@ -250,6 +250,61 @@
   border-left: 4px solid #ef4444;
 }
 
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.action-btn.reset-password {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.action-btn.reset-password:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.action-btn.toggle-active.deactivate {
+  background: #ef4444;
+  color: white;
+}
+
+.action-btn.toggle-active.activate {
+  background: #10b981;
+  color: white;
+}
+
+.action-btn.toggle-active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Inactive User Row */
+.inactive-row {
+  opacity: 0.6;
+  background-color: #fef2f2;
+}
+
+.badge.inactive {
+  background: #ef4444;
+  color: white;
+}
+
 /* Mobile Responsive */
 @media (max-width: 968px) {
   .users-table-container {

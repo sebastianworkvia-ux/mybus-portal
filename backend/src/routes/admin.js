@@ -1,7 +1,10 @@
 import express from 'express'
+import crypto from 'crypto'
 import { adminMiddleware } from '../middleware/auth.js'
 import User from '../models/User.js'
 import Carrier from '../models/Carrier.js'
+import PageView from '../models/PageView.js'
+import Payment from '../models/Payment.js'
 
 const router = express.Router()
 
@@ -127,6 +130,178 @@ router.post('/set-admin/:email', async (req, res) => {
       user: {
         email: user.email,
         isAdmin: user.isAdmin
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Toggle user active status (activate/deactivate account)
+router.post('/users/:id/toggle-active', adminMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    
+    // Toggle isActive status
+    user.isActive = !user.isActive
+    await user.save()
+    
+    res.json({
+      message: user.isActive ? 'Account activated' : 'Account deactivated',
+      user: {
+        _id: user._id,
+        email: user.email,
+        isActive: user.isActive
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Send password reset link
+router.post('/users/:id/send-reset-link', adminMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString('hex')
+    
+    // Hash token and save to database
+    user.resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex')
+    
+    // Token expires in 1 hour
+    user.resetPasswordExpiry = Date.now() + 60 * 60 * 1000
+    await user.save()
+    
+    // Create reset URL
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
+    
+    // TODO: In production, send email with resetUrl
+    // For now, return URL in response
+    console.log('🔐 Password reset link generated for:', user.email)
+    console.log('🔗 Reset URL:', resetUrl)
+    
+    res.json({
+      message: 'Password reset link generated',
+      resetUrl, // Remove in production, send via email instead
+      user: {
+        email: user.email
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Get admin statistics
+router.get('/stats', adminMiddleware, async (req, res) => {
+  try {
+    // User statistics
+    const totalUsers = await User.countDocuments()
+    const totalCarriers = await User.countDocuments({ userType: 'carrier' })
+    const totalCustomers = await User.countDocuments({ userType: 'customer' })
+    const premiumUsers = await User.countDocuments({ isPremium: true })
+    const activeUsers = await User.countDocuments({ isActive: true })
+    
+    // Calculate users logged in last 7 days
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    const activeLastWeek = await User.countDocuments({ 
+      updatedAt: { $gte: sevenDaysAgo }
+    })
+    
+    // Carrier statistics
+    const verifiedCarriers = await Carrier.countDocuments({ isVerified: true })
+    const unverifiedCarriers = await Carrier.countDocuments({ isVerified: false })
+    
+    // Payment statistics
+    const totalPayments = await Payment.countDocuments({ status: 'paid' })
+    const payments = await Payment.find({ status: 'paid' })
+    const totalRevenue = payments.reduce((sum, p) => sum + (p.amount || 0), 0)
+    const avgRevenuePerUser = premiumUsers > 0 ? (totalRevenue / premiumUsers).toFixed(2) : 0
+    
+    // Page view statistics
+    const totalPageViews = await PageView.countDocuments()
+    
+    // Unique sessions (last 30 days)
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    const recentViews = await PageView.find({ 
+      createdAt: { $gte: thirtyDaysAgo }
+    })
+    const uniqueSessions = new Set(recentViews.map(v => v.sessionId)).size
+    
+    // Most visited pages (last 30 days)
+    const popularPages = await PageView.aggregate([
+      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
+      { $group: { 
+        _id: '$url', 
+        count: { $sum: 1 },
+        uniqueVisitors: { $addToSet: '$sessionId' }
+      }},
+      { $project: {
+        url: '$_id',
+        views: '$count',
+        uniqueVisitors: { $size: '$uniqueVisitors' }
+      }},
+      { $sort: { views: -1 } },
+      { $limit: 10 }
+    ])
+    
+    // Page views per day (last 7 days)
+    const viewsPerDay = await PageView.aggregate([
+      { $match: { createdAt: { $gte: sevenDaysAgo } } },
+      { $group: {
+        _id: { 
+          $dateToString: { format: '%Y-%m-%d', date: '$createdAt' }
+        },
+        count: { $sum: 1 },
+        uniqueVisitors: { $addToSet: '$sessionId' }
+      }},
+      { $project: {
+        date: '$_id',
+        views: '$count',
+        uniqueVisitors: { $size: '$uniqueVisitors' }
+      }},
+      { $sort: { date: 1 } }
+    ])
+    
+    res.json({
+      users: {
+        total: totalUsers,
+        carriers: totalCarriers,
+        customers: totalCustomers,
+        premium: premiumUsers,
+        active: activeUsers,
+        activeLastWeek
+      },
+      carriers: {
+        verified: verifiedCarriers,
+        unverified: unverifiedCarriers,
+        total: verifiedCarriers + unverifiedCarriers
+      },
+      payments: {
+        total: totalPayments,
+        totalRevenue: totalRevenue.toFixed(2),
+        avgRevenuePerUser
+      },
+      pageViews: {
+        total: totalPageViews,
+        uniqueSessionsLast30Days: uniqueSessions,
+        popularPages,
+        viewsPerDay
       }
     })
   } catch (error) {

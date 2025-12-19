@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CookieBanner from './components/CookieBanner'
+import { trackPageView } from './utils/analytics'
 import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
 import LoginPage from './pages/LoginPage'
@@ -18,6 +19,7 @@ import EditCarrierPage from './pages/EditCarrierPage'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminVerifyPage from './pages/AdminVerifyPage'
 import AdminUsersPage from './pages/AdminUsersPage'
+import AdminStatsPage from './pages/AdminStatsPage'
 import UserSettingsPage from './pages/UserSettingsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
@@ -27,6 +29,18 @@ import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
 
+// Component that tracks page views
+function PageViewTracker() {
+  const location = useLocation()
+
+  useEffect(() => {
+    // Track current page
+    trackPageView(location.pathname)
+  }, [location])
+
+  return null
+}
+
 function App() {
   // Uruchom automatyczne pingowanie backendu aby nie zasnął (Render free tier)
   useEffect(() => {
@@ -35,6 +49,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <PageViewTracker />
       <Header />
       <main>
         <Routes>
@@ -48,6 +63,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/verify" element={<AdminVerifyPage />} />
           <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/stats" element={<AdminStatsPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

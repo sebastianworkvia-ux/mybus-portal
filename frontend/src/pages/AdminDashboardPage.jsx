@@ -68,6 +68,9 @@ export default function AdminDashboardPage() {
             <Link to="/admin/users" className="btn-quick-action secondary">
               👥 Wszyscy użytkownicy
             </Link>
+            <Link to="/admin/stats" className="btn-quick-action secondary">
+              📊 Statystyki systemu
+            </Link>
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
             </Link>
