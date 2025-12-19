@@ -125,43 +125,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Additional Stats Row */}
-        <div className="additional-stats">
-          <div className="stat-card-small premium">
-            <div className="stat-icon-small">💎</div>
-            <div className="stat-content-small">
-              <h4>{stats?.premiumCarriers || 0}</h4>
-              <p>Premium przewoźników</p>
-            </div>
-          </div>
 
-          <div className="stat-card-small users-active">
-            <div className="stat-icon-small">👥</div>
-            <div className="stat-content-small">
-              <h4>{stats?.totalUsers || 0}</h4>
-              <p>Wszystkich użytkowników</p>
-              <span className="small-meta">🚚 {stats?.totalCarriers || 0} + 👤 {stats?.totalCustomers || 0}</span>
-            </div>
-          </div>
-
-          <div className="stat-card-small reviews-avg">
-            <div className="stat-icon-small">📊</div>
-            <div className="stat-content-small">
-              <h4>{stats?.verifiedCarriers > 0 ? (stats.totalReviews / stats.verifiedCarriers).toFixed(1) : 0}</h4>
-              <p>Śr. recenzji na firmę</p>
-              <span className="small-meta">Z {stats?.totalReviews || 0} opinii</span>
-            </div>
-          </div>
-
-          <div className="stat-card-small verified">
-            <div className="stat-icon-small">✅</div>
-            <div className="stat-content-small">
-              <h4>{stats?.verifiedCarriers || 0}</h4>
-              <p>Zweryfikowanych firm</p>
-              <span className="small-meta">⏳ {stats?.unverifiedCarriers || 0} oczekujących</span>
-            </div>
-          </div>
-        </div>
 
         {/* Recent Activity */}
         <div className="recent-activity">
