@@ -6,10 +6,6 @@ export default function CarrierCard({ carrier }) {
 
   return (
     <div className={`carrier-card ${carrier.isPremium ? 'premium-card' : ''}`}>
-      {carrier.isPremium && (
-        <div className="premium-badge">⭐ PREMIUM</div>
-      )}
-      
       {carrier.logo && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
@@ -18,7 +14,12 @@ export default function CarrierCard({ carrier }) {
       
       <div className="card-header">
         <h3>{carrier.companyName}</h3>
-        <span className="country-badge">{carrier.country}</span>
+        <div className="header-badges">
+          {carrier.isPremium && (
+            <div className="premium-badge">⭐ PREMIUM</div>
+          )}
+          <span className="country-badge">{carrier.country}</span>
+        </div>
       </div>
 
       <p className="company-reg">{carrier.companyRegistration}</p>
