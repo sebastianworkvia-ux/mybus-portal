@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { paymentService } from '../services/services'
+import { paymentService, authService } from '../services/services'
 import './PaymentSuccessPage.css'
 
 function PaymentSuccessPage() {
@@ -23,7 +23,22 @@ function PaymentSuccessPage() {
     const checkPaymentStatus = async () => {
       try {
         const response = await paymentService.getPaymentStatus(paymentId)
-        setPayment(response.data)
+        const paymentData = response.data
+        setPayment(paymentData)
+        
+        // Jeśli płatność została opłacona, odśwież dane użytkownika
+        if (paymentData.status === 'paid') {
+          try {
+            const profileResponse = await authService.getProfile()
+            const updatedUser = profileResponse.data
+            // Zaktualizuj localStorage
+            localStorage.setItem('user', JSON.stringify(updatedUser))
+            console.log('✅ Dane użytkownika zaktualizowane automatycznie')
+          } catch (err) {
+            console.error('Błąd odświeżania profilu:', err)
+          }
+        }
+        
         setLoading(false)
       } catch (err) {
         setError(err.response?.data?.error || 'Nie udało się pobrać statusu płatności')
