@@ -53,6 +53,12 @@ function PaymentSuccessPage() {
               const profileResponse = await authService.getProfile()
               localStorage.setItem('user', JSON.stringify(profileResponse.data))
               sessionStorage.setItem('premiumActivated', 'true')
+              
+              // RELOAD strony po 1 sekundzie żeby dashboard odświeżył dane
+              console.log('🔄 Odświeżam stronę za 1s żeby zaktualizować dane...')
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000)
             }
           } catch (err) {
             console.error('⚠️ Błąd automatycznej aktywacji:', err)
