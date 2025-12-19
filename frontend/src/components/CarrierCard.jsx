@@ -25,6 +25,17 @@ export default function CarrierCard({ carrier }) {
 
       <p className="description">{carrier.description}</p>
 
+      {carrier.operatingCountries && carrier.operatingCountries.length > 0 && (
+        <div className="operating-countries">
+          <strong>🌍 Obsługiwane kraje:</strong>
+          <div className="countries-list">
+            {carrier.operatingCountries.map(country => (
+              <span key={country} className="country-tag">{country}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="services">
         {carrier.services?.map((service) => (
           <span key={service} className="service-tag">

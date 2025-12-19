@@ -6,14 +6,14 @@ export const getCarriers = async (req, res, next) => {
     const { routeFrom, routeTo, service, search } = req.query
     const query = { isActive: true, isVerified: true }
 
-    // Filtrowanie po trasach (z kraju → do kraju)
+    // Filtrowanie po krajach obsługi
     if (routeFrom || routeTo) {
-      const routeQuery = {}
-      if (routeFrom) routeQuery['routes.from'] = routeFrom.toUpperCase()
-      if (routeTo) routeQuery['routes.to'] = routeTo.toUpperCase()
+      const countryConditions = []
+      if (routeFrom) countryConditions.push(routeFrom.toUpperCase())
+      if (routeTo) countryConditions.push(routeTo.toUpperCase())
       
-      // Dodaj warunek że routes musi zawierać trasę spełniającą kryteria
-      Object.assign(query, routeQuery)
+      // Przewoźnik musi obsługiwać oba kraje (jeśli podane)
+      query.operatingCountries = { $all: countryConditions }
     }
 
     if (service) query.services = service

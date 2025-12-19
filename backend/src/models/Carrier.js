@@ -30,6 +30,16 @@ const carrierSchema = new mongoose.Schema(
         enum: ['transport', 'transport-rzeczy', 'przeprowadzki', 'zwierzeta', 'dokumenty', 'paczki', 'inne']
       }
     ],
+    operatingCountries: {
+      type: [String],
+      validate: {
+        validator: function(countries) {
+          return countries.length <= 5
+        },
+        message: 'Możesz wybrać maksymalnie 5 krajów'
+      },
+      default: []
+    },
     rating: {
       type: Number,
       default: 0,

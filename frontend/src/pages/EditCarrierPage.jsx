@@ -46,6 +46,7 @@ export default function EditCarrierPage() {
     email: '',
     website: '',
     services: [],
+    operatingCountries: [],
     departureDays: [],
     returnDays: [],
     isFlexible: false,
@@ -77,6 +78,7 @@ export default function EditCarrierPage() {
           email: carrier.email || '',
           website: carrier.website || '',
           services: carrier.services || [],
+          operatingCountries: carrier.operatingCountries || [],
           departureDays: carrier.departureDays || [],
           returnDays: carrier.returnDays || [],
           isFlexible: carrier.isFlexible || false,
@@ -118,6 +120,27 @@ export default function EditCarrierPage() {
         ? prev.services.filter(s => s !== service)
         : [...prev.services, service]
     }))
+  }
+
+  const handleCountryToggle = (countryCode) => {
+    setFormData(prev => {
+      const currentCountries = prev.operatingCountries
+      if (currentCountries.includes(countryCode)) {
+        return {
+          ...prev,
+          operatingCountries: currentCountries.filter(c => c !== countryCode)
+        }
+      } else {
+        if (currentCountries.length >= 5) {
+          alert('Możesz wybrać maksymalnie 5 krajów')
+          return prev
+        }
+        return {
+          ...prev,
+          operatingCountries: [...currentCountries, countryCode]
+        }
+      }
+    })
   }
 
   const handleDayToggle = (day, type) => {
@@ -388,6 +411,28 @@ export default function EditCarrierPage() {
               </div>
             </section>
           )}
+
+          {/* Kraje obsługi */}
+          <section className="form-section">
+            <h2>🌍 Kraje obsługi * (max 5)</h2>
+            <p className="form-hint">Wybierz kraje, w których świadczysz usługi transportowe</p>
+            
+            <div className="checkbox-group">
+              {COUNTRIES.map(country => (
+                <label key={country.code} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.operatingCountries.includes(country.code)}
+                    onChange={() => handleCountryToggle(country.code)}
+                  />
+                  <span>{country.name}</span>
+                </label>
+              ))}
+            </div>
+            <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
+              Wybrano: {formData.operatingCountries.length} / 5
+            </small>
+          </section>
 
           <section className="form-section">
             <h2>🚐 Oferowane usługi *</h2>
