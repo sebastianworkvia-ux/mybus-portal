@@ -162,26 +162,23 @@ export const handleWebhook = async (req, res, next) => {
         
         await user.save()
         console.log(`✅ Aktywowano plan ${payment.planType} dla użytkownika ${user.email} (${user._id})`)
+        
+        // Aktywuj Premium dla WSZYSTKICH firm tego użytkownika
+        const carriers = await Carrier.find({ userId: payment.userId })
+        if (carriers.length > 0) {
+          console.log(`🔄 Aktualizuję ${carriers.length} firm(y) użytkownika...`)
+          for (const carrier of carriers) {
+            carrier.subscriptionPlan = payment.planType
+            carrier.isPremium = ['premium', 'business'].includes(payment.planType)
+            carrier.subscriptionExpiry = expiryDate
+            await carrier.save()
+            console.log(`✅ Aktywowano Premium dla firmy: ${carrier.companyName} (${carrier._id})`)
+          }
+        } else {
+          console.log('ℹ️ Użytkownik nie ma jeszcze żadnych firm w systemie')
+        }
       } else {
         console.error('❌ Nie znaleziono użytkownika:', payment.userId)
-      }
-      
-      // Aktywuj subskrypcję dla przewoźnika (jeśli istnieje)
-      if (payment.carrierId) {
-        const carrier = await Carrier.findById(payment.carrierId)
-        if (carrier) {
-          carrier.subscriptionPlan = payment.planType
-          carrier.isPremium = ['premium', 'business'].includes(payment.planType)
-          
-          // Ustaw datę wygaśnięcia
-          const expiryDate = new Date()
-          expiryDate.setDate(expiryDate.getDate() + payment.metadata.duration)
-          carrier.subscriptionExpiry = expiryDate
-          
-          await carrier.save()
-          
-          console.log(`✅ Aktywowano plan ${payment.planType} dla przewoźnika ${carrier._id}`)
-        }
       }
     }
 
@@ -314,6 +311,19 @@ export const activatePremiumTest = async (req, res, next) => {
     
     console.log(`✅ TEST: Aktywowano ${planType} dla użytkownika ${user.email}`)
     
+    // Aktywuj Premium dla wszystkich firm użytkownika
+    const carriers = await Carrier.find({ userId })
+    let updatedCarriers = 0
+    for (const carrier of carriers) {
+      carrier.subscriptionPlan = planType
+      carrier.isPremium = ['premium', 'business'].includes(planType)
+      carrier.subscriptionExpiry = expiryDate
+      await carrier.save()
+      updatedCarriers++
+    }
+    
+    console.log(`✅ TEST: Zaktualizowano ${updatedCarriers} firm(y)`)
+    
     res.json({ 
       message: 'Premium aktywowane (TEST)', 
       user: {
@@ -321,7 +331,8 @@ export const activatePremiumTest = async (req, res, next) => {
         isPremium: user.isPremium,
         subscriptionPlan: user.subscriptionPlan,
         subscriptionExpiry: user.subscriptionExpiry
-      }
+      },
+      carriersUpdated: updatedCarriers
     })
   } catch (error) {
     next(error)
