@@ -26,18 +26,20 @@ function PaymentSuccessPage() {
         const paymentData = response.data
         setPayment(paymentData)
         
-        // Jeśli płatność została opłacona, odśwież dane użytkownika
-        if (paymentData.status === 'paid' && !sessionStorage.getItem('profileRefreshed')) {
+        // Jeśli płatność została opłacona, sprawdź czy webhook już zaktualizował dane
+        if (paymentData.status === 'paid') {
           try {
             const profileResponse = await authService.getProfile()
             const updatedUser = profileResponse.data
-            // Zaktualizuj localStorage
-            localStorage.setItem('user', JSON.stringify(updatedUser))
-            // Ustaw flagę że już odświeżyliśmy (żeby nie robić loop)
-            sessionStorage.setItem('profileRefreshed', 'true')
-            console.log('✅ Dane użytkownika zaktualizowane - przeładowuję stronę...')
-            // Wymuś przeładowanie strony żeby Zustand store się zaktualizował
-            setTimeout(() => window.location.reload(), 500)
+            
+            // Sprawdź czy webhook już zaktualizował status na Premium
+            if (updatedUser.isPremium) {
+              // Webhook zadziałał! Zaktualizuj localStorage
+              localStorage.setItem('user', JSON.stringify(updatedUser))
+              console.log('✅ Webhook zaktualizował dane - użytkownik ma Premium!')
+            } else {
+              console.log('⏳ Webhook jeszcze nie zaktualizował danych, sprawdzam ponownie za 3s...')
+            }
           } catch (err) {
             console.error('Błąd odświeżania profilu:', err)
           }
@@ -128,9 +130,17 @@ function PaymentSuccessPage() {
             </div>
 
             <div className="actions">
-              <button onClick={() => {
-                sessionStorage.removeItem('profileRefreshed')
-                navigate('/dashboard')
+              <button onClick={async () => {
+                // Odśwież dane użytkownika przed przekierowaniem
+                try {
+                  const profileResponse = await authService.getProfile()
+                  localStorage.setItem('user', JSON.stringify(profileResponse.data))
+                  console.log('✅ Dane odświeżone przed przejściem do dashboard')
+                } catch (err) {
+                  console.error('Błąd odświeżania:', err)
+                }
+                // Przekieruj do dashboard
+                window.location.href = '/dashboard'
               }} className="btn-primary">
                 Przejdź do panelu
               </button>
