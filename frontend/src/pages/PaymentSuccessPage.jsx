@@ -26,22 +26,36 @@ function PaymentSuccessPage() {
         const paymentData = response.data
         setPayment(paymentData)
         
-        // Jeśli płatność została opłacona, sprawdź czy webhook już zaktualizował dane
-        if (paymentData.status === 'paid') {
+        // Jeśli płatność została opłacona, AUTOMATYCZNIE aktywuj Premium
+        if (paymentData.status === 'paid' && !sessionStorage.getItem('premiumActivated')) {
           try {
-            const profileResponse = await authService.getProfile()
-            const updatedUser = profileResponse.data
+            console.log('💰 Płatność opłacona - aktywuję Premium automatycznie...')
             
-            // Sprawdź czy webhook już zaktualizował status na Premium
-            if (updatedUser.isPremium) {
-              // Webhook zadziałał! Zaktualizuj localStorage
-              localStorage.setItem('user', JSON.stringify(updatedUser))
-              console.log('✅ Webhook zaktualizował dane - użytkownik ma Premium!')
-            } else {
-              console.log('⏳ Webhook jeszcze nie zaktualizował danych, sprawdzam ponownie za 3s...')
+            // Wywołaj endpoint activate-premium (backup gdy webhook nie działa)
+            const token = localStorage.getItem('token')
+            const activateResponse = await fetch('https://mybus-backend-aygc.onrender.com/payments/activate-premium', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ 
+                planType: paymentData.planType,
+                duration: 30 
+              })
+            })
+            
+            if (activateResponse.ok) {
+              const activateData = await activateResponse.json()
+              console.log(`✅ Premium aktywowane! Zaktualizowano ${activateData.carriersUpdated} firm(y)`)
+              
+              // Pobierz świeże dane użytkownika
+              const profileResponse = await authService.getProfile()
+              localStorage.setItem('user', JSON.stringify(profileResponse.data))
+              sessionStorage.setItem('premiumActivated', 'true')
             }
           } catch (err) {
-            console.error('Błąd odświeżania profilu:', err)
+            console.error('⚠️ Błąd automatycznej aktywacji:', err)
           }
         }
         
@@ -139,7 +153,9 @@ function PaymentSuccessPage() {
                 } catch (err) {
                   console.error('Błąd odświeżania:', err)
                 }
-                // Przekieruj do dashboard
+                // Wyczyść flagę
+                sessionStorage.removeItem('premiumActivated')
+                // Przekieruj do dashboard (full reload)
                 window.location.href = '/dashboard'
               }} className="btn-primary">
                 Przejdź do panelu
