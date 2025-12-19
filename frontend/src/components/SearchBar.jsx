@@ -4,18 +4,20 @@ import './SearchBar.css'
 
 export default function SearchBar() {
   const { getCarriers, setFilters } = useCarrierStore()
-  const [country, setCountry] = useState('')
+  const [routeFrom, setRouteFrom] = useState('')
+  const [routeTo, setRouteTo] = useState('')
   const [service, setService] = useState('')
   const [search, setSearch] = useState('')
 
   const handleSearch = (e) => {
     e.preventDefault()
     const params = {}
-    if (country) params.country = country
+    if (routeFrom) params.routeFrom = routeFrom
+    if (routeTo) params.routeTo = routeTo
     if (service) params.service = service
     if (search) params.search = search
 
-    setFilters({ country, service, search })
+    setFilters({ routeFrom, routeTo, service, search })
     getCarriers(params)
   }
 
@@ -31,8 +33,21 @@ export default function SearchBar() {
       </div>
 
       <div className="search-group">
-        <select value={country} onChange={(e) => setCountry(e.target.value)}>
-          <option value="">Kraju</option>
+        <select value={routeFrom} onChange={(e) => setRouteFrom(e.target.value)}>
+          <option value="">Z kraju</option>
+          <option value="PL">Polska</option>
+          <option value="DE">Niemcy</option>
+          <option value="NL">Holandia</option>
+          <option value="BE">Belgia</option>
+          <option value="FR">Francja</option>
+          <option value="AT">Austria</option>
+        </select>
+      </div>
+
+      <div className="search-group">
+        <select value={routeTo} onChange={(e) => setRouteTo(e.target.value)}>
+          <option value="">Do kraju</option>
+          <option value="PL">Polska</option>
           <option value="DE">Niemcy</option>
           <option value="NL">Holandia</option>
           <option value="BE">Belgia</option>

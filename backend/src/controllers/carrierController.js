@@ -3,10 +3,19 @@ import User from '../models/User.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
-    const { country, service, search } = req.query
+    const { routeFrom, routeTo, service, search } = req.query
     const query = { isActive: true, isVerified: true }
 
-    if (country) query.country = country.toUpperCase()
+    // Filtrowanie po trasach (z kraju → do kraju)
+    if (routeFrom || routeTo) {
+      const routeQuery = {}
+      if (routeFrom) routeQuery['routes.from'] = routeFrom.toUpperCase()
+      if (routeTo) routeQuery['routes.to'] = routeTo.toUpperCase()
+      
+      // Dodaj warunek że routes musi zawierać trasę spełniającą kryteria
+      Object.assign(query, routeQuery)
+    }
+
     if (service) query.services = service
     if (search) {
       query.$or = [
