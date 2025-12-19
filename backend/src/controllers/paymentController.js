@@ -288,3 +288,42 @@ export const cancelPayment = async (req, res, next) => {
     next(error)
   }
 }
+
+/**
+ * TESTOWY endpoint - aktywuj Premium dla zalogowanego użytkownika
+ * POST /payments/activate-premium
+ */
+export const activatePremiumTest = async (req, res, next) => {
+  try {
+    const userId = req.user.id
+    const { planType = 'premium', duration = 30 } = req.body
+    
+    const user = await User.findById(userId)
+    if (!user) {
+      return res.status(404).json({ error: 'Użytkownik nie znaleziony' })
+    }
+    
+    user.isPremium = true
+    user.subscriptionPlan = planType
+    
+    const expiryDate = new Date()
+    expiryDate.setDate(expiryDate.getDate() + duration)
+    user.subscriptionExpiry = expiryDate
+    
+    await user.save()
+    
+    console.log(`✅ TEST: Aktywowano ${planType} dla użytkownika ${user.email}`)
+    
+    res.json({ 
+      message: 'Premium aktywowane (TEST)', 
+      user: {
+        email: user.email,
+        isPremium: user.isPremium,
+        subscriptionPlan: user.subscriptionPlan,
+        subscriptionExpiry: user.subscriptionExpiry
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}

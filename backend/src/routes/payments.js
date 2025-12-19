@@ -5,7 +5,8 @@ import {
   handleWebhook,
   getPaymentStatus,
   getPaymentHistory,
-  cancelPayment
+  cancelPayment,
+  activatePremiumTest
 } from '../controllers/paymentController.js'
 
 const router = express.Router()
@@ -24,5 +25,17 @@ router.get('/history', authMiddleware, getPaymentHistory)
 
 // Anulowanie płatności - wymaga autoryzacji
 router.delete('/:id/cancel', authMiddleware, cancelPayment)
+
+// TESTOWY endpoint - ręczne wywołanie webhooka (do usunięcia na produkcji)
+router.post('/test-webhook/:paymentId', async (req, res) => {
+  try {
+    await handleWebhook({ body: { id: req.params.paymentId } }, res)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// TESTOWY endpoint - aktywuj Premium dla zalogowanego użytkownika
+router.post('/activate-premium', authMiddleware, activatePremiumTest)
 
 export default router
