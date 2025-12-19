@@ -27,13 +27,17 @@ function PaymentSuccessPage() {
         setPayment(paymentData)
         
         // Jeśli płatność została opłacona, odśwież dane użytkownika
-        if (paymentData.status === 'paid') {
+        if (paymentData.status === 'paid' && !sessionStorage.getItem('profileRefreshed')) {
           try {
             const profileResponse = await authService.getProfile()
             const updatedUser = profileResponse.data
             // Zaktualizuj localStorage
             localStorage.setItem('user', JSON.stringify(updatedUser))
-            console.log('✅ Dane użytkownika zaktualizowane automatycznie')
+            // Ustaw flagę że już odświeżyliśmy (żeby nie robić loop)
+            sessionStorage.setItem('profileRefreshed', 'true')
+            console.log('✅ Dane użytkownika zaktualizowane - przeładowuję stronę...')
+            // Wymuś przeładowanie strony żeby Zustand store się zaktualizował
+            setTimeout(() => window.location.reload(), 500)
           } catch (err) {
             console.error('Błąd odświeżania profilu:', err)
           }
@@ -124,7 +128,10 @@ function PaymentSuccessPage() {
             </div>
 
             <div className="actions">
-              <button onClick={() => navigate('/dashboard')} className="btn-primary">
+              <button onClick={() => {
+                sessionStorage.removeItem('profileRefreshed')
+                navigate('/dashboard')
+              }} className="btn-primary">
                 Przejdź do panelu
               </button>
             </div>
