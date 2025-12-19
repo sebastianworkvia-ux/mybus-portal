@@ -112,9 +112,6 @@ function PaymentSuccessPage() {
               <button onClick={() => navigate('/dashboard')} className="btn-primary">
                 Przejdź do panelu
               </button>
-              <button onClick={() => navigate('/add-carrier')} className="btn-secondary">
-                Dodaj przewoźnika
-              </button>
             </div>
           </div>
         </div>
