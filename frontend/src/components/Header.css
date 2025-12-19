@@ -46,6 +46,7 @@
   display: flex;
   gap: 2rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav a {
@@ -63,6 +64,19 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.user-greeting {
+  white-space: nowrap;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.nav-link {
+  white-space: nowrap;
 }
 
 .auth-buttons {
@@ -132,6 +146,42 @@
   color: white;
 }
 
+/* Tablet Optimization */
+@media (max-width: 1024px) {
+  .nav {
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .nav a {
+    font-size: 0.85rem;
+  }
+
+  .user-menu {
+    gap: 0.5rem;
+  }
+
+  .user-menu > span {
+    font-size: 0.8rem;
+  }
+
+  .btn-login,
+  .btn-register,
+  .btn-logout {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .admin-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .settings-link {
+    font-size: 0.85rem;
+  }
+}
+
 /* Mobile Optimization */
 @media (max-width: 768px) {
   .header {
@@ -180,9 +230,8 @@
     align-items: center;
   }
 
-  .user-menu span {
-    font-size: 0.75rem;
-    display: none;
+  .user-greeting {
+    display: none; /* Ukryj "Witaj" na małych ekranach */
   }
 
   .auth-buttons {

@@ -48,9 +48,9 @@ export default function Header() {
 
             {user ? (
               <div className="user-menu">
-                <span>Cześć, {user.firstName}!</span>
+                <span className="user-greeting">Witaj, {user.firstName}!</span>
                 {user.userType === 'carrier' && (
-                  <Link to="/dashboard">Mój panel</Link>
+                  <Link to="/dashboard" className="nav-link">Mój panel</Link>
                 )}
                 {user.isAdmin && (
                   <Link to="/admin" className="admin-link">Panel Admina</Link>
