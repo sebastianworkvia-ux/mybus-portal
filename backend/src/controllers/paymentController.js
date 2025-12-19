@@ -1,6 +1,7 @@
 import { createMollieClient } from '@mollie/api-client'
 import Payment from '../models/Payment.js'
 import Carrier from '../models/Carrier.js'
+import User from '../models/User.js'
 
 // Inicjalizacja klienta Mollie - lazy loading
 let mollieClient = null
@@ -116,33 +117,41 @@ export const createPayment = async (req, res, next) => {
  */
 export const handleWebhook = async (req, res, next) => {
   try {
+    console.log('🔔 Webhook otrzymany od Mollie:', req.body)
     const paymentId = req.body.id
 
     if (!paymentId) {
+      console.error('❌ Brak ID płatności w webhook')
       return res.status(400).json({ error: 'Brak ID płatności' })
     }
 
+    console.log('🔍 Pobieram status płatności z Mollie:', paymentId)
     // Pobierz aktualny status z Mollie
     const molliePayment = await getMollieClient().payments.get(paymentId)
+    console.log('📊 Status z Mollie:', molliePayment.status)
     
     // Znajdź płatność w bazie
     const payment = await Payment.findOne({ molliePaymentId: paymentId })
     
     if (!payment) {
-      console.error('Nie znaleziono płatności:', paymentId)
+      console.error('❌ Nie znaleziono płatności w bazie:', paymentId)
       return res.status(404).json({ error: 'Płatność nie znaleziona' })
     }
+
+    console.log('💾 Płatność znaleziona w bazie, userId:', payment.userId)
 
     // Aktualizuj status
     payment.status = molliePayment.status
     
     // Jeśli płatność została opłacona
     if (molliePayment.isPaid()) {
+      console.log('✅ Płatność opłacona! Aktywuję Premium...')
       payment.paidAt = new Date()
       
       // Aktywuj Premium dla użytkownika
       const user = await User.findById(payment.userId)
       if (user) {
+        console.log('👤 Użytkownik znaleziony:', user.email)
         user.isPremium = true
         user.subscriptionPlan = payment.planType
         
@@ -152,7 +161,9 @@ export const handleWebhook = async (req, res, next) => {
         user.subscriptionExpiry = expiryDate
         
         await user.save()
-        console.log(`✅ Aktywowano plan ${payment.planType} dla użytkownika ${user._id}`)
+        console.log(`✅ Aktywowano plan ${payment.planType} dla użytkownika ${user.email} (${user._id})`)
+      } else {
+        console.error('❌ Nie znaleziono użytkownika:', payment.userId)
       }
       
       // Aktywuj subskrypcję dla przewoźnika (jeśli istnieje)
