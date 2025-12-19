@@ -117,6 +117,65 @@
   color: #764ba2;
 }
 
+/* Additional Stats Row */
+.additional-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card-small {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s;
+  border-left: 3px solid;
+}
+
+.stat-card-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.stat-card-small.premium { border-color: #8b5cf6; }
+.stat-card-small.users-active { border-color: #3b82f6; }
+.stat-card-small.reviews-avg { border-color: #f59e0b; }
+.stat-card-small.verified { border-color: #10b981; }
+
+.stat-icon-small {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat-content-small {
+  flex: 1;
+}
+
+.stat-content-small h4 {
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem 0;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.stat-content-small p {
+  margin: 0 0 0.25rem 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.small-meta {
+  display: block;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
 /* Recent Activity */
 .recent-activity {
   display: grid;
@@ -226,16 +285,27 @@
     grid-template-columns: 1fr;
   }
 
+  .additional-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .recent-activity {
     grid-template-columns: 1fr;
   }
 
   .quick-actions {
     width: 100%;
+    flex-direction: column;
   }
 
   .btn-quick-action {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .additional-stats {
+    grid-template-columns: 1fr;
   }
 }
