@@ -12,10 +12,16 @@
   transform: translateY(-100%);
 }
 
+.header .container {
+  max-width: 1400px;
+  padding: 0 2rem;
+}
+
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .logo {
@@ -44,9 +50,11 @@
 
 .nav {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .nav a {
