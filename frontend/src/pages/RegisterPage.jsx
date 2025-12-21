@@ -14,6 +14,10 @@ export default function RegisterPage() {
     companyName: '',
     userType: 'customer'
   })
+  const [consents, setConsents] = useState({
+    dataProcessing: false,
+    marketing: false
+  })
 
   const handleChange = (e) => {
     setFormData({
@@ -24,8 +28,19 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Validate required consent
+    if (!consents.dataProcessing) {
+      alert('Musisz wyrazić zgodę na przetwarzanie danych osobowych, aby się zarejestrować.')
+      return
+    }
+    
     try {
-      await register(formData)
+      // Add consents to registration data
+      await register({
+        ...formData,
+        marketingConsent: consents.marketing
+      })
       navigate('/')
     } catch (err) {
       // Error is handled by store
@@ -107,7 +122,38 @@ export default function RegisterPage() {
 
           <div className="form-group">
             <label htmlFor="password">Hasło</label>
-            <input
+           div className="consent-section">
+            <div className="form-group-checkbox">
+              <input
+                id="dataProcessing"
+                type="checkbox"
+                checked={consents.dataProcessing}
+                onChange={(e) => setConsents({...consents, dataProcessing: e.target.checked})}
+              />
+              <label htmlFor="dataProcessing">
+                Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z{' '}
+                <Link to="/privacy" target="_blank" className="link-inline">
+                  Polityką Prywatności
+                </Link>{' '}
+                <span className="required-mark">*</span>
+              </label>
+            </div>
+
+            <div className="form-group-checkbox">
+              <input
+                id="marketing"
+                type="checkbox"
+                checked={consents.marketing}
+                onChange={(e) => setConsents({...consents, marketing: e.target.checked})}
+              />
+              <label htmlFor="marketing">
+                Wyrażam zgodę na otrzymywanie informacji marketingowych i newslettera
+                (opcjonalne)
+              </label>
+            </div>
+          </div>
+
+          < <input
               id="password"
               type="password"
               name="password"

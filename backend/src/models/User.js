@@ -52,6 +52,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
+    marketingConsent: {
+      type: Boolean,
+      default: false
+    },
+    consentDate: {
+      type: Date,
+      default: Date.now
+    },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     // Dla type: 'carrier'
