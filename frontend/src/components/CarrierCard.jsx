@@ -3,6 +3,9 @@ import './CarrierCard.css'
 
 export default function CarrierCard({ carrier }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
+  
+  // Debug: sprawdź czy isPremium działa
+  console.log('Carrier:', carrier.companyName, 'isPremium:', carrier.isPremium)
 
   return (
     <div className={`carrier-card ${carrier.isPremium ? 'premium-card' : ''}`}>
