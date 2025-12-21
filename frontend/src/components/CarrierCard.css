@@ -12,7 +12,7 @@
 .verified-ribbon {
   position: absolute;
   bottom: 15px;
-  right: -35px;
+  right: -25px;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   padding: 0.5rem 2.5rem;
@@ -247,7 +247,7 @@
 
   .verified-ribbon {
     bottom: 10px;
-    right: -40px;
+    right: -30px;
     padding: 0.3rem 2.5rem;
     font-size: 0.65rem;
   }
