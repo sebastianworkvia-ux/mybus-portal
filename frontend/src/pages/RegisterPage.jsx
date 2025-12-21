@@ -122,7 +122,18 @@ export default function RegisterPage() {
 
           <div className="form-group">
             <label htmlFor="password">Hasło</label>
-           div className="consent-section">
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              minLength="6"
+              required
+            />
+          </div>
+
+          <div className="consent-section">
             <div className="form-group-checkbox">
               <input
                 id="dataProcessing"
@@ -151,17 +162,6 @@ export default function RegisterPage() {
                 (opcjonalne)
               </label>
             </div>
-          </div>
-
-          < <input
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              minLength="6"
-              required
-            />
           </div>
 
           <button type="submit" disabled={loading} className="btn-submit">
