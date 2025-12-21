@@ -3,14 +3,6 @@ import './CarrierCard.css'
 
 export default function CarrierCard({ carrier }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
-  
-  // Debug - sprawdź dane przewoźnika
-  console.log('=== CARRIER DEBUG ===')
-  console.log('Nazwa:', carrier.companyName)
-  console.log('isPremium:', carrier.isPremium)
-  console.log('subscriptionPlan:', carrier.subscriptionPlan)
-  console.log('Pełne dane:', carrier)
-  console.log('====================')
 
   return (
     <div className={`carrier-card ${carrier.isPremium ? 'premium-card' : ''}`}>
