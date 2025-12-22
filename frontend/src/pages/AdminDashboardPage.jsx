@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
   }
 
   const handleSyncAirtable = async () => {
-    if (!confirm('Czy na pewno chcesz zsynchronizować wszystkie dane do Airtable? To może potrwać kilka minut.')) {
+    if (!confirm('Czy na pewno chcesz zsynchronizować wszystkie dane do Google Sheets? To może potrwać kilka minut.')) {
       return
     }
 
@@ -99,7 +99,7 @@ export default function AdminDashboardPage() {
               className="btn-quick-action airtable"
               disabled={syncing}
             >
-              🔄 {syncing ? 'Synchronizacja...' : 'Sync Airtable'}
+              🔄 {syncing ? 'Synchronizacja...' : 'Sync Google Sheets'}
             </button>
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})

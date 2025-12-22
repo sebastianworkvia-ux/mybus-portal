@@ -3,11 +3,11 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth.js'
 import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
 import {
-  syncAllCarriersToAirtable,
-  syncAllUsersToAirtable,
-  syncCarrierToAirtable,
-  syncUserToAirtable
-} from '../services/airtableService.js'
+  syncAllCarriersToSheets,
+  syncAllUsersToSheets,
+  syncCarrierToSheets,
+  syncUserToSheets
+} from '../services/googleSheetsService.js'
 
 const router = express.Router()
 
@@ -15,7 +15,7 @@ const router = express.Router()
 router.post('/sync/carriers', authMiddleware, adminMiddleware, async (req, res, next) => {
   try {
     const carriers = await Carrier.find()
-    const results = await syncAllCarriersToAirtable(carriers)
+    const results = await syncAllCarriersToSheets(carriers)
     
     res.json({
       message: 'Synchronizacja przewoźników zakończona',
@@ -30,7 +30,7 @@ router.post('/sync/carriers', authMiddleware, adminMiddleware, async (req, res, 
 router.post('/sync/users', authMiddleware, adminMiddleware, async (req, res, next) => {
   try {
     const users = await User.find().select('-password')
-    const results = await syncAllUsersToAirtable(users)
+    const results = await syncAllUsersToSheets(users)
     
     res.json({
       message: 'Synchronizacja użytkowników zakończona',
@@ -47,8 +47,8 @@ router.post('/sync/all', authMiddleware, adminMiddleware, async (req, res, next)
     const carriers = await Carrier.find()
     const users = await User.find().select('-password')
     
-    const carrierResults = await syncAllCarriersToAirtable(carriers)
-    const userResults = await syncAllUsersToAirtable(users)
+    const carrierResults = await syncAllCarriersToSheets(carriers)
+    const userResults = await syncAllUsersToSheets(users)
     
     res.json({
       message: 'Pełna synchronizacja zakończona',
@@ -68,7 +68,7 @@ router.post('/sync/carrier/:id', authMiddleware, adminMiddleware, async (req, re
       return res.status(404).json({ error: 'Carrier not found' })
     }
     
-    await syncCarrierToAirtable(carrier)
+    await syncCarrierToSheets(carrier)
     res.json({ message: 'Przewoźnik zsynchronizowany', carrier: carrier.companyName })
   } catch (error) {
     next(error)
@@ -83,7 +83,7 @@ router.post('/sync/user/:id', authMiddleware, adminMiddleware, async (req, res, 
       return res.status(404).json({ error: 'User not found' })
     }
     
-    await syncUserToAirtable(user)
+    await syncUserToSheets(user)
     res.json({ message: 'Użytkownik zsynchronizowany', user: user.email })
   } catch (error) {
     next(error)

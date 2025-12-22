@@ -1,6 +1,6 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
-import { syncUserToAirtable } from '../services/airtableService.js'
+import { syncUserToSheets } from '../services/googleSheetsService.js'
 
 export const register = async (req, res, next) => {
   try {
@@ -38,9 +38,9 @@ export const register = async (req, res, next) => {
 
     await user.save()
 
-    // Synchronizacja do Airtable (asynchronicznie, nie blokuje odpowiedzi)
-    syncUserToAirtable(user).catch(err => 
-      console.error('Airtable sync failed:', err.message)
+    // Synchronizacja do Google Sheets (asynchronicznie, nie blokuje odpowiedzi)
+    syncUserToSheets(user).catch(err => 
+      console.error('Google Sheets sync failed:', err.message)
     )
 
     const token = jwt.sign(
