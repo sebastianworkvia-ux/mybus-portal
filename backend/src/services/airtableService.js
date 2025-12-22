@@ -27,8 +27,7 @@ export const syncCarrierToAirtable = async (carrierData) => {
           'Telefon': carrierData.phone || '',
           'Opis': carrierData.description || '',
           'Premium': carrierData.isPremium ? 'Tak' : 'Nie',
-          'Plan': carrierData.subscriptionPlan || 'free',
-          'Data rejestracji': new Date(carrierData.createdAt).toISOString(),
+          'Data rejestracji': carrierData.createdAt ? carrierData.createdAt.toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
           'MongoDB ID': carrierData._id.toString(),
           'User ID': carrierData.userId.toString(),
           'Zweryfikowany': carrierData.isVerified ? 'Tak' : 'Nie',
@@ -71,7 +70,6 @@ export const updateCarrierInAirtable = async (mongoId, updates) => {
     if (updates.phone) fields['Telefon'] = updates.phone
     if (updates.description) fields['Opis'] = updates.description
     if (updates.isPremium !== undefined) fields['Premium'] = updates.isPremium ? 'Tak' : 'Nie'
-    if (updates.subscriptionPlan) fields['Plan'] = updates.subscriptionPlan
     if (updates.isVerified !== undefined) fields['Zweryfikowany'] = updates.isVerified ? 'Tak' : 'Nie'
     if (updates.isActive !== undefined) fields['Aktywny'] = updates.isActive ? 'Tak' : 'Nie'
     if (updates.website) fields['Website'] = updates.website
@@ -102,7 +100,7 @@ export const syncUserToAirtable = async (userData) => {
           'Premium': userData.isPremium ? 'Tak' : 'Nie',
           'Admin': userData.isAdmin ? 'Tak' : 'Nie',
           'Aktywny': userData.isActive ? 'Tak' : 'Nie',
-          'Data rejestracji': new Date(userData.createdAt).toISOString(),
+          'Data rejestracji': userData.createdAt ? new Date(userData.createdAt).toISOString().split('T')[0] : '',
           'MongoDB ID': userData._id.toString(),
           'Zgoda marketingowa': userData.marketingConsent ? 'Tak' : 'Nie',
           'Nazwa firmy': userData.carrierProfile?.companyName || ''
