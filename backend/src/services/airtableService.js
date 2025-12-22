@@ -21,7 +21,7 @@ export const syncCarrierToAirtable = async (carrierData) => {
       {
         fields: {
           'Nazwa przewoźnika': carrierData.companyName,
-          'NIP/Rejestracja': carrierData.companyRegistration,
+          'NIP': carrierData.companyRegistration,
           'Kraj': carrierData.country,
           'Email': carrierData.email || '',
           'Telefon': carrierData.phone || '',
