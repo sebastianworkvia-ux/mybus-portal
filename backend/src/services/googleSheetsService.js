@@ -10,11 +10,22 @@ const SHEETS = {
 }
 
 // Autoryzacja z Service Account
+const getPrivateKey = () => {
+  const key = process.env.GOOGLE_PRIVATE_KEY
+  if (!key) return ''
+  // Jeśli klucz ma literalne \n (jako tekst), zamień na prawdziwe nowe linie
+  if (key.includes('\\n')) {
+    return key.replace(/\\n/g, '\n')
+  }
+  // Jeśli już ma prawdziwe nowe linie, użyj jak jest
+  return key
+}
+
 const auth = new google.auth.GoogleAuth({
   credentials: {
     type: 'service_account',
     project_id: process.env.GOOGLE_PROJECT_ID,
-    private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    private_key: getPrivateKey(),
     client_email: process.env.GOOGLE_CLIENT_EMAIL
   },
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
