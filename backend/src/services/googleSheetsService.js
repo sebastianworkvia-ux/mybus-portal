@@ -13,10 +13,21 @@ const SHEETS = {
 const getPrivateKey = () => {
   const key = process.env.GOOGLE_PRIVATE_KEY
   if (!key) return ''
+  
+  // Jeśli klucz jest w Base64, zdekoduj go
+  if (!key.includes('BEGIN PRIVATE KEY')) {
+    try {
+      return Buffer.from(key, 'base64').toString('utf-8')
+    } catch (e) {
+      console.error('❌ Błąd dekodowania Base64:', e)
+    }
+  }
+  
   // Jeśli klucz ma literalne \n (jako tekst), zamień na prawdziwe nowe linie
   if (key.includes('\\n')) {
     return key.replace(/\\n/g, '\n')
   }
+  
   // Jeśli już ma prawdziwe nowe linie, użyj jak jest
   return key
 }
