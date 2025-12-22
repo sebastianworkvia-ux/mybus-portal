@@ -73,22 +73,10 @@ export default function AdminDashboardPage() {
   }
 
   if (error) {
-    return (button 
-              onClick={handleSyncAirtable} 
-              className="btn-quick-action airtable"
-              disabled={syncing}
-            >
-              🔄 {syncing ? 'Synchronizacja...' : 'Sync Airtable'}
-            </button>
-            <Link to="/admin/verify" className="btn-quick-action">
-              ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
-            </Link>
-          </div>
-          {syncMessage && (
-            <div className={`sync-message ${syncMessage.includes('✅') ? 'success' : 'error'}`}>
-              {syncMessage}
-            </div>
-          )}lassName="error-message">{error}</div>
+    return (
+      <div className="admin-dashboard-page">
+        <div className="container">
+          <div className="error-message">{error}</div>
         </div>
       </div>
     )
@@ -106,10 +94,22 @@ export default function AdminDashboardPage() {
             <Link to="/admin/stats" className="btn-quick-action secondary">
               📊 Statystyki systemu
             </Link>
+            <button 
+              onClick={handleSyncAirtable} 
+              className="btn-quick-action airtable"
+              disabled={syncing}
+            >
+              🔄 {syncing ? 'Synchronizacja...' : 'Sync Airtable'}
+            </button>
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
             </Link>
           </div>
+          {syncMessage && (
+            <div className={`sync-message ${syncMessage.includes('✅') ? 'success' : 'error'}`}>
+              {syncMessage}
+            </div>
+          )}
         </div>
 
         {/* Statistics Cards */}
