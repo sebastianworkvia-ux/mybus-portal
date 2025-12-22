@@ -1,5 +1,6 @@
 import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
+import { syncCarrierToAirtable, updateCarrierInAirtable } from '../services/airtableService.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
@@ -67,6 +68,12 @@ export const createCarrier = async (req, res, next) => {
     })
 
     await carrier.save()
+
+    // Synchronizacja do Airtable
+    syncCarrierToAirtable(carrier).catch(err => 
+      console.error('Airtable sync failed:', err.message)
+    )
+
     res.status(201).json(carrier)
   } catch (error) {
     next(error)
@@ -82,6 +89,12 @@ export const updateCarrier = async (req, res, next) => {
 
     Object.assign(carrier, req.body)
     await carrier.save()
+
+    // Aktualizacja w Airtable
+    updateCarrierInAirtable(carrier._id.toString(), req.body).catch(err => 
+      console.error('Airtable update failed:', err.message)
+    )
+
     res.json(carrier)
   } catch (error) {
     next(error)

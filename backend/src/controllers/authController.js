@@ -1,9 +1,10 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
+import { syncUserToAirtable } from '../services/airtableService.js'
 
 export const register = async (req, res, next) => {
   try {
-    const { email, password, firstName, lastName, companyName, userType } = req.body
+    const { email, password, firstName, lastName, companyName, userType, marketingConsent } = req.body
 
     // Validate
     if (!email || !password || !userType) {
@@ -31,10 +32,16 @@ export const register = async (req, res, next) => {
       password,
       firstName: userType === 'carrier' ? companyName : firstName,
       lastName: userType === 'carrier' ? 'Firma' : lastName,
-      userType
+      userType,
+      marketingConsent: marketingConsent || false
     })
 
     await user.save()
+
+    // Synchronizacja do Airtable (asynchronicznie, nie blokuje odpowiedzi)
+    syncUserToAirtable(user).catch(err => 
+      console.error('Airtable sync failed:', err.message)
+    )
 
     const token = jwt.sign(
       { id: user._id, email: user.email },

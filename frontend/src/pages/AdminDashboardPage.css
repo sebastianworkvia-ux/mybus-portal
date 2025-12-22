@@ -39,6 +39,38 @@
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
+.btn-quick-action.airtable {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-quick-action.airtable:hover {
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.btn-quick-action.airtable:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sync-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.sync-message.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.sync-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 .btn-quick-action:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);

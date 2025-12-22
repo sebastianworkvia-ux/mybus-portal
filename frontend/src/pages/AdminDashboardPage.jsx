@@ -11,6 +11,8 @@ export default function AdminDashboardPage() {
   const [recent, setRecent] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [syncing, setSyncing] = useState(false)
+  const [syncMessage, setSyncMessage] = useState('')
 
   useEffect(() => {
     if (!user) {
@@ -39,6 +41,27 @@ export default function AdminDashboardPage() {
     }
   }
 
+  const handleSyncAirtable = async () => {
+    if (!confirm('Czy na pewno chcesz zsynchronizować wszystkie dane do Airtable? To może potrwać kilka minut.')) {
+      return
+    }
+
+    try {
+      setSyncing(true)
+      setSyncMessage('Synchronizacja w toku...')
+      
+      const response = await apiClient.post('/airtable/sync/all')
+      
+      setSyncMessage(`✅ Sukces! Przewoźnicy: ${response.data.carriers.success}/${response.data.carriers.success + response.data.carriers.failed}, Użytkownicy: ${response.data.users.success}/${response.data.users.success + response.data.users.failed}`)
+      
+      setTimeout(() => setSyncMessage(''), 5000)
+    } catch (err) {
+      setSyncMessage('❌ Błąd synchronizacji: ' + (err.response?.data?.error || err.message))
+    } finally {
+      setSyncing(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="admin-dashboard-page">
@@ -50,10 +73,22 @@ export default function AdminDashboardPage() {
   }
 
   if (error) {
-    return (
-      <div className="admin-dashboard-page">
-        <div className="container">
-          <div className="error-message">{error}</div>
+    return (button 
+              onClick={handleSyncAirtable} 
+              className="btn-quick-action airtable"
+              disabled={syncing}
+            >
+              🔄 {syncing ? 'Synchronizacja...' : 'Sync Airtable'}
+            </button>
+            <Link to="/admin/verify" className="btn-quick-action">
+              ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
+            </Link>
+          </div>
+          {syncMessage && (
+            <div className={`sync-message ${syncMessage.includes('✅') ? 'success' : 'error'}`}>
+              {syncMessage}
+            </div>
+          )}lassName="error-message">{error}</div>
         </div>
       </div>
     )
