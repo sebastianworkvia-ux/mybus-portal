@@ -56,7 +56,6 @@ const paymentSchema = new mongoose.Schema({
 
 // Index dla szybszego wyszukiwania
 paymentSchema.index({ userId: 1, status: 1 })
-paymentSchema.index({ molliePaymentId: 1 })
 
 const Payment = mongoose.model('Payment', paymentSchema)
 
