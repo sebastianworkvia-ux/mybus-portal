@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "test": "jest",
     "lint": "eslint src --ext js",
-    "add-locations": "node scripts/addLocations.js"
+    "add-locations": "node scripts/addLocations.js",
+    "fix-utf8": "node scripts/fixUTF8.js"
   },
   "dependencies": {
     "@mollie/api-client": "^4.3.3",

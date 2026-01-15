@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
+import { sanitizeBodyMiddleware } from './utils/textUtils.js'
 import authRoutes from './routes/auth.js'
 import carrierRoutes from './routes/carriers.js'
 import adminRoutes from './routes/admin.js'
@@ -36,16 +37,38 @@ const limiter = rateLimit({
 })
 app.use(limiter)
 
-// Body parsing
-app.use(express.json({ limit: '10mb' }))
-app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+// Body parsing - jawne UTF-8
+app.use(express.json({ 
+  limit: '10mb',
+  verify: (req, res, buf) => {
+    // Wymusz UTF-8 dla wszystkich requestów
+    req.rawBody = buf.toString('utf8')
+  }
+}))
+app.use(express.urlencoded({ 
+  extended: true, 
+  limit: '10mb',
+  charset: 'utf-8'
+}))
 
 // Set UTF-8 charset for all responses (polskie znaki: ąćęłńóśźż)
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8')
   res.setHeader('Content-Language', 'pl')
+  res.setHeader('Accept-Charset', 'utf-8')
+  
+  // Override res.json to ensure UTF-8
+  const originalJson = res.json.bind(res)
+  res.json = function(data) {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
+    return originalJson(data)
+  }
+  
   next()
 })
+
+// Sanityzuj dane wejściowe (napraw encoding)
+app.use(sanitizeBodyMiddleware)
 
 // MongoDB Connection z UTF-8
 mongoose.set('strictQuery', false)
