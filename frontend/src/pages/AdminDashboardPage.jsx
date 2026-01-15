@@ -108,16 +108,6 @@ export default function AdminDashboardPage() {
       </div>
     )
   }
-            <Link to="/admin/verify" className="btn-quick-action">
-              ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
-            </Link>
-          </div>
-          {importMessage && (
-            <div className={`sync-message ${importMessage.includes('✅') ? 'success' : 'error'}`}>
-              {importMessage}
-            </div>
-          )}
-  }
 
   if (error) {
     return (
@@ -157,12 +147,35 @@ export default function AdminDashboardPage() {
               {syncMessage}
             </div>
           )}
+          
+          {/* Import CSV Section */}
+          <div className="import-section" style={{marginTop: '1.5rem'}}>
+            <h3>📤 Import przewoźników z CSV</h3>
+            <div style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
+              <label htmlFor="csv-upload" className="btn-quick-action secondary" style={{cursor: 'pointer', margin: 0}}>
+                {importing ? '⏳ Importowanie...' : '📁 Wybierz plik CSV'}
+              </label>
+              <input 
+                id="csv-upload" 
+                type="file" 
+                accept=".csv" 
+                onChange={handleImportCarriers}
+                disabled={importing}
+                style={{display: 'none'}}
+              />
+              {importMessage && (
+                <div className={`sync-message ${importMessage.includes('✅') ? 'success' : 'error'}`}>
+                  {importMessage}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Statistics Cards */}
         <div className="stats-grid">
           <div className="stat-card users">
-            <div className="stat-icon">�</div>
+            <div className="stat-icon">👥</div>
             <div className="stat-content">
               <h3>{stats?.customersWithAccount || 0}</h3>
               <p>Klientów (szukających przewozu)</p>
@@ -283,19 +296,6 @@ export default function AdminDashboardPage() {
             ) : (
               <p>Brak danych</p>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="no-data">Brak danych</p>
-              )}
-            </div>
           </div>
         </div>
       </div>

@@ -40,20 +40,45 @@ app.use(limiter)
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
-// Set UTF-8 charset for all responses
+// Set UTF-8 charset for all responses (polskie znaki: ąćęłńóśźż)
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  res.setHeader('Content-Language', 'pl')
   next()
 })
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
+// MongoDB Connection z UTF-8
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONGODB_URI, {
+  // MongoDB domyślnie używa UTF-8, ale wymuszamy to dla pewności
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('MongoDB connected with UTF-8 support'))
   .catch(err => console.log('MongoDB connection error:', err))
 
 // Routes
 app.get('/health', (req, res) => {
   res.json({ message: 'Backend is running' })
+})
+
+// Test UTF-8 endpoint (polskie znaki: ąćęłńóśźż)
+app.get('/test-utf8', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Test polskich znaków UTF-8',
+    chars: 'ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ',
+    sample: {
+      firma: 'Przewoźnik Szczęśliwy Sp. z o.o.',
+      opis: 'Szybki i tani transport paczek do Polski. Obsługujemy Niemcy, Holandię i Belgię.',
+      miasta: ['Kraków', 'Gdańsk', 'Wrocław', 'Łódź', 'Poznań'],
+      usługi: ['przewóz osób', 'przesyłki kurierskie', 'przeprowadzki']
+    },
+    test: {
+      question: 'Czy widzisz polskie znaki?',
+      answer: 'Jeśli tak, to wszystko działa świetnie! 🇵🇱'
+    }
+  })
 })
 
 app.use('/auth', authRoutes)

@@ -60,7 +60,9 @@ Frontend uruchomi się na `http://localhost:5173`
 
 - **Frontend:** React 18, Vite, Zustand (state management)
 - **Backend:** Express.js, MongoDB/Mongoose, JWT
+- **Płatności:** Mollie API (EUR)
 - **Inne:** Axios, CORS, bcryptjs
+- **Encoding:** Pełna obsługa UTF-8 (polskie znaki: ąćęłńóśźż)
 
 ## Features (TODO)
 

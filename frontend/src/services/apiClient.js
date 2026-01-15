@@ -5,7 +5,9 @@ import axios from 'axios'
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json; charset=utf-8',
+    'Accept': 'application/json',
+    'Accept-Charset': 'utf-8'
   },
   timeout: 60000 // 60 sekund (dla "wake up" Render free tier - pierwsze połączenie może trwać 30-60s)
 })
