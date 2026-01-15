@@ -18,6 +18,11 @@ export default function CarrierDetailPage() {
   const [submitting, setSubmitting] = useState(false)
   const [reviewError, setReviewError] = useState(null)
 
+  // Przewiń do góry przy wejściu na stronę
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [id])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
