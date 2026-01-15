@@ -167,13 +167,24 @@ export default function AdminDashboardPage() {
         {/* Statistics Cards */}
         <div className="stats-grid">
           <div className="stat-card users">
-            <div className="stat-icon">👥</div>
+            <div className="stat-icon">�</div>
             <div className="stat-content">
-              <h3>{stats?.totalUsers || 0}</h3>
-              <p>Wszystkich użytkowników</p>
+              <h3>{stats?.customersWithAccount || 0}</h3>
+              <p>Klientów (szukających przewozu)</p>
               <div className="stat-breakdown">
-                <span>🚚 {stats?.totalCarriers || 0} przewoźników</span>
-                <span>👤 {stats?.totalCustomers || 0} klientów</span>
+                <span>Konta typu: customer</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="stat-card carriers" style={{borderLeftColor: '#8b5cf6'}}>
+            <div className="stat-icon">🚚</div>
+            <div className="stat-content">
+              <h3>{stats?.carriersWithAccount || 0}</h3>
+              <p>Przewoźników z kontem</p>
+              <div className="stat-breakdown">
+                <span>🏢 {stats?.totalCarrierCompanies || 0} zgłoszonych firm</span>
+                <span>⏳ {stats?.carriersWithoutCompany || 0} bez firmy</span>
               </div>
               <Link to="/admin/users" className="stat-link">Zobacz listę →</Link>
             </div>
@@ -188,6 +199,7 @@ export default function AdminDashboardPage() {
                 <span>⭐ {stats?.premiumCarriers || 0} Premium</span>
                 <span>⏳ {stats?.unverifiedCarriers || 0} czeka</span>
               </div>
+              <Link to="/admin/verify" className="stat-link">Weryfikuj →</Link>
             </div>
           </div>
 
@@ -201,39 +213,29 @@ export default function AdminDashboardPage() {
               </div>
             </div>
           </div>
-
-          <div className="stat-card pending">
-            <div className="stat-icon">⏰</div>
-            <div className="stat-content">
-              <h3>{stats?.unverifiedCarriers || 0}</h3>
-              <p>Czeka na weryfikację</p>
-              <Link to="/admin/verify" className="stat-link">Zobacz →</Link>
-            </div>
-          </div>
         </div>
 
-
-
         {/* Recent Activity */}
-        <div className="recent-activity">
+        <div className="recent-activity-grid">
           <div className="activity-section">
-            <h2>📝 Ostatnie rejestracje</h2>
+            <h2>📋 Ostatnie rejestracje użytkowników</h2>
             <div className="activity-list">
-              {recent?.users?.length > 0 ? (
+              {recent?.users && recent.users.length > 0 ? (
                 recent.users.map(u => (
                   <div key={u._id} className="activity-item">
                     <div className="activity-icon">{u.userType === 'carrier' ? '🚚' : '👤'}</div>
-                    <div className="activity-content">
+                    <div className="activity-details">
                       <strong>{u.firstName} {u.lastName}</strong>
-                      <span className="activity-meta">{u.email} • {u.userType}</span>
-                    </div>
-                    <div className="activity-date">
-                      {new Date(u.createdAt).toLocaleDateString('pl-PL')}
+                      <span>{u.email}</span>
+                      <span className="activity-meta">
+                        {u.userType === 'carrier' ? 'Przewoźnik' : 'Klient'} • {new Date(u.createdAt).toLocaleDateString('pl-PL')}
+                        {u.isPremium && ' • ⭐ Premium'}
+                      </span>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="no-data">Brak danych</p>
+                <p>Brak danych</p>
               )}
             </div>
           </div>
@@ -241,46 +243,57 @@ export default function AdminDashboardPage() {
           <div className="activity-section">
             <h2>🚐 Ostatnio dodane firmy</h2>
             <div className="activity-list">
-              {recent?.carriers?.length > 0 ? (
+              {recent?.carriers && recent.carriers.length > 0 ? (
                 recent.carriers.map(c => (
                   <div key={c._id} className="activity-item">
                     <div className="activity-icon">
                       {c.isVerified ? '✅' : '⏳'}
                     </div>
-                    <div className="activity-content">
+                    <div className="activity-details">
                       <strong>{c.companyName}</strong>
+                      <span>{c.userId?.email || 'Brak email'}</span>
                       <span className="activity-meta">
-                        {c.country} • {c.userId?.email}
+                        {c.isVerified ? 'Zweryfikowana' : 'Oczekuje'} • {new Date(c.createdAt).toLocaleDateString('pl-PL')}
                         {c.isPremium && ' • ⭐ Premium'}
                       </span>
                     </div>
-                    <div className="activity-date">
-                      {new Date(c.createdAt).toLocaleDateString('pl-PL')}
-                    </div>
+                    <Link to={`/admin/verify`} className="activity-action">
+                      {c.isVerified ? '👁️' : '⚡'}
+                    </Link>
                   </div>
                 ))
               ) : (
-                <p className="no-data">Brak danych</p>
+                <p>Brak danych</p>
               )}
             </div>
           </div>
+        </div>
 
-          <div className="activity-section">
-            <h2>💬 Ostatnie recenzje</h2>
-            <div className="activity-list">
-              {recent?.reviews?.length > 0 ? (
-                recent.reviews.map(r => (
-                  <div key={r._id} className="activity-item">
-                    <div className="activity-icon">⭐</div>
-                    <div className="activity-content">
-                      <strong>{r.userId?.firstName} {r.userId?.lastName}</strong>
-                      <span className="activity-meta">
-                        {r.carrierId?.companyName} • {'⭐'.repeat(r.rating)} ({r.rating}/5)
-                      </span>
-                      <p className="review-comment">{r.comment?.substring(0, 80)}...</p>
-                    </div>
-                    <div className="activity-date">
-                      {new Date(r.createdAt).toLocaleDateString('pl-PL')}
+        {/* Recent Reviews Section */}
+        <div className="activity-section" style={{marginTop: '2rem'}}>
+          <h2>💬 Ostatnie recenzje</h2>
+          <div className="activity-list">
+            {recent?.reviews && recent.reviews.length > 0 ? (
+              recent.reviews.map(r => (
+                <div key={r._id} className="activity-item">
+                  <div className="activity-icon">⭐</div>
+                  <div className="activity-details">
+                    <strong>{r.userId?.firstName} {r.userId?.lastName}</strong>
+                    <span>{r.carrierId?.companyName} • {'⭐'.repeat(r.rating)} ({r.rating}/5)</span>
+                    <span className="activity-meta">{r.comment?.substring(0, 80)}...</span>
+                  </div>
+                  <span className="activity-date">{new Date(r.createdAt).toLocaleDateString('pl-PL')}</span>
+                </div>
+              ))
+            ) : (
+              <p>Brak danych</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
                     </div>
                   </div>
                 ))

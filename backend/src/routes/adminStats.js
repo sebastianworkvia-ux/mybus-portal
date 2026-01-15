@@ -11,11 +11,13 @@ router.get('/stats', adminMiddleware, async (req, res) => {
   try {
     const [
       totalUsers,
-      totalCarriers,
-      totalCustomers,
+      carriersWithAccount,
+      customersWithAccount,
+      totalCarrierCompanies,
       verifiedCarriers,
       unverifiedCarriers,
       premiumCarriers,
+      carriersWithoutCompany,
       totalReviews,
       recentUsers,
       recentCarriers,
@@ -24,20 +26,39 @@ router.get('/stats', adminMiddleware, async (req, res) => {
       User.countDocuments(),
       User.countDocuments({ userType: 'carrier' }),
       User.countDocuments({ userType: 'customer' }),
+      Carrier.countDocuments(),
       Carrier.countDocuments({ isVerified: true }),
       Carrier.countDocuments({ isVerified: false }),
       Carrier.countDocuments({ isPremium: true }),
+      // Przewoźnicy którzy mają konto ale nie zgłosili firmy
+      User.countDocuments({ 
+        userType: 'carrier',
+        _id: { $nin: await Carrier.distinct('userId') }
+      }),
       Review.countDocuments(),
-      User.find().sort({ createdAt: -1 }).limit(5).select('email firstName lastName userType createdAt'),
-      Carrier.find().populate('userId', 'email').sort({ createdAt: -1 }).limit(5),
+      User.find().sort({ createdAt: -1 }).limit(10).select('email firstName lastName userType createdAt isPremium'),
+      Carrier.find().populate('userId', 'email firstName lastName').sort({ createdAt: -1 }).limit(10).select('companyName isVerified isPremium createdAt userId'),
       Review.find().populate('userId', 'firstName lastName').populate('carrierId', 'companyName').sort({ createdAt: -1 }).limit(5)
     ])
 
     res.json({
       stats: {
         totalUsers,
-        totalCarriers,
-        totalCustomers,
+        carriersWithAccount,
+        customersWithAccount,
+        totalCarrierCompanies,
+        verifiedCarriers,
+        unverifiedCarriers,
+        premiumCarriers,
+        carriersWithoutCompany,
+        totalReviews
+      },
+      recent: {
+        users: recentUsers,
+        carriers: recentCarriers,
+        reviews: recentReviews
+      }
+    })
         verifiedCarriers,
         unverifiedCarriers,
         premiumCarriers,
