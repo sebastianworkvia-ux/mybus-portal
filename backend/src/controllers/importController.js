@@ -68,7 +68,11 @@ export const importCarriers = async (req, res, next) => {
     // Parsuj CSV
     await new Promise((resolve, reject) => {
       fs.createReadStream(req.file.path, { encoding: 'utf-8' })
-        .pipe(csv({ separator: ';' }))
+        .pipe(csv({ 
+          separator: ';',
+          skipEmptyLines: true,
+          headers: true
+        }))
         .on('data', (row) => {
           results.push(row)
         })
