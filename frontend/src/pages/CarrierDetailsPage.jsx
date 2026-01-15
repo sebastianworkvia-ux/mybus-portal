@@ -134,10 +134,34 @@ export default function CarrierDetailPage() {
               <p><strong>Strona:</strong> <a href={carrier.website} target="_blank" rel="noopener noreferrer">{carrier.website}</a></p>
             )}
 
-            {carrier.departureDays && carrier.departureDays.length > 0 && (
+            {carrier.isFlexible ? (
               <>
-                <h3>📅 Dni wyjazdów</h3>
-                <p>{carrier.departureDays.join(', ')}</p>
+                <h3>📅 Terminy dojazdów</h3>
+                <p><strong>Elastyczne terminy</strong> - dojazdy ustalane indywidualnie</p>
+              </>
+            ) : (
+              <>
+                {carrier.departureDays && carrier.departureDays.length > 0 && (
+                  <>
+                    <h3>📅 Dni wyjazdów do Polski</h3>
+                    <p>{carrier.departureDays.join(', ')}</p>
+                  </>
+                )}
+                {carrier.returnDays && carrier.returnDays.length > 0 && (
+                  <>
+                    <h3>📅 Dni powrotów z Polski</h3>
+                    <p>{carrier.returnDays.join(', ')}</p>
+                  </>
+                )}
+              </>
+            )}
+
+            {carrier.luggageInfo && (carrier.luggageInfo.maxPieces || carrier.luggageInfo.maxWeight || carrier.luggageInfo.additionalInfo) && (
+              <>
+                <h3>🧳 Informacje o bagażu</h3>
+                {carrier.luggageInfo.maxPieces && <p><strong>Maksymalna liczba sztuk:</strong> {carrier.luggageInfo.maxPieces}</p>}
+                {carrier.luggageInfo.maxWeight && <p><strong>Maksymalna waga:</strong> {carrier.luggageInfo.maxWeight} kg</p>}
+                {carrier.luggageInfo.additionalInfo && <p><strong>Uwagi:</strong> {carrier.luggageInfo.additionalInfo}</p>}
               </>
             )}
           </section>

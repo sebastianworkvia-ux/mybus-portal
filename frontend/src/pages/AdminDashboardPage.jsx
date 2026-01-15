@@ -13,6 +13,8 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState('')
   const [syncing, setSyncing] = useState(false)
   const [syncMessage, setSyncMessage] = useState('')
+  const [importing, setImporting] = useState(false)
+  const [importMessage, setImportMessage] = useState('')
 
   useEffect(() => {
     if (!user) {
@@ -62,14 +64,64 @@ export default function AdminDashboardPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="admin-dashboard-page">
-        <div className="container">
-          <p>Ładowanie...</p>
-        </div>
-      </div>
-    )
+  const handleImportCarriers = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    if (!file.name.endsWith('.csv')) {
+      setImportMessage('❌ Tylko pliki CSV są obsługiwane')
+      setTimeout(() => setImportMessage(''), 3000)
+      return
+    }
+
+    try {
+      setImporting(true)
+      setImportMessage('📤 Przesyłanie i importowanie...')
+
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await apiClient.post('/import/carriers', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+
+      setImportMessage(`✅ Zaimportowano: ${response.data.imported}, Pominięto: ${response.data.skipped}, Błędy: ${response.data.errors}`)
+      
+      // Odśwież statystyki
+      fetchStats()
+      
+      setTimeout(() => setImportMessage(''), 8000)
+    } catch (err) {
+      setImportMessage('❌ Błąd importu: ' + (err.response?.data?.error || err.message))
+    } finally {
+      setImporting(false)
+      e.target.value = '' // Reset input
+    }label className="btn-quick-action import" style={{cursor: 'pointer', margin: 0}}>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleImportCarriers}
+                disabled={importing}
+                style={{display: 'none'}}
+              />
+              📤 {importing ? 'Importowanie...' : 'Importuj CSV'}
+            </label>
+            <button 
+              onClick={handleSyncAirtable} 
+              className="btn-quick-action airtable"
+              disabled={syncing}
+            >
+              🔄 {syncing ? 'Synchronizacja...' : 'Sync Google Sheets'}
+            </button>
+            <Link to="/admin/verify" className="btn-quick-action">
+              ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
+            </Link>
+          </div>
+          {importMessage && (
+            <div className={`sync-message ${importMessage.includes('✅') ? 'success' : 'error'}`}>
+              {importMessage}
+            </div>
+          )}
   }
 
   if (error) {

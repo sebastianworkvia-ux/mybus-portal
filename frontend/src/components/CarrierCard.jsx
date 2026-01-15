@@ -58,6 +58,29 @@ export default function CarrierCard({ carrier }) {
         </span>
       </div>
 
+      {(carrier.departureDays?.length > 0 || carrier.returnDays?.length > 0 || carrier.isFlexible) && (
+        <div className="schedule-info" style={{marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a5568'}}>
+          {carrier.isFlexible ? (
+            <p><strong>📅</strong> Elastyczne terminy</p>
+          ) : (
+            <>
+              {carrier.departureDays?.length > 0 && (
+                <p><strong>→ Do Polski:</strong> {carrier.departureDays.join(', ')}</p>
+              )}
+              {carrier.returnDays?.length > 0 && (
+                <p><strong>← Z Polski:</strong> {carrier.returnDays.join(', ')}</p>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {carrier.luggageInfo && (carrier.luggageInfo.maxPieces || carrier.luggageInfo.maxWeight) && (
+        <div className="luggage-info" style={{marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a5568'}}>
+          <p><strong>🧳 Bagaż:</strong> {carrier.luggageInfo.maxPieces && `${carrier.luggageInfo.maxPieces} szt.`} {carrier.luggageInfo.maxWeight && `/ ${carrier.luggageInfo.maxWeight} kg`}</p>
+        </div>
+      )}
+
       {carrier.phone && (
         <p className="contact">
           <strong>Tel:</strong> {carrier.phone}

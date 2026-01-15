@@ -45,6 +45,18 @@
   cursor: pointer;
 }
 
+.btn-quick-action.import {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.btn-quick-action.import:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 .btn-quick-action.airtable:hover {
   box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }

@@ -14,6 +14,7 @@ import userSettingsRoutes from './routes/userSettings.js'
 import paymentRoutes from './routes/payments.js'
 import analyticsRoutes from './routes/analytics.js'
 import airtableRoutes from './routes/airtable.js'
+import importRoutes from './routes/import.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -59,6 +60,7 @@ app.use('/user', userSettingsRoutes)
 app.use('/payments', paymentRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/airtable', airtableRoutes)
+app.use('/import', importRoutes)
 
 // Error handling middleware
 app.use(errorHandler)
