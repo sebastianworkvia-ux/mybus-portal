@@ -1,6 +1,7 @@
 import fs from 'fs'
 import csv from 'csv-parser'
 import bcrypt from 'bcryptjs'
+import axios from 'axios'
 import User from '../models/User.js'
 import Carrier from '../models/Carrier.js'
 
@@ -54,6 +55,35 @@ function parseServices(servicesStr) {
   return [...new Set(services)]
 }
 
+async function geocodeAddress(postalCode, city, country = 'PL') {
+  if (!postalCode && !city) return null
+  
+  try {
+    const query = `${postalCode || ''} ${city || ''}, ${country}`
+    const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+      params: {
+        q: query,
+        format: 'json',
+        limit: 1
+      },
+      headers: {
+        'User-Agent': 'MyBus-Transport-Portal'
+      }
+    })
+
+    if (response.data && response.data.length > 0) {
+      return {
+        lat: parseFloat(response.data[0].lat),
+        lng: parseFloat(response.data[0].lon)
+      }
+    }
+    return null
+  } catch (err) {
+    console.error(`Błąd geokodowania dla ${postalCode} ${city}:`, err.message)
+    return null
+  }
+}
+
 export const importCarriers = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -97,28 +127,34 @@ export const importCarriers = async (req, res, next) => {
         if (existingCarrier) {
           skipped++
           continue
-        }
+        }Geokoduj adres (z opóźnieniem 1s żeby nie przekroczyć limitu API)
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        const coordinates = await geocodeAddress(postalCode, city, 'PL')
 
-        const email = row['Email']?.trim() || `${companyName.toLowerCase().replace(/\s+/g, '')}@imported.mybus.eu`
-        const phone = row['Numer telefonu']?.trim()
-        const website = row['Strona WWW']?.trim()
-        const postalCode = row['Kod pocztowy']?.trim()
-        const city = row['Miasto']?.trim()
-        const operatingCountriesStr = row['Wybierz kraje, w których świadczysz usługi transportowe']?.trim()
-        const servicesStr = row['Oferowane usługi']?.trim()
-        const description = row['Opis firmy']?.trim() || `Firma transportowa ${companyName}`
-        const companyRegistration = row['Numer rejestracyjny firmy']?.trim() || 'IMPORT'
-
-        // Utwórz użytkownika
-        const hashedPassword = await bcrypt.hash('TymczasoweHaslo123!', 10)
-        const user = await User.create({
-          email,
-          password: hashedPassword,
-          firstName: companyName,
-          lastName: 'Import',
-          userType: 'carrier',
+        // Utwórz przewoźnika
+        await Carrier.create({
+          userId: user._id,
+          companyName,
+          companyRegistration,
+          country: 'PL',
+          description,
+          phone,
+          email: row['Email']?.trim() || undefined,
+          website,
+          services,
+          operatingCountries: operatingCountries.slice(0, 5), // max 5 krajów
+          location: {
+            postalCode,
+            city,
+            coordinates
+          },
           isPremium: false,
-          isAdmin: false,
+          isVerified: false,
+          isActive: true
+        })
+
+        imported++
+        console.log(`✅ ${companyName} - zaimportowano ${coordinates ? 'z współrzędnymi' : 'bez współrzędnych'}`) false,
           isActive: true
         })
 
