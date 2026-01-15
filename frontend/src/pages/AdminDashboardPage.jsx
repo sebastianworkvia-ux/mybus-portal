@@ -96,23 +96,18 @@ export default function AdminDashboardPage() {
     } finally {
       setImporting(false)
       e.target.value = '' // Reset input
-    }label className="btn-quick-action import" style={{cursor: 'pointer', margin: 0}}>
-              <input
-                type="file"
-                accept=".csv"
-                onChange={handleImportCarriers}
-                disabled={importing}
-                style={{display: 'none'}}
-              />
-              📤 {importing ? 'Importowanie...' : 'Importuj CSV'}
-            </label>
-            <button 
-              onClick={handleSyncAirtable} 
-              className="btn-quick-action airtable"
-              disabled={syncing}
-            >
-              🔄 {syncing ? 'Synchronizacja...' : 'Sync Google Sheets'}
-            </button>
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-dashboard-page">
+        <div className="container">
+          <p>Ładowanie...</p>
+        </div>
+      </div>
+    )
+  }
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
             </Link>
