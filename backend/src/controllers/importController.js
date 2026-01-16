@@ -100,6 +100,8 @@ export const importCarriers = async (req, res, next) => {
       fs.createReadStream(req.file.path, { encoding: 'utf-8' })
         .pipe(csv({ 
           separator: ';',
+          skipLines: 0,
+          mapHeaders: ({ header }) => header.trim(),
           skipEmptyLines: true,
           headers: true
         }))
@@ -119,6 +121,12 @@ export const importCarriers = async (req, res, next) => {
 
     // Przetwórz każdy wiersz
     for (const row of results) {
+      // Pomiń całkowicie puste wiersze
+      const allFieldsEmpty = Object.values(row).every(val => !val || val.trim() === '')
+      if (allFieldsEmpty) {
+        continue
+      }
+
       const companyName = row['Nazwa firmy']?.trim()
       const companyRegistration = row['Numer rejestracyjny firmy']?.trim()
       const country = row['Kraj działalności']?.trim()
@@ -142,7 +150,6 @@ export const importCarriers = async (req, res, next) => {
       description = description.trim()
       
       if (!companyName) {
-        console.log(`⚠️ Pominięto wiersz - brak nazwy firmy. Dane:`, Object.keys(row))
         skipped++
         continue
       }
