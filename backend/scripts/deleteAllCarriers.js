@@ -1,11 +1,17 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import Carrier from '../src/models/Carrier.js'
 
-dotenv.config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+dotenv.config({ path: join(__dirname, '../.env') })
 
 async function deleteAllCarriers() {
   try {
+    console.log('📡 Łączę z MongoDB...')
     await mongoose.connect(process.env.MONGODB_URI)
     console.log('✅ Połączono z MongoDB')
 

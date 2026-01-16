@@ -332,4 +332,17 @@ router.get('/stats', adminMiddleware, async (req, res) => {
   }
 })
 
+// Delete all carriers (be careful!)
+router.delete('/carriers/all', adminMiddleware, async (req, res) => {
+  try {
+    const result = await Carrier.deleteMany({})
+    res.json({ 
+      message: 'Wszystkie firmy usunięte',
+      deletedCount: result.deletedCount 
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 export default router
