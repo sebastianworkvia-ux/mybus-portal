@@ -112,6 +112,11 @@ export const importCarriers = async (req, res, next) => {
 
     console.log(`📋 Znaleziono ${results.length} wierszy w CSV`)
 
+    // Pokaż nazwy kolumn z pierwszego wiersza
+    if (results.length > 0) {
+      console.log('📝 Kolumny w CSV:', Object.keys(results[0]))
+    }
+
     // Przetwórz każdy wiersz
     for (const row of results) {
       const companyName = row['Nazwa firmy']?.trim()
@@ -137,6 +142,7 @@ export const importCarriers = async (req, res, next) => {
       description = description.trim()
       
       if (!companyName) {
+        console.log(`⚠️ Pominięto wiersz - brak nazwy firmy. Dane:`, Object.keys(row))
         skipped++
         continue
       }
