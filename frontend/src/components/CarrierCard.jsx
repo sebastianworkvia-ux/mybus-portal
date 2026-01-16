@@ -75,25 +75,9 @@ export default function CarrierCard({ carrier }) {
         </div>
       )}
 
-      {carrier.luggageInfo && (carrier.luggageInfo.maxPieces || carrier.luggageInfo.maxWeight) && (
-        <div className="luggage-info" style={{marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a5568'}}>
-          <p><strong>🧳 Bagaż:</strong> {carrier.luggageInfo.maxPieces && `${carrier.luggageInfo.maxPieces} szt.`} {carrier.luggageInfo.maxWeight && `/ ${carrier.luggageInfo.maxWeight} kg`}</p>
-        </div>
-      )}
-
       {carrier.phone && (
         <p className="contact">
           <strong>Tel:</strong> {carrier.phone}
-        </p>
-      )}
-      {carrier.email && (
-        <p className="contact">
-          <strong>Email:</strong> {carrier.email}
-        </p>
-      )}
-      {(carrier.location?.city || carrier.location?.postalCode) && (
-        <p className="contact">
-          <strong>📍 Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}
         </p>
       )}
 
