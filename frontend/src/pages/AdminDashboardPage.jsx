@@ -11,8 +11,6 @@ export default function AdminDashboardPage() {
   const [recent, setRecent] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [syncing, setSyncing] = useState(false)
-  const [syncMessage, setSyncMessage] = useState('')
   const [importing, setImporting] = useState(false)
   const [importMessage, setImportMessage] = useState('')
 
@@ -40,27 +38,6 @@ export default function AdminDashboardPage() {
       setError(err.response?.data?.error || 'Błąd podczas pobierania statystyk')
     } finally {
       setLoading(false)
-    }
-  }
-
-  const handleSyncAirtable = async () => {
-    if (!confirm('Czy na pewno chcesz zsynchronizować wszystkie dane do Google Sheets? To może potrwać kilka minut.')) {
-      return
-    }
-
-    try {
-      setSyncing(true)
-      setSyncMessage('Synchronizacja w toku...')
-      
-      const response = await apiClient.post('/airtable/sync/all')
-      
-      setSyncMessage(`✅ Sukces! Przewoźnicy: ${response.data.carriers.success}/${response.data.carriers.success + response.data.carriers.failed}, Użytkownicy: ${response.data.users.success}/${response.data.users.success + response.data.users.failed}`)
-      
-      setTimeout(() => setSyncMessage(''), 5000)
-    } catch (err) {
-      setSyncMessage('❌ Błąd synchronizacji: ' + (err.response?.data?.error || err.message))
-    } finally {
-      setSyncing(false)
     }
   }
 
@@ -131,22 +108,10 @@ export default function AdminDashboardPage() {
             <Link to="/admin/stats" className="btn-quick-action secondary">
               📊 Statystyki systemu
             </Link>
-            <button 
-              onClick={handleSyncAirtable} 
-              className="btn-quick-action airtable"
-              disabled={syncing}
-            >
-              🔄 {syncing ? 'Synchronizacja...' : 'Sync Google Sheets'}
-            </button>
             <Link to="/admin/verify" className="btn-quick-action">
               ⚡ Weryfikacja firm ({stats?.unverifiedCarriers || 0})
             </Link>
           </div>
-          {syncMessage && (
-            <div className={`sync-message ${syncMessage.includes('✅') ? 'success' : 'error'}`}>
-              {syncMessage}
-            </div>
-          )}
           
           {/* Import CSV Section */}
           <div className="import-section" style={{marginTop: '1.5rem'}}>

@@ -1,6 +1,5 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
-import { syncUserToSheets } from '../services/googleSheetsService.js'
 
 export const register = async (req, res, next) => {
   try {
@@ -37,11 +36,6 @@ export const register = async (req, res, next) => {
     })
 
     await user.save()
-
-    // Synchronizacja do Google Sheets (asynchronicznie, nie blokuje odpowiedzi)
-    syncUserToSheets(user).catch(err => 
-      console.error('Google Sheets sync failed:', err.message)
-    )
 
     const token = jwt.sign(
       { id: user._id, email: user.email },

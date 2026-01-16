@@ -1,6 +1,5 @@
 import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
-import { syncCarrierToSheets, updateCarrierInSheets } from '../services/googleSheetsService.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
@@ -69,11 +68,6 @@ export const createCarrier = async (req, res, next) => {
 
     await carrier.save()
 
-    // Synchronizacja do Google Sheets
-    syncCarrierToSheets(carrier).catch(err => 
-      console.error('Google Sheets sync failed:', err.message)
-    )
-
     res.status(201).json(carrier)
   } catch (error) {
     next(error)
@@ -89,11 +83,6 @@ export const updateCarrier = async (req, res, next) => {
 
     Object.assign(carrier, req.body)
     await carrier.save()
-
-    // Aktualizacja w Google Sheets
-    updateCarrierInSheets(carrier._id.toString(), req.body).catch(err => 
-      console.error('Google Sheets update failed:', err.message)
-    )
 
     res.json(carrier)
   } catch (error) {
