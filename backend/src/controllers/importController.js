@@ -149,25 +149,7 @@ export const importCarriers = async (req, res, next) => {
           continue
         }
 
-        // Znajdź użytkownika tylko jeśli email istnieje
-        let userId = null
-        if (email) {
-          let user = await User.findOne({ email })
-          if (!user) {
-            // Utwórz konto dla przewoźnika z prawdziwym emailem
-            const password = await bcrypt.hash('TymczasoweHaslo123!', 10)
-            user = await User.create({
-              email,
-              password,
-              firstName: companyName.split(' ')[0],
-              lastName: 'Przewoźnik',
-              userType: 'carrier',
-              isPremium: false
-            })
-          }
-          userId = user._id
-        }
-        // Jeśli brak emaila - firma bez konta użytkownika
+        // Import CSV tworzy TYLKO karty firm, bez kont użytkowników
         
         // Parsuj kraje i usługi
         const operatingCountries = parseCountries(operatingCountriesStr)
@@ -186,11 +168,11 @@ export const importCarriers = async (req, res, next) => {
         await new Promise(resolve => setTimeout(resolve, 1000))
         const coordinates = await geocodeAddress(postalCode, city, carrierCountry)
 
-        // Utwórz przewoźnika
+        // Utwórz przewoźnika (bez konta użytkownika)
         await Carrier.create({
-          userId,
+          userId: null,
           companyName,
-          companyRegistration,
+          companyRegistration: companyRegistration || undefined,
           country: carrierCountry,
           description,
           phone,

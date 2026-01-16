@@ -13,7 +13,7 @@ const carrierSchema = new mongoose.Schema(
     },
     companyRegistration: {
       type: String,
-      required: true
+      required: false
     },
     country: {
       type: String,

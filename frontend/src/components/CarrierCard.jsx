@@ -91,6 +91,11 @@ export default function CarrierCard({ carrier }) {
           <strong>Email:</strong> {carrier.email}
         </p>
       )}
+      {(carrier.location?.city || carrier.location?.postalCode) && (
+        <p className="contact">
+          <strong>📍 Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}
+        </p>
+      )}
 
       <Link to={`/carrier/${carrier._id}`} className="btn-details">
         Więcej szczegółów

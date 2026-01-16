@@ -138,6 +138,9 @@ export default function CarrierDetailPage() {
             {carrier.website && (
               <p><strong>Strona:</strong> <a href={carrier.website} target="_blank" rel="noopener noreferrer">{carrier.website}</a></p>
             )}
+            {(carrier.location?.city || carrier.location?.postalCode) && (
+              <p><strong>Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}</p>
+            )}
 
             {carrier.isFlexible ? (
               <>
