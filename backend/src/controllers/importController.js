@@ -154,13 +154,18 @@ export const importCarriers = async (req, res, next) => {
         continue
       }
 
+      console.log(`📦 Przetwarzanie: "${companyName}"`)
+
       try {
         // Sprawdź czy firma już istnieje
         const existingCarrier = await Carrier.findOne({ companyName })
         if (existingCarrier) {
+          console.log(`  ⏭️ Pomijam - firma już istnieje`)
           skipped++
           continue
         }
+
+        console.log(`  ✅ Nowa firma - importuję`)
 
         // Import CSV tworzy TYLKO karty firm, bez kont użytkowników
         
