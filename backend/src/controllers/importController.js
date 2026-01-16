@@ -2,6 +2,7 @@ import fs from 'fs'
 import csv from 'csv-parser'
 import bcrypt from 'bcryptjs'
 import axios from 'axios'
+import iconv from 'iconv-lite'
 import User from '../models/User.js'
 import Carrier from '../models/Carrier.js'
 
@@ -121,13 +122,34 @@ export const importCarriers = async (req, res, next) => {
     let imported = 0
     let skipped = 0
 
-    // Parsuj CSV
+    // Parsuj CSV z auto-detekcją kodowania
     await new Promise((resolve, reject) => {
-      fs.createReadStream(req.file.path, { encoding: 'utf-8' })
+      // Najpierw odczytaj plik jako buffer żeby wykryć kodowanie
+      const buffer = fs.readFileSync(req.file.path)
+      
+      // Spróbuj różnych kodowań - Windows-1250 (Europa Środkowa) lub ISO-8859-2
+      let decoded
+      try {
+        // Próba 1: Windows-1250 (najczęstsze dla polskich plików)
+        decoded = iconv.decode(buffer, 'windows-1250')
+      } catch (e) {
+        try {
+          // Próba 2: ISO-8859-2
+          decoded = iconv.decode(buffer, 'iso-8859-2')
+        } catch (e2) {
+          // Próba 3: UTF-8 (jeśli jednak był OK)
+          decoded = buffer.toString('utf-8')
+        }
+      }
+      
+      console.log('📝 Przykład dekodowanego tekstu:', decoded.substring(0, 200))
+      
+      // Parsuj zdekodowany string
+      const { Readable } = require('stream')
+      Readable.from([decoded])
         .pipe(csv({ 
           separator: ';',
           mapHeaders: ({ header }) => {
-            // Usuń BOM z pierwszego nagłówka i trim
             return header.replace(/^\uFEFF/, '').trim()
           },
           skipEmptyLines: true
