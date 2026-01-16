@@ -100,10 +100,11 @@ export const importCarriers = async (req, res, next) => {
       fs.createReadStream(req.file.path, { encoding: 'utf-8' })
         .pipe(csv({ 
           separator: ';',
-          skipLines: 0,
-          mapHeaders: ({ header }) => header.trim(),
-          skipEmptyLines: true,
-          headers: true
+          mapHeaders: ({ header }) => {
+            // Usuń BOM z pierwszego nagłówka i trim
+            return header.replace(/^\uFEFF/, '').trim()
+          },
+          skipEmptyLines: true
         }))
         .on('data', (row) => {
           results.push(row)
