@@ -4,7 +4,7 @@ import User from '../models/User.js'
 export const getCarriers = async (req, res, next) => {
   try {
     const { routeFrom, routeTo, service, search } = req.query
-    const query = { isActive: true, isVerified: true }
+    const query = { isActive: true }
 
     // Filtrowanie po krajach obsługi
     if (routeFrom || routeTo) {

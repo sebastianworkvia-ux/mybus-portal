@@ -332,10 +332,10 @@ router.get('/stats', adminMiddleware, async (req, res) => {
   }
 })
 
-// Delete all carriers (be careful!)
+// Delete all carriers except premium (be careful!)
 router.delete('/carriers/all', adminMiddleware, async (req, res) => {
   try {
-    const result = await Carrier.deleteMany({})
+    const result = await Carrier.deleteMany({ isPremium: { $ne: true } })
     res.json({ 
       message: 'Wszystkie firmy usunięte',
       deletedCount: result.deletedCount 
