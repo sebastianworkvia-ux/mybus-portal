@@ -17,7 +17,13 @@ const COUNTRY_MAP = {
   'Dania': 'DK',
   'Norwegia': 'NO',
   'Anglia': 'GB',
-  'Luksemburg': 'LU'
+  'Luksemburg': 'LU',
+  'DE': 'DE',
+  'NL': 'NL',
+  'BE': 'BE',
+  'FR': 'FR',
+  'AT': 'AT',
+  'PL': 'PL'
 }
 
 // Mapowanie usług
@@ -28,16 +34,27 @@ const SERVICE_MAP = {
   'Transport rzeczy': 'transport-rzeczy',
   'Przeprowadzki': 'przeprowadzki',
   'Zwierzęta': 'zwierzeta',
-  'Dokumenty': 'dokumenty'
+  'Dokumenty': 'dokumenty',
+  'transport': 'transport',
+  'paczki': 'paczki'
 }
 
 function parseCountries(countriesStr) {
   if (!countriesStr) return []
   
-  const countries = countriesStr
-    .split(',')
-    .map(c => c.trim())
-    .map(c => COUNTRY_MAP[c])
+  const rawCountries = countriesStr.split(',').map(c => c.trim())
+  const countries = rawCountries
+    .map(c => {
+      // Próbuj bezpośrednio z mapy
+      if (COUNTRY_MAP[c]) return COUNTRY_MAP[c]
+      // Normalizuj - usuń dziwne znaki, zostaw tylko podstawowe
+      const normalized = c.replace(/[^A-Za-z]/g, '')
+      // Sprawdź czy to jest już kod kraju
+      if (['DE', 'NL', 'BE', 'FR', 'AT', 'PL', 'CH', 'DK', 'NO', 'GB', 'LU'].includes(normalized.toUpperCase())) {
+        return normalized.toUpperCase()
+      }
+      return null
+    })
     .filter(Boolean)
   
   return [...new Set(countries)]
@@ -46,10 +63,19 @@ function parseCountries(countriesStr) {
 function parseServices(servicesStr) {
   if (!servicesStr) return ['transport']
   
-  const services = servicesStr
-    .split(',')
-    .map(s => s.trim())
-    .map(s => SERVICE_MAP[s] || 'inne')
+  const rawServices = servicesStr.split(',').map(s => s.trim())
+  const services = rawServices
+    .map(s => {
+      // Próbuj z mapy
+      if (SERVICE_MAP[s]) return SERVICE_MAP[s]
+      // Normalizuj
+      const lower = s.toLowerCase()
+      if (lower.includes('przew') || lower.includes('osob')) return 'transport'
+      if (lower.includes('paczk')) return 'paczki'
+      if (lower.includes('przeprowadz')) return 'przeprowadzki'
+      if (lower.includes('rzecz')) return 'transport-rzeczy'
+      return 'transport'
+    })
     .filter(Boolean)
   
   return [...new Set(services)]
