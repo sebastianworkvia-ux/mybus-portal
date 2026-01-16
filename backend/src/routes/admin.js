@@ -332,6 +332,50 @@ router.get('/stats', adminMiddleware, async (req, res) => {
   }
 })
 
+// Restore premium carriers
+router.post('/carriers/restore-premium', adminMiddleware, async (req, res) => {
+  try {
+    const premiumCarriers = [
+      {
+        userId: null, companyName: 'EuroShuttle Express', companyRegistration: 'EU-123456', country: 'PL',
+        description: 'Profesjonalne przewozy międzynarodowe do Niemiec, Holandii i Belgii.',
+        phone: '+48 123 456 789', email: 'kontakt@euroshuttle.pl', website: 'https://euroshuttle.pl',
+        services: ['transport', 'paczki'], operatingCountries: ['DE', 'NL', 'BE', 'PL'],
+        location: { postalCode: '00-001', city: 'Warszawa' }, isPremium: true, isVerified: true, isActive: true
+      },
+      {
+        userId: null, companyName: 'Poland Express Transport', companyRegistration: 'PL-789012', country: 'PL',
+        description: 'Szybkie przewozy osób i paczek.',
+        phone: '+48 234 567 890', services: ['transport', 'paczki'], operatingCountries: ['DE', 'NL', 'PL'],
+        location: { postalCode: '02-001', city: 'Warszawa' }, isPremium: true, isVerified: true, isActive: true
+      },
+      {
+        userId: null, companyName: 'München Shuttle Service', companyRegistration: 'DE-345678', country: 'DE',
+        description: 'Transport Polska-Niemcy.',
+        phone: '+49 89 123 4567', services: ['transport'], operatingCountries: ['DE', 'PL'],
+        location: { postalCode: '80331', city: 'München' }, isPremium: true, isVerified: true, isActive: true
+      },
+      {
+        userId: null, companyName: 'Austria Bus Connect', companyRegistration: 'AT-567890', country: 'AT',
+        description: 'Połączenia Austria-Polska.',
+        phone: '+43 1 234 5678', services: ['transport'], operatingCountries: ['AT', 'PL'],
+        location: { postalCode: '1010', city: 'Wien' }, isPremium: true, isVerified: true, isActive: true
+      }
+    ]
+    let added = 0
+    for (const data of premiumCarriers) {
+      const exists = await Carrier.findOne({ companyName: data.companyName })
+      if (!exists) {
+        await Carrier.create(data)
+        added++
+      }
+    }
+    res.json({ message: `Dodano ${added} firm premium`, added })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // Delete all carriers except premium (be careful!)
 router.delete('/carriers/all', adminMiddleware, async (req, res) => {
   try {
