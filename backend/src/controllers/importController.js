@@ -3,6 +3,7 @@ import csv from 'csv-parser'
 import bcrypt from 'bcryptjs'
 import axios from 'axios'
 import iconv from 'iconv-lite'
+import { Readable } from 'stream'
 import User from '../models/User.js'
 import Carrier from '../models/Carrier.js'
 
@@ -145,7 +146,6 @@ export const importCarriers = async (req, res, next) => {
       console.log('📝 Przykład dekodowanego tekstu:', decoded.substring(0, 200))
       
       // Parsuj zdekodowany string
-      const { Readable } = require('stream')
       Readable.from([decoded])
         .pipe(csv({ 
           separator: ';',
