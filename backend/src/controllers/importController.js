@@ -138,12 +138,12 @@ export const importCarriers = async (req, res, next) => {
           continue
         }
 
-        // Znajdź lub utwórz użytkownika
-        let user
+        // Znajdź użytkownika tylko jeśli email istnieje
+        let userId = null
         if (email) {
-          user = await User.findOne({ email })
+          let user = await User.findOne({ email })
           if (!user) {
-            // Utwórz domyślne konto dla przewoźnika
+            // Utwórz konto dla przewoźnika z prawdziwym emailem
             const password = await bcrypt.hash('TymczasoweHaslo123!', 10)
             user = await User.create({
               email,
@@ -154,19 +154,9 @@ export const importCarriers = async (req, res, next) => {
               isPremium: false
             })
           }
-        } else {
-          // Jeśli brak emaila, utwórz generyczny email
-          const generatedEmail = `import_${Date.now()}_${Math.random().toString(36).substring(7)}@mybus.temp`
-          const password = await bcrypt.hash('TymczasoweHaslo123!', 10)
-          user = await User.create({
-            email: generatedEmail,
-            password,
-            firstName: companyName.split(' ')[0],
-            lastName: 'Import',
-            userType: 'carrier',
-            isPremium: false
-          })
+          userId = user._id
         }
+        // Jeśli brak emaila - firma bez konta użytkownika
         
         // Parsuj kraje i usługi
         const operatingCountries = parseCountries(operatingCountriesStr)
@@ -178,7 +168,7 @@ export const importCarriers = async (req, res, next) => {
 
         // Utwórz przewoźnika
         await Carrier.create({
-          userId: user._id,
+          userId,
           companyName,
           companyRegistration,
           country: 'PL',
