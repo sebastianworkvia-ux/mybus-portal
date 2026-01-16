@@ -59,17 +59,6 @@ router.get('/stats', adminMiddleware, async (req, res) => {
         reviews: recentReviews
       }
     })
-        verifiedCarriers,
-        unverifiedCarriers,
-        premiumCarriers,
-        totalReviews
-      },
-      recent: {
-        users: recentUsers,
-        carriers: recentCarriers,
-        reviews: recentReviews
-      }
-    })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

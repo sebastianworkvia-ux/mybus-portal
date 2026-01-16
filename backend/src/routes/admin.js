@@ -45,6 +45,29 @@ router.post('/verify-carrier/:carrierId', adminMiddleware, async (req, res) => {
   }
 })
 
+// Bulk verify carriers (masowa weryfikacja)
+router.post('/verify-carriers-bulk', adminMiddleware, async (req, res) => {
+  try {
+    const { carrierIds } = req.body
+    
+    if (!carrierIds || !Array.isArray(carrierIds) || carrierIds.length === 0) {
+      return res.status(400).json({ error: 'Brak firm do weryfikacji' })
+    }
+    
+    const result = await Carrier.updateMany(
+      { _id: { $in: carrierIds } },
+      { $set: { isVerified: true } }
+    )
+    
+    res.json({ 
+      message: `Zweryfikowano ${result.modifiedCount} firm`,
+      verified: result.modifiedCount
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // Reject carrier
 router.post('/reject-carrier/:carrierId', adminMiddleware, async (req, res) => {
   try {

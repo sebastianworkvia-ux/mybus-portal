@@ -10,6 +10,8 @@ export default function AdminVerifyPage() {
   const [carriers, setCarriers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [selectedCarriers, setSelectedCarriers] = useState([])
+  const [bulkLoading, setBulkLoading] = useState(false)
 
   useEffect(() => {
     if (!user) {
@@ -56,9 +58,54 @@ export default function AdminVerifyPage() {
     try {
       await apiClient.post(`/admin/reject-carrier/${carrierId}`)
       setCarriers(carriers.filter(c => c._id !== carrierId))
+      setSelectedCarriers(selectedCarriers.filter(id => id !== carrierId))
       alert('Firma odrzucona i usunięta')
     } catch (err) {
       alert(err.response?.data?.error || 'Błąd podczas odrzucania')
+    }
+  }
+
+  const handleToggleSelect = (carrierId) => {
+    setSelectedCarriers(prev => 
+      prev.includes(carrierId)
+        ? prev.filter(id => id !== carrierId)
+        : [...prev, carrierId]
+    )
+  }
+
+  const handleSelectAll = () => {
+    if (selectedCarriers.length === carriers.length) {
+      setSelectedCarriers([])
+    } else {
+      setSelectedCarriers(carriers.map(c => c._id))
+    }
+  }
+
+  const handleBulkVerify = async () => {
+    if (selectedCarriers.length === 0) {
+      alert('Nie zaznaczono żadnych firm')
+      return
+    }
+
+    if (!confirm(`Czy na pewno chcesz zweryfikować ${selectedCarriers.length} firm?`)) {
+      return
+    }
+
+    try {
+      setBulkLoading(true)
+      const response = await apiClient.post('/admin/verify-carriers-bulk', {
+        carrierIds: selectedCarriers
+      })
+      
+      // Usuń zweryfikowane firmy z listy
+      setCarriers(carriers.filter(c => !selectedCarriers.includes(c._id)))
+      setSelectedCarriers([])
+      
+      alert(response.data.message || `Zweryfikowano ${selectedCarriers.length} firm!`)
+    } catch (err) {
+      alert(err.response?.data?.error || 'Błąd podczas masowej weryfikacji')
+    } finally {
+      setBulkLoading(false)
     }
   }
 
@@ -84,13 +131,53 @@ export default function AdminVerifyPage() {
             <p>✅ Brak firm do weryfikacji</p>
           </div>
         ) : (
-          <div className="carriers-list">
-            {carriers.map(carrier => (
-              <div key={carrier._id} className="carrier-verify-card">
-                <div className="carrier-header">
-                  <h3>{carrier.companyName}</h3>
-                  {carrier.isPremium && <span className="premium-badge">PREMIUM</span>}
-                </div>
+          <>
+            <div className="bulk-actions">
+              <div className="bulk-actions-left">
+                <label className="select-all-checkbox">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedCarriers.length === carriers.length && carriers.length > 0}
+                    onChange={handleSelectAll}
+                  />
+                  <span>Zaznacz wszystkie ({carriers.length})</span>
+                </label>
+                {selectedCarriers.length > 0 && (
+                  <span className="selected-count">
+                    Zaznaczono: {selectedCarriers.length}
+                  </span>
+                )}
+              </div>
+              {selectedCarriers.length > 0 && (
+                <button 
+                  className="btn-bulk-verify"
+                  onClick={handleBulkVerify}
+                  disabled={bulkLoading}
+                >
+                  {bulkLoading ? '⏳ Weryfikowanie...' : `✓ Zatwierdź zaznaczone (${selectedCarriers.length})`}
+                </button>
+              )}
+            </div>
+
+            <div className="carriers-list">
+              {carriers.map(carrier => (
+                <div 
+                  key={carrier._id} 
+                  className={`carrier-verify-card ${selectedCarriers.includes(carrier._id) ? 'selected' : ''}`}
+                >
+                  <div className="carrier-checkbox">
+                    <input 
+                      type="checkbox"
+                      checked={selectedCarriers.includes(carrier._id)}
+                      onChange={() => handleToggleSelect(carrier._id)}
+                    />
+                  </div>
+                  
+                  <div className="carrier-content">
+                    <div className="carrier-header">
+                      <h3>{carrier.companyName}</h3>
+                      {carrier.isPremium && <span className="premium-badge">PREMIUM</span>}
+                    </div>
                 
                 <div className="carrier-info">
                   <p><strong>Rejestracja:</strong> {carrier.companyRegistration}</p>
@@ -128,9 +215,11 @@ export default function AdminVerifyPage() {
                     ✗ Odrzuć
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

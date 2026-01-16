@@ -115,6 +115,15 @@ export const importCarriers = async (req, res, next) => {
     // Przetwórz każdy wiersz
     for (const row of results) {
       const companyName = row['Nazwa firmy']?.trim()
+      const companyRegistration = row['NIP']?.trim() || row['Numer rejestracyjny']?.trim()
+      const phone = row['Telefon']?.trim()
+      const email = row['Email']?.trim()
+      const website = row['Strona www']?.trim()
+      const description = row['Opis']?.trim()
+      const postalCode = row['Kod pocztowy']?.trim()
+      const city = row['Miasto']?.trim()
+      const operatingCountriesStr = row['Kraje działania']?.trim()
+      const servicesStr = row['Usługi']?.trim()
       
       if (!companyName) {
         skipped++
@@ -127,7 +136,43 @@ export const importCarriers = async (req, res, next) => {
         if (existingCarrier) {
           skipped++
           continue
-        }Geokoduj adres (z opóźnieniem 1s żeby nie przekroczyć limitu API)
+        }
+
+        // Znajdź lub utwórz użytkownika
+        let user
+        if (email) {
+          user = await User.findOne({ email })
+          if (!user) {
+            // Utwórz domyślne konto dla przewoźnika
+            const password = await bcrypt.hash('TymczasoweHaslo123!', 10)
+            user = await User.create({
+              email,
+              password,
+              firstName: companyName.split(' ')[0],
+              lastName: 'Przewoźnik',
+              userType: 'carrier',
+              isPremium: false
+            })
+          }
+        } else {
+          // Jeśli brak emaila, utwórz generyczny email
+          const generatedEmail = `import_${Date.now()}_${Math.random().toString(36).substring(7)}@mybus.temp`
+          const password = await bcrypt.hash('TymczasoweHaslo123!', 10)
+          user = await User.create({
+            email: generatedEmail,
+            password,
+            firstName: companyName.split(' ')[0],
+            lastName: 'Import',
+            userType: 'carrier',
+            isPremium: false
+          })
+        }
+        
+        // Parsuj kraje i usługi
+        const operatingCountries = parseCountries(operatingCountriesStr)
+        const services = parseServices(servicesStr)
+        
+        // Geokoduj adres (z opóźnieniem 1s żeby nie przekroczyć limitu API)
         await new Promise(resolve => setTimeout(resolve, 1000))
         const coordinates = await geocodeAddress(postalCode, city, 'PL')
 
@@ -139,7 +184,7 @@ export const importCarriers = async (req, res, next) => {
           country: 'PL',
           description,
           phone,
-          email: row['Email']?.trim() || undefined,
+          email: email || undefined,
           website,
           services,
           operatingCountries: operatingCountries.slice(0, 5), // max 5 krajów
@@ -154,40 +199,11 @@ export const importCarriers = async (req, res, next) => {
         })
 
         imported++
-        console.log(`✅ ${companyName} - zaimportowano ${coordinates ? 'z współrzędnymi' : 'bez współrzędnych'}`) false,
-          isActive: true
-        })
+        console.log(`✅ ${companyName} - zaimportowano ${coordinates ? 'z współrzędnymi' : 'bez współrzędnych'}`)
 
-        // Parsuj kraje i usługi
-        const operatingCountries = parseCountries(operatingCountriesStr)
-        const services = parseServices(servicesStr)
-
-        // Utwórz przewoźnika
-        await Carrier.create({
-          userId: user._id,
-          companyName,
-          companyRegistration,
-          country: 'PL',
-          description,
-          phone,
-          email: row['Email']?.trim() || undefined,
-          website,
-          services,
-          operatingCountries: operatingCountries.slice(0, 5), // max 5 krajów
-          location: {
-            postalCode,
-            city
-          },
-          isPremium: false,
-          isVerified: false,
-          isActive: true
-        })
-
-        imported++
-
-      } catch (err) {
-        errors.push({ companyName, error: err.message })
-        console.error(`❌ Błąd dla ${companyName}:`, err.message)
+      } catch (itemError) {
+        console.error(`❌ Błąd dla ${companyName}:`, itemError.message)
+        errors.push(`${companyName}: ${itemError.message}`)
       }
     }
 
