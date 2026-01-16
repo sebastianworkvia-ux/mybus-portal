@@ -115,15 +115,26 @@ export const importCarriers = async (req, res, next) => {
     // Przetwórz każdy wiersz
     for (const row of results) {
       const companyName = row['Nazwa firmy']?.trim()
-      const companyRegistration = row['NIP']?.trim() || row['Numer rejestracyjny']?.trim()
-      const phone = row['Telefon']?.trim()
+      const companyRegistration = row['Numer rejestracyjny firmy']?.trim()
+      const country = row['Kraj działalności']?.trim()
+      const phone = row['Numer telefonu']?.trim()
       const email = row['Email']?.trim()
-      const website = row['Strona www']?.trim()
-      const description = row['Opis']?.trim()
+      const website = row['Strona WWW']?.trim()
+      const descriptionBase = row['Opis firmy']?.trim()
       const postalCode = row['Kod pocztowy']?.trim()
       const city = row['Miasto']?.trim()
-      const operatingCountriesStr = row['Kraje działania']?.trim()
-      const servicesStr = row['Usługi']?.trim()
+      const operatingCountriesStr = row['Wybierz kraje, w których świadczysz usługi transportowe']?.trim()
+      const servicesStr = row['Oferowane usługi']?.trim()
+      const departureDays = row['Dni wyjazdów do Polski']?.trim()
+      const returnDays = row['Dni powrotów z Polski']?.trim()
+      const baggageInfo = row['Informacje o bagażu']?.trim()
+      
+      // Połącz opis z dodatkowymi informacjami
+      let description = descriptionBase || ''
+      if (departureDays) description += `\n\nDni wyjazdów do Polski: ${departureDays}`
+      if (returnDays) description += `\n\nDni powrotów z Polski: ${returnDays}`
+      if (baggageInfo) description += `\n\nInformacje o bagażu: ${baggageInfo}`
+      description = description.trim()
       
       if (!companyName) {
         skipped++
@@ -162,16 +173,25 @@ export const importCarriers = async (req, res, next) => {
         const operatingCountries = parseCountries(operatingCountriesStr)
         const services = parseServices(servicesStr)
         
+        // Mapuj kraj działalności na kod
+        let carrierCountry = 'PL'
+        if (country) {
+          const countryCode = COUNTRY_MAP[country] || country.toUpperCase()
+          if (['DE', 'NL', 'BE', 'FR', 'AT', 'PL'].includes(countryCode)) {
+            carrierCountry = countryCode
+          }
+        }
+        
         // Geokoduj adres (z opóźnieniem 1s żeby nie przekroczyć limitu API)
         await new Promise(resolve => setTimeout(resolve, 1000))
-        const coordinates = await geocodeAddress(postalCode, city, 'PL')
+        const coordinates = await geocodeAddress(postalCode, city, carrierCountry)
 
         // Utwórz przewoźnika
         await Carrier.create({
           userId,
           companyName,
           companyRegistration,
-          country: 'PL',
+          country: carrierCountry,
           description,
           phone,
           email: email || undefined,
