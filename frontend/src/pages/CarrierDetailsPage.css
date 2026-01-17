@@ -133,6 +133,23 @@
   font-size: 0.9rem;
 }
 
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.amenity-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
 .reviews-header {
   display: flex;
   justify-content: space-between;

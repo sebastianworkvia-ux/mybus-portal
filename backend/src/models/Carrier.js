@@ -70,6 +70,13 @@ const carrierSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    // Udogodnienia w busie
+    amenities: {
+      pets: { type: Boolean, default: false }, // Zwierzęta dozwolone
+      toilet: { type: Boolean, default: false }, // Toaleta w busie
+      wifi: { type: Boolean, default: false }, // WiFi
+      premiumClass: { type: Boolean, default: false } // Klasa premium
+    },
     logo: String, // URL do logo (tylko Premium)
     isPremium: {
       type: Boolean,

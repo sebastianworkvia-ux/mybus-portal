@@ -12,7 +12,8 @@ dotenv.config({ path: join(__dirname, '../.env') })
 async function deleteAllCarriers() {
   try {
     console.log('📡 Łączę z MongoDB...')
-    await mongoose.connect(process.env.MONGODB_URI)
+    const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://sebastianworkvia_db_user:3gHzbfeGfhUeedIV@m0.ettiiz3.mongodb.net/przewoznicy?appName=M0'
+    await mongoose.connect(MONGODB_URI)
     console.log('✅ Połączono z MongoDB')
 
     const count = await Carrier.countDocuments()

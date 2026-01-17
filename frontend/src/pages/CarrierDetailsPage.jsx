@@ -172,6 +172,18 @@ export default function CarrierDetailPage() {
                 {carrier.luggageInfo.additionalInfo && <p><strong>Uwagi:</strong> {carrier.luggageInfo.additionalInfo}</p>}
               </>
             )}
+
+            {carrier.amenities && (carrier.amenities.pets || carrier.amenities.toilet || carrier.amenities.wifi || carrier.amenities.premiumClass) && (
+              <>
+                <h3>✨ Udogodnienia w busie</h3>
+                <div className="amenities-list">
+                  {carrier.amenities.pets && <span className="amenity-badge">🐕 Zwierzęta dozwolone</span>}
+                  {carrier.amenities.toilet && <span className="amenity-badge">🚽 Toaleta</span>}
+                  {carrier.amenities.wifi && <span className="amenity-badge">📶 WiFi</span>}
+                  {carrier.amenities.premiumClass && <span className="amenity-badge">⭐ Klasa premium</span>}
+                </div>
+              </>
+            )}
           </section>
 
           <section className="reviews-section">

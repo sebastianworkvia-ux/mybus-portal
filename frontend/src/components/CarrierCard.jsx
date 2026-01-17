@@ -51,6 +51,15 @@ export default function CarrierCard({ carrier }) {
         ))}
       </div>
 
+      {carrier.amenities && (carrier.amenities.pets || carrier.amenities.toilet || carrier.amenities.wifi || carrier.amenities.premiumClass) && (
+        <div className="amenities-icons" style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', fontSize: '1.2rem'}}>
+          {carrier.amenities.pets && <span title="Zwierzęta dozwolone">🐕</span>}
+          {carrier.amenities.toilet && <span title="Toaleta">🚽</span>}
+          {carrier.amenities.wifi && <span title="WiFi">📶</span>}
+          {carrier.amenities.premiumClass && <span title="Klasa premium">⭐</span>}
+        </div>
+      )}
+
       <div className="rating">
         {stars && <span>{stars}</span>}
         <span className="review-count">

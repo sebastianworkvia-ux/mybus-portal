@@ -9,6 +9,8 @@ const __dirname = dirname(__filename)
 
 dotenv.config({ path: join(__dirname, '../.env') })
 
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://sebastianworkvia_db_user:3gHzbfeGfhUeedIV@m0.ettiiz3.mongodb.net/przewoznicy?appName=M0'
+
 const premiumCarriers = [
   {
     userId: null,
@@ -90,7 +92,7 @@ const premiumCarriers = [
 
 async function restorePremiumCarriers() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI)
+    await mongoose.connect(MONGODB_URI)
     console.log('✅ Połączono z MongoDB')
 
     for (const carrierData of premiumCarriers) {
