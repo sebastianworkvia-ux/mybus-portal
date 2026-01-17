@@ -38,12 +38,13 @@ export default function MessagesPage() {
   const selectConversation = async (conversation) => {
     try {
       setSelectedConversation(conversation)
-      const response = await messageService.getMessages(conversation.otherUser._id)
+      const otherUserId = conversation.otherUser?._id || conversation.otherUser
+      const response = await messageService.getMessages(otherUserId)
       setMessages(response.data)
       
       // Oznacz jako przeczytane
       if (conversation.unreadCount > 0) {
-        await messageService.markAsRead(conversation.otherUser._id)
+        await messageService.markAsRead(otherUserId)
         // Odśwież listę konwersacji
         fetchConversations()
       }
@@ -57,8 +58,9 @@ export default function MessagesPage() {
     if (!newMessage.trim() || !selectedConversation) return
 
     try {
-      setSending(true)
+      setSenotherUserId = selectedConversation.otherUser?._id || selectedConversation.otherUser
       const response = await messageService.sendMessage({
+        receiverId: otherUserIge({
         receiverId: selectedConversation.otherUser._id,
         content: newMessage.trim()
       })
@@ -122,19 +124,19 @@ export default function MessagesPage() {
                   onClick={() => selectConversation(conv)}
                 >
                   <div className="conversation-header">
-                    <div className="conversation-user">
-                      <strong>
-                        {conv.otherUser.firstName} {conv.otherUser.lastName}
+                    <div className="con?.firstName || 'Użytkownik'} {conv.otherUser?.lastName || ''}
                       </strong>
                       {conv.unreadCount > 0 && (
                         <span className="unread-badge">{conv.unreadCount}</span>
                       )}
                     </div>
                     <span className="conversation-time">
-                      {formatDate(conv.lastMessage.createdAt)}
+                      {formatDate(conv.lastMessage?.createdAt)}
                     </span>
                   </div>
                   <p className="conversation-preview">
+                    {conv.lastMessage?.content?.substring(0, 60) || ''}
+                    {conv.lastMessage?.content?preview">
                     {conv.lastMessage.content.substring(0, 60)}
                     {conv.lastMessage.content.length > 60 ? '...' : ''}
                   </p>
@@ -153,23 +155,26 @@ export default function MessagesPage() {
               <>
                 <div className="conversation-header-bar">
                   <h3>
-                    {selectedConversation.otherUser.firstName} {selectedConversation.otherUser.lastName}
+                    {selectedConversation.otherUser?.firstName} {selectedConversation.otherUser?.lastName}
                   </h3>
-                  <p className="text-muted">{selectedConversation.otherUser.email}</p>
+                  <p className="text-muted">{selectedConversation.otherUser?.email}</p>
                 </div>
 
                 <div className="messages-list">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg._id}
-                      className={`message ${msg.senderId._id === user.id ? 'sent' : 'received'}`}
-                    >
-                      <div className="message-bubble">
-                        <p>{msg.content}</p>
-                        <span className="message-time">{formatDate(msg.createdAt)}</span>
+                  {messages.map((msg) => {
+                    const isSent = msg.senderId?._id === user.id || msg.senderId === user.id
+                    return (
+                      <div
+                        key={msg._id}
+                        className={`message ${isSent ? 'sent' : 'received'}`}
+                      >
+                        <div className="message-bubble">
+                          <p>{msg.content}</p>
+                          <span className="message-time">{formatDate(msg.createdAt)}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
 
                 <form className="message-form" onSubmit={handleSendMessage}>
