@@ -50,64 +50,44 @@ export const getConversations = async (req, res, next) => {
     const userId = req.user.id
 
     // Znajdź wszystkie wiadomości gdzie user jest nadawcą lub odbiorcą
-    const messages = await Message.aggregate([
-      {
-        $match: {
-          $or: [
-            { senderId: new mongoose.Types.ObjectId(userId) },
-            { receiverId: new mongoose.Types.ObjectId(userId) }
-          ]
-        }
-      },
-      {
-        $sort: { createdAt: -1 }
-      },
-      {
-        $group: {
-          _id: '$conversationId',
-          lastMessage: { $first: '$$ROOT' },
-          unreadCount: {
-            $sum: {
-              $cond: [
-                { 
-                  $and: [
-                    { $eq: ['$receiverId', new mongoose.Types.ObjectId(userId)] },
-                    { $eq: ['$isRead', false] }
-                  ]
-                },
-                1,
-                0
-              ]
-            }
-          }
-        }
-      },
-      {
-        $sort: { 'lastMessage.createdAt': -1 }
-      }
-    ])
-
-    // Populate user info
-    const conversations = await Message.populate(messages, {
-      path: 'lastMessage.senderId lastMessage.receiverId',
-      select: 'firstName lastName email'
+    const allMessages = await Message.find({
+      $or: [
+        { senderId: userId },
+        { receiverId: userId }
+      ]
     })
+      .populate('senderId', 'firstName lastName email')
+      .populate('receiverId', 'firstName lastName email')
+      .sort({ createdAt: -1 })
 
-    // Format response - dodaj info o rozmówcy
-    const formatted = conversations.map(conv => {
-      const otherUserId = conv.lastMessage.senderId._id.toString() === userId 
-        ? conv.lastMessage.receiverId 
-        : conv.lastMessage.senderId
+    // Grupuj wiadomości po conversationId
+    const conversationsMap = new Map()
+    
+    allMessages.forEach(msg => {
+      if (!conversationsMap.has(msg.conversationId)) {
+        // Określ kto jest "drugim użytkownikiem"
+        const otherUser = msg.senderId._id.toString() === userId 
+          ? msg.receiverId 
+          : msg.senderId
+        
+        // Policz nieprzeczytane (gdzie ja jestem odbiorcą)
+        const unreadCount = allMessages.filter(m => 
+          m.conversationId === msg.conversationId &&
+          m.receiverId._id.toString() === userId &&
+          !m.isRead
+        ).length
 
-      return {
-        conversationId: conv._id,
-        otherUser: otherUserId,
-        lastMessage: conv.lastMessage,
-        unreadCount: conv.unreadCount
+        conversationsMap.set(msg.conversationId, {
+          conversationId: msg.conversationId,
+          otherUser,
+          lastMessage: msg,
+          unreadCount
+        })
       }
     })
 
-    res.json(formatted)
+    const conversations = Array.from(conversationsMap.values())
+    res.json(conversations)
   } catch (error) {
     next(error)
   }
