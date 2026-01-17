@@ -191,12 +191,6 @@ export const importCarriers = async (req, res, next) => {
       const returnDays = row['Dni powrotów z Polski']?.trim()
       const baggageInfo = row['Informacje o bagażu']?.trim()
       
-      // Udogodnienia (tak/nie)
-      const pets = (row['Zwierzęta (tak/nie)']?.trim() || '').toLowerCase() === 'tak'
-      const toilet = (row['Toaleta (tak/nie)']?.trim() || '').toLowerCase() === 'tak'
-      const wifi = (row['WiFi (tak/nie)']?.trim() || '').toLowerCase() === 'tak'
-      const premiumClass = (row['Klasa premium (tak/nie)']?.trim() || '').toLowerCase() === 'tak'
-      
       // Połącz opis z dodatkowymi informacjami
       let description = descriptionBase || ''
       if (departureDays) description += `\n\nDni wyjazdów do Polski: ${departureDays}`
@@ -253,12 +247,6 @@ export const importCarriers = async (req, res, next) => {
           website,
           services,
           operatingCountries: operatingCountries.slice(0, 5), // max 5 krajów
-          amenities: {
-            pets,
-            toilet,
-            wifi,
-            premiumClass
-          },
           location: {
             postalCode,
             city,
