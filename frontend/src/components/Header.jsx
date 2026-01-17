@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
+import { messageService } from '../services/services'
 import Logo from './Logo'
 import './Header.css'
 
@@ -9,6 +10,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [unreadCount, setUnreadCount] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +32,26 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
+
+  // Pobierz liczbę nieprzeczytanych wiadomości
+  useEffect(() => {
+    if (!user) return
+
+    const fetchUnreadCount = async () => {
+      try {
+        const response = await messageService.getUnreadCount()
+        setUnreadCount(response.data.count)
+      } catch (err) {
+        // Ignoruj błędy (użytkownik może być niezalogowany)
+      }
+    }
+
+    fetchUnreadCount()
+    
+    // Odśwież co 30 sekund
+    const interval = setInterval(fetchUnreadCount, 30000)
+    return () => clearInterval(interval)
+  }, [user])
 
   return (
     <header className={`header ${!isVisible ? 'header-hidden' : ''}`}>
@@ -55,6 +77,10 @@ export default function Header() {
                 {user.isAdmin && (
                   <Link to="/admin" className="admin-link">Panel Admina</Link>
                 )}
+                <Link to="/messages" className="messages-link">
+                  📬 Wiadomości
+                  {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
+                </Link>
                 <Link to="/settings" className="settings-link">⚙️ Ustawienia</Link>
                 <button onClick={logout} className="btn-logout">
                   Wyloguj

@@ -26,6 +26,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import MapPage from './pages/MapPage'
 import PricingPage from './pages/PricingPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
+import MessagesPage from './pages/MessagesPage'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/stats" element={<AdminStatsPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />

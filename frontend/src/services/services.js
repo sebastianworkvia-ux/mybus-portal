@@ -27,3 +27,12 @@ export const paymentService = {
   getPaymentHistory: () => apiClient.get('/payments/history'),
   cancelPayment: (paymentId) => apiClient.delete(`/payments/${paymentId}/cancel`)
 }
+
+export const messageService = {
+  sendMessage: (data) => apiClient.post('/messages', data),
+  getConversations: () => apiClient.get('/messages/conversations'),
+  getMessages: (userId) => apiClient.get(`/messages/${userId}`),
+  markAsRead: (userId) => apiClient.patch(`/messages/${userId}/read`),
+  getUnreadCount: () => apiClient.get('/messages/unread-count'),
+  deleteMessage: (messageId) => apiClient.delete(`/messages/${messageId}`)
+}

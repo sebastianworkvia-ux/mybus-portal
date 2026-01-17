@@ -15,6 +15,7 @@ import userSettingsRoutes from './routes/userSettings.js'
 import paymentRoutes from './routes/payments.js'
 import analyticsRoutes from './routes/analytics.js'
 import importRoutes from './routes/import.js'
+import messageRoutes from './routes/messages.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -113,6 +114,7 @@ app.use('/user', userSettingsRoutes)
 app.use('/payments', paymentRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/import', importRoutes)
+app.use('/messages', messageRoutes)
 
 // Error handling middleware
 app.use(errorHandler)

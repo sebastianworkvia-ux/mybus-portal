@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { carrierService, reviewService } from '../services/services'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { carrierService, reviewService, messageService } from '../services/services'
 import { useAuthStore } from '../stores/authStore'
 import './CarrierDetailsPage.css'
 
 export default function CarrierDetailPage() {
   const { id } = useParams()
   const { user } = useAuthStore()
+  const navigate = useNavigate()
   const [carrier, setCarrier] = useState(null)
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
@@ -17,6 +18,8 @@ export default function CarrierDetailPage() {
   const [comment, setComment] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [reviewError, setReviewError] = useState(null)
+  
+  const [sendingMessage, setSendingMessage] = useState(false)
 
   // Przewiń do góry przy wejściu na stronę
   useEffect(() => {
@@ -72,6 +75,34 @@ export default function CarrierDetailPage() {
     }
   }
 
+  const handleSendMessage = async () => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+
+    if (!carrier.userId) {
+      alert('Ten przewoźnik nie ma jeszcze konta użytkownika - nie można wysłać wiadomości.')
+      return
+    }
+
+    // Przekieruj do strony wiadomości i rozpocznij konwersację
+    try {
+      setSendingMessage(true)
+      // Wyślij pierwszą wiadomość automatyczną
+      await messageService.sendMessage({
+        receiverId: carrier.userId,
+        carrierId: carrier._id,
+        content: `Cześć! Jestem zainteresowany Twoimi usługami transportowymi (${carrier.companyName}). Proszę o kontakt.`
+      })
+      navigate('/messages')
+    } catch (err) {
+      alert('Błąd wysyłania wiadomości: ' + (err.response?.data?.error || 'Spróbuj ponownie'))
+    } finally {
+      setSendingMessage(false)
+    }
+  }
+
   if (loading) {
     return <div className="carrier-detail-page"><div className="container">Ładowanie...</div></div>
   }
@@ -117,6 +148,17 @@ export default function CarrierDetailPage() {
               <span className="review-count">({carrier.reviewCount || 0} opinii)</span>
             </div>
           </div>
+
+          {/* Przycisk kontaktu */}
+          {carrier.userId && carrier.userId !== user?.id && (
+            <button 
+              onClick={handleSendMessage} 
+              className="btn-contact-carrier"
+              disabled={sendingMessage}
+            >
+              {sendingMessage ? '...' : '💬 Wyślij wiadomość'}
+            </button>
+          )}
         </div>
 
         <div className="carrier-content">
