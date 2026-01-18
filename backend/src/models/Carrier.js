@@ -18,7 +18,7 @@ const carrierSchema = new mongoose.Schema(
     country: {
       type: String,
       required: true,
-      enum: ['DE', 'NL', 'BE', 'FR', 'AT', 'PL']
+      enum: ['DE', 'NL', 'BE', 'FR', 'AT', 'PL', 'GB', 'SE', 'NO', 'DK']
     },
     description: String, // Krótki opis (max 2 zdania) - widoczny w wyszukiwarce
     detailedDescription: String, // Szczegółowy opis - widoczny tylko na stronie szczegółów

@@ -34,25 +34,33 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={routeFrom} onChange={(e) => setRouteFrom(e.target.value)}>
-          <option value="">Z kraju</option>
+          <option value="">Z kraju / Cała Europa</option>
           <option value="PL">Polska</option>
           <option value="DE">Niemcy</option>
           <option value="NL">Holandia</option>
           <option value="BE">Belgia</option>
           <option value="FR">Francja</option>
           <option value="AT">Austria</option>
+          <option value="GB">Wielka Brytania</option>
+          <option value="SE">Szwecja</option>
+          <option value="NO">Norwegia</option>
+          <option value="DK">Dania</option>
         </select>
       </div>
 
       <div className="search-group">
         <select value={routeTo} onChange={(e) => setRouteTo(e.target.value)}>
-          <option value="">Do kraju</option>
+          <option value="">Do kraju / Cała Europa</option>
           <option value="PL">Polska</option>
           <option value="DE">Niemcy</option>
           <option value="NL">Holandia</option>
           <option value="BE">Belgia</option>
           <option value="FR">Francja</option>
           <option value="AT">Austria</option>
+          <option value="GB">Wielka Brytania</option>
+          <option value="SE">Szwecja</option>
+          <option value="NO">Norwegia</option>
+          <option value="DK">Dania</option>
         </select>
       </div>
 

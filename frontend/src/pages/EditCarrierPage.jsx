@@ -5,12 +5,16 @@ import { carrierService } from '../services/services'
 import './AddCarrierPage.css'
 
 const COUNTRIES = [
+  { code: 'PL', name: 'Polska' },
   { code: 'DE', name: 'Niemcy' },
   { code: 'NL', name: 'Holandia' },
   { code: 'BE', name: 'Belgia' },
   { code: 'FR', name: 'Francja' },
   { code: 'AT', name: 'Austria' },
-  { code: 'PL', name: 'Polska' }
+  { code: 'GB', name: 'Wielka Brytania' },
+  { code: 'SE', name: 'Szwecja' },
+  { code: 'NO', name: 'Norwegia' },
+  { code: 'DK', name: 'Dania' }
 ]
 
 const SERVICES = [
