@@ -275,6 +275,104 @@
   font-size: 0.875rem;
 }
 
+/* Facebook CTA Section */
+.facebook-cta-section {
+  margin: 4rem 0 2rem 0;
+  padding: 0 1rem;
+}
+
+.facebook-cta-card {
+  background: linear-gradient(135deg, #1877f2 0%, #0c5dbd 100%);
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.facebook-cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.facebook-cta-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -5%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.facebook-cta-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.facebook-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.facebook-cta-card h2 {
+  color: white;
+  margin-bottom: 0.75rem;
+  font-size: 2rem;
+}
+
+.facebook-cta-card p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 1.5rem;
+}
+
+.btn-facebook {
+  display: inline-block;
+  background: white;
+  color: #1877f2;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-facebook:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #f0f0f0;
+}
+
+.facebook-subtext {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
 .cta-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 4rem 2rem;

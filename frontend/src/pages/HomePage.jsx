@@ -115,6 +115,23 @@ export default function HomePage() {
           )}
         </section>
 
+        <section className="facebook-cta-section">
+          <div className="facebook-cta-card">
+            <div className="facebook-icon">📘</div>
+            <h2>Obserwuj nas na Facebooku!</h2>
+            <p>Bądź na bieżąco z nowościami, promocjami i ofertami przewoźników</p>
+            <a 
+              href="https://www.facebook.com/profile.php?id=61584903104321" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-facebook"
+            >
+              👍 Polub i obserwuj MyBus
+            </a>
+            <p className="facebook-subtext">Dołącz do naszej społeczności!</p>
+          </div>
+        </section>
+
         <section className="cta-section">
           <h2>Jesteś przewoźnikiem?</h2>
           <p>Dołącz do naszej platformy i znajdź nowych klientów</p>
