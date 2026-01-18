@@ -223,12 +223,19 @@ export default function AdminCarriersPage() {
                     </td>
                     <td>
                       <div className="action-buttons">
+                        <Link 
+                          to={`/carriers/${carrier._id}`}
+                          className="btn-action view"
+                          title="Otwórz kartę firmy"
+                        >
+                          📄 Karta firmy
+                        </Link>
                         <button 
                           onClick={() => handleToggleActive(carrier._id)}
                           className="btn-action toggle"
                           title={carrier.isActive ? 'Ukryj w wyszukiwarce' : 'Pokaż w wyszukiwarce'}
                         >
-                          {carrier.isActive ? '👁️‍🗨️ Ukryj' : '👁️ Pokaż'}
+                          {carrier.isActive ? '👁️‍🗨️ Ukryj' : '👁️ Widoczna'}
                         </button>
                         <button 
                           onClick={() => openAssignModal(carrier._id, carrier.companyName)}
@@ -237,13 +244,6 @@ export default function AdminCarriersPage() {
                         >
                           👤 Przypisz
                         </button>
-                        <Link 
-                          to={`/carriers/${carrier._id}`}
-                          className="btn-action view"
-                          title="Zobacz szczegóły"
-                        >
-                          🔍 Zobacz
-                        </Link>
                         <button 
                           onClick={() => handleDelete(carrier._id, carrier.companyName)}
                           className="btn-action delete"

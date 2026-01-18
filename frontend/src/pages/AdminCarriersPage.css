@@ -182,8 +182,11 @@
   cursor: pointer;
   font-size: 0.85rem;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .btn-action.toggle {
@@ -205,12 +208,14 @@
 }
 
 .btn-action.view {
-  background: #6c757d;
+  background: #667eea;
   color: white;
+  font-weight: 500;
 }
 
 .btn-action.view:hover {
-  background: #5a6268;
+  background: #5568d3;
+  text-decoration: none;
 }
 
 .btn-action.delete {
