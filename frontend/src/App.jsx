@@ -20,6 +20,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminVerifyPage from './pages/AdminVerifyPage'
 import AdminUsersPage from './pages/AdminUsersPage'
 import AdminStatsPage from './pages/AdminStatsPage'
+import AdminCarriersPage from './pages/AdminCarriersPage'
 import UserSettingsPage from './pages/UserSettingsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
@@ -65,6 +66,7 @@ function App() {
           <Route path="/admin/verify" element={<AdminVerifyPage />} />
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/stats" element={<AdminStatsPage />} />
+          <Route path="/admin/carriers" element={<AdminCarriersPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/login" element={<LoginPage />} />

@@ -8,6 +8,118 @@ import Payment from '../models/Payment.js'
 
 const router = express.Router()
 
+// Get all carriers with pagination
+router.get('/carriers', adminMiddleware, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, search = '', status = '' } = req.query
+    
+    const query = {}
+    if (search) {
+      query.$or = [
+        { companyName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } }
+      ]
+    }
+    if (status === 'active') query.isActive = true
+    if (status === 'hidden') query.isActive = false
+    if (status === 'verified') query.isVerified = true
+    if (status === 'unverified') query.isVerified = false
+    
+    const carriers = await Carrier.find(query)
+      .populate('userId', 'email firstName lastName')
+      .sort({ createdAt: -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+    
+    const count = await Carrier.countDocuments(query)
+    
+    res.json({
+      carriers,
+      totalPages: Math.ceil(count / limit),
+      currentPage: parseInt(page),
+      total: count
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Toggle carrier visibility (hide/show in search)
+router.post('/carriers/:carrierId/toggle-active', adminMiddleware, async (req, res) => {
+  try {
+    const { carrierId } = req.params
+    const carrier = await Carrier.findById(carrierId)
+    
+    if (!carrier) {
+      return res.status(404).json({ error: 'Carrier not found' })
+    }
+    
+    carrier.isActive = !carrier.isActive
+    await carrier.save()
+    
+    res.json({
+      message: carrier.isActive ? 'Carrier visible in search' : 'Carrier hidden from search',
+      carrier
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Assign carrier to user by email
+router.post('/carriers/:carrierId/assign-user', adminMiddleware, async (req, res) => {
+  try {
+    const { carrierId } = req.params
+    const { email } = req.body
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Email required' })
+    }
+    
+    const user = await User.findOne({ email: email.toLowerCase() })
+    if (!user) {
+      return res.status(404).json({ error: 'User not found with this email' })
+    }
+    
+    const carrier = await Carrier.findByIdAndUpdate(
+      carrierId,
+      { userId: user._id },
+      { new: true }
+    ).populate('userId', 'email firstName lastName')
+    
+    if (!carrier) {
+      return res.status(404).json({ error: 'Carrier not found' })
+    }
+    
+    res.json({
+      message: `Carrier assigned to ${user.email}`,
+      carrier
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Delete carrier
+router.delete('/carriers/:carrierId', adminMiddleware, async (req, res) => {
+  try {
+    const { carrierId } = req.params
+    const carrier = await Carrier.findByIdAndDelete(carrierId)
+    
+    if (!carrier) {
+      return res.status(404).json({ error: 'Carrier not found' })
+    }
+    
+    res.json({
+      message: 'Carrier deleted successfully',
+      carrier
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // Get all unverified carriers
 router.get('/unverified-carriers', adminMiddleware, async (req, res) => {
   try {
