@@ -5,6 +5,13 @@
   "installCommand": "cd frontend && npm install",
   "framework": "vite",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { 
+      "source": "/api/:path*", 
+      "destination": "https://mybus-backend-aygc.onrender.com/:path*" 
+    },
+    { 
+      "source": "/(.*)", 
+      "destination": "/" 
+    }
   ]
 }
