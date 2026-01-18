@@ -81,7 +81,7 @@ export default function CarrierDetailPage() {
       return
     }
 
-    if (!carrier.userId) {
+    if (!carrier.userId?._id) {
       alert('Ten przewoźnik nie ma jeszcze konta użytkownika - nie można wysłać wiadomości.')
       return
     }
@@ -91,7 +91,7 @@ export default function CarrierDetailPage() {
       setSendingMessage(true)
       // Wyślij pierwszą wiadomość automatyczną
       await messageService.sendMessage({
-        receiverId: carrier.userId,
+        receiverId: carrier.userId._id,
         carrierId: carrier._id,
         content: `Cześć! Jestem zainteresowany Twoimi usługami transportowymi (${carrier.companyName}). Proszę o kontakt.`
       })
@@ -150,7 +150,7 @@ export default function CarrierDetailPage() {
           </div>
 
           {/* Przycisk kontaktu */}
-          {carrier.userId && carrier.userId !== user?.id && (
+          {carrier.userId?._id && carrier.userId._id !== user?.id && (
             <button 
               onClick={handleSendMessage} 
               className="btn-contact-carrier"

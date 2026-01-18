@@ -37,7 +37,9 @@ export const getCarriers = async (req, res, next) => {
 export const getCarrierById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const carrier = await Carrier.findById(id).select('-__v')
+    const carrier = await Carrier.findById(id)
+      .populate('userId', 'email firstName lastName')
+      .select('-__v')
     if (!carrier) {
       return res.status(404).json({ error: 'Carrier not found' })
     }
