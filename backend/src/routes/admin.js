@@ -259,6 +259,20 @@ router.get('/stats', adminMiddleware, async (req, res) => {
     // Page view statistics
     const totalPageViews = await PageView.countDocuments()
     
+    // Daily page views (today)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    const todayViews = await PageView.countDocuments({
+      createdAt: { $gte: today, $lt: tomorrow }
+    })
+    
+    const todayUniqueSessions = await PageView.distinct('sessionId', {
+      createdAt: { $gte: today, $lt: tomorrow }
+    })
+    
     // Unique sessions (last 30 days)
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     const recentViews = await PageView.find({ 
@@ -322,6 +336,8 @@ router.get('/stats', adminMiddleware, async (req, res) => {
       },
       pageViews: {
         total: totalPageViews,
+        today: todayViews,
+        todayUnique: todayUniqueSessions.length,
         uniqueSessionsLast30Days: uniqueSessions,
         popularPages,
         viewsPerDay

@@ -150,6 +150,18 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
+          <div className="stat-card views" style={{borderLeftColor: '#10b981'}}>
+            <div className="stat-icon">📊</div>
+            <div className="stat-content">
+              <h3>{stats?.pageViews?.today || 0}</h3>
+              <p>Wejść dzisiaj</p>
+              <div className="stat-breakdown">
+                <span>👤 {stats?.pageViews?.todayUnique || 0} unikalnych</span>
+                <span>📈 {stats?.pageViews?.total || 0} wszystkich</span>
+              </div>
+            </div>
+          </div>
+
           <div className="stat-card carriers" style={{borderLeftColor: '#8b5cf6'}}>
             <div className="stat-icon">🚚</div>
             <div className="stat-content">
