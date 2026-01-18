@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
+import ReCAPTCHA from 'react-google-recaptcha'
 import './AuthPages.css'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
   const { register, error, loading } = useAuthStore()
+  const recaptchaRef = useRef(null)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -18,6 +20,7 @@ export default function RegisterPage() {
     dataProcessing: false,
     marketing: false
   })
+  const [recaptchaToken, setRecaptchaToken] = useState(null)
 
   const handleChange = (e) => {
     setFormData({
@@ -34,16 +37,28 @@ export default function RegisterPage() {
       alert('Musisz wyrazić zgodę na przetwarzanie danych osobowych, aby się zarejestrować.')
       return
     }
+
+    // Validate reCAPTCHA
+    if (!recaptchaToken) {
+      alert('Potwierdź, że nie jesteś robotem')
+      return
+    }
     
     try {
-      // Add consents to registration data
+      // Add consents and reCAPTCHA token to registration data
       await register({
         ...formData,
-        marketingConsent: consents.marketing
+        marketingConsent: consents.marketing,
+        recaptchaToken
       })
       navigate('/')
     } catch (err) {
       // Error is handled by store
+      // Reset reCAPTCHA on error
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset()
+        setRecaptchaToken(null)
+      }
     }
   }
 
@@ -164,7 +179,16 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="btn-submit">
+          <div className="recaptcha-wrapper">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={(token) => setRecaptchaToken(token)}
+              onExpired={() => setRecaptchaToken(null)}
+            />
+          </div>
+
+          <button type="submit" disabled={loading || !recaptchaToken} className="btn-submit">
             {loading ? 'Rejestracja...' : 'Zarejestruj się'}
           </button>
         </form>

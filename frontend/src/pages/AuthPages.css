@@ -134,6 +134,13 @@
   gap: 1rem;
 }
 
+/* reCAPTCHA wrapper */
+.recaptcha-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
 .form-group-checkbox {
   display: flex;
   align-items: flex-start;
