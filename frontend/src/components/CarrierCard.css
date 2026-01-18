@@ -11,14 +11,14 @@
 /* Business Premium Ribbon - najlepsza wersja */
 .business-ribbon {
   position: absolute;
-  bottom: 15px;
+  bottom: 50px;
   right: -35px;
   background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%);
   color: white;
   padding: 0.6rem 3rem;
   transform: rotate(-45deg);
   box-shadow: 0 4px 15px rgba(147, 51, 234, 0.5);
-  z-index: 10;
+  z-index: 11;
   font-weight: 900;
   font-size: 0.75rem;
   letter-spacing: 1px;
@@ -73,10 +73,11 @@
   }
 }
 
+/* Premium Card - złota ramka */
 .carrier-card.premium-card {
-  border: 2px solid #f39c12;
+  border: 3px solid #f39c12;
   background: linear-gradient(135deg, #ffffff 0%, #fef5e7 100%);
-  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);
+  box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3);
 }
 
 .business-badge {

@@ -10,9 +10,14 @@ export default function CarrierCard({ carrier }) {
   return (
     <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : ''}`}>
       {isBusinessPremium && (
-        <div className="business-ribbon">
-          <span>⭐ BUSINESS PREMIUM ⭐</span>
-        </div>
+        <>
+          <div className="business-ribbon">
+            <span>⭐ BUSINESS PREMIUM ⭐</span>
+          </div>
+          <div className="verified-ribbon">
+            <span>✓ Zweryfikowany</span>
+          </div>
+        </>
       )}
       {!isBusinessPremium && carrier.isPremium && (
         <div className="verified-ribbon">
