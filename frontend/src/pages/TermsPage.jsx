@@ -5,7 +5,7 @@ export default function TermsPage() {
     <div className="legal-page">
       <div className="container">
         <h1>Regulamin Serwisu</h1>
-        <p className="last-updated">Ostatnia aktualizacja: 14 grudnia 2025</p>
+        <p className="last-updated">Ostatnia aktualizacja: 18 stycznia 2026</p>
 
         <section>
           <h2>§1 Postanowienia ogólne</h2>
@@ -53,18 +53,27 @@ export default function TermsPage() {
         <section>
           <h2>§4 Zasady dla Przewoźników</h2>
           <p>
-            1. Przewoźnik zobowiązany jest do podania prawdziwych informacji o firmie.
+            1. Serwis może tworzyć profile podstawowe firm transportowych automatycznie 
+            na podstawie publicznie dostępnych danych (rejestry publiczne, ogłoszenia, 
+            strony internetowe).
           </p>
           <p>
-            2. Przewoźnik musi posiadać odpowiednie uprawnienia do prowadzenia 
+            2. Właściciel firmy może w każdej chwili zgłosić się w celu przejęcia 
+            kontroli nad profilem lub zażądać jego usunięcia.
+          </p>
+          <p>
+            3. Przewoźnik zobowiązany jest do podania prawdziwych informacji o firmie.
+          </p>
+          <p>
+            4. Przewoźnik musi posiadać odpowiednie uprawnienia do prowadzenia 
             działalności transportowej.
           </p>
           <p>
-            3. Zakazane jest umieszczanie treści niezgodnych z prawem lub 
+            5. Zakazane jest umieszczanie treści niezgodnych z prawem lub 
             wprowadzających w błąd.
           </p>
           <p>
-            4. MyBus nie ponosi odpowiedzialności za jakość usług świadczonych 
+            6. MyBus nie ponosi odpowiedzialności za jakość usług świadczonych 
             przez Przewoźników.
           </p>
         </section>
