@@ -42,10 +42,8 @@ export default function MessagesPage() {
       const response = await messageService.getMessages(otherUserId)
       setMessages(response.data)
       
-      // Oznacz jako przeczytane
       if (conversation.unreadCount > 0) {
         await messageService.markAsRead(otherUserId)
-        // Odśwież listę konwersacji
         fetchConversations()
       }
     } catch (err) {
@@ -67,8 +65,6 @@ export default function MessagesPage() {
       
       setMessages([...messages, response.data])
       setNewMessage('')
-      
-      // Odśwież listę konwersacji (zmieni się ostatnia wiadomość)
       fetchConversations()
     } catch (err) {
       setError(err.response?.data?.error || 'Błąd wysyłania wiadomości')
@@ -103,18 +99,14 @@ export default function MessagesPage() {
     <div className="messages-page">
       <div className="container">
         <h1>📬 Wiadomości</h1>
-
         {error && <div className="error-banner">{error}</div>}
 
         <div className="messages-container">
-          {/* Lista konwersacji */}
           <div className="conversations-list">
             <h2>Konwersacje</h2>
-            
             {conversations.length === 0 ? (
               <div className="empty-state">
                 <p>Brak wiadomości</p>
-                <p className="text-muted">Wyślij wiadomość do przewoźnika aby rozpocząć rozmowę</p>
               </div>
             ) : (
               conversations.map((conv) => (
@@ -124,28 +116,21 @@ export default function MessagesPage() {
                   onClick={() => selectConversation(conv)}
                 >
                   <div className="conversation-header">
-                    <div className="con?.firstName || 'Użytkownik'} {conv.otherUser?.lastName || ''}
-                      </strong>
-                      {conv.unreadCount > 0 && (
-                        <span className="unread-badge">{conv.unreadCount}</span>
-                      )}
+                    <div className="conversation-name">
+                      <strong>{conv.otherUser?.firstName || 'Użytkownik'} {conv.otherUser?.lastName || ''}</strong>
+                      {conv.unreadCount > 0 && <span className="unread-badge">{conv.unreadCount}</span>}
                     </div>
-                    <span className="conversation-time">
-                      {formatDate(conv.lastMessage?.createdAt)}
-                    </span>
+                    <span className="conversation-time">{formatDate(conv.lastMessage?.createdAt)}</span>
                   </div>
                   <p className="conversation-preview">
                     {conv.lastMessage?.content?.substring(0, 60) || ''}
-                    {conv.lastMessage?.content?preview">
-                    {conv.lastMessage.content.substring(0, 60)}
-                    {conv.lastMessage.content.length > 60 ? '...' : ''}
+                    {conv.lastMessage?.content && conv.lastMessage.content.length > 60 ? '...' : ''}
                   </p>
                 </div>
               ))
             )}
           </div>
 
-          {/* Okno rozmowy */}
           <div className="conversation-view">
             {!selectedConversation ? (
               <div className="empty-conversation">
@@ -154,9 +139,7 @@ export default function MessagesPage() {
             ) : (
               <>
                 <div className="conversation-header-bar">
-                  <h3>
-                    {selectedConversation.otherUser?.firstName} {selectedConversation.otherUser?.lastName}
-                  </h3>
+                  <h3>{selectedConversation.otherUser?.firstName} {selectedConversation.otherUser?.lastName}</h3>
                   <p className="text-muted">{selectedConversation.otherUser?.email}</p>
                 </div>
 
@@ -164,10 +147,7 @@ export default function MessagesPage() {
                   {messages.map((msg) => {
                     const isSent = msg.senderId?._id === user.id || msg.senderId === user.id
                     return (
-                      <div
-                        key={msg._id}
-                        className={`message ${isSent ? 'sent' : 'received'}`}
-                      >
+                      <div key={msg._id} className={`message ${isSent ? 'sent' : 'received'}`}>
                         <div className="message-bubble">
                           <p>{msg.content}</p>
                           <span className="message-time">{formatDate(msg.createdAt)}</span>
