@@ -128,7 +128,8 @@
 }
 
 .messages-list {
-  flex: 1 !important;
+  flex: 1 1 auto !important;
+  max-height: 530px !important;
   padding: 1.5rem;
   overflow-y: auto !important;
   overflow-x: hidden;
