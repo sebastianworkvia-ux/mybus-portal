@@ -8,6 +8,30 @@
   overflow: hidden;
 }
 
+/* Business Premium Ribbon - najlepsza wersja */
+.business-ribbon {
+  position: absolute;
+  bottom: 15px;
+  right: -35px;
+  background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%);
+  color: white;
+  padding: 0.6rem 3rem;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 15px rgba(147, 51, 234, 0.5);
+  z-index: 10;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 180px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.business-ribbon span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Verified Ribbon for Premium Carriers */
 .verified-ribbon {
   position: absolute;
@@ -31,10 +55,41 @@
   white-space: nowrap;
 }
 
+/* Business Premium Card - fioletowa ramka z animacją */
+.carrier-card.business-premium-card {
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #9333ea 0%, #6b21a8 50%, #9333ea 100%) border-box;
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+  animation: glow-border 3s ease-in-out infinite;
+}
+
+@keyframes glow-border {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(147, 51, 234, 0.5);
+  }
+}
+
 .carrier-card.premium-card {
   border: 2px solid #f39c12;
   background: linear-gradient(135deg, #ffffff 0%, #fef5e7 100%);
   box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);
+}
+
+.business-badge {
+  background: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(147, 51, 234, 0.4);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .premium-badge {

@@ -4,9 +4,17 @@ import './CarrierCard.css'
 export default function CarrierCard({ carrier }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
 
+  const isBusinessPremium = carrier.subscriptionPlan === 'business'
+  const isPremium = carrier.subscriptionPlan === 'premium'
+
   return (
-    <div className={`carrier-card ${carrier.isPremium ? 'premium-card' : ''}`}>
-      {carrier.isPremium && (
+    <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : ''}`}>
+      {isBusinessPremium && (
+        <div className="business-ribbon">
+          <span>⭐ BUSINESS PREMIUM ⭐</span>
+        </div>
+      )}
+      {!isBusinessPremium && carrier.isPremium && (
         <div className="verified-ribbon">
           <span>✓ Zweryfikowany</span>
         </div>
@@ -21,7 +29,10 @@ export default function CarrierCard({ carrier }) {
       <div className="card-header">
         <h3>{carrier.companyName}</h3>
         <div className="header-badges">
-          {carrier.isPremium && (
+          {isBusinessPremium && (
+            <div className="business-badge">💎 BUSINESS</div>
+          )}
+          {!isBusinessPremium && isPremium && (
             <div className="premium-badge">⭐ PREMIUM</div>
           )}
           <span className="country-badge">{carrier.country}</span>
