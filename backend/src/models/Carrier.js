@@ -20,7 +20,8 @@ const carrierSchema = new mongoose.Schema(
       required: true,
       enum: ['DE', 'NL', 'BE', 'FR', 'AT', 'PL']
     },
-    description: String,
+    description: String, // Krótki opis (max 2 zdania) - widoczny w wyszukiwarce
+    detailedDescription: String, // Szczegółowy opis - widoczny tylko na stronie szczegółów
     phone: String,
     email: String,
     website: String,

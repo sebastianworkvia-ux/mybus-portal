@@ -37,6 +37,7 @@ export default function AddCarrierPage() {
     companyRegistration: '',
     country: '',
     description: '',
+    detailedDescription: '',
     phone: '',
     email: user?.email || '',
     website: '',
@@ -244,14 +245,29 @@ export default function AddCarrierPage() {
             </div>
 
             <div className="form-group">
-              <label>Opis firmy</label>
+              <label>Krótki opis (max 2 zdania) *</label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                rows="4"
-                placeholder="Krótki opis Twojej firmy transportowej..."
+                rows="2"
+                maxLength="200"
+                placeholder="Krótki opis widoczny w wyszukiwarce (np. 'Profesjonalne przewozy do Niemiec. Szybko i bezpiecznie.')" 
+                required
               />
+              <small>{formData.description.length}/200 znaków</small>
+            </div>
+
+            <div className="form-group">
+              <label>Opis szczegółowy (opcjonalnie)</label>
+              <textarea
+                name="detailedDescription"
+                value={formData.detailedDescription}
+                onChange={handleChange}
+                rows="8"
+                placeholder="Szczegółowy opis firmy, usług, doświadczenia... Widoczny tylko na stronie szczegółów firmy."
+              />
+              <small>Pełny opis będzie widoczny dopiero po kliknięciu w Twoją firmę</small>
             </div>
           </section>
 

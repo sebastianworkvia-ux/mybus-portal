@@ -165,7 +165,19 @@ export default function CarrierDetailPage() {
           <section className="carrier-info-section">
             <h2>📋 Informacje</h2>
             <p><strong>Numer rejestracyjny:</strong> {carrier.companyRegistration}</p>
-            <p><strong>Opis:</strong> {carrier.description}</p>
+            
+            {carrier.description && (
+              <div className="short-description">
+                <p>{carrier.description}</p>
+              </div>
+            )}
+            
+            {carrier.detailedDescription && (
+              <div className="detailed-description">
+                <h3>📝 Szczegółowy opis</h3>
+                <p style={{whiteSpace: 'pre-line'}}>{carrier.detailedDescription}</p>
+              </div>
+            )}
             
             <h3>🚐 Oferowane usługi</h3>
             <div className="services-list">

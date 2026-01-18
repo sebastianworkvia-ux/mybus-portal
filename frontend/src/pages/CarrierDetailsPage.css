@@ -4,6 +4,41 @@
   background: #f9f9f9;
 }
 
+.short-description {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
+}
+
+.short-description p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.detailed-description {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.detailed-description h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #667eea;
+}
+
+.detailed-description p {
+  margin: 0;
+  line-height: 1.8;
+  color: #555;
+}
+
 .btn-back-link {
   display: inline-block;
   color: #667eea;
