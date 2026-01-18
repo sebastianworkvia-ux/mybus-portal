@@ -106,8 +106,8 @@ app.get('/test-utf8', (req, res) => {
 
 app.use('/auth', authRoutes)
 app.use('/carriers', carrierRoutes)
+app.use('/admin', adminStatsRoutes) // MUSI BYĆ PRZED adminRoutes - bardziej konkretny endpoint
 app.use('/admin', adminRoutes)
-app.use('/admin', adminStatsRoutes)
 app.use('/reviews', reviewRoutes)
 app.use('/password', passwordResetRoutes)
 app.use('/user', userSettingsRoutes)
