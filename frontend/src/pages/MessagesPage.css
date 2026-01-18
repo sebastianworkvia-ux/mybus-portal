@@ -17,7 +17,8 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 600px;
+  height: 700px;
+  max-height: calc(100vh - 200px);
 }
 
 /* Lista konwersacji */
@@ -111,6 +112,7 @@
   padding: 1.5rem;
   border-bottom: 1px solid #e2e8f0;
   background: #f7fafc;
+  flex-shrink: 0;
 }
 
 .conversation-header-bar h3 {
@@ -196,6 +198,7 @@
   padding: 1rem 1.5rem;
   border-top: 1px solid #e2e8f0;
   background: #f7fafc;
+  flex-shrink: 0;
 }
 
 .message-form input {
