@@ -34,8 +34,8 @@ export default function HomePage() {
           <div className="hero-text">
             <h1>MyBus - Portal Transportowy</h1>
             <p>
-              Znajdź zaufanego przewoźnika w Niemczech, Holandii i krajach
-              Europy Zachodniej
+              Znajdź zaufanego przewoźnika do Niemiec, Holandii i innych krajów
+              Europy Zachodniej. Przewozy międzynarodowe i transfery wewnętrzne.
             </p>
             <Link to="/search" className="btn-hero">
               Szukaj przewoźnika →
