@@ -58,10 +58,10 @@ export default function MessagesPage() {
     if (!newMessage.trim() || !selectedConversation) return
 
     try {
-      setSenotherUserId = selectedConversation.otherUser?._id || selectedConversation.otherUser
+      setSending(true)
+      const otherUserId = selectedConversation.otherUser?._id || selectedConversation.otherUser
       const response = await messageService.sendMessage({
-        receiverId: otherUserIge({
-        receiverId: selectedConversation.otherUser._id,
+        receiverId: otherUserId,
         content: newMessage.trim()
       })
       
