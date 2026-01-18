@@ -73,10 +73,11 @@
   }
 }
 
-/* Premium Card - złota ramka */
+/* Premium Card - złota ramka (taka sama technika jak Business) */
 .carrier-card.premium-card {
-  border: 3px solid #f39c12;
-  background: linear-gradient(135deg, #ffffff 0%, #fef5e7 100%);
+  border: 3px solid transparent;
+  background: linear-gradient(#ffffff, #fef5e7) padding-box,
+              linear-gradient(135deg, #f39c12 0%, #e67e22 100%) border-box;
   box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3);
 }
 
