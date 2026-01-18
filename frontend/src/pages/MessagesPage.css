@@ -17,8 +17,8 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 700px !important;
-  max-height: calc(100vh - 200px) !important;
+  height: 750px !important;
+  max-height: calc(100vh - 150px) !important;
 }
 
 /* Lista konwersacji */
@@ -95,8 +95,8 @@
 .conversation-view {
   display: flex !important;
   flex-direction: column !important;
-  height: 700px !important;
-  max-height: 700px !important;
+  height: 750px !important;
+  max-height: 750px !important;
   overflow: hidden !important;
 }
 
@@ -129,7 +129,7 @@
 
 .messages-list {
   flex: 1 1 auto !important;
-  max-height: 530px !important;
+  max-height: 580px !important;
   padding: 1.5rem;
   overflow-y: auto !important;
   overflow-x: hidden;
