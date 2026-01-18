@@ -24,10 +24,21 @@ export const getCarriers = async (req, res, next) => {
       ]
     }
 
-    // Premium carriers first, then free carriers
+    // Business first, then Premium, then free carriers
     const carriers = await Carrier.find(query)
       .select('-__v')
-      .sort({ isPremium: -1, createdAt: -1 })
+      .lean()
+    
+    // Custom sort: business > premium > free
+    carriers.sort((a, b) => {
+      const getPriority = (carrier) => {
+        if (carrier.subscriptionPlan === 'business') return 3
+        if (carrier.subscriptionPlan === 'premium') return 2
+        return 1
+      }
+      return getPriority(b) - getPriority(a)
+    })
+    
     res.json(carriers)
   } catch (error) {
     next(error)

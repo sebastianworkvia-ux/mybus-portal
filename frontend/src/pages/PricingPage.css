@@ -20,6 +20,56 @@
   opacity: 0.9;
 }
 
+.billing-toggle {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  padding: 6px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.billing-toggle button {
+  flex: 1;
+  padding: 12px 30px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.billing-toggle button.active {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.savings-badge {
+  background: #28a745;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+.yearly-savings {
+  font-size: 0.9rem;
+  color: #28a745;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

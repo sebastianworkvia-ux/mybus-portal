@@ -21,13 +21,19 @@ const getMollieClient = () => {
 const PRICING_PLANS = {
   premium: {
     amount: 29.99,
+    yearlyAmount: 299.99,
     duration: 30, // dni
-    description: 'Plan Premium - 30 dni'
+    yearlyDuration: 365, // dni
+    description: 'Plan Premium - 30 dni',
+    yearlyDescription: 'Plan Premium - 12 miesięcy (oszczędzasz 17%)'
   },
   business: {
     amount: 49.99,
+    yearlyAmount: 499.99,
     duration: 30, // dni
-    description: 'Plan Business - 30 dni'
+    yearlyDuration: 365, // dni
+    description: 'Plan Business - 30 dni',
+    yearlyDescription: 'Plan Business - 12 miesięcy (oszczędzasz 17%)'
   }
 }
 
@@ -37,12 +43,16 @@ const PRICING_PLANS = {
  */
 export const createPayment = async (req, res, next) => {
   try {
-    const { planType, carrierId } = req.body
+    const { planType, carrierId, billingPeriod = 'monthly' } = req.body
     const userId = req.user.id
 
     // Walidacja planu
     if (!PRICING_PLANS[planType]) {
       return res.status(400).json({ error: 'Nieprawidłowy plan' })
+    }
+    
+    if (!['monthly', 'yearly'].includes(billingPeriod)) {
+      return res.status(400).json({ error: 'Nieprawidłowy okres rozliczeniowy' })
     }
 
     // Sprawdź czy carrier należy do użytkownika
@@ -54,21 +64,26 @@ export const createPayment = async (req, res, next) => {
     }
 
     const plan = PRICING_PLANS[planType]
+    const isYearly = billingPeriod === 'yearly'
+    const amount = (isYearly ? plan.yearlyAmount : plan.amount).toFixed(2)
+    const description = isYearly ? plan.yearlyDescription : plan.description
+    const duration = isYearly ? plan.yearlyDuration : plan.duration
     
     // Najpierw tworzymy płatność bez redirectUrl (dostaniemy ID)
     const tempPayment = await getMollieClient().payments.create({
       amount: {
         currency: 'EUR',
-        value: plan.amount.toFixed(2)
+        value: amount
       },
-      description: plan.description,
+      description: description,
       redirectUrl: `${process.env.FRONTEND_URL}/payment/success?paymentId=PLACEHOLDER`,
       webhookUrl: `${process.env.BACKEND_URL}/payments/webhook`,
       metadata: {
         userId: userId.toString(),
         carrierId: carrierId?.toString() || null,
         planType,
-        duration: plan.duration
+        duration: duration,
+        billingPeriod
       }
     })
     
@@ -82,7 +97,7 @@ export const createPayment = async (req, res, next) => {
       userId,
       carrierId: carrierId || null,
       planType,
-      amount: plan.amount,
+      amount: parseFloat(amount),
       currency: 'EUR',
       status: 'pending',
       molliePaymentId: payment.id,

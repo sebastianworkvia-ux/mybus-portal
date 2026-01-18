@@ -9,6 +9,8 @@ const PRICING_PLANS = {
     name: 'ProBus',
     price: 29.99,
     period: '30 dni',
+    yearlyPrice: 299.99,
+    yearlySavings: '17%',
     features: [
       '✅ Własne logo firmy',
       '✅ Wyższe pozycje w wyszukiwaniu',
@@ -24,9 +26,11 @@ const PRICING_PLANS = {
     name: 'BizBus',
     price: 49.99,
     period: '30 dni',
+    yearlyPrice: 499.99,
+    yearlySavings: '17%',
     features: [
       '✨ Wszystko z ProBus +',
-      '✅ Najwyższa pozycja w wynikach',
+      '✅ NAJWYŻSZA pozycja w wynikach',
       '✅ Wyróżnienie kolorowe na liście',
       '✅ Badge "Business Premium"',
       '✅ Dedykowany opiekun klienta',
@@ -44,6 +48,7 @@ function PricingPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [selectedPlan, setSelectedPlan] = useState(null)
+  const [billingPeriod, setBillingPeriod] = useState('monthly') // 'monthly' or 'yearly'
 
   useEffect(() => {
     if (!user) {
@@ -65,7 +70,8 @@ function PricingPage() {
       console.log('🚀 Tworzenie płatności dla planu:', planType)
 
       const response = await paymentService.createPayment({
-        planType
+        planType,
+        billingPeriod
       })
 
       console.log('✅ Odpowiedź z serwera:', response.data)
@@ -91,6 +97,21 @@ function PricingPage() {
         <div className="pricing-header">
           <h1>Wybierz swój plan abonamentowy</h1>
           <p>Wyróżnij swoją firmę i zdobądź więcej klientów</p>
+          
+          <div className="billing-toggle">
+            <button 
+              className={billingPeriod === 'monthly' ? 'active' : ''}
+              onClick={() => setBillingPeriod('monthly')}
+            >
+              Miesięcznie
+            </button>
+            <button 
+              className={billingPeriod === 'yearly' ? 'active' : ''}
+              onClick={() => setBillingPeriod('yearly')}
+            >
+              Rocznie <span className="savings-badge">-17%</span>
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -111,9 +132,12 @@ function PricingPage() {
                 <h3>{plan.name}</h3>
                 <div className="price">
                   <span className="amount">
-                    {plan.price === 0 ? 'Darmowy' : `${plan.price}€`}
+                    {billingPeriod === 'monthly' ? `${plan.price}€` : `${plan.yearlyPrice}€`}
                   </span>
-                  {plan.price > 0 && <span className="period">/{plan.period}</span>}
+                  <span className="period">/{billingPeriod === 'monthly' ? plan.period : 'rok'}</span>
+                  {billingPeriod === 'yearly' && (
+                    <div className="yearly-savings">Oszczędzasz {plan.yearlySavings}!</div>
+                  )}
                 </div>
               </div>
 
