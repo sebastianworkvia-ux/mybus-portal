@@ -224,7 +224,7 @@ export default function AdminCarriersPage() {
                     <td>
                       <div className="action-buttons">
                         <Link 
-                          to={`/carriers/${carrier._id}`}
+                          to={`/carrier/${carrier._id}`}
                           className="btn-action view"
                           title="Otwórz kartę firmy"
                         >
