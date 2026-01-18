@@ -33,23 +33,24 @@ router.get('/stats', adminMiddleware, async (req, res) => {
       recentCarriers,
       recentReviews
     ] = await Promise.all([
-      User.countDocuments(),
-      User.countDocuments({ userType: 'carrier' }),
-      User.countDocuments({ userType: 'customer' }),
+      User.countDocuments({ isAdmin: { $ne: true } }),
+      User.countDocuments({ userType: 'carrier', isAdmin: { $ne: true } }),
+      User.countDocuments({ userType: 'customer', isAdmin: { $ne: true } }),
       Carrier.countDocuments(),
       Carrier.countDocuments({ isVerified: true }),
       Carrier.countDocuments({ isVerified: false }),
       Carrier.countDocuments({ isPremium: true }),
-      // Przewoźnicy którzy mają konto ale nie zgłosili firmy
+      // Przewoźnicy którzy mają konto ale nie zgłosili firmy (bez adminów)
       User.countDocuments({ 
         userType: 'carrier',
+        isAdmin: { $ne: true },
         _id: { $nin: await Carrier.distinct('userId') }
       }),
       Review.countDocuments(),
       PageView.countDocuments({ createdAt: { $gte: today, $lt: tomorrow } }),
       PageView.distinct('sessionId', { createdAt: { $gte: today, $lt: tomorrow } }),
       PageView.countDocuments(),
-      User.find().sort({ createdAt: -1 }).limit(10).select('email firstName lastName userType createdAt isPremium'),
+      User.find({ isAdmin: { $ne: true } }).sort({ createdAt: -1 }).limit(10).select('email firstName lastName userType createdAt isPremium'),
       Carrier.find().populate('userId', 'email firstName lastName').sort({ createdAt: -1 }).limit(10).select('companyName isVerified isPremium createdAt userId'),
       Review.find().populate('userId', 'firstName lastName').populate('carrierId', 'companyName').sort({ createdAt: -1 }).limit(5)
     ])
@@ -86,7 +87,7 @@ router.get('/stats', adminMiddleware, async (req, res) => {
 router.get('/users', adminMiddleware, async (req, res) => {
   try {
     const { page = 1, limit = 20, userType } = req.query
-    const query = userType ? { userType, email: { $not: /@mybus\.temp$/ } } : { email: { $not: /@mybus\.temp$/ } }
+    const query = userType ? { userType, isAdmin: { $ne: true } } : { isAdmin: { $ne: true } }
     
     const users = await User.find(query)
       .select('-password')
