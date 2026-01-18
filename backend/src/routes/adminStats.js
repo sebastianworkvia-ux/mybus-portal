@@ -3,12 +3,19 @@ import { adminMiddleware } from '../middleware/auth.js'
 import User from '../models/User.js'
 import Carrier from '../models/Carrier.js'
 import Review from '../models/Review.js'
+import PageView from '../models/PageView.js'
 
 const router = express.Router()
 
 // Get dashboard statistics
 router.get('/stats', adminMiddleware, async (req, res) => {
   try {
+    // Daily page views (today)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
     const [
       totalUsers,
       carriersWithAccount,
@@ -19,13 +26,16 @@ router.get('/stats', adminMiddleware, async (req, res) => {
       premiumCarriers,
       carriersWithoutCompany,
       totalReviews,
+      todayViews,
+      todayUniqueSessions,
+      totalPageViews,
       recentUsers,
       recentCarriers,
       recentReviews
     ] = await Promise.all([
-      User.countDocuments({ email: { $not: /@mybus\.temp$/ } }),
-      User.countDocuments({ userType: 'carrier', email: { $not: /@mybus\.temp$/ } }),
-      User.countDocuments({ userType: 'customer', email: { $not: /@mybus\.temp$/ } }),
+      User.countDocuments(),
+      User.countDocuments({ userType: 'carrier' }),
+      User.countDocuments({ userType: 'customer' }),
       Carrier.countDocuments(),
       Carrier.countDocuments({ isVerified: true }),
       Carrier.countDocuments({ isVerified: false }),
@@ -36,7 +46,10 @@ router.get('/stats', adminMiddleware, async (req, res) => {
         _id: { $nin: await Carrier.distinct('userId') }
       }),
       Review.countDocuments(),
-      User.find({ email: { $not: /@mybus\.temp$/ } }).sort({ createdAt: -1 }).limit(10).select('email firstName lastName userType createdAt isPremium'),
+      PageView.countDocuments({ createdAt: { $gte: today, $lt: tomorrow } }),
+      PageView.distinct('sessionId', { createdAt: { $gte: today, $lt: tomorrow } }),
+      PageView.countDocuments(),
+      User.find().sort({ createdAt: -1 }).limit(10).select('email firstName lastName userType createdAt isPremium'),
       Carrier.find().populate('userId', 'email firstName lastName').sort({ createdAt: -1 }).limit(10).select('companyName isVerified isPremium createdAt userId'),
       Review.find().populate('userId', 'firstName lastName').populate('carrierId', 'companyName').sort({ createdAt: -1 }).limit(5)
     ])
@@ -51,7 +64,12 @@ router.get('/stats', adminMiddleware, async (req, res) => {
         unverifiedCarriers,
         premiumCarriers,
         carriersWithoutCompany,
-        totalReviews
+        totalReviews,
+        pageViews: {
+          today: todayViews,
+          todayUnique: todayUniqueSessions.length,
+          total: totalPageViews
+        }
       },
       recent: {
         users: recentUsers,
