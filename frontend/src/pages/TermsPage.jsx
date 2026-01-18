@@ -87,7 +87,8 @@ export default function TermsPage() {
             2. Zakazane jest umieszczanie treści obraźliwych lub niezgodnych z prawem.
           </p>
           <p>
-            3. Kontakt z Przewoźnikiem odbywa się bezpośrednio poza platformą.
+            3. Kontakt z Przewoźnikiem odbywa się przez skrzynkę odbiorczą w serwisie 
+            bądź bezpośrednio poza serwisem przez dane kontaktowe.
           </p>
         </section>
 
