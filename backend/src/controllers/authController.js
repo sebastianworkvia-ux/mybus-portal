@@ -1,25 +1,9 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
-import axios from 'axios'
 
 export const register = async (req, res, next) => {
   try {
-    const { email, password, firstName, lastName, companyName, userType, marketingConsent, recaptchaToken } = req.body
-
-    // Validate reCAPTCHA
-    if (!recaptchaToken) {
-      return res.status(400).json({ error: 'reCAPTCHA verification required' })
-    }
-
-    // Verify reCAPTCHA with Google
-    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-    const recaptchaVerify = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`
-    )
-
-    if (!recaptchaVerify.data.success) {
-      return res.status(400).json({ error: 'reCAPTCHA verification failed' })
-    }
+    const { email, password, firstName, lastName, companyName, userType, marketingConsent } = req.body
 
     // Validate
     if (!email || !password || !userType) {
