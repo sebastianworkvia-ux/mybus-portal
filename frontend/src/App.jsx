@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CookieBanner from './components/CookieBanner'
+import FacebookPopup from './components/FacebookPopup'
 import { trackPageView } from './utils/analytics'
 import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
@@ -53,6 +54,7 @@ function App() {
     <BrowserRouter>
       <PageViewTracker />
       <Header />
+      <FacebookPopup />
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
