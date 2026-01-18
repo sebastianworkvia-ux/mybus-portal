@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           <p>
             W sprawach dotyczących ochrony danych osobowych skontaktuj się z nami:
             <br />
-            E-mail: <a href="mailto:rodo@mybus.pl">rodo@mybus.pl</a>
+            E-mail: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>
           </p>
         </section>
       </div>

@@ -87,7 +87,7 @@ export default function CookiesPage() {
           <h2>5. Kontakt</h2>
           <p>
             Pytania dotyczące cookies: 
-            <a href="mailto:cookies@mybus.pl"> cookies@mybus.pl</a>
+            <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>
           </p>
         </section>
       </div>
