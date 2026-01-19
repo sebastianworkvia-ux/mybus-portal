@@ -142,7 +142,28 @@ export default function UserSettingsPage() {
       await apiClient.post('/payments/cancel-subscription')
       alert('Subskrypcja została anulowana. Odśwież stronę aby zobaczyć zmiany.')
       window.location.reload()
-    } catch (erancel Subscription Section - tylko dla premium użytkowników */}
+    } catch (err) {
+      setCancelError(err.response?.data?.error || 'Błąd podczas anulowania subskrypcji')
+    } finally {
+      setCancelLoading(false)
+    }
+  }
+
+  return (
+    <div className="user-settings-page">
+      <div className="container">
+        <div className="settings-header">
+          <Link to={user.userType === 'carrier' ? '/dashboard' : '/'} className="back-link">
+            ← Wróć
+          </Link>
+          <h1>⚙️ Ustawienia konta</h1>
+          <p className="user-info">
+            Zalogowany jako: <strong>{user.firstName} {user.lastName}</strong> ({user.email})
+          </p>
+        </div>
+
+        <div className="settings-grid">
+          {/* Cancel Subscription Section - tylko dla premium użytkowników */}
           {user.isPremium && (
             <div className="settings-card warning-card">
               <div className="card-header">
@@ -177,27 +198,6 @@ export default function UserSettingsPage() {
             </div>
           )}
 
-          {/* Cr) {
-      setCancelError(err.response?.data?.error || 'Błąd podczas anulowania subskrypcji')
-    } finally {
-      setCancelLoading(false)
-    }
-  }
-
-  return (
-    <div className="user-settings-page">
-      <div className="container">
-        <div className="settings-header">
-          <Link to={user.userType === 'carrier' ? '/dashboard' : '/'} className="back-link">
-            ← Wróć
-          </Link>
-          <h1>⚙️ Ustawienia konta</h1>
-          <p className="user-info">
-            Zalogowany jako: <strong>{user.firstName} {user.lastName}</strong> ({user.email})
-          </p>
-        </div>
-
-        <div className="settings-grid">
           {/* Change Password Section */}
           <div className="settings-card">
             <div className="card-header">
