@@ -24,16 +24,16 @@ const PRICING_PLANS = {
     yearlyAmount: 299.99,
     duration: 30, // dni
     yearlyDuration: 365, // dni
-    description: 'Plan Premium - 30 dni',
-    yearlyDescription: 'Plan Premium - 12 miesięcy (oszczędzasz 17%)'
+    description: 'My-Bus.eu - Plan Premium (30 dni)',
+    yearlyDescription: 'My-Bus.eu - Plan Premium (12 miesięcy - oszczędzasz 17%)'
   },
   business: {
     amount: 49.99,
     yearlyAmount: 499.99,
     duration: 30, // dni
     yearlyDuration: 365, // dni
-    description: 'Plan Business - 30 dni',
-    yearlyDescription: 'Plan Business - 12 miesięcy (oszczędzasz 17%)'
+    description: 'My-Bus.eu - Plan Business (30 dni)',
+    yearlyDescription: 'My-Bus.eu - Plan Business (12 miesięcy - oszczędzasz 17%)'
   }
 }
 
