@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useCarrierStore } from '../stores/carrierStore'
 import './SearchBar.css'
 
 export default function SearchBar() {
+  const navigate = useNavigate()
+  const location = useLocation()
   const { getCarriers, setFilters } = useCarrierStore()
   const [routeFrom, setRouteFrom] = useState('')
   const [routeTo, setRouteTo] = useState('')
@@ -19,6 +22,11 @@ export default function SearchBar() {
 
     setFilters({ routeFrom, routeTo, service, search })
     getCarriers(params)
+    
+    // Przekieruj na stronę wyników wyszukiwania (tylko jeśli nie jesteśmy już tam)
+    if (location.pathname !== '/search') {
+      navigate('/search')
+    }
   }
 
   return (
