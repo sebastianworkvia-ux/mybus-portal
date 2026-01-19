@@ -35,6 +35,10 @@ export default function UserSettingsPage() {
   const [feedbackError, setFeedbackError] = useState('')
   const [feedbackSuccess, setFeedbackSuccess] = useState('')
 
+  // Cancel subscription state
+  const [cancelLoading, setCancelLoading] = useState(false)
+  const [cancelError, setCancelError] = useState('')
+
   if (!user) {
     navigate('/login')
     return null
@@ -121,6 +125,62 @@ export default function UserSettingsPage() {
       setFeedbackError(err.response?.data?.error || 'Błąd podczas wysyłania wiadomości')
     } finally {
       setFeedbackLoading(false)
+    }
+  }
+
+  // Cancel subscription handler
+  const handleCancelSubscription = async () => {
+    setCancelError('')
+
+    if (!window.confirm('Czy na pewno chcesz anulować subskrypcję? Wszystkie Twoje firmy stracą status Premium i zostaną zdegradowane do planu darmowego.')) {
+      return
+    }
+
+    setCancelLoading(true)
+
+    try {
+      await apiClient.post('/payments/cancel-subscription')
+      alert('Subskrypcja została anulowana. Odśwież stronę aby zobaczyć zmiany.')
+      window.location.reload()
+    } catch (erancel Subscription Section - tylko dla premium użytkowników */}
+          {user.isPremium && (
+            <div className="settings-card warning-card">
+              <div className="card-header">
+                <h2>🔄 Zarządzanie subskrypcją</h2>
+                <p className="card-subtitle">
+                  Aktualny plan: <strong>{user.subscriptionPlan === 'business' ? 'Business Premium' : 'Premium'}</strong>
+                  {user.subscriptionExpiry && (
+                    <> - ważny do: <strong>{new Date(user.subscriptionExpiry).toLocaleDateString('pl-PL')}</strong></>
+                  )}
+                </p>
+              </div>
+              
+              {cancelError && <div className="error-message">{cancelError}</div>}
+              
+              <div className="subscription-info">
+                <p>⚠️ <strong>Anulowanie subskrypcji:</strong></p>
+                <ul>
+                  <li>Utracisz status Premium/Business</li>
+                  <li>Wszystkie Twoje firmy zostaną zdegradowane do planu darmowego</li>
+                  <li>Nie będą wyświetlać się wyżej w wynikach wyszukiwania</li>
+                  <li>Stracisz możliwość dodawania logo i zdjęć</li>
+                </ul>
+              </div>
+
+              <button 
+                onClick={handleCancelSubscription} 
+                className="btn-submit warning-btn" 
+                disabled={cancelLoading}
+              >
+                {cancelLoading ? 'Anulowanie...' : 'Anuluj subskrypcję'}
+              </button>
+            </div>
+          )}
+
+          {/* Cr) {
+      setCancelError(err.response?.data?.error || 'Błąd podczas anulowania subskrypcji')
+    } finally {
+      setCancelLoading(false)
     }
   }
 

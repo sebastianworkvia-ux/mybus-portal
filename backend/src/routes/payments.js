@@ -6,6 +6,7 @@ import {
   getPaymentStatus,
   getPaymentHistory,
   cancelPayment,
+  cancelSubscription,
   activatePremiumTest
 } from '../controllers/paymentController.js'
 
@@ -25,6 +26,9 @@ router.get('/history', authMiddleware, getPaymentHistory)
 
 // Anulowanie płatności - wymaga autoryzacji
 router.delete('/:id/cancel', authMiddleware, cancelPayment)
+
+// Anulowanie subskrypcji - wymaga autoryzacji
+router.post('/cancel-subscription', authMiddleware, cancelSubscription)
 
 // TESTOWY endpoint - ręczne wywołanie webhooka (do usunięcia na produkcji)
 router.post('/test-webhook/:paymentId', async (req, res) => {

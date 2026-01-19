@@ -302,6 +302,54 @@ export const cancelPayment = async (req, res, next) => {
 }
 
 /**
+ * Anuluj subskrypcję użytkownika
+ * POST /payments/cancel-subscription
+ */
+export const cancelSubscription = async (req, res, next) => {
+  try {
+    const userId = req.user.id
+    
+    const user = await User.findById(userId)
+    if (!user) {
+      return res.status(404).json({ error: 'Użytkownik nie znaleziony' })
+    }
+    
+    if (!user.isPremium) {
+      return res.status(400).json({ error: 'Nie masz aktywnej subskrypcji' })
+    }
+    
+    // Resetuj plan użytkownika
+    user.isPremium = false
+    user.subscriptionPlan = 'free'
+    user.subscriptionExpiry = null
+    
+    await user.save()
+    
+    console.log(`✅ Anulowano subskrypcję dla użytkownika ${user.email}`)
+    
+    // Zdegraduj wszystkie firmy użytkownika do planu FREE
+    const carriers = await Carrier.find({ userId })
+    let updatedCarriers = 0
+    for (const carrier of carriers) {
+      carrier.subscriptionPlan = 'free'
+      carrier.isPremium = false
+      carrier.subscriptionExpiry = null
+      await carrier.save()
+      updatedCarriers++
+    }
+    
+    console.log(`✅ Zdegradowano ${updatedCarriers} firm(y) do planu FREE`)
+    
+    res.json({ 
+      message: 'Subskrypcja została anulowana',
+      carriersUpdated: updatedCarriers
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/**
  * TESTOWY endpoint - aktywuj Premium dla zalogowanego użytkownika
  * POST /payments/activate-premium
  */
