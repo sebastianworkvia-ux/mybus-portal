@@ -32,7 +32,7 @@ export default function HomePage() {
         </div>
         <div className="hero-content">
           <div className="hero-text">
-            <h1>MyBus - Portal Transportowy</h1>
+            <h1>My-Bus.eu - Portal Transportowy</h1>
             <p>
               Znajdź zaufanego przewoźnika do Niemiec, Holandii i innych krajów
               Europy Zachodniej. Przewozy międzynarodowe i transfery wewnętrzne.
@@ -126,7 +126,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="btn-facebook"
             >
-              👍 Polub i obserwuj MyBus
+              👍 Polub i obserwuj My-Bus.eu
             </a>
             <p className="facebook-subtext">Dołącz do naszej społeczności!</p>
           </div>

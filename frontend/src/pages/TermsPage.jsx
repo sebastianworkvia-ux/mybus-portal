@@ -10,11 +10,11 @@ export default function TermsPage() {
         <section>
           <h2>§1 Postanowienia ogólne</h2>
           <p>
-            1. Niniejszy Regulamin określa zasady korzystania z platformy MyBus 
-            dostępnej pod adresem mybus.pl.
+            1. Niniejszy Regulamin określa zasady korzystania z platformy My-Bus.eu 
+            dostępnej pod adresem my-bus.eu.
           </p>
           <p>
-            2. Właścicielem i operatorem serwisu jest MyBus.
+            2. Właścicielem i operatorem serwisu jest My-Bus.eu.
           </p>
           <p>
             3. Korzystanie z serwisu oznacza akceptację niniejszego Regulaminu.
@@ -24,7 +24,7 @@ export default function TermsPage() {
         <section>
           <h2>§2 Definicje</h2>
           <ul>
-            <li><strong>Serwis</strong> – platforma MyBus</li>
+            <li><strong>Serwis</strong> – platforma My-Bus.eu</li>
             <li><strong>Użytkownik</strong> – osoba korzystająca z serwisu</li>
             <li><strong>Przewoźnik</strong> – użytkownik prowadzący działalność transportową</li>
             <li><strong>Klient</strong> – użytkownik poszukujący usług przewozowych</li>
@@ -73,7 +73,7 @@ export default function TermsPage() {
             wprowadzających w błąd.
           </p>
           <p>
-            6. MyBus nie ponosi odpowiedzialności za jakość usług świadczonych 
+            6. My-Bus.eu nie ponosi odpowiedzialności za jakość usług świadczonych 
             przez Przewoźników.
           </p>
         </section>
@@ -95,7 +95,7 @@ export default function TermsPage() {
         <section>
           <h2>§6 Odpowiedzialność</h2>
           <p>
-            1. MyBus działa jako platforma pośrednicząca i nie ponosi odpowiedzialności za:
+            1. My-Bus.eu działa jako platforma pośrednicząca i nie ponosi odpowiedzialności za:
           </p>
           <ul>
             <li>Jakość usług świadczonych przez Przewoźników</li>
@@ -103,7 +103,7 @@ export default function TermsPage() {
             <li>Szkody wynikające z korzystania z serwisu</li>
           </ul>
           <p>
-            2. MyBus zastrzega sobie prawo do usunięcia konta użytkownika 
+            2. My-Bus.eu zastrzega sobie prawo do usunięcia konta użytkownika 
             naruszającego regulamin.
           </p>
         </section>
@@ -119,7 +119,7 @@ export default function TermsPage() {
         <section>
           <h2>§8 Zmiany Regulaminu</h2>
           <p>
-            1. MyBus zastrzega sobie prawo do zmiany Regulaminu.
+            1. My-Bus.eu zastrzega sobie prawo do zmiany Regulaminu.
           </p>
           <p>
             2. Użytkownicy zostaną poinformowani o zmianach z 7-dniowym wyprzedzeniem.
@@ -135,7 +135,7 @@ export default function TermsPage() {
             1. W sprawach nieuregulowanych Regulaminem stosuje się przepisy prawa polskiego.
           </p>
           <p>
-            2. Spory będą rozstrzygane przez sąd właściwy dla siedziby MyBus.
+            2. Spory będą rozstrzygane przez sąd właściwy dla siedziby My-Bus.eu.
           </p>
           <p>
             3. Kontakt: <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>

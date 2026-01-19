@@ -51,7 +51,7 @@ export default function FacebookPopup() {
         </ul>
 
         <button className="btn-popup-facebook" onClick={handleVisitFacebook}>
-          👍 Polub MyBus na Facebooku
+          👍 Polub My-Bus.eu na Facebooku
         </button>
 
         <button className="btn-popup-later" onClick={handleClose}>

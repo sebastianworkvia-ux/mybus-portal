@@ -10,7 +10,7 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2>1. Administrator Danych</h2>
           <p>
-            Administratorem danych osobowych jest MyBus. Kontakt: kontakt.mybus@gmail.com
+            Administratorem danych osobowych jest My-Bus.eu. Kontakt: kontakt.mybus@gmail.com
           </p>
         </section>
 

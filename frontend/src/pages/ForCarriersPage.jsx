@@ -59,7 +59,7 @@ export default function ForCarriersPage() {
       {/* Benefits Section */}
       <section className="benefits-section">
         <div className="container">
-          <h2 className="section-title">Dlaczego MyBus?</h2>
+          <h2 className="section-title">Dlaczego My-Bus.eu?</h2>
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">🌍</div>
@@ -176,7 +176,7 @@ export default function ForCarriersPage() {
               <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
               <p className="testimonial-text">
                 "Najlepsza inwestycja jaką zrobiłem. Plan Premium zwrócił się 
-                po pierwszym kliencie. Mam już stałych klientów dzięki MyBus."
+                po pierwszym kliencie. Mam już stałych klientów dzięki My-Bus.eu."
               </p>
               <div className="testimonial-author">
                 <strong>Piotr Wiśniewski</strong>
@@ -296,7 +296,7 @@ export default function ForCarriersPage() {
               </p>
             </div>
             <div className="faq-item">
-              <h3>Czy MyBus bierze prowizję od zleceń?</h3>
+              <h3>Czy My-Bus.eu bierze prowizję od zleceń?</h3>
               <p>
                 Nie! Zarabiamy tylko na planach Premium/Business. Nie pobieramy 
                 prowizji od Twoich zleceń. 100% zysku zostaje u Ciebie.
