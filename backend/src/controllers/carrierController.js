@@ -70,6 +70,12 @@ export const createCarrier = async (req, res, next) => {
       return res.status(409).json({ error: 'Carrier profile already exists' })
     }
 
+    // Pobierz dane użytkownika aby sprawdzić subskrypcję
+    const user = await User.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
     const carrier = new Carrier({
       userId: req.user.id,
       companyName,
@@ -78,6 +84,17 @@ export const createCarrier = async (req, res, next) => {
       description,
       services
     })
+
+    // Jeśli użytkownik ma aktywną subskrypcję, przypisz ją do firmy
+    if (user.subscriptionPlan && user.subscriptionExpiry) {
+      const now = new Date()
+      if (user.subscriptionExpiry > now) {
+        carrier.subscriptionPlan = user.subscriptionPlan
+        carrier.isPremium = ['premium', 'business'].includes(user.subscriptionPlan)
+        carrier.subscriptionExpiry = user.subscriptionExpiry
+        console.log(`✅ Przypisano plan ${user.subscriptionPlan} do nowej firmy ${companyName}`)
+      }
+    }
 
     await carrier.save()
 
