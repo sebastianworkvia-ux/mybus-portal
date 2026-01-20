@@ -53,17 +53,54 @@ export default function HomePage() {
           <div className="feature-card">
             <SearchIllustration />
             <h3>Łatwe wyszukiwanie</h3>
-            <p>Filtruj po kraju, typie usługi i znajdź idealnego przewoźnika</p>
+            <p>Znajdź przewoźników z Polski do Niemiec, Holandii, Belgii i innych krajów UE. Filtruj po trasie, typie usługi i cenie.</p>
           </div>
           <div className="feature-card">
             <VerifiedIllustration />
             <h3>Sprawdzone firmy</h3>
-            <p>Wszystkie firmy z rejestracją i opiniami klientów</p>
+            <p>Zweryfikowane firmy transportowe z numerami rejestracyjnymi. Bezpieczne przewozy osób i paczek.</p>
           </div>
           <div className="feature-card">
             <CommunityIllustration />
             <h3>Oceny i recenzje</h3>
-            <p>Zobacz co mówią inni klienci przed podjęciem decyzji</p>
+            <p>Prawdziwe opinie klientów o przewoźnikach. Sprawdź reputację przed rezerwacją.</p>
+          </div>
+        </section>
+
+        {/* CTA Section - Zarejestruj się */}
+        <section className="register-benefits-section">
+          <div className="benefits-card">
+            <h2>🎯 Załóż darmowe konto i zyskaj więcej!</h2>
+            <div className="benefits-grid">
+              <div className="benefit-item">
+                <span className="benefit-icon">💬</span>
+                <h4>Bezpośredni kontakt</h4>
+                <p>Pisz wiadomości bezpośrednio do przewoźników przez platformę</p>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">⭐</span>
+                <h4>Dodawaj opinie</h4>
+                <p>Dziel się doświadczeniami i pomagaj innym w wyborze</p>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">🔔</span>
+                <h4>Powiadomienia</h4>
+                <p>Otrzymuj alerty o nowych przewoźnikach na Twojej trasie</p>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">📱</span>
+                <h4>Zarządzaj rezerwacjami</h4>
+                <p>Historia kontaktów i ulubionych przewoźników w jednym miejscu</p>
+              </div>
+            </div>
+            <div className="cta-buttons">
+              <Link to="/register" className="btn-cta-primary">
+                Załóż konto za darmo
+              </Link>
+              <Link to="/login" className="btn-cta-secondary">
+                Mam już konto
+              </Link>
+            </div>
           </div>
         </section>
 
