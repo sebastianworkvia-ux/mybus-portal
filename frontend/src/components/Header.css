@@ -68,6 +68,23 @@
   color: #ff6b35;
 }
 
+.map-link {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  transition: all 0.3s;
+}
+
+.map-link:hover {
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
 .user-menu {
   display: flex;
   gap: 1rem;
