@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
@@ -20,6 +20,31 @@ export default function HomePage() {
     loadCarriers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 8
+  const featuredCarriers = useMemo(() => {
+    if (!carriers || carriers.length === 0) return []
+    
+    // Rozdziel na premium/business i free
+    const premiumCarriers = carriers.filter(c => c.subscriptionPlan === 'business' || c.subscriptionPlan === 'premium')
+    const freeCarriers = carriers.filter(c => c.subscriptionPlan === 'free' || !c.subscriptionPlan)
+    
+    // Shuffle free carriers (Fisher-Yates shuffle)
+    const shuffledFree = [...freeCarriers]
+    for (let i = shuffledFree.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledFree[i], shuffledFree[j]] = [shuffledFree[j], shuffledFree[i]]
+    }
+    
+    // Połącz: wszystkie premium + losowe free (do 8 total)
+    const featured = [...premiumCarriers]
+    const remainingSlots = 8 - featured.length
+    if (remainingSlots > 0) {
+      featured.push(...shuffledFree.slice(0, remainingSlots))
+    }
+    
+    return featured.slice(0, 8)
+  }, [carriers])
 
   return (
     <div className="home-page">
@@ -133,7 +158,7 @@ export default function HomePage() {
 
           {!loading && !error && carriers.length > 0 && (
             <div className="carriers-grid">
-              {carriers.slice(0, 6).map((carrier) => (
+              {featuredCarriers.map((carrier) => (
                 <CarrierCard key={carrier._id} carrier={carrier} />
               ))}
             </div>
