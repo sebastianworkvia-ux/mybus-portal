@@ -251,6 +251,30 @@
   font-weight: 600;
 }
 
+.login-to-contact {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-left: 4px solid #f59e0b;
+  border-radius: 6px;
+}
+
+.login-to-contact p {
+  margin: 0;
+  color: #92400e;
+  font-weight: 600;
+}
+
+.login-to-contact a {
+  color: #b45309;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.login-to-contact a:hover {
+  color: #92400e;
+}
+
 .user-review-notice {
   background: #c6f6d5;
   border: 2px solid #48bb78;

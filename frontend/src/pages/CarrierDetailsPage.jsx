@@ -187,8 +187,20 @@ export default function CarrierDetailPage() {
             </div>
 
             <h3>📞 Kontakt</h3>
-            <p><strong>Telefon:</strong> {carrier.phone}</p>
-            {carrier.email && <p><strong>Email:</strong> {carrier.email}</p>}
+            {user ? (
+              <>
+                <p><strong>Telefon:</strong> <a href={`tel:${carrier.phone}`}>{carrier.phone}</a></p>
+                {carrier.email && <p><strong>Email:</strong> <a href={`mailto:${carrier.email}`}>{carrier.email}</a></p>}
+              </>
+            ) : (
+              <>
+                <p><strong>Telefon:</strong> {carrier.phone?.replace(/\d(?=\d{3})/g, '*')}</p>
+                {carrier.email && <p><strong>Email:</strong> {carrier.email?.replace(/(.{2})(.*)(@.*)/, '$1***$3')}</p>}
+                <div className="login-to-contact">
+                  <p>🔒 <Link to="/login">Zaloguj się</Link> lub <Link to="/register">zarejestruj</Link>, aby zobaczyć pełne dane kontaktowe</p>
+                </div>
+              </>
+            )}
             {carrier.website && (
               <p><strong>Strona:</strong> <a href={carrier.website} target="_blank" rel="noopener noreferrer">{carrier.website}</a></p>
             )}
