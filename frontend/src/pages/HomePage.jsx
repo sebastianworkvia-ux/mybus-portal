@@ -87,11 +87,6 @@ export default function HomePage() {
                 <h4>Powiadomienia</h4>
                 <p>Otrzymuj alerty o nowych przewoźnikach na Twojej trasie</p>
               </div>
-              <div className="benefit-item">
-                <span className="benefit-icon">📱</span>
-                <h4>Zarządzaj rezerwacjami</h4>
-                <p>Historia kontaktów i ulubionych przewoźników w jednym miejscu</p>
-              </div>
             </div>
             <div className="cta-buttons">
               <Link to="/register" className="btn-cta-primary">
