@@ -59,6 +59,81 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.unclaimed-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.unclaimed-content {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.unclaimed-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.unclaimed-text h3 {
+  color: #92400e;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.unclaimed-text p {
+  color: #78350f;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.unclaimed-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-claim {
+  display: inline-block;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-claim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.btn-remove-profile {
+  display: inline-block;
+  background: white;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.btn-remove-profile:hover {
+  background: #dc2626;
+  color: white;
+  transform: translateY(-2px);
+}
+
 .carrier-logo-large {
   text-align: center;
   margin-bottom: 1.5rem;

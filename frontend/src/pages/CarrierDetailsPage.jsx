@@ -129,6 +129,29 @@ export default function CarrierDetailPage() {
         <Link to="/search" className="btn-back-link">← Powrót do wyszukiwania</Link>
 
         <div className="carrier-header">
+          {/* Banner dla niezarejestrowanych firm */}
+          {!carrier.userId && (
+            <div className="unclaimed-banner">
+              <div className="unclaimed-content">
+                <span className="unclaimed-icon">🏢</span>
+                <div className="unclaimed-text">
+                  <h3>Czy to Twoja firma?</h3>
+                  <p>Ten profil został dodany do bazy, ale nie ma jeszcze właściciela. Jeśli jesteś właścicielem firmy <strong>{carrier.companyName}</strong>, możesz przejąć ten profil i zarządzać nim samodzielnie.</p>
+                </div>
+              </div>
+              <div className="unclaimed-actions">
+                <a href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}&body=Witam,%0D%0A%0D%0AChciałbym przejąć profil firmy: ${carrier.companyName}%0D%0ANumer rejestracyjny: ${carrier.companyRegistration}%0D%0A%0D%0APrzykładam dokumenty potwierdzające własność firmy.%0D%0A%0D%0APozdrawiam`} 
+                   className="btn-claim">
+                  ✅ Przejmij profil
+                </a>
+                <a href={`mailto:kontakt.mybus@gmail.com?subject=Usunięcie profilu - ${carrier.companyName}&body=Witam,%0D%0A%0D%0AProszę o usunięcie profilu firmy: ${carrier.companyName}%0D%0ANumer rejestracyjny: ${carrier.companyRegistration}%0D%0A%0D%0APrzykładam dokumenty potwierdzające, że jestem właścicielem.%0D%0A%0D%0APozdrawiam`}
+                   className="btn-remove-profile">
+                  🗑️ Poproś o usunięcie
+                </a>
+              </div>
+            </div>
+          )}
+
           {carrier.logo && (
             <div className="carrier-logo-large">
               <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
