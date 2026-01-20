@@ -89,10 +89,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="cta-buttons">
-              <Link to="/register" className="btn-cta-primary">
+              <Link to="/register" className="btn-cta-primary" onClick={() => window.scrollTo(0, 0)}>
                 Załóż konto za darmo
               </Link>
-              <Link to="/login" className="btn-cta-secondary">
+              <Link to="/login" className="btn-cta-secondary" onClick={() => window.scrollTo(0, 0)}>
                 Mam już konto
               </Link>
             </div>
