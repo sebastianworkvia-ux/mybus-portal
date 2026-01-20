@@ -78,7 +78,7 @@ export default function HomePage() {
           <div className="feature-card">
             <SearchIllustration />
             <h3>Łatwe wyszukiwanie</h3>
-            <p>Znajdź przewoźników z Polski do Niemiec, Holandii, Belgii i innych krajów UE. Filtruj po trasie, typie usługi i cenie.</p>
+            <p>Znajdź przewoźników z Polski do Niemiec, Holandii, Belgii i innych krajów UE. Filtruj po trasie i typie usługi lub szukaj na interaktywnej mapie w swojej okolicy.</p>
           </div>
           <div className="feature-card">
             <VerifiedIllustration />
