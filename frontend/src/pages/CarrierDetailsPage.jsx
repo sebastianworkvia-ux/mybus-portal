@@ -187,7 +187,8 @@ export default function CarrierDetailPage() {
             </div>
 
             <h3>📞 Kontakt</h3>
-            {user ? (
+            {/* Tymczasowo wyłączone - każdy ma dostęp do pełnych danych */}
+            {true || user ? (
               <>
                 <p><strong>Telefon:</strong> <a href={`tel:${carrier.phone}`}>{carrier.phone}</a></p>
                 {carrier.email && <p><strong>Email:</strong> <a href={`mailto:${carrier.email}`}>{carrier.email}</a></p>}
