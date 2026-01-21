@@ -203,10 +203,29 @@ export default function CarrierDetailPage() {
             )}
             
             <h3>🚐 Oferowane usługi</h3>
-            <div className="services-list">
-              {carrier.services?.map((service) => (
-                <span key={service} className="service-badge">{service}</span>
-              ))}
+            <div className="services-detailed-list">
+              {[
+                { value: 'transport', label: 'Transport osób' },
+                { value: 'transport-rzeczy', label: 'Transport rzeczy' },
+                { value: 'przeprowadzki', label: 'Przeprowadzki' },
+                { value: 'zwierzeta', label: 'Transport zwierząt' },
+                { value: 'dokumenty', label: 'Dokumenty' },
+                { value: 'paczki', label: 'Paczki' },
+                { value: 'inne', label: 'Inne' }
+              ].map((service) => {
+                const hasService = carrier.services?.includes(service.value)
+                return (
+                  <div key={service.value} className="service-item">
+                    <span className={`service-status ${hasService ? 'status-yes' : 'status-no-data'}`}>
+                      {hasService ? '✅' : '⚪'}
+                    </span>
+                    <span className="service-name">{service.label}</span>
+                    <span className="service-info">
+                      {hasService ? 'TAK - przewozi' : 'BRAK DANYCH - brak informacji od przewoźnika'}
+                    </span>
+                  </div>
+                )
+              })}
             </div>
 
             <h3>📞 Kontakt</h3>
