@@ -13,8 +13,8 @@
 }
 
 .header .container {
-  max-width: 1400px;
-  padding: 0 2rem;
+  max-width: 100%;
+  padding: 0 3rem;
 }
 
 .header-content {
@@ -22,6 +22,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 2rem;
 }
 
 .logo {
@@ -54,7 +55,9 @@
   align-items: center;
   flex-wrap: nowrap;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 2rem;
 }
 
 .nav a {
@@ -89,7 +92,8 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .user-greeting {
