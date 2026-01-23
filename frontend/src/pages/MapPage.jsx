@@ -23,6 +23,15 @@ const premiumIcon = new L.Icon({
   popupAnchor: [1, -34]
 })
 
+// Ikona Business - fioletowa pinezka (SVG)
+const businessIcon = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iNDEiIHZpZXdCb3g9IjAgMCAyNSA0MSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjOTMzM2VhIiBzdHJva2U9IiM2YjIxYTgiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTEyLjUsMkM3LjgsMiwzLjksNS45LDMuOSwxMC42YzAsNi40LDguNiwyMi40LDguNiwyMi40czguNi0xNiw4LjYtMjIuNEMyMS4xLDUuOSwxNy4yLDIsMTIuNSwyeiIvPjxjaXJjbGUgZmlsbD0iI2ZmZiIgY3g9IjEyLjUiIGN5PSIxMC42IiByPSI0Ii8+PC9zdmc+',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34]
+})
+
 // Ikona standardowa - domyślna niebieska
 const standardIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -175,61 +184,72 @@ export default function MapPage() {
                 onLocationFound={setUserLocation}
               />
 
-              {carriersWithLocation.map((carrier) => (
-                <Marker
-                  key={carrier._id}
-                  position={[
-                    carrier.location.coordinates.lat,
-                    carrier.location.coordinates.lng
-                  ]}
-                  icon={carrier.isPremium ? premiumIcon : standardIcon}
-                >
-                  <Popup maxWidth={300}>
-                    <div className="map-popup">
-                      {carrier.logo && (
-                        <img 
-                          src={carrier.logo} 
-                          alt={carrier.companyName}
-                          className="popup-logo"
-                        />
-                      )}
-                      <h3>{carrier.companyName}</h3>
-                      {carrier.isPremium && <span className="badge-premium">⭐ Premium</span>}
-                      
-                      <p className="popup-address">
-                        📍 {carrier.location.postalCode ? `${carrier.location.postalCode} ` : ''}{carrier.location.city}
-                      </p>
-                      
-                      {carrier.phone && (
-                        <p className="popup-phone">
-                          📞 {carrier.phone}
+              {carriersWithLocation.map((carrier) => {
+                // Wybór ikony na podstawie planu subskrypcji
+                let markerIcon = standardIcon
+                if (carrier.subscriptionPlan === 'business') {
+                  markerIcon = businessIcon
+                } else if (carrier.subscriptionPlan === 'premium' || carrier.isPremium) {
+                  markerIcon = premiumIcon
+                }
+
+                return (
+                  <Marker
+                    key={carrier._id}
+                    position={[
+                      carrier.location.coordinates.lat,
+                      carrier.location.coordinates.lng
+                    ]}
+                    icon={markerIcon}
+                  >
+                    <Popup maxWidth={300}>
+                      <div className="map-popup">
+                        {carrier.logo && (
+                          <img 
+                            src={carrier.logo} 
+                            alt={carrier.companyName}
+                            className="popup-logo"
+                          />
+                        )}
+                        <h3>{carrier.companyName}</h3>
+                        {carrier.subscriptionPlan === 'business' && <span className="badge-business">💎 Business</span>}
+                        {carrier.subscriptionPlan === 'premium' && <span className="badge-premium">⭐ Premium</span>}
+                        
+                        <p className="popup-address">
+                          📍 {carrier.location.postalCode ? `${carrier.location.postalCode} ` : ''}{carrier.location.city}
                         </p>
-                      )}
-                      
-                      <div className="popup-services">
-                        {carrier.services?.slice(0, 3).map((service, idx) => (
-                          <span key={idx} className="service-tag">
-                            {service}
-                          </span>
-                        ))}
+                        
+                        {carrier.phone && (
+                          <p className="popup-phone">
+                            📞 {carrier.phone}
+                          </p>
+                        )}
+                        
+                        <div className="popup-services">
+                          {carrier.services?.slice(0, 3).map((service, idx) => (
+                            <span key={idx} className="service-tag">
+                              {service}
+                            </span>
+                          ))}
+                        </div>
+                        
+                        {carrier.rating > 0 && (
+                          <p className="popup-rating">
+                            ⭐ {carrier.rating.toFixed(1)} ({carrier.reviewCount} opinii)
+                          </p>
+                        )}
+                        
+                        <Link 
+                          to={`/carrier/${carrier._id}`}
+                          className={`btn-popup ${carrier.subscriptionPlan === 'business' ? 'btn-popup-business' : carrier.isPremium ? 'btn-popup-premium' : ''}`}
+                        >
+                          Zobacz szczegóły →
+                        </Link>
                       </div>
-                      
-                      {carrier.rating > 0 && (
-                        <p className="popup-rating">
-                          ⭐ {carrier.rating.toFixed(1)} ({carrier.reviewCount} opinii)
-                        </p>
-                      )}
-                      
-                      <Link 
-                        to={`/carrier/${carrier._id}`}
-                        className={`btn-popup ${carrier.isPremium ? 'btn-popup-premium' : ''}`}
-                      >
-                        Zobacz szczegóły →
-                      </Link>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
+                    </Popup>
+                  </Marker>
+                )
+              })}
             </MapContainer>
           </div>
         )}
