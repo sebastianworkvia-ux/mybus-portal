@@ -43,7 +43,7 @@ export default function ForCarriersPage() {
               </div>
               <div className="hero-card">
                 <div className="card-icon">💰</div>
-                <h3>0 zł</h3>
+                <h3>0 €</h3>
                 <p>Koszt marketingu</p>
               </div>
               <div className="hero-card">
@@ -196,7 +196,7 @@ export default function ForCarriersPage() {
               <div className="pricing-header">
                 <h3>Free</h3>
                 <div className="price">
-                  <span className="price-amount">0 zł</span>
+                  <span className="price-amount">0 €</span>
                   <span className="price-period">/miesiąc</span>
                 </div>
               </div>
@@ -219,7 +219,7 @@ export default function ForCarriersPage() {
               <div className="pricing-header">
                 <h3>Premium</h3>
                 <div className="price">
-                  <span className="price-amount">49 zł</span>
+                  <span className="price-amount">29.99 €</span>
                   <span className="price-period">/miesiąc</span>
                 </div>
               </div>
@@ -241,7 +241,7 @@ export default function ForCarriersPage() {
               <div className="pricing-header">
                 <h3>Business</h3>
                 <div className="price">
-                  <span className="price-amount">99 zł</span>
+                  <span className="price-amount">49.99 €</span>
                   <span className="price-period">/miesiąc</span>
                 </div>
               </div>
