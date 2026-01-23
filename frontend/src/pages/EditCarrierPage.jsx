@@ -59,6 +59,7 @@ export default function EditCarrierPage() {
     luggageMaxWeight: 25,
     luggageAdditionalInfo: '',
     logo: '',
+    announcement: '',
     locationPostalCode: '',
     locationCity: ''
   })
@@ -92,6 +93,7 @@ export default function EditCarrierPage() {
           luggageMaxWeight: carrier.luggageInfo?.maxWeight || 25,
           luggageAdditionalInfo: carrier.luggageInfo?.additionalInfo || '',
           logo: carrier.logo || '',
+          announcement: carrier.announcement || '',
           locationPostalCode: carrier.location?.postalCode || '',
           locationCity: carrier.location?.city || ''
         })
@@ -386,13 +388,25 @@ export default function EditCarrierPage() {
           </section>
 
           {isPremium ? (
-            <section className="form-section">
-              <h2>⭐ Logo firmy (Premium)</h2>
-              <p style={{color: '#667eea', marginBottom: '1rem', fontSize: '0.9rem'}}>
-                Wyróżnij się na tle konkurencji! Logo wyświetli się w wynikach wyszukiwania.
-              </p>
+            <sectionFunkcje Premium</h2>
               
               <div className="form-group">
+                <label>Krótkie ogłoszenie (max 150 znaków)</label>
+                <textarea
+                  name="announcement"
+                  value={formData.announcement || ''}
+                  onChange={handleChange}
+                  rows="2"
+                  maxLength="150"
+                  placeholder="np. 'PROMOCJA: -20% na przejazdy do końca stycznia!' lub 'Nowe połączenie Berlin-Kraków od 15.02'"
+                />
+                <small style={{color: '#667eea'}}>
+                  {formData.announcement?.length || 0}/150 znaków • Ogłoszenie wyświetli się na karcie firmy i w wyszukiwarce
+                </small>
+              </div>
+
+              <div className="form-group">
+                <label>Logo firmym-group">
                 <label>Dodaj logo</label>
                 <input
                   type="file"

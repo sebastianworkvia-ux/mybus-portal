@@ -36,6 +36,14 @@ export default function CarrierCard({ carrier }) {
 
       <p className="company-reg">{carrier.companyRegistration}</p>
 
+      {/* Ogłoszenie Premium */}
+      {carrier.announcement && carrier.isPremium && (
+        <div className="card-announcement">
+          <span className="announcement-icon">📢</span>
+          <p>{carrier.announcement}</p>
+        </div>
+      )}
+
       <p className="description">{carrier.description}</p>
 
       {carrier.operatingCountries && carrier.operatingCountries.length > 0 && (

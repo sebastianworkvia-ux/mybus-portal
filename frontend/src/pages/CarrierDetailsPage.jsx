@@ -164,6 +164,14 @@ export default function CarrierDetailPage() {
             <span className="country-badge-large">{carrier.country}</span>
           </div>
 
+          {/* Ogłoszenie Premium */}
+          {carrier.announcement && carrier.isPremium && (
+            <div className="premium-announcement">
+              <span className="announcement-icon">📢</span>
+              <p>{carrier.announcement}</p>
+            </div>
+          )}
+
           <div className="carrier-rating">
             <div className="rating-stars">{stars}</div>
             <div className="rating-info">

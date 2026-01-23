@@ -166,6 +166,31 @@ div.carrier-card.premium-card {
   margin: 0.5rem 0;
 }
 
+.card-announcement {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-left: 3px solid #f59e0b;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.card-announcement .announcement-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.card-announcement p {
+  margin: 0;
+  color: #92400e;
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
 .description {
   color: #666;
   margin: 1rem 0;

@@ -79,6 +79,11 @@ const carrierSchema = new mongoose.Schema(
       premiumClass: { type: Boolean, default: false } // Klasa premium
     },
     logo: String, // URL do logo (tylko Premium)
+    announcement: {
+      type: String,
+      maxlength: 150,
+      default: null
+    }, // Krótkie ogłoszenie (tylko Premium/Business) - max 150 znaków
     isPremium: {
       type: Boolean,
       default: false
