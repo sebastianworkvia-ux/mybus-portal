@@ -26,16 +26,16 @@
   border-color: #cbd5e1;
 }
 
-/* Free card styling - czarna ramka */
+/* Free card styling - jasnoszara ramka */
 .free-card {
-  border: 2px solid #1e293b;
+  border: 2px solid #cbd5e1;
   border-radius: 16px;
 }
 
 .free-card:hover {
-  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.2);
+  box-shadow: 0 8px 24px rgba(203, 213, 225, 0.4);
   transform: translateY(-4px) scale(1.02);
-  border-color: #0f172a;
+  border-color: #94a3b8;
 }
 
 /* Premium card styling */
@@ -125,12 +125,12 @@
 .card-header h3 {
   margin: 0;
   color: #333;
-  font-size: 1.05rem;
+  font-size: 1rem;
   flex: 1;
   word-break: break-word;
   overflow-wrap: break-word;
-  line-height: 1.4;
-  max-height: 2.8rem;
+  line-height: 1.35;
+  max-height: 2.7rem;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
