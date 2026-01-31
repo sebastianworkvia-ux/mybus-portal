@@ -16,11 +16,19 @@ export const useCarrierStore = create((set) => ({
     set({ loading: true, error: null })
     try {
       const response = await carrierService.getCarriers(params)
-      set({ carriers: response.data, loading: false })
-      return response.data
+      // Zabezpieczenie: upewnij się, że otrzymaliśmy tablicę
+      const data = Array.isArray(response.data) ? response.data : []
+      if (!Array.isArray(response.data)) {
+        console.error('Otrzymano nieprawidłowy format danych z serwera:', response.data)
+      }
+      
+      set({ carriers: data, loading: false })
+      return data
     } catch (error) {
+      const errorMsg = error.response?.data?.error || error.message || 'Failed to fetch carriers'
+      console.error('Błąd pobierania przewoźników:', errorMsg, error)
       set({
-        error: error.response?.data?.error || 'Failed to fetch carriers',
+        error: errorMsg,
         loading: false
       })
     }
