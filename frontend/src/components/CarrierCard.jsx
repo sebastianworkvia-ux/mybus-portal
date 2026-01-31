@@ -9,12 +9,6 @@ export default function CarrierCard({ carrier }) {
 
   return (
     <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : ''}`}>
-      {(isBusinessPremium || (!isBusinessPremium && carrier.isPremium)) && (
-        <div className="verified-ribbon">
-          <span>✓ Zweryfikowany</span>
-        </div>
-      )}
-      
       {carrier.logo && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
