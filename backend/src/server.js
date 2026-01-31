@@ -22,6 +22,9 @@ dotenv.config()
 
 const app = express()
 
+// Render / reverse proxy support (required for express-rate-limit with X-Forwarded-For)
+app.set('trust proxy', 1)
+
 // Security Middleware
 app.use(helmet()) // Zabezpiecza HTTP headers
 app.use(cors({ 
@@ -85,8 +88,30 @@ app.get('/health', (req, res) => {
   res.json({ message: 'Backend is running' })
 })
 
+app.get('/api/health', (req, res) => {
+  res.json({ message: 'Backend is running' })
+})
+
 // Test UTF-8 endpoint (polskie znaki: ąćęłńóśźż)
 app.get('/test-utf8', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Test polskich znaków UTF-8',
+    chars: 'ąćęłńóśźż ĄĆĘŁŃÓŚŹŻ',
+    sample: {
+      firma: 'Przewoźnik Szczęśliwy Sp. z o.o.',
+      opis: 'Szybki i tani transport paczek do Polski. Obsługujemy Niemcy, Holandię i Belgię.',
+      miasta: ['Kraków', 'Gdańsk', 'Wrocław', 'Łódź', 'Poznań'],
+      usługi: ['przewóz osób', 'przesyłki kurierskie', 'przeprowadzki']
+    },
+    test: {
+      question: 'Czy widzisz polskie znaki?',
+      answer: 'Jeśli tak, to wszystko działa świetnie! 🇵🇱'
+    }
+  })
+})
+
+app.get('/api/test-utf8', (req, res) => {
   res.json({
     status: 'OK',
     message: 'Test polskich znaków UTF-8',
@@ -116,10 +141,23 @@ app.use('/analytics', analyticsRoutes)
 app.use('/import', importRoutes)
 app.use('/messages', messageRoutes)
 
+// /api prefixed routes for frontend baseURL '/api'
+app.use('/api/auth', authRoutes)
+app.use('/api/carriers', carrierRoutes)
+app.use('/api/admin', adminStatsRoutes)
+app.use('/api/admin', adminRoutes)
+app.use('/api/reviews', reviewRoutes)
+app.use('/api/password', passwordResetRoutes)
+app.use('/api/user', userSettingsRoutes)
+app.use('/api/payments', paymentRoutes)
+app.use('/api/analytics', analyticsRoutes)
+app.use('/api/import', importRoutes)
+app.use('/api/messages', messageRoutes)
+
 // Error handling middleware
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`)
 })
