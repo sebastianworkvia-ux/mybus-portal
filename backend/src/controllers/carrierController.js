@@ -4,6 +4,8 @@ import User from '../models/User.js'
 export const getCarriers = async (req, res, next) => {
   try {
     const { routeFrom, routeTo, service, search } = req.query
+    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search })
+    
     const query = { isActive: true }
 
     // Filtrowanie po krajach obsługi
@@ -39,6 +41,7 @@ export const getCarriers = async (req, res, next) => {
       return getPriority(b) - getPriority(a)
     })
     
+    console.log(`✅ Znaleziono ${carriers.length} przewoźników`)
     res.json(carriers)
   } catch (error) {
     next(error)

@@ -27,16 +27,38 @@ app.set('trust proxy', 1)
 
 // Security Middleware
 app.use(helmet()) // Zabezpiecza HTTP headers
+
+// Parsowanie dozwolonych originów z zmiennej środowiskowej
+const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean);
+
 app.use(cors({ 
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: (origin, callback) => {
+    // Pozwól na requesty bez origin (np. mobile apps, curl)
+    if (!origin) return callback(null, true);
+    
+    // Jeśli zdefiniowano CORS_ORIGIN, sprawdzaj
+    if (allowedOrigins.length > 0) {
+      if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+        callback(null, true);
+      } else {
+        console.log('❌ CORS Blocked Origin:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    } else {
+      // Domyślnie pozwól wszystkim jeśli nie zdefiniowano CORS_ORIGIN
+      callback(null, true);
+    }
+  },
   credentials: true 
 }))
 
 // Rate limiting - ochrona przed atakami
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minut
-  max: 100, // max 100 requestów z jednego IP
-  message: 'Zbyt wiele żądań z tego adresu IP, spróbuj ponownie za 15 minut'
+  max: 1000, // ZWIĘKSZONO: max 1000 requestów z jednego IP (było 100)
+  message: { error: 'Zbyt wiele żądań z tego adresu IP, spróbuj ponownie za 15 minut' }, // JSON format
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 app.use(limiter)
 
