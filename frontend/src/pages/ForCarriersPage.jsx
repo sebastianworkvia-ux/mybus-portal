@@ -9,30 +9,30 @@ export default function ForCarriersPage() {
         <div className="container">
           <div className="carriers-hero-content">
             <div className="carriers-hero-text">
-              <h1>Zwiększ bazę klientów o 300%</h1>
+              <h1>🚀 Zwiększ Bazę Klientów o 300% - Bezpłatna Rejestracja!</h1>
               <p className="hero-subtitle">
-                Dołącz do największej platformy przewoźników pasażerskich 
-                w Europie Zachodniej
+                My-Bus.eu – Większa Widoczność, Więcej Zapytań, Większe Zyski. 
+                Dołącz do 190+ przewoźników obsługujących Polskę, Niemcy, Hollandię, Belgię.
               </p>
               <div className="hero-stats">
                 <div className="stat-item">
-                  <span className="stat-number">500+</span>
+                  <span className="stat-number">190+</span>
                   <span className="stat-label">Przewoźników</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">10,000+</span>
-                  <span className="stat-label">Wyszukiwań/mies</span>
+                  <span className="stat-number">15,000+</span>
+                  <span className="stat-label">Odwiedzin/mies</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">95%</span>
-                  <span className="stat-label">Zadowolenia</span>
+                  <span className="stat-number">24/7</span>
+                  <span className="stat-label">Widoczność</span>
                 </div>
               </div>
               <div className="hero-cta">
                 <Link to="/register" className="btn-primary-large">
-                  Załóż konto za darmo →
+                  Załóż profil firmy za 0 zł →
                 </Link>
-                <p className="cta-note">Bez karty kredytowej. Anuluj w każdej chwili.</p>
+                <p className="cta-note">✔️ Bez opłat ukrytych • ✔️ Gotowe w 3 minuty • ✔️ Plan darmowy dostępny zawsze</p>
               </div>
             </div>
             <div className="carriers-hero-image">
@@ -59,22 +59,22 @@ export default function ForCarriersPage() {
       {/* Benefits Section */}
       <section className="benefits-section">
         <div className="container">
-          <h2 className="section-title">Dlaczego My-Bus.eu?</h2>
+          <h2 className="section-title">🎯 Dlaczego Przewoźnicy Wybierają My-Bus.eu?</h2>
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">🌍</div>
-              <h3>Zasięg w całej Europie</h3>
+              <h3>Zasięg w 6 Krajach Europy</h3>
               <p>
-                Dotrzyjmy do tysięcy Polaków mieszkających w Niemczech, 
-                Holandii, Belgii i innych krajach UE
+                Dotrzyjmy do dziesiątków tysięcy Polaków w Niemczech, Holandii, Belgii, Francji, Austrii. 
+                Twój profil widoczny 24/7 dla potencjalnych klientów.
               </p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">📱</div>
-              <h3>Zarządzanie online</h3>
+              <h3>Panel Zarządzania Online</h3>
               <p>
-                Aktualizuj ofertę, ceny i dostępność w czasie rzeczywistym 
-                z dowolnego miejsca 24/7
+                Edytuj ofertę, dodaj ogłoszenia, aktualizuj ceny w czasie rzeczywistym. 
+                Wszystko z telefonu lub komputera - prosto i szybko.
               </p>
             </div>
             <div className="benefit-card">

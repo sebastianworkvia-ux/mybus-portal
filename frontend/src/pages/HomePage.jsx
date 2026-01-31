@@ -55,10 +55,9 @@ export default function HomePage() {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-text">
-            <h1>Twoja podróż zaczyna się tutaj</h1>
+            <h1>Przewozy Busem po Całej Europie - Twój Niezawodny Transport</h1>
             <p>
-              Znajdź, porównaj i zarezerwuj najlepszy transport busem w Europie.
-              Obsługujemy Niemcy, Holandię, Belgię i inne kraje. Wygodnie, bezpiecznie i na czas.
+              🎯 Portal łączący klientów z ponad 190 zweryfikowanymi przewoźnikami | Transport na lotnisko, przewozy firmowe, okolicznościowe | Polska • Niemcy • Holandia • Belgia • Francja • Austria
             </p>
           </div>
           {/* Ilustracja usunięta, bo mamy zdjęcie w tle */}
@@ -77,40 +76,40 @@ export default function HomePage() {
         <section className="features-section">
           <div className="feature-card">
             <SearchIllustration />
-            <h3>Łatwe wyszukiwanie</h3>
-            <p>Znajdź przewoźników z Polski do Niemiec, Holandii, Belgii i innych krajów UE. Filtruj po trasie i typie usługi lub szukaj na interaktywnej mapie w swojej okolicy.</p>
+            <h3>🔍 Wyszukaj Przewoźnika w Całej Europie</h3>
+            <p>Ponad 190 firm transportowych na jednej platformie. Filtruj według kraju (DE, NL, BE, FR, AT, PL), typu usługi i trasy. Interaktywna mapa pokazuje przewoźników w Twojej okolicy.</p>
           </div>
           <div className="feature-card">
             <VerifiedIllustration />
-            <h3>Sprawdzone firmy</h3>
-            <p>Zweryfikowane firmy transportowe z numerami rejestracyjnymi. Bezpieczne przewozy osób i paczek.</p>
+            <h3>✔️ Tylko Zweryfikowane Firmy</h3>
+            <p>Wszystkie firmy posiadają numery rejestracyjne i licencje transportowe. Bezpieczne przewozy osób i paczek. Pełna przejrzystość i profesjonalizm.</p>
           </div>
           <div className="feature-card">
             <CommunityIllustration />
-            <h3>Oceny i recenzje</h3>
-            <p>Prawdziwe opinie klientów o przewoźnikach. Sprawdź reputację przed rezerwacją.</p>
+            <h3>⭐ Opinie Prawdziwych Klientów</h3>
+            <p>System ocen i recenzji pomaga wybrać najlepszego przewoźnika. Sprawdzone opinie, realna reputacja. Podejmuj świadome decyzje.</p>
           </div>
         </section>
 
         {/* CTA Section - Zarejestruj się */}
         <section className="register-benefits-section">
           <div className="benefits-card">
-            <h2>🎯 Załóż darmowe konto i zyskaj więcej!</h2>
+            <h2>🚀 Dołącz do My-Bus.eu - Więcej Klientów, Większy Zasięg!</h2>
             <div className="benefits-grid">
               <div className="benefit-item">
                 <span className="benefit-icon">💬</span>
-                <h4>Bezpośredni kontakt</h4>
-                <p>Pisz wiadomości bezpośrednio do przewoźników przez platformę</p>
+                <h4>Bezpośredni Kontakt z Przewoźnikami</h4>
+                <p>System wiadomości wewnętrznych - komunikuj się bezpośrednio, szybko ustalaj szczegóły podroży</p>
               </div>
               <div className="benefit-item">
                 <span className="benefit-icon">⭐</span>
-                <h4>Dodawaj opinie</h4>
-                <p>Dziel się doświadczeniami i pomagaj innym w wyborze</p>
+                <h4>Buduj Reputację</h4>
+                <p>Oceniaj przewoźników i czytaj opinie innych. Pomagaj budować społeczność zaufanych usług</p>
               </div>
               <div className="benefit-item">
                 <span className="benefit-icon">🔔</span>
-                <h4>Powiadomienia</h4>
-                <p>Otrzymuj alerty o nowych przewoźnikach na Twojej trasie</p>
+                <h4>Personalizowane Powiadomienia</h4>
+                <p>Otrzymuj alerty o nowych przewoźnikach na Twojej trasie. Nie przegap najlepszych ofert</p>
               </div>
             </div>
             <div className="cta-buttons">
