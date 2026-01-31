@@ -388,7 +388,8 @@ export default function EditCarrierPage() {
           </section>
 
           {isPremium ? (
-            <sectionFunkcje Premium</h2>
+            <section className="premium-features">
+              <h2>⭐ Funkcje Premium</h2>
               
               <div className="form-group">
                 <label>Krótkie ogłoszenie (max 150 znaków)</label>
