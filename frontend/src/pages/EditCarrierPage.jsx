@@ -407,7 +407,6 @@ export default function EditCarrierPage() {
               </div>
 
               <div className="form-group">
-                <label>Logo firmym-group">
                 <label>Dodaj logo</label>
                 <input
                   type="file"
