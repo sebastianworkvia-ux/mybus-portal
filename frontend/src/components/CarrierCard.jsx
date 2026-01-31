@@ -8,7 +8,7 @@ export default function CarrierCard({ carrier }) {
   const isPremium = carrier.subscriptionPlan === 'premium'
 
   return (
-    <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : ''}`}>
+    <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : 'free-card'}`}>
       {carrier.logo && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />

@@ -26,6 +26,18 @@
   border-color: #cbd5e1;
 }
 
+/* Free card styling - czarna ramka */
+.free-card {
+  border: 2px solid #1e293b;
+  border-radius: 16px;
+}
+
+.free-card:hover {
+  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.2);
+  transform: translateY(-4px) scale(1.02);
+  border-color: #0f172a;
+}
+
 /* Premium card styling */
 .premium-card {
   border: 2px solid #f59e0b;
