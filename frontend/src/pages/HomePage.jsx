@@ -60,16 +60,19 @@ export default function HomePage() {
               Znajdź, porównaj i zarezerwuj najlepszy transport busem w Europie.
               Obsługujemy Niemcy, Holandię, Belgię i inne kraje. Wygodnie, bezpiecznie i na czas.
             </p>
-            <Link to="/search" className="btn-hero">
-              Szukaj przewoźnika →
-            </Link>
           </div>
           {/* Ilustracja usunięta, bo mamy zdjęcie w tle */}
           <div className="hero-image" style={{opacity: 0}}></div> 
         </div>
       </section>
 
-      <div className="container">
+      <div className="search-section-wrapper">
+        <div className="container">
+          <SearchBar />
+        </div>
+      </div>
+
+      <div className="container" style={{marginTop: '4rem'}}>
         {/* Features section */}
         <section className="features-section">
           <div className="feature-card">
