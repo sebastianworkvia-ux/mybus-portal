@@ -4,6 +4,19 @@
   "devCommand": "cd frontend && npm run dev",
   "installCommand": "cd frontend && npm install",
   "framework": "vite",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.my-bus.eu"
+        }
+      ],
+      "destination": "https://my-bus.eu/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { 
       "source": "/api/:path*", 
