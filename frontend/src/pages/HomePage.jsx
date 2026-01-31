@@ -49,26 +49,23 @@ export default function HomePage() {
   return (
     <div className="home-page">
       <section className="hero">
-        <div className="video-background">
-          <video autoPlay loop muted playsInline>
-            <source src="https://cdn.pixabay.com/video/2022/11/07/137685-769925905_large.mp4" type="video/mp4" />
-          </video>
-          <div className="video-overlay"></div>
+        <div className="hero-background-image" style={{backgroundImage: "url('/hero-bus.png')"}}>
+          {/* Tło ustawi się przez CSS jeśli plik nie istnieje, lub style inline nadpisze jak użytkownik wrzuci plik */}
         </div>
+        <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-text">
-            <h1>My-Bus.eu - Portal Transportowy</h1>
+            <h1>Twoja podróż zaczyna się tutaj</h1>
             <p>
-              Znajdź zaufanego przewoźnika do Niemiec, Holandii i innych krajów
-              Europy Zachodniej. Przewozy międzynarodowe i transfery wewnętrzne.
+              Znajdź, porównaj i zarezerwuj najlepszy transport busem w Europie.
+              Obsługujemy Niemcy, Holandię, Belgię i inne kraje. Wygodnie, bezpiecznie i na czas.
             </p>
             <Link to="/search" className="btn-hero">
               Szukaj przewoźnika →
             </Link>
           </div>
-          <div className="hero-image">
-            <TravelIllustration />
-          </div>
+          {/* Ilustracja usunięta, bo mamy zdjęcie w tle */}
+          <div className="hero-image" style={{opacity: 0}}></div> 
         </div>
       </section>
 

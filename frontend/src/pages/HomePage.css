@@ -7,12 +7,12 @@
   color: white;
   padding: 3rem 2rem;
   overflow: hidden;
-  min-height: 400px;
+  min-height: 480px; /* Nieco wyższe dla lepszego tła */
   display: flex;
   align-items: center;
 }
 
-.video-background {
+.hero-background-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,31 +20,28 @@
   height: 100%;
   z-index: 0;
   overflow: hidden;
+  background-image: url('https://cdn.pixabay.com/photo/2023/04/18/10/24/bus-7934676_1280.jpg'); /* Fallback image */
+  background-size: cover;
+  background-position: center bottom;
 }
 
-.video-background video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-}
-
-.video-overlay {
+.hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.93) 50%, rgba(30, 58, 138, 0.90) 100%);
+  /* Gradient: Solidny niebieski z lewej, zanikający do zdjęcia po prawej */
+  background: linear-gradient(90deg, 
+      rgba(15, 23, 42, 0.98) 0%, 
+      rgba(4, 9, 39, 0.95) 45%, 
+      rgba(15, 23, 42, 0) 100%
+  );
   z-index: 1;
 }
 
-.video-overlay::before {
+/* Dekoracyjne elementy po lewej jak poprzednio */
+.hero-overlay::before {
   content: '';
   position: absolute;
   left: 0;
@@ -56,7 +53,7 @@
   z-index: 1;
 }
 
-.video-overlay::after {
+.hero-overlay::after {
   content: '';
   position: absolute;
   left: 0;
@@ -75,9 +72,20 @@
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.2fr 0.8fr; /* Więcej miejsca na tekst */
   gap: 3rem;
   align-items: center;
+}
+
+/* Ukryj obrazek SVG na mobile/tablet żeby nie zasłaniał tła */
+@media (max-width: 1024px) {
+  .hero-image {
+    display: none;
+  }
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
 
 .hero-text h1 {
