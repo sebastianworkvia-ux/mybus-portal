@@ -33,38 +33,15 @@
   height: 100%;
   /* Gradient: Solidny niebieski z lewej, zanikający do zdjęcia po prawej */
   background: linear-gradient(90deg, 
-      rgba(15, 23, 42, 0.98) 0%, 
-      rgba(4, 9, 39, 0.95) 45%, 
+      rgba(15, 23, 42, 1) 0%, 
+      rgba(15, 23, 42, 0.9) 40%, 
+      rgba(15, 23, 42, 0.4) 70%,
       rgba(15, 23, 42, 0) 100%
   );
   z-index: 1;
 }
 
-/* Dekoracyjne elementy po lewej jak poprzednio */
-.hero-overlay::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 300px;
-  height: 100%;
-  background: linear-gradient(135deg, #3b82f6 0%, transparent 100%);
-  opacity: 0.15;
-  z-index: 1;
-}
-
-.hero-overlay::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 0;
-  height: 0;
-  border-left: 150px solid #dc2626;
-  border-bottom: 150px solid transparent;
-  opacity: 0.4;
-  z-index: 2;
-}
+/* Usunięto dekoracyjne trójkąty i prostokąty z lewej strony dla czystszego wyglądu */
 
 .hero-content {
   position: relative;
