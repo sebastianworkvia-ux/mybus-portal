@@ -122,9 +122,10 @@
 }
 
 .btn-hero {
-  /* Usunięty, bo przycisk szukania jest teraz w SearchBar */
-  display: none;
-}
+  display: inline-block;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  padding: 1rem 2.5rem;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 700;
