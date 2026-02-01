@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { carrierService } from '../services/services'
+import CarrierMapEditor from '../components/CarrierMapEditor'
 import './AddCarrierPage.css'
 
 const COUNTRIES = [
@@ -80,6 +81,7 @@ export default function AddCarrierPage() {
     returnDays: [],
     isFlexible: false,
     routes: [{ from: '', to: '', days: [], time: '' }],
+    operatingRegion: [],
     luggageMaxPieces: 2,
     luggageMaxWeight: 25,
     luggageAdditionalInfo: '',
@@ -514,7 +516,19 @@ export default function AddCarrierPage() {
               setRegion={(region) => setFormData(prev => ({ ...prev, operatingRegion: region }))} 
             />
           </section>
+Obszar działania na mapie */}
+          <section className="form-section">
+            <h2>🗺️ Obszar działania (Mapa)</h2>
+            <p style={{fontSize: '0.9rem', marginBottom: '1rem', color: '#666'}}>
+              Zaznacz na mapie obszar, w którym świadczysz usługi (klikaj, aby dodać punkty).
+            </p>
+            <CarrierMapEditor 
+              region={formData.operatingRegion} 
+              setRegion={(region) => setFormData(prev => ({ ...prev, operatingRegion: region }))} 
+            />
+          </section>
 
+          {/* 
           {/* Dni wyjazdów */}
           <section className="form-section">
             <h2>📅 Dni wyjazdów do Polski</h2>
