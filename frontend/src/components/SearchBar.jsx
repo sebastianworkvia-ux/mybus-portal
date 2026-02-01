@@ -93,18 +93,16 @@ export default function SearchBar() {
         </select>
       </div>
 
-      {routeFrom === 'PL' && (
-        <div className="search-group">
-          <select value={voivodeship} onChange={(e) => setVoivodeship(e.target.value)}>
-            <option value="">Wszystkie województwa</option>
-            {VOIVODESHIPS.map((v) => (
-              <option key={v} value={v}>
-                {v}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      <div className="search-group">
+        <select value={voivodeship} onChange={(e) => setVoivodeship(e.target.value)}>
+          <option value="">Województwo (PL)</option>
+          {VOIVODESHIPS.map((v) => (
+            <option key={v} value={v}>
+              {v}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="search-group">
         <select value={service} onChange={(e) => setService(e.target.value)}>
