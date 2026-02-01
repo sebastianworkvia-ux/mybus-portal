@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+import './CarrierCard.css'
+
 const SERVICE_LABELS = {
   'transport': 'Busy',
   'autokary': 'Autokary',
