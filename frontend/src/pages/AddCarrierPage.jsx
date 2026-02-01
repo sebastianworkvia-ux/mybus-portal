@@ -121,7 +121,7 @@ export default function AddCarrierPage() {
       }
     })
   }
-VoivodeshipToggle = (voivodeship) => {
+  const handleVoivodeshipToggle = (voivodeship) => {
     setFormData(prev => ({
       ...prev,
       servedVoivodeships: prev.servedVoivodeships.includes(voivodeship)
@@ -130,7 +130,6 @@ VoivodeshipToggle = (voivodeship) => {
     }))
   }
 
-  const handle
   const handleDayToggle = (day, type) => {
     const field = type === 'departure' ? 'departureDays' : 'returnDays'
     setFormData(prev => ({
