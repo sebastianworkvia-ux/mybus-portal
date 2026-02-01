@@ -18,6 +18,25 @@ const COUNTRIES = [
   { code: 'EU', name: 'Cała Europa' }
 ]
 
+const VOIVODESHIPS = [
+  'Dolnośląskie',
+  'Kujawsko-pomorskie',
+  'Lubelskie',
+  'Lubuskie',
+  'Łódzkie',
+  'Małopolskie',
+  'Mazowieckie',
+  'Opolskie',
+  'Podkarpackie',
+  'Podlaskie',
+  'Pomorskie',
+  'Śląskie',
+  'Świętokrzyskie',
+  'Warmińsko-mazurskie',
+  'Wielkopolskie',
+  'Zachodniopomorskie'
+]
+
 const SERVICES = [
   { value: 'transport', label: 'Transport osób' },
   { value: 'transport-rzeczy', label: 'Transport rzeczy' },
@@ -53,6 +72,7 @@ export default function EditCarrierPage() {
     website: '',
     services: [],
     operatingCountries: [],
+    servedVoivodeships: [],
     departureDays: [],
     returnDays: [],
     isFlexible: false,
@@ -87,6 +107,7 @@ export default function EditCarrierPage() {
           website: carrier.website || '',
           services: carrier.services || [],
           operatingCountries: carrier.operatingCountries || [],
+          servedVoivodeships: carrier.servedVoivodeships || [],
           departureDays: carrier.departureDays || [],
           returnDays: carrier.returnDays || [],
           isFlexible: carrier.isFlexible || false,
@@ -151,7 +172,16 @@ export default function EditCarrierPage() {
       }
     })
   }
+VoivodeshipToggle = (voivodeship) => {
+    setFormData(prev => ({
+      ...prev,
+      servedVoivodeships: prev.servedVoivodeships.includes(voivodeship)
+        ? prev.servedVoivodeships.filter(v => v !== voivodeship)
+        : [...prev.servedVoivodeships, voivodeship]
+    }))
+  }
 
+  const handle
   const handleDayToggle = (day, type) => {
     const field = type === 'departure' ? 'departureDays' : 'returnDays'
     setFormData(prev => ({
@@ -462,6 +492,30 @@ export default function EditCarrierPage() {
                     checked={formData.operatingCountries.includes(country.code)}
                     onChange={() => handleCountryToggle(country.code)}
                   />
+          {/* Województwa (tylko w PL) */}
+          <section className="form-section">
+            <h2>🇵🇱 Obsługiwane województwa</h2>
+            <p className="form-hint">Zaznacz województwa w Polsce, do których jeździsz</p>
+            
+            <div className="checkbox-group">
+              {VOIVODESHIPS.map(voivodeship => (
+                <label key={voivodeship} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.servedVoivodeships.includes(voivodeship)}
+                    onChange={() => handleVoivodeshipToggle(voivodeship)}
+                  />
+                  <span>{voivodeship}</span>
+                </label>
+              ))}
+            </div>
+            {formData.servedVoivodeships.length === 0 && (
+              <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
+                Jeśli nie zaznaczysz żadnego, założymy że obsługujesz całą Polskę.
+              </small>
+            )}
+          </section>
+
                   <span>{country.name}</span>
                 </label>
               ))}

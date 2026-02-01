@@ -41,6 +41,10 @@ const carrierSchema = new mongoose.Schema(
       },
       default: []
     },
+    servedVoivodeships: {
+      type: [String],
+      default: []
+    },
     rating: {
       type: Number,
       default: 0,

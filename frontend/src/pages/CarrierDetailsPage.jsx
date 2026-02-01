@@ -259,6 +259,19 @@ export default function CarrierDetailPage() {
               <p><strong>Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}</p>
             )}
 
+            {carrier.servedVoivodeships && carrier.servedVoivodeships.length > 0 && (
+              <div className="voivodeships-section">
+                <h3>🇵🇱 Obsługiwane województwa</h3>
+                <div className="voivodeships-list">
+                  {carrier.servedVoivodeships.map(voivodeship => (
+                    <span key={voivodeship} className="voivodeship-badge">
+                      {voivodeship}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {carrier.isFlexible ? (
               <>
                 <h3>📅 Terminy dojazdów</h3>

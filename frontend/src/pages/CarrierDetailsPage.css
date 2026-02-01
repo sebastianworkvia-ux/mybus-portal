@@ -627,3 +627,19 @@
     max-height: 100px;
   }
 }
+
+.voivodeships-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.voivodeship-badge {
+  background: #fff;
+  color: #2d3748;
+  border: 1px solid #cbd5e0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
