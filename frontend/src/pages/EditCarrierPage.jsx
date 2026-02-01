@@ -566,6 +566,18 @@ export default function EditCarrierPage() {
             </div>
           </section>
 
+          {/* Obszar działania na mapie */}
+          <section className="form-section">
+            <h2>🗺️ Obszar działania (Mapa)</h2>
+            <p style={{fontSize: '0.9rem', marginBottom: '1rem', color: '#666'}}>
+              Zaznacz na mapie obszar, w którym świadczysz usługi (klikaj, aby dodać punkty).
+            </p>
+            <CarrierMapEditor 
+              region={formData.operatingRegion} 
+              setRegion={(region) => setFormData(prev => ({ ...prev, operatingRegion: region }))} 
+            />
+          </section>
+
           <section className="form-section">
             <h2>📅 Dni wyjazdów do Polski</h2>
             
