@@ -213,12 +213,16 @@ export default function CarrierDetailPage() {
             <h3>🚐 Oferowane usługi</h3>
             <div className="services-detailed-list">
               {[
-                { value: 'transport', label: 'Transport osób' },
-                { value: 'transport-rzeczy', label: 'Transport rzeczy' },
-                { value: 'przeprowadzki', label: 'Przeprowadzki' },
-                { value: 'zwierzeta', label: 'Transport zwierząt' },
-                { value: 'dokumenty', label: 'Dokumenty' },
+                { value: 'transport', label: 'Busy międzynarodowe' },
+                { value: 'autokary', label: 'Wycieczki i autokary' },
+                { value: 'transfery-lotniskowe', label: 'Transfery lotniskowe' },
+                { value: 'przejazdy-sluzbowe', label: 'Przejazdy służbowe' },
                 { value: 'paczki', label: 'Paczki' },
+                { value: 'zwierzeta', label: 'Transport zwierząt' },
+                { value: 'laweta', label: 'Lawety / Autotransport' },
+                { value: 'przeprowadzki', label: 'Przeprowadzki' },
+                { value: 'transport-rzeczy', label: 'Transport towarów' },
+                { value: 'dokumenty', label: 'Dokumenty' },
                 { value: 'inne', label: 'Inne' }
               ].map((service) => {
                 const hasService = carrier.services?.includes(service.value)

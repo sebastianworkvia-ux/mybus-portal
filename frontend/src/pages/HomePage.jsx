@@ -71,9 +71,48 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="container" style={{marginTop: '4rem'}}>
+      <div className="container" style={{marginTop: '3rem'}}>
+        {/* Usługi - Kategorie */}
+        <section className="services-categories">
+          <h2>Wybierz kategorię transportu</h2>
+          <div className="categories-grid">
+            <Link to="/search?service=transport" className="category-card">
+              <span className="cat-icon">🚐</span>
+              <h3>Busy międzynarodowe</h3>
+            </Link>
+            <Link to="/search?service=transfery-lotniskowe" className="category-card">
+              <span className="cat-icon">✈️</span>
+              <h3>Transfery lotniskowe</h3>
+            </Link>
+            <Link to="/search?service=paczki" className="category-card">
+              <span className="cat-icon">📦</span>
+              <h3>Paczki</h3>
+            </Link>
+            <Link to="/search?service=laweta" className="category-card">
+              <span className="cat-icon">🚗</span>
+              <h3>Lawety / Auta</h3>
+            </Link>
+            <Link to="/search?service=autokary" className="category-card">
+              <span className="cat-icon">🚌</span>
+              <h3>Autokary</h3>
+            </Link>
+            <Link to="/search?service=zwierzeta" className="category-card">
+              <span className="cat-icon">🐕</span>
+              <h3>Transport zwierząt</h3>
+            </Link>
+            <Link to="/search?service=przeprowadzki" className="category-card">
+              <span className="cat-icon">🏠</span>
+              <h3>Przeprowadzki</h3>
+            </Link>
+            <Link to="/search?service=przejazdy-sluzbowe" className="category-card">
+              <span className="cat-icon">👔</span>
+              <h3>Przejazdy służbowe</h3>
+            </Link>
+          </div>
+        </section>
+
         {/* Features section */}
-        <section className="features-section">
+        <section className="features-section" style={{marginTop: '4rem'}}>
           <div className="feature-card">
             <SearchIllustration />
             <h3>🔍 Wyszukaj Przewoźnika w Całej Europie</h3>

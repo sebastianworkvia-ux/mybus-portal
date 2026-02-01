@@ -666,3 +666,47 @@
     padding: 0 0.75rem;
   }
 }
+
+.services-categories h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2d3748;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  border-color: #667eea;
+}
+
+.cat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.category-card h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.1rem;
+  text-align: center;
+}

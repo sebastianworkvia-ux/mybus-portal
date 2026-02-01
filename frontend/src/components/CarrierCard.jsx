@@ -1,5 +1,16 @@
-import { Link } from 'react-router-dom'
-import './CarrierCard.css'
+const SERVICE_LABELS = {
+  'transport': 'Busy',
+  'autokary': 'Autokary',
+  'transfery-lotniskowe': 'Lotnisko',
+  'przejazdy-sluzbowe': 'Służbowe',
+  'transport-rzeczy': 'Rzeczy',
+  'przeprowadzki': 'Przeprowadzki',
+  'zwierzeta': 'Zwierzęta',
+  'dokumenty': 'Dokumenty',
+  'paczki': 'Paczki',
+  'laweta': 'Laweta',
+  'inne': 'Inne'
+}
 
 export default function CarrierCard({ carrier }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
@@ -67,7 +78,7 @@ export default function CarrierCard({ carrier }) {
       <div className="services">
         {carrier.services?.map((service) => (
           <span key={service} className="service-tag">
-            {service}
+            {SERVICE_LABELS[service] || service}
           </span>
         ))}
       </div>

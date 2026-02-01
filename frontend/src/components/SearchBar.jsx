@@ -106,14 +106,22 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={service} onChange={(e) => setService(e.target.value)}>
-          <option value="">Typ usługi</option>
-          <option value="transport">Transport osób</option>
-          <option value="transport-rzeczy">Transport rzeczy</option>
-          <option value="przeprowadzki">Przeprowadzki</option>
-          <option value="zwierzeta">Transport zwierząt</option>
-          <option value="dokumenty">Dokumenty</option>
-          <option value="paczki">Paczki</option>
-          <option value="inne">Inne</option>
+          <option value="">Wszystkie usługi</option>
+          <optgroup label="Przewóz Osób">
+            <option value="transport">Busy międzynarodowe</option>
+            <option value="autokary">Wycieczki i autokary</option>
+            <option value="transfery-lotniskowe">Transfery lotniskowe</option>
+            <option value="przejazdy-sluzbowe">Przejazdy służbowe</option>
+          </optgroup>
+          <optgroup label="Transport i Logistyka">
+            <option value="paczki">Paczki</option>
+            <option value="zwierzeta">Zwierzęta</option>
+            <option value="laweta">Lawety / Autotransport</option>
+            <option value="przeprowadzki">Przeprowadzki</option>
+            <option value="transport-rzeczy">Transport towarów</option>
+            <option value="dokumenty">Dokumenty</option>
+            <option value="inne">Inne</option>
+          </optgroup>
         </select>
       </div>
 

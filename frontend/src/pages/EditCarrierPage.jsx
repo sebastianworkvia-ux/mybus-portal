@@ -37,15 +37,23 @@ const VOIVODESHIPS = [
   'Zachodniopomorskie'
 ]
 
-const SERVICES = [
-  { value: 'transport', label: 'Transport osób' },
-  { value: 'transport-rzeczy', label: 'Transport rzeczy' },
-  { value: 'przeprowadzki', label: 'Przeprowadzki' },
-  { value: 'zwierzeta', label: 'Transport zwierząt' },
-  { value: 'dokumenty', label: 'Dokumenty' },
-  { value: 'paczki', label: 'Paczki' },
-  { value: 'inne', label: 'Inne' }
-]
+const SERVICE_CATEGORIES = {
+  passenger: [
+    { value: 'transport', label: 'Busy międzynarodowe' },
+    { value: 'autokary', label: 'Wycieczki i autokary' },
+    { value: 'transfery-lotniskowe', label: 'Transfery lotniskowe' },
+    { value: 'przejazdy-sluzbowe', label: 'Przejazdy służbowe' }
+  ],
+  logistics: [
+    { value: 'paczki', label: 'Paczki' },
+    { value: 'zwierzeta', label: 'Transport zwierząt' },
+    { value: 'laweta', label: 'Lawety / Autotransport' },
+    { value: 'przeprowadzki', label: 'Przeprowadzki' },
+    { value: 'transport-rzeczy', label: 'Transport towarów' },
+    { value: 'dokumenty', label: 'Dokumenty' },
+    { value: 'inne', label: 'Inne' }
+  ]
+}
 
 const DAYS = ['poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota', 'niedziela']
 
@@ -527,8 +535,23 @@ export default function EditCarrierPage() {
           <section className="form-section">
             <h2>🚐 Oferowane usługi *</h2>
             
+            <h3 style={{fontSize: '1rem', marginTop: '1rem', marginBottom: '0.5rem', color: '#666'}}>Przewóz Osób</h3>
             <div className="checkbox-group">
-              {SERVICES.map(service => (
+              {SERVICE_CATEGORIES.passenger.map(service => (
+                <label key={service.value} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.services.includes(service.value)}
+                    onChange={() => handleServiceToggle(service.value)}
+                  />
+                  <span>{service.label}</span>
+                </label>
+              ))}
+            </div>
+
+            <h3 style={{fontSize: '1rem', marginTop: '1.5rem', marginBottom: '0.5rem', color: '#666'}}>Transport i Logistyka</h3>
+            <div className="checkbox-group">
+              {SERVICE_CATEGORIES.logistics.map(service => (
                 <label key={service.value} className="checkbox-label">
                   <input
                     type="checkbox"

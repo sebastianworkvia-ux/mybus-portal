@@ -28,7 +28,19 @@ const carrierSchema = new mongoose.Schema(
     services: [
       {
         type: String,
-        enum: ['transport', 'transport-rzeczy', 'przeprowadzki', 'zwierzeta', 'dokumenty', 'paczki', 'inne']
+        enum: [
+          'transport', // Busy międzynarodowe (domyślne)
+          'autokary', // Wycieczki i autokary
+          'transfery-lotniskowe', // Transfery na lotnisko
+          'przejazdy-sluzbowe', // Przejazdy pracownicze/służbowe
+          'transport-rzeczy', 
+          'przeprowadzki', 
+          'zwierzeta', 
+          'dokumenty', 
+          'paczki', 
+          'laweta', // Lawety / Sprowadzanie aut
+          'inne'
+        ]
       }
     ],
     operatingCountries: {
