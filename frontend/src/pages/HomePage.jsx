@@ -55,7 +55,7 @@ export default function HomePage() {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-text">
-            <h1>Przewozy Busem po Całej Europie - Twój Niezawodny Transport</h1>
+            <h1>Przewozy busem po całej Europie – Twój niezawodny transport</h1>
             <p>
               🎯 Portal łączący klientów z ponad 190 zweryfikowanymi przewoźnikami | Transport na lotnisko, przewozy firmowe, okolicznościowe | Polska • Niemcy • Holandia • Belgia • Francja • Austria oraz wiele innych.
             </p>
