@@ -14,7 +14,8 @@ const COUNTRIES = [
   { code: 'GB', name: 'Wielka Brytania' },
   { code: 'SE', name: 'Szwecja' },
   { code: 'NO', name: 'Norwegia' },
-  { code: 'DK', name: 'Dania' }
+  { code: 'DK', name: 'Dania' },
+  { code: 'EU', name: 'Cała Europa' }
 ]
 
 const SERVICES = [
@@ -88,9 +89,9 @@ export default function AddCarrierPage() {
           operatingCountries: currentCountries.filter(c => c !== countryCode)
         }
       } else {
-        // Dodaj kraj (max 5)
-        if (currentCountries.length >= 5) {
-          alert('Możesz wybrać maksymalnie 5 krajów')
+        // Dodaj kraj (max 8)
+        if (currentCountries.length >= 8) {
+          alert('Możesz wybrać maksymalnie 8 krajów')
           return prev
         }
         return {
@@ -242,7 +243,7 @@ export default function AddCarrierPage() {
                 required
               >
                 <option value="">Wybierz kraj</option>
-                {COUNTRIES.map(c => (
+                {COUNTRIES.filter(c => c.code !== 'EU').map(c => (
                   <option key={c.code} value={c.code}>{c.name}</option>
                 ))}
               </select>
@@ -405,9 +406,7 @@ export default function AddCarrierPage() {
               ))}
             </div>
             <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
-              Wybrano: {formData.operatingCountries.length} / 5
-            </small>
-          </section>
+                Wybrano: {formData.operatingCountries.length} / 8
 
           {/* Usługi */}
           <section className="form-section">

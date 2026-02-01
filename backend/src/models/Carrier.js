@@ -35,9 +35,9 @@ const carrierSchema = new mongoose.Schema(
       type: [String],
       validate: {
         validator: function(countries) {
-          return countries.length <= 5
+          return countries.length <= 8
         },
-        message: 'Możesz wybrać maksymalnie 5 krajów'
+        message: 'Możesz wybrać maksymalnie 8 krajów'
       },
       default: []
     },
