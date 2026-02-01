@@ -429,7 +429,17 @@ VoivodeshipToggle = (voivodeship) => {
                     type="checkbox"
                     checked={formData.operatingCountries.includes(country.code)}
                     onChange={() => handleCountryToggle(country.code)}
-              Województwa (tylko w PL) */}
+                  />
+                  <span>{country.name}</span>
+                </label>
+              ))}
+            </div>
+            <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
+                Wybrano: {formData.operatingCountries.length} / 8
+            </small>
+          </section>
+
+          {/* Województwa (tylko w PL) */}
           <section className="form-section">
             <h2>🇵🇱 Obsługiwane województwa</h2>
             <p className="form-hint">Zaznacz województwa w Polsce, do których jeździsz</p>
@@ -451,16 +461,6 @@ VoivodeshipToggle = (voivodeship) => {
                 Jeśli nie zaznaczysz żadnego, założymy że obsługujesz całą Polskę.
               </small>
             )}
-          </section>
-
-          {/*     />
-                  <span>{country.name}</span>
-                </label>
-              ))}
-            </div>
-            <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
-                Wybrano: {formData.operatingCountries.length} / 8
-            </small>
           </section>
 
           {/* Usługi */}
