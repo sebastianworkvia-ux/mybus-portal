@@ -282,12 +282,6 @@ export default function CarrierDetailPage() {
                 <CarrierMapViewer region={carrier.operatingRegion} />
               </div>
             )}
-            {/* Mapa obszaru działania */}
-            {carrier.operatingRegion && carrier.operatingRegion.length > 2 && (
-              <div className="operating-region-map">
-                <CarrierMapViewer region={carrier.operatingRegion} />
-              </div>
-            )}
 
             {carrier.isFlexible ? (
               <>

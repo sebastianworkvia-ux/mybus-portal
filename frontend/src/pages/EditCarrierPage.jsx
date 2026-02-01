@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { carrierService } from '../services/services'
+import CarrierMapEditor from '../components/CarrierMapEditor'
 import './AddCarrierPage.css'
 
 const COUNTRIES = [
@@ -116,6 +117,7 @@ export default function EditCarrierPage() {
           services: carrier.services || [],
           operatingCountries: carrier.operatingCountries || [],
           servedVoivodeships: carrier.servedVoivodeships || [],
+          operatingRegion: carrier.operatingRegion || [],
           departureDays: carrier.departureDays || [],
           returnDays: carrier.returnDays || [],
           isFlexible: carrier.isFlexible || false,
