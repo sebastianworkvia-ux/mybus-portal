@@ -40,6 +40,19 @@ export default function CarrierCard({ carrier }) {
 
       <p className="description">{carrier.description}</p>
 
+      {/* Wyświetlanie województw na karcie */}
+      {carrier.servedVoivodeships && carrier.servedVoivodeships.length > 0 && (
+        <div className="operating-voivodeships">
+          {/* Wyświetl tylko pierwsze 3, reszta jako "+X" */}
+          {carrier.servedVoivodeships.slice(0, 3).map(v => (
+            <span key={v} className="voivodeship-tag-small">🇵🇱 {v}</span>
+          ))}
+          {carrier.servedVoivodeships.length > 3 && (
+            <span className="voivodeship-more">+{carrier.servedVoivodeships.length - 3}</span>
+          )}
+        </div>
+      )}
+
       {carrier.operatingCountries && carrier.operatingCountries.length > 0 && (
         <div className="operating-countries">
           <strong>🌍 Obsługiwane kraje:</strong>

@@ -10,6 +10,7 @@ export default function SearchBar() {
   const [routeFrom, setRouteFrom] = useState('')
   const [routeTo, setRouteTo] = useState('')
   const [service, setService] = useState('')
+  const [voivodeship, setVoivodeship] = useState('')
   const [search, setSearch] = useState('')
 
   const handleSearch = (e) => {
@@ -18,9 +19,10 @@ export default function SearchBar() {
     if (routeFrom) params.routeFrom = routeFrom
     if (routeTo) params.routeTo = routeTo
     if (service) params.service = service
+    if (voivodeship) params.voivodeship = voivodeship
     if (search) params.search = search
 
-    setFilters({ routeFrom, routeTo, service, search })
+    setFilters({ routeFrom, routeTo, service, voivodeship, search })
     getCarriers(params)
     
     // Przekieruj na stronę wyników wyszukiwania (tylko jeśli nie jesteśmy już tam)
@@ -28,6 +30,25 @@ export default function SearchBar() {
       navigate('/search')
     }
   }
+
+  const VOIVODESHIPS = [
+    'Dolnośląskie',
+    'Kujawsko-pomorskie',
+    'Lubelskie',
+    'Lubuskie',
+    'Łódzkie',
+    'Małopolskie',
+    'Mazowieckie',
+    'Opolskie',
+    'Podkarpackie',
+    'Podlaskie',
+    'Pomorskie',
+    'Śląskie',
+    'Świętokrzyskie',
+    'Warmińsko-mazurskie',
+    'Wielkopolskie',
+    'Zachodniopomorskie'
+  ]
 
   return (
     <form className="search-bar" onSubmit={handleSearch}>
@@ -71,6 +92,19 @@ export default function SearchBar() {
           <option value="DK">Dania</option>
         </select>
       </div>
+
+      {routeFrom === 'PL' && (
+        <div className="search-group">
+          <select value={voivodeship} onChange={(e) => setVoivodeship(e.target.value)}>
+            <option value="">Wszystkie województwa</option>
+            {VOIVODESHIPS.map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="search-group">
         <select value={service} onChange={(e) => setService(e.target.value)}>

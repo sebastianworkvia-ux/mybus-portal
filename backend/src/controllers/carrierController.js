@@ -3,8 +3,8 @@ import User from '../models/User.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
-    const { routeFrom, routeTo, service, search } = req.query
-    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search })
+    const { routeFrom, routeTo, service, search, voivodeship } = req.query
+    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search, voivodeship })
     
     const query = { isActive: true }
 
@@ -16,6 +16,10 @@ export const getCarriers = async (req, res, next) => {
       
       // Przewoźnik musi obsługiwać oba kraje (jeśli podane)
       query.operatingCountries = { $all: countryConditions }
+    }
+
+    if (voivodeship) {
+      query.servedVoivodeships = voivodeship
     }
 
     if (service) query.services = service

@@ -7,7 +7,13 @@ export const authService = {
 }
 
 export const carrierService = {
-  getCarriers: (params) => apiClient.get('/carriers', { params }),
+  getCarriers: (params) => {
+    // Clean params to avoid sending empty strings
+    const cleanedParams = Object.fromEntries(
+      Object.entries(params).filter(([_, v]) => v != null && v !== '')
+    )
+    return apiClient.get('/carriers', { params: cleanedParams })
+  },
   getCarrierById: (id) => apiClient.get(`/carriers/${id}`),
   createCarrier: (data) => apiClient.post('/carriers', data),
   updateCarrier: (data) => apiClient.put('/carriers', data),
