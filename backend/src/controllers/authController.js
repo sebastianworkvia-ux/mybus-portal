@@ -65,22 +65,22 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password required' })
+      return res.status(400).json({ error: 'Email i hasło są wymagane' })
     }
 
     const user = await User.findOne({ email })
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' })
+      return res.status(401).json({ error: 'Nieprawidłowy email lub hasło' })
     }
 
     // Check if account is active
     if (user.isActive === false) {
-      return res.status(403).json({ error: 'Account has been deactivated. Please contact support.' })
+      return res.status(403).json({ error: 'Konto zostało dezaktywowane. Skontaktuj się z pomocą techniczną.' })
     }
 
     const isMatch = await user.comparePassword(password)
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' })
+      return res.status(401).json({ error: 'Nieprawidłowy email lub hasło' })
     }
 
     const token = jwt.sign(

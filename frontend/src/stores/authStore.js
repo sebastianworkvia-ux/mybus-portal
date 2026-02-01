@@ -32,7 +32,7 @@ export const useAuthStore = create((set) => ({
       return response.data
     } catch (error) {
       set({
-        error: error.response?.data?.error || 'Registration failed',
+        error: error.response?.data?.error || 'Rejestracja nie powiodła się',
         loading: false
       })
       throw error
@@ -53,7 +53,7 @@ export const useAuthStore = create((set) => ({
       return response.data
     } catch (error) {
       set({
-        error: error.response?.data?.error || 'Login failed',
+        error: error.response?.data?.error || 'Logowanie nie powiodło się',
         loading: false
       })
       throw error
