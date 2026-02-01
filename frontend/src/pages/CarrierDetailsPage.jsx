@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { carrierService, reviewService, messageService } from '../services/services'
 import { useAuthStore } from '../stores/authStore'
+import CarrierMapViewer from '../components/CarrierMapViewer'
 import './CarrierDetailsPage.css'
 
 export default function CarrierDetailPage() {
@@ -273,6 +274,13 @@ export default function CarrierDetailPage() {
                     </span>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Mapa obszaru działania */}
+            {carrier.operatingRegion && carrier.operatingRegion.length > 2 && (
+              <div className="operating-region-map">
+                <CarrierMapViewer region={carrier.operatingRegion} />
               </div>
             )}
 
