@@ -390,7 +390,7 @@ export default function AddCarrierPage() {
 
           {/* Kraje obsługi */}
           <section className="form-section">
-            <h2>🌍 Kraje obsługi * (max 5)</h2>
+            <h2>🌍 Kraje obsługi * (max 8)</h2>
             <p className="form-hint">Wybierz kraje, w których świadczysz usługi transportowe</p>
             
             <div className="checkbox-group">
@@ -407,6 +407,8 @@ export default function AddCarrierPage() {
             </div>
             <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
                 Wybrano: {formData.operatingCountries.length} / 8
+            </small>
+          </section>
 
           {/* Usługi */}
           <section className="form-section">
