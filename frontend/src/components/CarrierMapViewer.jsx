@@ -13,7 +13,14 @@ L.Icon.Default.mergeOptions({
 export default function CarrierMapViewer({ region }) {
   if (!region || region.length < 3) return null
 
-  const positions = region.map(p => [p.lat, p.lng])
+  // Ensure lat/lng are numbers
+  const positions = region.map(p => {
+    const lat = parseFloat(p.lat)
+    const lng = parseFloat(p.lng)
+    return [lat, lng]
+  }).filter(p => !isNaN(p[0]) && !isNaN(p[1]))
+
+  if (positions.length < 3) return null
   
   // Calculate center nicely or just use first point
   const center = positions[0]

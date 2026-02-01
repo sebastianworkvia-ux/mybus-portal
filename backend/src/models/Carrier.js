@@ -62,7 +62,8 @@ const carrierSchema = new mongoose.Schema(
     operatingRegion: [
       {
         lat: Number,
-        lng: Number
+        lng: Number,
+        _id: false
       }
     ],
 
