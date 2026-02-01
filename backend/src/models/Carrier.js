@@ -57,6 +57,15 @@ const carrierSchema = new mongoose.Schema(
       type: [String],
       default: []
     },
+
+    // Obszar działania (mapa)
+    operatingRegion: [
+      {
+        lat: Number,
+        lng: Number
+      }
+    ],
+
     rating: {
       type: Number,
       default: 0,
