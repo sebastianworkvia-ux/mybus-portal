@@ -65,28 +65,26 @@ export const getCarrierById = async (req, res, next) => {
 
 export const createCarrier = async (req, res, next) => {
   try {
-    const { companyName, companyRegistration, country, description, services } =
-      req.body
-
     const existingCarrier = await Carrier.findOne({ userId: req.user.id })
     if (existingCarrier) {
       return res.status(409).json({ error: 'Carrier profile already exists' })
     }
 
-    // Pobierz dane użytkownika aby sprawdzić subskrypcję
+    // Pobierz dane użytkownika
     const user = await User.findById(req.user.id)
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
 
-    const carrier = new Carrier({
+    // Utwórz obiekt z wszystkich dozwolonych pól w req.body
+    // Mongoose przefiltruje pola, które nie są w schemacie, ale warto być jawnym
+    const carrierData = {
+      ...req.body,
       userId: req.user.id,
-      companyName,
-      companyRegistration,
-      country: country.toUpperCase(),
-      description,
-      services
-    })
+      country: req.body.country ? req.body.country.toUpperCase() : undefined,
+    }
+
+    const carrier = new Carrier(carrierData)
 
     // Jeśli użytkownik ma aktywną subskrypcję, przypisz ją do firmy
     if (user.subscriptionPlan && user.subscriptionExpiry) {
