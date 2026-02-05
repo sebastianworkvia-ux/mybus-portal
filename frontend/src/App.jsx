@@ -29,6 +29,7 @@ import MapPage from './pages/MapPage'
 import PricingPage from './pages/PricingPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import MessagesPage from './pages/MessagesPage'
+import ChatWidget from './components/ChatWidget'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
 
@@ -85,6 +86,7 @@ function App() {
       </main>
       <Footer />
       <CookieBanner />
+      <ChatWidget />
     </BrowserRouter>
   )
 }
