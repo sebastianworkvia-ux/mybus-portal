@@ -176,6 +176,7 @@ app.use('/api/payments', paymentRoutes)
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/import', importRoutes)
 app.use('/api/messages', messageRoutes)
+app.use('/api/chat', chatRoutes)
 
 // Error handling middleware
 app.use(errorHandler)
