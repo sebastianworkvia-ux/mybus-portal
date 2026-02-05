@@ -16,6 +16,7 @@ import paymentRoutes from './routes/payments.js'
 import analyticsRoutes from './routes/analytics.js'
 import importRoutes from './routes/import.js'
 import messageRoutes from './routes/messages.js'
+import chatRoutes from './routes/chat.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
