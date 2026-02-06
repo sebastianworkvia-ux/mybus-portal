@@ -5,7 +5,7 @@ import './ChatWidget.css'
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Cześć! 👋 Jestem wirtualnym asystentem. Szukasz busa? Napisz skąd i dokąd chcesz jechać.' }
+    { role: 'assistant', content: 'Cześć! 👋 Jestem BusBot. Szukasz przewoźnika? Napisz skąd i dokąd chcesz jechać.' }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -74,7 +74,7 @@ export default function ChatWidget() {
         <div className="chat-window">
           <div className="chat-header">
             <div className="chat-title">
-              <span>🤖 Asystent Podróży</span>
+              <span>🚌 BusBot</span>
             </div>
             <button className="chat-close-btn" onClick={() => setIsOpen(false)}>✕</button>
           </div>
