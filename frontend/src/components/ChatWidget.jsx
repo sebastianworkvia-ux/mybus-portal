@@ -39,8 +39,20 @@ export default function ChatWidget() {
 
       setMessages(prev => [...prev, { role: 'assistant', content: res.data.reply }])
     } catch (err) {
-      console.error(err)
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Ups, coś poszło nie tak. Spróbuj ponownie.' }])
+      console.error('❌ Chat error:', err)
+      
+      // Wyświetl szczegółowy komunikat błędu
+      let errorMessage = 'Ups, coś poszło nie tak. Spróbuj ponownie.'
+      
+      if (err.response?.status === 429) {
+        errorMessage = 'Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie.'
+      } else if (err.response?.status === 500) {
+        errorMessage = err.response?.data?.error || 'Błąd serwera. Chatbot może być tymczasowo niedostępny.'
+      } else if (!navigator.onLine) {
+        errorMessage = 'Brak połączenia z internetem. Sprawdź swoje połączenie.'
+      }
+      
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }])
     } finally {
       setLoading(false)
     }

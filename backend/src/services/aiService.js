@@ -32,7 +32,7 @@ Gdy znajdziesz przewoźników, wymień ich nazwy i zaproponuj sprawdzenie ich pr
 
 export const handleChat = async (userMessage, history = []) => {
   if (!openai) {
-    return "Przepraszam, asystent jest tymczasowo niedostępny (błąd konfiguracji serwera)."
+    throw new Error("OpenAI API key not configured")
   }
 
   try {
@@ -75,16 +75,29 @@ export const handleChat = async (userMessage, history = []) => {
 
     const messages = [
       { role: "system", content: SYSTEM_PROMPT },
-      ...history,
+      ...history.slice(-6), // Tylko ostatnie 6 wiadomości
       { role: "user", content: userMessage }
     ]
+    
+    console.log('🤖 Sending to OpenAI:', { messageCount: messages.length })
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: messages,
-      tools: tools,
-      tool_choice: "auto",
-    })
+    // Timeout promise (20 sekund)
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('OpenAI timeout')), 20000)
+    )
+
+    const completion = await Promise.race([
+      openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: messages,
+        tools: tools,
+        tool_choice: "auto",
+        max_tokens: 300, // Ogranicz długość odpowiedzi
+      }),
+      timeoutPromise
+    ])
+    
+    console.log('✅ OpenAI responded')
 
     const responseMessage = completion.choices[0].message
 
@@ -111,10 +124,14 @@ export const handleChat = async (userMessage, history = []) => {
           content: searchResultContent
         })
 
-        const secondResponse = await openai.chat.completions.create({
-          model: "gpt-3.5-turbo",
-          messages: messages,
-        })
+        const secondResponse = await Promise.race([
+          openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: messages,
+            max_tokens: 300,
+          }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('OpenAI timeout')), 15000))
+        ])
 
         return secondResponse.choices[0].message.content
       }
@@ -123,8 +140,21 @@ export const handleChat = async (userMessage, history = []) => {
     return responseMessage.content
 
   } catch (error) {
-    console.error("AI Error:", error)
-    return "Przepraszam, mam chwilowe problemy z połączeniem. Spróbuj później."
+    console.error("❌ AI Error:", error.message || error)
+    
+    if (error.message === 'OpenAI timeout') {
+      throw new Error('Chatbot nie odpowiedział w czasie. Spróbuj ponownie.')
+    }
+    
+    if (error.status === 401) {
+      throw new Error('Błąd klucza API OpenAI')
+    }
+    
+    if (error.status === 429) {
+      throw new Error('Rate limit exceeded')
+    }
+    
+    throw new Error('Błąd komunikacji z AI')
   }
 }
 
