@@ -1,9 +1,18 @@
 import OpenAI from 'openai'
 import Carrier from '../models/Carrier.js'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+let openai
+try {
+  if (process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  } else {
+    console.warn("⚠️ OPENAI_API_KEY is missing. Chat features will be disabled.")
+  }
+} catch (err) {
+  console.error("Failed to initialize OpenAI:", err)
+}
 
 const SYSTEM_PROMPT = `
 Jesteś wirtualnym asystentem portalu transportowego "Przewoźnicy".
@@ -22,6 +31,10 @@ Gdy znajdziesz przewoźników, wymień ich nazwy i zaproponuj sprawdzenie ich pr
 `
 
 export const handleChat = async (userMessage, history = []) => {
+  if (!openai) {
+    return "Przepraszam, asystent jest tymczasowo niedostępny (błąd konfiguracji serwera)."
+  }
+
   try {
     const tools = [
       {
