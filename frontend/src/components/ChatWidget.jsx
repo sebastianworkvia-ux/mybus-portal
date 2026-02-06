@@ -32,10 +32,14 @@ export default function ChatWidget() {
       // Wyślij tylko ostatnie interakcje jako kontekst
       const history = messages.map(m => ({ role: m.role, content: m.content }))
       
+      console.log('🤖 Sending chat request to:', apiClient.defaults.baseURL + '/chat')
+      
       const res = await apiClient.post('/chat', {
         message: userMsg.content,
         history
       })
+      
+      console.log('✅ Chat response:', res.data)
 
       setMessages(prev => [...prev, { role: 'assistant', content: res.data.reply }])
     } catch (err) {

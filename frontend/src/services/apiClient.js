@@ -5,15 +5,28 @@ import axios from 'axios'
 // Fallback dla custom hostingu bez rewrite /api
 const getBaseUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL
-  if (envUrl) return envUrl
+  
+  console.log('🔧 API Client Config:', {
+    VITE_API_URL: envUrl,
+    hostname: typeof window !== 'undefined' ? window.location.hostname : 'server',
+    isDev: import.meta.env.DEV,
+    mode: import.meta.env.MODE
+  })
+  
+  if (envUrl) {
+    console.log('✅ Using VITE_API_URL:', envUrl)
+    return envUrl
+  }
 
   if (typeof window !== 'undefined') {
     const host = window.location.hostname
     if (host === 'my-bus.eu' || host.endsWith('.my-bus.eu')) {
+      console.log('✅ Using hardcoded URL for my-bus.eu')
       return 'https://mybus-backend-aygc.onrender.com/api'
     }
   }
 
+  console.log('✅ Using proxy /api (development)')
   return '/api'
 }
 
@@ -21,8 +34,7 @@ const apiClient = axios.create({
   baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
-    'Accept': 'application/json',
-    'Accept-Charset': 'utf-8'
+    'Accept': 'application/json'
   },
   timeout: 60000 // 60 sekund (dla "wake up" Render free tier - pierwsze połączenie może trwać 30-60s)
 })
