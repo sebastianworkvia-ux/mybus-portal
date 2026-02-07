@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
+import PromoSidebar from '../components/PromoSidebar'
 import { SearchIllustration, TravelIllustration, CommunityIllustration, VerifiedIllustration } from '../components/Illustrations'
 import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
@@ -48,6 +49,7 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      <PromoSidebar />
       <section className="hero">
         <div className="hero-background-image" style={{backgroundImage: "url('/hero-bus.png')"}}>
           {/* Tło ustawi się przez CSS jeśli plik nie istnieje, lub style inline nadpisze jak użytkownik wrzuci plik */}

@@ -110,6 +110,13 @@ const carrierSchema = new mongoose.Schema(
       maxlength: 150,
       default: null
     }, // Krótkie ogłoszenie (tylko Premium/Business) - max 150 znaków
+    promoOffer: {
+      title: { type: String, maxlength: 50 }, // np. "Promocja! Berlin-Warszawa"
+      description: { type: String, maxlength: 100 }, // np. "Tylko 120 PLN w obie strony"
+      price: { type: String, maxlength: 20 }, // np. "120 PLN" lub "€39"
+      validUntil: { type: Date }, // Data ważności promocji
+      isActive: { type: Boolean, default: false }
+    }, // Promocja cenowa (tylko Premium/Business) - pokazywana w sidebar
     isPremium: {
       type: Boolean,
       default: false

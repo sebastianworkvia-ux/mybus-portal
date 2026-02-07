@@ -3,10 +3,17 @@ import User from '../models/User.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
-    const { routeFrom, routeTo, service, search, voivodeship } = req.query
-    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search, voivodeship })
+    const { routeFrom, routeTo, service, search, voivodeship, hasPromo } = req.query
+    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search, voivodeship, hasPromo })
     
     const query = { isActive: true }
+
+    // Filtruj tylko przewoźników z aktywną promocją
+    if (hasPromo === 'true') {
+      query['promoOffer.isActive'] = true
+      query['promoOffer.validUntil'] = { $gt: new Date() }
+      query.subscriptionPlan = { $in: ['premium', 'business'] }
+    }
 
     // Filtrowanie po krajach obsługi
     if (routeFrom || routeTo) {

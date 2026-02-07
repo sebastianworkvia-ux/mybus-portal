@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
+import PromoSidebar from '../components/PromoSidebar'
 import { useCarrierStore } from '../stores/carrierStore'
 import './SearchPage.css'
 
@@ -13,6 +14,7 @@ export default function SearchPage() {
 
   return (
     <div className="search-page">
+      <PromoSidebar />
       <div className="container">
         <h1>Wyszukiwanie przewoźników</h1>
 
