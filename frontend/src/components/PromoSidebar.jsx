@@ -57,7 +57,11 @@ export default function PromoSidebar() {
         <span className="promo-badge">🔥 PROMOCJA</span>
       </div>
 
-      <Link to={`/carriers/${currentPromo._id}`} className="promo-card">
+      <Link 
+        key={currentPromo._id} 
+        to={`/carriers/${currentPromo._id}`} 
+        className="promo-card"
+      >
         <div className="promo-content">
           {currentPromo.logo && (
             <img 
