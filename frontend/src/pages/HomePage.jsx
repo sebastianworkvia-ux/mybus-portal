@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
@@ -12,7 +12,6 @@ import './HomePage.css'
 export default function HomePage() {
   const { t } = useTranslation()
   const { carriers, loading, error, getCarriers } = useCarrierStore()
-  const [showCTABar, setShowCTABar] = useState(false)
 
   useEffect(() => {
     const loadCarriers = async () => {
@@ -24,19 +23,6 @@ export default function HomePage() {
     }
     loadCarriers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Sticky CTA bar on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 800) {
-        setShowCTABar(true)
-      } else {
-        setShowCTABar(false)
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 8
@@ -81,13 +67,6 @@ export default function HomePage() {
           <div className="hero-image" style={{opacity: 0}}></div> 
         </div>
       </section>
-
-      {/* Urgency Banner */}
-      <div className="urgency-banner">
-        <p className="urgency-text">
-          {t('urgency.text', '🎯 Specjalna oferta! Rezerwuj transport teraz i zyskaj do')} <strong>30% {t('urgency.discount', 'rabatu')}</strong>
-        </p>
-      </div>
 
       <div className="search-section-wrapper">
         <div className="container">
@@ -288,19 +267,6 @@ export default function HomePage() {
             {t('cta.joinFree')}
           </Link>
         </section>
-      </div>
-
-      {/* Sticky CTA Bar */}
-      <div className={`cta-sticky-bar ${showCTABar ? 'visible' : ''}`}>
-        <div className="cta-sticky-content">
-          <div className="cta-sticky-text">
-            {t('ctaBar.text', 'Gotowy na podróż?')}
-            <span>{t('ctaBar.subtext', 'Znajdź najlepszych przewoźników w Europie')}</span>
-          </div>
-          <Link to="/search" className="cta-sticky-button">
-            {t('ctaBar.button', 'Szukaj Przewoźnika →')}
-          </Link>
-        </div>
       </div>
 
       {/* Floating Action Buttons */}
