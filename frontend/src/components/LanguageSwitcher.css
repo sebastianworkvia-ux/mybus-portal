@@ -1,0 +1,56 @@
+.language-switcher {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #2d3748;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  background: #f7fafc;
+  border-color: #e2e8f0;
+}
+
+.lang-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.lang-btn .flag {
+  font-size: 1.2rem;
+}
+
+.lang-btn .lang-code {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsywność - ukryj tekst na małych ekranach */
+@media (max-width: 768px) {
+  .lang-btn .lang-code {
+    display: none;
+  }
+  
+  .lang-btn {
+    padding: 6px 8px;
+  }
+  
+  .lang-btn .flag {
+    font-size: 1.4rem;
+  }
+}

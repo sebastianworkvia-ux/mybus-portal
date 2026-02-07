@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
 import PromoSidebar from '../components/PromoSidebar'
@@ -8,6 +9,7 @@ import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const { carriers, loading, error, getCarriers } = useCarrierStore()
 
   useEffect(() => {
@@ -57,10 +59,8 @@ export default function HomePage() {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-text">
-            <h1>Przewozy busem po całej Europie – Twój niezawodny transport</h1>
-            <p>
-              🎯 Portal łączący klientów z ponad 190 zweryfikowanymi przewoźnikami | Transport na lotnisko, przewozy firmowe, okolicznościowe | Polska • Niemcy • Holandia • Belgia • Francja • Austria oraz wiele innych.
-            </p>
+            <h1>{t('hero.title')}</h1>
+            <p>{t('hero.description')}</p>
           </div>
           {/* Ilustracja usunięta, bo mamy zdjęcie w tle */}
           <div className="hero-image" style={{opacity: 0}}></div> 
@@ -76,39 +76,39 @@ export default function HomePage() {
       <div className="container" style={{marginTop: '3rem'}}>
         {/* Usługi - Kategorie */}
         <section className="services-categories">
-          <h2>Wybierz kategorię transportu</h2>
+          <h2>{t('services.title')}</h2>
           <div className="categories-grid">
             <Link to="/search?service=transport" className="category-card">
               <span className="cat-icon">🚐</span>
-              <h3>Busy międzynarodowe</h3>
+              <h3>{t('services.transport')}</h3>
             </Link>
             <Link to="/search?service=transfery-lotniskowe" className="category-card">
               <span className="cat-icon">✈️</span>
-              <h3>Transfery lotniskowe</h3>
+              <h3>{t('services.transfers')}</h3>
             </Link>
             <Link to="/search?service=paczki" className="category-card">
               <span className="cat-icon">📦</span>
-              <h3>Paczki</h3>
+              <h3>{t('services.packages')}</h3>
             </Link>
             <Link to="/search?service=laweta" className="category-card">
               <span className="cat-icon">🚗</span>
-              <h3>Lawety / Auta</h3>
+              <h3>{t('services.vehicles')}</h3>
             </Link>
             <Link to="/search?service=autokary" className="category-card">
               <span className="cat-icon">🚌</span>
-              <h3>Autokary</h3>
+              <h3>{t('services.coaches')}</h3>
             </Link>
             <Link to="/search?service=zwierzeta" className="category-card">
               <span className="cat-icon">🐕</span>
-              <h3>Transport zwierząt</h3>
+              <h3>{t('services.pets')}</h3>
             </Link>
             <Link to="/search?service=przeprowadzki" className="category-card">
               <span className="cat-icon">🏠</span>
-              <h3>Przeprowadzki</h3>
+              <h3>{t('services.moving')}</h3>
             </Link>
             <Link to="/search?service=przejazdy-sluzbowe" className="category-card">
               <span className="cat-icon">👔</span>
-              <h3>Przejazdy służbowe</h3>
+              <h3>{t('services.business')}</h3>
             </Link>
           </div>
         </section>
@@ -117,81 +117,83 @@ export default function HomePage() {
         <section className="features-section" style={{marginTop: '4rem'}}>
           <div className="feature-card">
             <SearchIllustration />
-            <h3>🔍 Wyszukaj Przewoźnika w Całej Europie</h3>
-            <p>Ponad 190 firm transportowych na jednej platformie. Filtruj według kraju (DE, NL, BE, FR, AT, PL), typu usługi i trasy. Interaktywna mapa pokazuje przewoźników w Twojej okolicy.</p>
+            <h3>{t('features.searchTitle')}</h3>
+            <p>{t('features.searchDesc')}</p>
           </div>
+
           <div className="feature-card">
             <VerifiedIllustration />
-            <h3>✔️ Tylko Zweryfikowane Firmy</h3>
-            <p>Wszystkie firmy posiadają numery rejestracyjne i licencje transportowe. Bezpieczne przewozy osób i paczek. Pełna przejrzystość i profesjonalizm.</p>
+            <h3>{t('features.verifiedTitle')}</h3>
+            <p>{t('features.verifiedDesc')}</p>
           </div>
+
           <div className="feature-card">
-            <CommunityIllustration />
-            <h3>⭐ Opinie Prawdziwych Klientów</h3>
-            <p>System ocen i recenzji pomaga wybrać najlepszego przewoźnika. Sprawdzone opinie, realna reputacja. Podejmuj świadome decyzje.</p>
+            <TravelIllustration />
+            <h3>{t('features.contactTitle')}</h3>
+            <p>{t('features.contactDesc')}</p>
           </div>
         </section>
 
         {/* CTA Section - Zarejestruj się */}
         <section className="register-benefits-section">
           <div className="benefits-card">
-            <h2>🚀 Dołącz do My-Bus.eu - Więcej Klientów, Większy Zasięg!</h2>
+            <h2>{t('cta.customerTitle')}</h2>
             <div className="benefits-grid">
               <div className="benefit-item">
                 <span className="benefit-icon">💬</span>
-                <h4>Bezpośredni Kontakt z Przewoźnikami</h4>
-                <p>System wiadomości wewnętrznych - komunikuj się bezpośrednio, szybko ustalaj szczegóły podroży</p>
+                <h4>{t('cta.benefitDirectTitle')}</h4>
+                <p>{t('cta.benefitDirectDesc')}</p>
               </div>
               <div className="benefit-item">
                 <span className="benefit-icon">⭐</span>
-                <h4>Buduj Reputację</h4>
-                <p>Oceniaj przewoźników i czytaj opinie innych. Pomagaj budować społeczność zaufanych usług</p>
+                <h4>{t('cta.benefitReputationTitle')}</h4>
+                <p>{t('cta.benefitReputationDesc')}</p>
               </div>
               <div className="benefit-item">
                 <span className="benefit-icon">🔔</span>
-                <h4>Personalizowane Powiadomienia</h4>
-                <p>Otrzymuj alerty o nowych przewoźnikach na Twojej trasie. Nie przegap najlepszych ofert</p>
+                <h4>{t('cta.benefitNotificationsTitle')}</h4>
+                <p>{t('cta.benefitNotificationsDesc')}</p>
               </div>
             </div>
             <div className="cta-buttons">
               <Link to="/register" className="btn-cta-primary" onClick={() => window.scrollTo(0, 0)}>
-                Załóż konto za darmo
+                {t('cta.registerFree')}
               </Link>
               <Link to="/login" className="btn-cta-secondary" onClick={() => window.scrollTo(0, 0)}>
-                Mam już konto
+                {t('cta.haveAccount')}
               </Link>
             </div>
           </div>
         </section>
 
         <section className="search-section">
-          <h2>Szukaj przewoźnika</h2>
+          <h2>{t('searchSection.title')}</h2>
           <SearchBar />
           <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
             <Link to="/map" className="btn-map">
-              🗺️ Zobacz wszystkie firmy na mapie
+              {t('searchSection.viewMap')}
             </Link>
           </div>
         </section>
 
         <section className="featured-carriers">
-          <h2>Polecani przewoźnicy</h2>
+          <h2>{t('featuredCarriers.title')}</h2>
           
           {loading && (
             <div className="loading">
               <div className="spinner"></div>
-              <p>Ładowanie przewoźników...</p>
+              <p>{t('featuredCarriers.loading')}</p>
               <small style={{ opacity: 0.7, marginTop: '8px' }}>
-                Pierwsze ładowanie może potrwać do minuty
+                {t('featuredCarriers.loadingNote')}
               </small>
             </div>
           )}
 
           {error && (
             <div className="error">
-              <p>Błąd ładowania: {error}</p>
+              <p>{t('featuredCarriers.error')} {error}</p>
               <button onClick={() => getCarriers()} className="btn-retry">
-                🔄 Spróbuj ponownie
+                {t('featuredCarriers.retry')}
               </button>
             </div>
           )}
@@ -206,8 +208,8 @@ export default function HomePage() {
 
           {!loading && !error && carriers.length === 0 && (
             <div className="no-carriers">
-              <p>Brak dostępnych przewoźników</p>
-              <p className="text-small">Bądź pierwszy - załóż konto!</p>
+              <p>{t('featuredCarriers.noCarriers')}</p>
+              <p className="text-small">{t('featuredCarriers.beFirst')}</p>
             </div>
           )}
         </section>
@@ -215,25 +217,25 @@ export default function HomePage() {
         <section className="facebook-cta-section">
           <div className="facebook-cta-card">
             <div className="facebook-icon">📘</div>
-            <h2>Obserwuj nas na Facebooku!</h2>
-            <p>Bądź na bieżąco z nowościami, promocjami i ofertami przewoźników</p>
+            <h2>{t('cta.facebook')}</h2>
+            <p>{t('cta.facebookDesc')}</p>
             <a 
               href="https://www.facebook.com/profile.php?id=61584903104321" 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-facebook"
             >
-              👍 Polub i obserwuj My-Bus.eu
+              {t('cta.followFB')}
             </a>
-            <p className="facebook-subtext">Dołącz do naszej społeczności!</p>
+            <p className="facebook-subtext">{t('cta.facebookSubtext')}</p>
           </div>
         </section>
 
         <section className="cta-section">
-          <h2>Jesteś przewoźnikiem?</h2>
-          <p>Dołącz do naszej platformy i znajdź nowych klientów</p>
+          <h2>{t('cta.carrier')}</h2>
+          <p>{t('cta.carrierDesc')}</p>
           <Link to="/register" className="btn-join">
-            Załóż konto bezpłatnie
+            {t('cta.joinFree')}
           </Link>
         </section>
       </div>

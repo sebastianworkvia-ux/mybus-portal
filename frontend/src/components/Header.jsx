@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../stores/authStore'
 import { messageService } from '../services/services'
 import Logo from './Logo'
+import LanguageSwitcher from './LanguageSwitcher'
 import './Header.css'
 
 export default function Header() {
+  const { t } = useTranslation()
   const { user, logout } = useAuthStore()
   const [menuOpen, setMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
@@ -63,36 +66,38 @@ export default function Header() {
           </Link>
 
           <nav className="nav">
-            <Link to="/">Strona główna</Link>
-            <Link to="/search">Szukaj przewoźników</Link>
-            <Link to="/map" className="map-link">🗺️ Mapa</Link>
-            <Link to="/for-carriers">Dla przewoźników</Link>
+            <Link to="/">{t('nav.home')}</Link>
+            <Link to="/search">{t('nav.search')}</Link>
+            <Link to="/map" className="map-link">🗺️ {t('nav.search')}</Link>
+            <Link to="/for-carriers">{t('nav.forCarriers')}</Link>
+
+            <LanguageSwitcher />
 
             {user ? (
               <div className="user-menu">
                 <span className="user-greeting">Witaj, {user.firstName}!</span>
                 {user.userType === 'carrier' && (
-                  <Link to="/dashboard" className="nav-link">Mój panel</Link>
+                  <Link to="/dashboard" className="nav-link">{t('nav.dashboard')}</Link>
                 )}
                 {user.isAdmin && (
                   <Link to="/admin" className="admin-link">Panel Admina</Link>
                 )}
                 <Link to="/messages" className="messages-link">
-                  📬 Wiadomości
+                  📬 {t('nav.messages')}
                   {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
                 </Link>
                 <Link to="/settings" className="settings-link">⚙️ Ustawienia</Link>
                 <button onClick={logout} className="btn-logout">
-                  Wyloguj
+                  {t('nav.logout')}
                 </button>
               </div>
             ) : (
               <div className="auth-buttons">
                 <Link to="/login" className="btn-login">
-                  Logowanie
+                  {t('nav.login')}
                 </Link>
                 <Link to="/register" className="btn-register">
-                  Rejestracja
+                  {t('nav.register')}
                 </Link>
               </div>
             )}

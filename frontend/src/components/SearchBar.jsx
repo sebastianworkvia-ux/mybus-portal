@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useCarrierStore } from '../stores/carrierStore'
 import './SearchBar.css'
 
 export default function SearchBar() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const { getCarriers, setFilters } = useCarrierStore()
@@ -55,7 +57,7 @@ export default function SearchBar() {
       <div className="search-group">
         <input
           type="text"
-          placeholder="Szukaj przewoźnika..."
+          placeholder={t('search.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -63,7 +65,7 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={routeFrom} onChange={(e) => setRouteFrom(e.target.value)}>
-          <option value="">Z kraju / Cała Europa</option>
+          <option value="">{t('search.fromCountry')}</option>
           <option value="PL">Polska</option>
           <option value="DE">Niemcy</option>
           <option value="NL">Holandia</option>
@@ -79,7 +81,7 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={routeTo} onChange={(e) => setRouteTo(e.target.value)}>
-          <option value="">Do kraju / Cała Europa</option>
+          <option value="">{t('search.toCountry')}</option>
           <option value="PL">Polska</option>
           <option value="DE">Niemcy</option>
           <option value="NL">Holandia</option>
@@ -95,7 +97,7 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={voivodeship} onChange={(e) => setVoivodeship(e.target.value)}>
-          <option value="">Województwo (PL)</option>
+          <option value="">{t('search.voivodeshipPL')}</option>
           {VOIVODESHIPS.map((v) => (
             <option key={v} value={v}>
               {v}
@@ -106,18 +108,18 @@ export default function SearchBar() {
 
       <div className="search-group">
         <select value={service} onChange={(e) => setService(e.target.value)}>
-          <option value="">Wszystkie usługi</option>
-          <optgroup label="Przewóz Osób">
-            <option value="transport">Busy międzynarodowe</option>
-            <option value="autokary">Wycieczki i autokary</option>
-            <option value="transfery-lotniskowe">Transfery lotniskowe</option>
-            <option value="przejazdy-sluzbowe">Przejazdy służbowe</option>
+          <option value="">{t('search.allServices')}</option>
+          <optgroup label={t('search.passengerTransport')}>
+            <option value="transport">{t('services.transport')}</option>
+            <option value="autokary">{t('services.coaches')}</option>
+            <option value="transfery-lotniskowe">{t('services.transfers')}</option>
+            <option value="przejazdy-sluzbowe">{t('services.business')}</option>
           </optgroup>
-          <optgroup label="Transport i Logistyka">
-            <option value="paczki">Paczki</option>
-            <option value="zwierzeta">Zwierzęta</option>
-            <option value="laweta">Lawety / Autotransport</option>
-            <option value="przeprowadzki">Przeprowadzki</option>
+          <optgroup label={t('search.transportLogistics')}>
+            <option value="paczki">{t('services.packages')}</option>
+            <option value="zwierzeta">{t('services.pets')}</option>
+            <option value="laweta">{t('services.vehicles')}</option>
+            <option value="przeprowadzki">{t('services.moving')}</option>
             <option value="transport-rzeczy">Transport towarów</option>
             <option value="dokumenty">Dokumenty</option>
             <option value="inne">Inne</option>
@@ -126,7 +128,7 @@ export default function SearchBar() {
       </div>
 
       <button type="submit" className="btn-search">
-        🔍 Szukaj
+        {t('search.searchBtn')}
       </button>
     </form>
   )

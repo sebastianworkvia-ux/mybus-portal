@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../stores/authStore'
 import './AuthPages.css'
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { login, error, loading } = useAuthStore()
   const [formData, setFormData] = useState({
@@ -31,13 +33,13 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1>Logowanie</h1>
+        <h1>{t('login.title')}</h1>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('login.email')}</label>
             <input
               id="email"
               type="email"
@@ -49,7 +51,7 @@ export default function LoginPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Hasło</label>
+            <label htmlFor="password">{t('login.password')}</label>
             <input
               id="password"
               type="password"
@@ -61,16 +63,16 @@ export default function LoginPage() {
           </div>
 
           <button type="submit" disabled={loading} className="btn-submit">
-            {loading ? 'Logowanie...' : 'Zaloguj się'}
+            {loading ? t('login.submitting') : t('login.submit')}
           </button>
 
           <div className="forgot-password-link">
-            <Link to="/forgot-password">Zapomniałeś hasła?</Link>
+            <Link to="/forgot-password">{t('login.forgotPassword')}</Link>
           </div>
         </form>
 
         <p className="auth-link">
-          Nie masz konta? <Link to="/register">Zarejestruj się</Link>
+          {t('login.noAccount')} <Link to="/register">{t('login.registerLink')}</Link>
         </p>
       </div>
     </div>

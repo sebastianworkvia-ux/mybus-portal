@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
 import PromoSidebar from '../components/PromoSidebar'
@@ -6,6 +7,7 @@ import { useCarrierStore } from '../stores/carrierStore'
 import './SearchPage.css'
 
 export default function SearchPage() {
+  const { t } = useTranslation()
   const { carriers, loading, error, getCarriers, filters } = useCarrierStore()
 
   useEffect(() => {
@@ -16,16 +18,16 @@ export default function SearchPage() {
     <div className="search-page">
       <PromoSidebar />
       <div className="container">
-        <h1>Wyszukiwanie przewoźników</h1>
+        <h1>{t('searchPage.title')}</h1>
 
         <SearchBar />
 
         {loading && (
           <div className="loading">
             <div className="spinner"></div>
-            <p>Ładowanie przewoźników...</p>
+            <p>{t('searchPage.loading')}</p>
             <small style={{ opacity: 0.7, marginTop: '8px' }}>
-              Pierwsze ładowanie może potrwać do minuty (serwer startuje)
+              {t('searchPage.loadingNote')}
             </small>
           </div>
         )}
@@ -34,7 +36,7 @@ export default function SearchPage() {
 
         <div className="search-results">
           <div className="results-count">
-            Znaleziono: <strong>{carriers.length}</strong> przewoźników
+            {t('searchPage.resultsCount')} <strong>{carriers.length}</strong> {t('searchPage.carriers')}
           </div>
 
           {carriers.length > 0 ? (
@@ -46,7 +48,7 @@ export default function SearchPage() {
           ) : (
             !loading && (
               <div className="no-results">
-                <p>Nie znaleziono przewoźników spełniających Twoje kryteria</p>
+                <p>{t('searchPage.noResults')}</p>
               </div>
             )
           )}

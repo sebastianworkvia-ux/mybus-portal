@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../stores/authStore'
 import './AuthPages.css'
 
 export default function RegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { register, error, loading } = useAuthStore()
   const [formData, setFormData] = useState({
@@ -31,7 +33,7 @@ export default function RegisterPage() {
     
     // Validate required consent
     if (!consents.dataProcessing) {
-      alert('Musisz wyrazić zgodę na przetwarzanie danych osobowych, aby się zarejestrować.')
+      alert(t('register.consentRequired'))
       return
     }
     
@@ -50,27 +52,27 @@ export default function RegisterPage() {
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1>Rejestracja</h1>
+        <h1>{t('register.title')}</h1>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="userType">Rejestruję się jako:</label>
+            <label htmlFor="userType">{t('register.userType')}</label>
             <select
               id="userType"
               name="userType"
               value={formData.userType}
               onChange={handleChange}
             >
-              <option value="customer">Klient (szukam przewoźnika)</option>
-              <option value="carrier">Przewoźnik (moja firma transportowa)</option>
+              <option value="customer">{t('register.customer')}</option>
+              <option value="carrier">{t('register.carrier')}</option>
             </select>
           </div>
 
           {formData.userType === 'carrier' ? (
             <div className="form-group">
-              <label htmlFor="companyName">Nazwa firmy</label>
+              <label htmlFor="companyName">{t('register.companyName')}</label>
               <input
                 id="companyName"
                 type="text"
@@ -83,7 +85,7 @@ export default function RegisterPage() {
           ) : (
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="firstName">Imię</label>
+                <label htmlFor="firstName">{t('register.firstName')}</label>
                 <input
                   id="firstName"
                   type="text"
@@ -95,7 +97,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="lastName">Nazwisko</label>
+                <label htmlFor="lastName">{t('register.lastName')}</label>
                 <input
                   id="lastName"
                   type="text"
@@ -109,7 +111,7 @@ export default function RegisterPage() {
           )}
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('register.email')}</label>
             <input
               id="email"
               type="email"
@@ -121,7 +123,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Hasło</label>
+            <label htmlFor="password">{t('register.password')}</label>
             <input
               id="password"
               type="password"
@@ -142,11 +144,11 @@ export default function RegisterPage() {
                 onChange={(e) => setConsents({...consents, dataProcessing: e.target.checked})}
               />
               <label htmlFor="dataProcessing">
-                Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z{' '}
+                {t('register.consentData')}{' '}
                 <Link to="/privacy" target="_blank" className="link-inline">
-                  Polityką Prywatności
+                  {t('register.privacyPolicy')}
                 </Link>{' '}
-                <span className="required-mark">*</span>
+                <span className="required-mark">{t('register.required')}</span>
               </label>
             </div>
 
@@ -158,19 +160,18 @@ export default function RegisterPage() {
                 onChange={(e) => setConsents({...consents, marketing: e.target.checked})}
               />
               <label htmlFor="marketing">
-                Wyrażam zgodę na otrzymywanie informacji marketingowych i newslettera
-                (opcjonalne)
+                {t('register.consentMarketing')}
               </label>
             </div>
           </div>
 
           <button type="submit" disabled={loading} className="btn-submit">
-            {loading ? 'Rejestracja...' : 'Zarejestruj się'}
+            {loading ? t('register.submitting') : t('register.submit')}
           </button>
         </form>
 
         <p className="auth-link">
-          Masz już konto? <Link to="/login">Zaloguj się</Link>
+          {t('register.haveAccount')} <Link to="/login">{t('register.loginLink')}</Link>
         </p>
       </div>
     </div>
