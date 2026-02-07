@@ -23,7 +23,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .logo {
@@ -34,6 +34,7 @@
   font-weight: bold;
   text-decoration: none;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
 .logo-icon {
@@ -57,8 +58,6 @@
   flex-wrap: nowrap;
   flex: 1;
   justify-content: center;
-  margin-left: auto;
-  margin-right: 2rem;
 }
 
 .nav a {
@@ -322,4 +321,20 @@
 
 .btn-logout:hover {
   background: #cc4400;
+}
+
+/* Language Switcher Wrapper */
+.language-switcher-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .language-switcher-wrapper {
+    border-left: none;
+    padding-left: 0.5rem;
+  }
 }

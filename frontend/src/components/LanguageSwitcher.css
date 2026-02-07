@@ -1,6 +1,6 @@
 .language-switcher {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   align-items: center;
 }
 
@@ -8,36 +8,39 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 10px;
-  border: 2px solid transparent;
+  padding: 8px 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  background: transparent;
-  color: #2d3748;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .lang-btn:hover {
-  background: #f7fafc;
-  border-color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
 }
 
 .lang-btn.active {
-  background: #667eea;
+  background: #3b82f6;
   color: white;
-  border-color: #667eea;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .lang-btn .flag {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .lang-btn .lang-code {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 /* Responsywność - ukryj tekst na małych ekranach */

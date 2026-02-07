@@ -71,8 +71,6 @@ export default function Header() {
             <Link to="/map" className="map-link">🗺️ {t('nav.search')}</Link>
             <Link to="/for-carriers">{t('nav.forCarriers')}</Link>
 
-            <LanguageSwitcher />
-
             {user ? (
               <div className="user-menu">
                 <span className="user-greeting">Witaj, {user.firstName}!</span>
@@ -102,6 +100,10 @@ export default function Header() {
               </div>
             )}
           </nav>
+
+          <div className="language-switcher-wrapper">
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
     </header>
