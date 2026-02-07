@@ -20,14 +20,16 @@ export default function DashboardPage() {
     // Sprawdź czy przewoźnik ma już dodaną firmę
     const checkCarrier = async () => {
       try {
-        const response = await carrierService.getCarriers()
-        const myCarrier = response.data.find(c => c.userId === user.id)
-        if (myCarrier) {
-          setHasCarrier(true)
-          setCarrier(myCarrier)
-        }
+        const response = await carrierService.getMyCarrier()
+        setHasCarrier(true)
+        setCarrier(response.data)
       } catch (error) {
-        console.error('Error checking carrier:', error)
+        if (error.response?.status === 404) {
+          // Użytkownik nie ma jeszcze firmy
+          setHasCarrier(false)
+        } else {
+          console.error('Error checking carrier:', error)
+        }
       } finally {
         setLoading(false)
       }

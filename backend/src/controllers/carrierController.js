@@ -74,6 +74,22 @@ export const getCarrierById = async (req, res, next) => {
   }
 }
 
+export const getMyCarrier = async (req, res, next) => {
+  try {
+    const carrier = await Carrier.findOne({ userId: req.user.id })
+      .select('-__v')
+      .lean()
+    
+    if (!carrier) {
+      return res.status(404).json({ error: 'Carrier profile not found' })
+    }
+    
+    res.json(carrier)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const createCarrier = async (req, res, next) => {
   try {
     const existingCarrier = await Carrier.findOne({ userId: req.user.id })
