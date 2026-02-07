@@ -124,9 +124,78 @@ export const sanitizeBodyMiddleware = (req, res, next) => {
   next()
 }
 
+/**
+ * Lista zakazanych słów/fraz (wulgaryzmy, obraźliwe treści)
+ * Zawiera polskie, angielskie i niemieckie wulgaryzmy
+ */
+const PROFANITY_LIST = [
+  // Polskie wulgaryzmy
+  'kurwa', 'kurw', 'chuj', 'chuja', 'chujek', 'chuju', 'pizda', 'pizdzie', 
+  'pizdę', 'jebać', 'jebac', 'jebak', 'zajebisty', 'wpierdol', 'wypierdalaj',
+  'spierdalaj', 'pieprzyć', 'pieprzony', 'pierdol', 'pierdolić', 'pierdolic',
+  'dupek', 'dupa', 'skurwysyn', 'skurwiel', 'dziwka', 'szmata', 'ciota',
+  'pedał', 'pedal', 'くそ野郎', 'debil', 'idiota', 'kretyn', 'pojeb', 'pojebany',
+  'gnój', 'gnoj', 'gnida', 'śmieć', 'smiec', 'ścierwo', 'scierwo',
+  'cwel', 'frajer', 'gówno', 'gowno', 'srać', 'srac', 'zasrany',
+  // Angielskie wulgaryzmy
+  'fuck', 'fucking', 'shit', 'bitch', 'asshole', 'bastard', 'cunt',
+  'dick', 'cock', 'pussy', 'whore', 'slut', 'nigger', 'fag', 'faggot',
+  // Niemieckie wulgaryzmy
+  'scheiße', 'scheisse', 'fick', 'ficken', 'arschloch', 'hurensohn',
+  'fotze', 'schwanz', 'wichser', 'schlampe', 'nutte'
+]
+
+/**
+ * Sprawdza, czy tekst zawiera wulgarne/obraźliwe słowa
+ * @param {string} text - Tekst do sprawdzenia
+ * @returns {boolean} - true jeśli znaleziono wulgaryzmy
+ */
+export const containsProfanity = (text) => {
+  if (!text || typeof text !== 'string') return false
+  
+  const normalizedText = text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Usuń akcenty
+    .replace(/[^a-z0-9\s]/gi, ' ') // Zamień znaki specjalne na spacje
+  
+  return PROFANITY_LIST.some(word => {
+    const normalizedWord = word.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    
+    // Sprawdź czy słowo występuje jako całe słowo (word boundary)
+    const regex = new RegExp(`\\b${normalizedWord}\\b`, 'i')
+    return regex.test(normalizedText)
+  })
+}
+
+/**
+ * Sprawdza obiekt rekurencyjnie pod kątem wulgaryzmów
+ * @param {Object} obj - Obiekt do sprawdzenia
+ * @returns {string|null} - Nazwa pola zawierającego wulgaryzm lub null
+ */
+export const checkProfanityInObject = (obj, prefix = '') => {
+  if (!obj || typeof obj !== 'object') return null
+  
+  for (const [key, value] of Object.entries(obj)) {
+    const fieldPath = prefix ? `${prefix}.${key}` : key
+    
+    if (typeof value === 'string' && containsProfanity(value)) {
+      return fieldPath
+    }
+    
+    if (typeof value === 'object' && value !== null) {
+      const nestedResult = checkProfanityInObject(value, fieldPath)
+      if (nestedResult) return nestedResult
+    }
+  }
+  
+  return null
+}
+
 export default {
   fixEncoding,
   cleanText,
   sanitizeObject,
-  sanitizeBodyMiddleware
+  sanitizeBodyMiddleware,
+  containsProfanity,
+  checkProfanityInObject
 }

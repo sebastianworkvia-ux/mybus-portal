@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { carrierService } from '../services/services'
+import { checkProfanityInObject, getFieldLabel } from '../utils/profanityFilter'
 import CarrierMapEditor from '../components/CarrierMapEditor'
 import './AddCarrierPage.css'
 
@@ -188,6 +189,16 @@ export default function AddCarrierPage() {
     setLoading(true)
 
     try {
+      // Walidacja wulgaryzmów - sprawdź przed wysłaniem
+      const profanityCheck = checkProfanityInObject(formData)
+      if (profanityCheck) {
+        const fieldLabel = getFieldLabel(profanityCheck.field)
+        setError(`⚠️ Pole "${fieldLabel}" zawiera niedozwolone treści. Prosimy o wprowadzenie profesjonalnych informacji.`)
+        setLoading(false)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
+
       // Geocoding - zamień kod pocztowy + miasto na współrzędne
       let locationData = undefined
       if (formData.locationPostalCode && formData.locationCity) {
@@ -230,7 +241,13 @@ export default function AddCarrierPage() {
       alert('Zgłoszenie wysłane! Twoja firma zostanie dodana do listy po weryfikacji przez administratora.')
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')
+      // Obsługa błędów walidacji z backendu
+      if (err.response?.data?.message) {
+        setError(err.response.data.message)
+      } else {
+        setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } finally {
       setLoading(false)
     }

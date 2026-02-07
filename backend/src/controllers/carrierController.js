@@ -1,5 +1,6 @@
 import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
+import { checkProfanityInObject } from '../utils/textUtils.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
@@ -97,6 +98,16 @@ export const createCarrier = async (req, res, next) => {
       return res.status(409).json({ error: 'Carrier profile already exists' })
     }
 
+    // Sprawdź czy dane zawierają wulgarne/obraźliwe słowa
+    const profanityField = checkProfanityInObject(req.body)
+    if (profanityField) {
+      return res.status(400).json({ 
+        error: 'Zawartość zawiera niedozwolone słowa',
+        field: profanityField,
+        message: `Pole "${profanityField}" zawiera obraźliwe lub wulgarne treści. Prosimy o wprowadzenie profesjonalnych informacji.`
+      })
+    }
+
     // Pobierz dane użytkownika
     const user = await User.findById(req.user.id)
     if (!user) {
@@ -137,6 +148,16 @@ export const updateCarrier = async (req, res, next) => {
     const carrier = await Carrier.findOne({ userId: req.user.id })
     if (!carrier) {
       return res.status(404).json({ error: 'Carrier not found' })
+    }
+
+    // Sprawdź czy dane zawierają wulgarne/obraźliwe słowa
+    const profanityField = checkProfanityInObject(req.body)
+    if (profanityField) {
+      return res.status(400).json({ 
+        error: 'Zawartość zawiera niedozwolone słowa',
+        field: profanityField,
+        message: `Pole "${profanityField}" zawiera obraźliwe lub wulgarne treści. Prosimy o wprowadzenie profesjonalnych informacji.`
+      })
     }
 
     Object.assign(carrier, req.body)

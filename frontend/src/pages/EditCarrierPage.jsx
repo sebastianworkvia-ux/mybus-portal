@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { carrierService } from '../services/services'
+import { checkProfanityInObject, getFieldLabel } from '../utils/profanityFilter'
 import CarrierMapEditor from '../components/CarrierMapEditor'
 import './AddCarrierPage.css'
 
@@ -240,6 +241,16 @@ export default function EditCarrierPage() {
     setSaving(true)
 
     try {
+      // Walidacja wulgaryzmów - sprawdź przed wysłaniem
+      const profanityCheck = checkProfanityInObject(formData)
+      if (profanityCheck) {
+        const fieldLabel = getFieldLabel(profanityCheck.field)
+        setError(`⚠️ Pole "${fieldLabel}" zawiera niedozwolone treści. Prosimy o wprowadzenie profesjonalnych informacji.`)
+        setSaving(false)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
+
       // Geocoding - zamień kod pocztowy + miasto na współrzędne
       let locationData = undefined
       if (formData.locationPostalCode && formData.locationCity) {
@@ -294,7 +305,13 @@ export default function EditCarrierPage() {
       alert('Dane zaktualizowane pomyślnie!')
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.error || 'Błąd podczas aktualizacji danych')
+      // Obsługa błędów walidacji z backendu
+      if (err.response?.data?.message) {
+        setError(err.response.data.message)
+      } else {
+        setError(err.response?.data?.error || 'Błąd podczas aktualizacji danych')
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } finally {
       setSaving(false)
     }
