@@ -66,6 +66,8 @@ export default function EditCarrierPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const isPremium = user?.isPremium || false
+  const [subscriptionPlan, setSubscriptionPlan] = useState('free')
+  const isBusinessOrPremium = subscriptionPlan === 'business' || subscriptionPlan === 'premium'
   
   const [logoFile, setLogoFile] = useState(null)
   const [logoPreview, setLogoPreview] = useState(null)
@@ -90,6 +92,11 @@ export default function EditCarrierPage() {
     luggageAdditionalInfo: '',
     logo: '',
     announcement: '',
+    promoTitle: '',
+    promoDescription: '',
+    promoPrice: '',
+    promoValidUntil: '',
+    promoIsActive: false,
     locationPostalCode: '',
     locationCity: ''
   })
@@ -126,9 +133,17 @@ export default function EditCarrierPage() {
           luggageAdditionalInfo: carrier.luggageInfo?.additionalInfo || '',
           logo: carrier.logo || '',
           announcement: carrier.announcement || '',
+          promoTitle: carrier.promoOffer?.title || '',
+          promoDescription: carrier.promoOffer?.description || '',
+          promoPrice: carrier.promoOffer?.price || '',
+          promoValidUntil: carrier.promoOffer?.validUntil ? new Date(carrier.promoOffer.validUntil).toISOString().split('T')[0] : '',
+          promoIsActive: carrier.promoOffer?.isActive || false,
           locationPostalCode: carrier.location?.postalCode || '',
           locationCity: carrier.location?.city || ''
         })
+        
+        // Ustaw subscriptionPlan
+        setSubscriptionPlan(carrier.subscriptionPlan || 'free')
         
         // Set existing logo preview if available
         if (carrier.logo) {
@@ -257,7 +272,16 @@ export default function EditCarrierPage() {
           maxWeight: formData.luggageMaxWeight,
           additionalInfo: formData.luggageAdditionalInfo
         },
-        location: locationData
+        location: locationData,
+        promoOffer: (isBusinessOrPremium && formData.promoIsActive) ? {
+          title: formData.promoTitle,
+          description: formData.promoDescription,
+          price: formData.promoPrice,
+          validUntil: formData.promoValidUntil,
+          isActive: formData.promoIsActive
+        } : {
+          isActive: false // Deaktywuj jeśli nie business/premium lub wyłączona
+        }
       }
       
       // Add logo if new file was uploaded
@@ -445,6 +469,115 @@ export default function EditCarrierPage() {
                   {formData.announcement?.length || 0}/150 znaków • Ogłoszenie wyświetli się na karcie firmy i w wyszukiwarce
                 </small>
               </div>
+
+              {isBusinessOrPremium && (
+                <div className="promo-offer-section">
+                  <h3 style={{marginTop: '2rem', color: '#667eea'}}>🔥 PopUp Reklama (Sidebar)</h3>
+                  <p className="help-text">Twoja promocja będzie widoczna na stronie głównej i w wyszukiwarce w bocznym panelu</p>
+                  
+                  <div className="form-group">
+                    <label>Aktywuj promocję</label>
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="promoIsActive"
+                        checked={formData.promoIsActive}
+                        onChange={(e) => setFormData(prev => ({ ...prev, promoIsActive: e.target.checked }))}
+                      />
+                      <span>Pokaż tę promocję na stronie</span>
+                    </label>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Tytuł promocji * (max 50 znaków)</label>
+                    <input
+                      type="text"
+                      name="promoTitle"
+                      value={formData.promoTitle || ''}
+                      onChange={handleChange}
+                      maxLength="50"
+                      placeholder="np. Promocja! Berlin - Warszawa"
+                      disabled={!formData.promoIsActive}
+                    />
+                    <small>{formData.promoTitle?.length || 0}/50 znaków</small>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Opis promocji * (max 100 znaków)</label>
+                    <textarea
+                      name="promoDescription"
+                      value={formData.promoDescription || ''}
+                      onChange={handleChange}
+                      rows="2"
+                      maxLength="100"
+                      placeholder="np. Tylko 120 PLN w obie strony! Komfortowy bus."
+                      disabled={!formData.promoIsActive}
+                    />
+                    <small>{formData.promoDescription?.length || 0}/100 znaków</small>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Cena promocyjna (max 20 znaków)</label>
+                      <input
+                        type="text"
+                        name="promoPrice"
+                        value={formData.promoPrice || ''}
+                        onChange={handleChange}
+                        maxLength="20"
+                        placeholder="np. 120 PLN lub €39"
+                        disabled={!formData.promoIsActive}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Ważna do *</label>
+                      <input
+                        type="date"
+                        name="promoValidUntil"
+                        value={formData.promoValidUntil || ''}
+                        onChange={handleChange}
+                        min={new Date().toISOString().split('T')[0]}
+                        disabled={!formData.promoIsActive}
+                        required={formData.promoIsActive}
+                      />
+                    </div>
+                  </div>
+
+                  {formData.promoIsActive && (
+                    <div className="promo-preview">
+                      <p style={{fontSize: '0.9rem', color: '#667eea', marginBottom: '8px'}}>
+                        👁️ Podgląd (tak będzie wyglądać w sidebar):
+                      </p>
+                      <div style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        textAlign: 'center'
+                      }}>
+                        <div style={{fontSize: '0.75rem', marginBottom: '8px'}}>🔥 PROMOCJA</div>
+                        <h4 style={{margin: '8px 0', fontSize: '1rem'}}>
+                          {formData.promoTitle || 'Tytuł promocji'}
+                        </h4>
+                        <p style={{fontSize: '0.85rem', margin: '8px 0'}}>
+                          {formData.promoDescription || 'Opis promocji'}
+                        </p>
+                        {formData.promoPrice && (
+                          <div style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#ffd700', margin: '8px 0'}}>
+                            {formData.promoPrice}
+                          </div>
+                        )}
+                        {formData.promoValidUntil && (
+                          <p style={{fontSize: '0.75rem', opacity: 0.8, marginTop: '8px'}}>
+                            Ważne do: {new Date(formData.promoValidUntil).toLocaleDateString('pl-PL')}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="form-group">
                 <label>Dodaj logo</label>

@@ -352,3 +352,20 @@
     max-height: 150px;
   }
 }
+
+/* PopUp Reklama / Promocja */
+.promo-offer-section {
+  background: #f8f9ff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #e0e7ff;
+  margin-top: 1.5rem;
+}
+
+.promo-preview {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
