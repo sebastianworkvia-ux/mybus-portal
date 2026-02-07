@@ -710,3 +710,249 @@
   font-size: 1.1rem;
   text-align: center;
 }
+
+/* Trust Signals Section */
+.trust-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+  opacity: 0.1;
+  animation: patternMove 20s linear infinite;
+}
+
+@keyframes patternMove {
+  0% { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(50px) translateY(50px); }
+}
+
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.trust-badge {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.trust-badge:nth-child(1) { animation-delay: 0.1s; }
+.trust-badge:nth-child(2) { animation-delay: 0.2s; }
+.trust-badge:nth-child(3) { animation-delay: 0.3s; }
+.trust-badge:nth-child(4) { animation-delay: 0.4s; }
+
+.trust-badge:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.trust-badge-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.trust-badge-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  margin: 0.5rem 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.trust-badge-label {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin: 0;
+}
+
+.trust-section h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.trust-section p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Urgency Banner */
+.urgency-banner {
+  background: linear-gradient(90deg, #f56565 0%, #ed8936 100%);
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.urgency-banner::before {
+  content: '⚡';
+  position: absolute;
+  left: 10%;
+  font-size: 2rem;
+  animation: lightning 2s infinite;
+}
+
+.urgency-banner::after {
+  content: '⚡';
+  position: absolute;
+  right: 10%;
+  font-size: 2rem;
+  animation: lightning 2s infinite 1s;
+}
+
+@keyframes lightning {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.urgency-text {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+}
+
+.urgency-text strong {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+}
+
+/* CTA Sticky Bar */
+.cta-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 2rem;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.cta-sticky-bar.visible {
+  transform: translateY(0);
+}
+
+.cta-sticky-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cta-sticky-text {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cta-sticky-text span {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+.cta-sticky-button {
+  background: white;
+  color: #667eea;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+.cta-sticky-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  background: #f7fafc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .trust-badges {
+    gap: 1.5rem;
+  }
+  
+  .trust-badge {
+    min-width: 150px;
+    padding: 1rem 1.5rem;
+  }
+  
+  .trust-badge-number {
+    font-size: 1.5rem;
+  }
+  
+  .urgency-banner::before,
+  .urgency-banner::after {
+    display: none;
+  }
+  
+  .urgency-text {
+    font-size: 0.95rem;
+  }
+  
+  .cta-sticky-content {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .cta-sticky-bar {
+    padding: 1rem;
+  }
+  
+  .cta-sticky-text {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .cta-sticky-button {
+    width: 100%;
+    text-align: center;
+  }
+}

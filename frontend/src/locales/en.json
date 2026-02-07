@@ -154,5 +154,22 @@
     "phone": "Phone:",
     "rodo": "GDPR:",
     "disclaimer": "Intermediary platform. We are not responsible for services provided by carriers."
+  },
+  "urgency": {
+    "text": "🎯 Special offer! Book transport now and get up to",
+    "discount": "discount"
+  },
+  "trust": {
+    "title": "Why thousands of clients trusted us?",
+    "subtitle": "Verified transport companies from all over Europe in one place",
+    "carriers": "Verified Carriers",
+    "countries": "Countries in Europe",
+    "secure": "Secure Transactions",
+    "rating": "Average Rating"
+  },
+  "ctaBar": {
+    "text": "Ready to travel?",
+    "subtext": "Find the best carriers in Europe",
+    "button": "Search Carrier →"
   }
 }

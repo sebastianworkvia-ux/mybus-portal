@@ -1,9 +1,10 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
 import PromoSidebar from '../components/PromoSidebar'
+import FloatingActionButtons from '../components/FloatingActionButtons'
 import { SearchIllustration, TravelIllustration, CommunityIllustration, VerifiedIllustration } from '../components/Illustrations'
 import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
@@ -11,6 +12,7 @@ import './HomePage.css'
 export default function HomePage() {
   const { t } = useTranslation()
   const { carriers, loading, error, getCarriers } = useCarrierStore()
+  const [showCTABar, setShowCTABar] = useState(false)
 
   useEffect(() => {
     const loadCarriers = async () => {
@@ -22,6 +24,19 @@ export default function HomePage() {
     }
     loadCarriers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Sticky CTA bar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setShowCTABar(true)
+      } else {
+        setShowCTABar(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 8
@@ -67,6 +82,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Urgency Banner */}
+      <div className="urgency-banner">
+        <p className="urgency-text">
+          {t('urgency.text', '🎯 Specjalna oferta! Rezerwuj transport teraz i zyskaj do')} <strong>30% {t('urgency.discount', 'rabatu')}</strong>
+        </p>
+      </div>
+
       <div className="search-section-wrapper">
         <div className="container">
           <SearchBar />
@@ -110,6 +132,34 @@ export default function HomePage() {
               <span className="cat-icon">👔</span>
               <h3>{t('services.business')}</h3>
             </Link>
+          </div>
+        </section>
+
+        {/* Trust Signals Section */}
+        <section className="trust-section">
+          <h2>{t('trust.title', 'Dlaczego nam zaufali tysiące klientów?')}</h2>
+          <p>{t('trust.subtitle', 'Sprawdzone firmy transportowe z całej Europy w jednym miejscu')}</p>
+          <div className="trust-badges">
+            <div className="trust-badge">
+              <div className="trust-badge-icon">✅</div>
+              <div className="trust-badge-number">190+</div>
+              <p className="trust-badge-label">{t('trust.carriers', 'Zweryfikowanych Przewoźników')}</p>
+            </div>
+            <div className="trust-badge">
+              <div className="trust-badge-icon">🌍</div>
+              <div className="trust-badge-number">6</div>
+              <p className="trust-badge-label">{t('trust.countries', 'Krajów w Europie')}</p>
+            </div>
+            <div className="trust-badge">
+              <div className="trust-badge-icon">🔒</div>
+              <div className="trust-badge-number">100%</div>
+              <p className="trust-badge-label">{t('trust.secure', 'Bezpieczne Transakcje')}</p>
+            </div>
+            <div className="trust-badge">
+              <div className="trust-badge-icon">⭐</div>
+              <div className="trust-badge-number">4.8/5</div>
+              <p className="trust-badge-label">{t('trust.rating', 'Średnia Ocena')}</p>
+            </div>
           </div>
         </section>
 
@@ -239,6 +289,22 @@ export default function HomePage() {
           </Link>
         </section>
       </div>
+
+      {/* Sticky CTA Bar */}
+      <div className={`cta-sticky-bar ${showCTABar ? 'visible' : ''}`}>
+        <div className="cta-sticky-content">
+          <div className="cta-sticky-text">
+            {t('ctaBar.text', 'Gotowy na podróż?')}
+            <span>{t('ctaBar.subtext', 'Znajdź najlepszych przewoźników w Europie')}</span>
+          </div>
+          <Link to="/search" className="cta-sticky-button">
+            {t('ctaBar.button', 'Szukaj Przewoźnika →')}
+          </Link>
+        </div>
+      </div>
+
+      {/* Floating Action Buttons */}
+      <FloatingActionButtons />
     </div>
   )
 }

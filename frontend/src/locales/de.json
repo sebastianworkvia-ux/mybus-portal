@@ -154,5 +154,22 @@
     "phone": "Tel:",
     "rodo": "DSGVO:",
     "disclaimer": "Vermittlungsplattform. Wir übernehmen keine Verantwortung für von Transportunternehmen erbrachte Dienstleistungen."
+  },
+  "urgency": {
+    "text": "🎯 Sonderangebot! Buchen Sie jetzt Transport und sparen Sie bis zu",
+    "discount": "Rabatt"
+  },
+  "trust": {
+    "title": "Warum haben uns Tausende von Kunden vertraut?",
+    "subtitle": "Geprüfte Transportunternehmen aus ganz Europa an einem Ort",
+    "carriers": "Verifizierte Transportunternehmen",
+    "countries": "Länder in Europa",
+    "secure": "Sichere Transaktionen",
+    "rating": "Durchschnittliche Bewertung"
+  },
+  "ctaBar": {
+    "text": "Bereit zu reisen?",
+    "subtext": "Finden Sie die besten Transportunternehmen in Europa",
+    "button": "Transportunternehmen suchen →"
   }
 }

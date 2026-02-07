@@ -154,5 +154,22 @@
     "phone": "Tel:",
     "rodo": "RODO:",
     "disclaimer": "Platforma pośrednicząca. Nie ponosimy odpowiedzialności za usługi świadczone przez przewoźników."
+  },
+  "urgency": {
+    "text": "🎯 Specjalna oferta! Rezerwuj transport teraz i zyskaj do",
+    "discount": "rabatu"
+  },
+  "trust": {
+    "title": "Dlaczego nam zaufali tysiące klientów?",
+    "subtitle": "Sprawdzone firmy transportowe z całej Europy w jednym miejscu",
+    "carriers": "Zweryfikowanych Przewoźników",
+    "countries": "Krajów w Europie",
+    "secure": "Bezpieczne Transakcje",
+    "rating": "Średnia Ocena"
+  },
+  "ctaBar": {
+    "text": "Gotowy na podróż?",
+    "subtext": "Znajdź najlepszych przewoźników w Europie",
+    "button": "Szukaj Przewoźnika →"
   }
 }
