@@ -4,7 +4,7 @@ import { useChatStore } from '../stores/chatStore'
 import './ChatWidget.css'
 
 export default function ChatWidget() {
-  const { isOpen, closeChat, toggleChat } = useChatStore()
+  const { isOpen, closeChat } = useChatStore()
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Cześć! 👋 Jestem BusBot. Szukasz przewoźnika? Napisz skąd i dokąd chcesz jechać.' }
   ])
@@ -65,12 +65,6 @@ export default function ChatWidget() {
 
   return (
     <div className={`chat-widget ${isOpen ? 'open' : ''}`}>
-      {!isOpen && (
-        <button className="chat-toggle-btn" onClick={toggleChat}>
-          💬
-        </button>
-      )}
-
       {isOpen && (
         <div className="chat-window">
           <div className="chat-header">

@@ -6,27 +6,6 @@
   font-family: inherit;
 }
 
-.chat-toggle-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #667eea;
-  color: white;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat-toggle-btn:hover {
-  transform: scale(1.1);
-  background: #5a67d8;
-}
-
 .chat-window {
   width: 350px;
   height: 500px;
