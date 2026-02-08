@@ -809,13 +809,18 @@
   z-index: 1;
 }
 
-.trust-section p {
+.trust-section > p {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
+}
+
+.trust-section .trust-badge-label {
+  color: #000000;
+  opacity: 1;
 }
 
 /* Responsive Adjustments */
