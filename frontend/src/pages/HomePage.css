@@ -72,6 +72,10 @@ body, p { font-size: 1rem; line-height: 1.6; }
   grid-template-columns: 1fr 1fr;
   gap: 0;
   background: white;
+  background-image: url('https://cdn.pixabay.com/photo/2023/04/18/10/24/bus-7934676_1280.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  background-attachment: fixed;
   min-height: 550px;
   overflow: hidden;
 }
@@ -131,11 +135,11 @@ body, p { font-size: 1rem; line-height: 1.6; }
 }
 
 .hero-customers {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.88) 0%, rgba(118, 75, 162, 0.88) 100%);
 }
 
 .hero-carriers {
-  background: linear-gradient(135deg, #ff6b4a 0%, #ff8c6b 100%);
+  background: linear-gradient(135deg, rgba(255, 107, 74, 0.88) 0%, rgba(255, 140, 107, 0.88) 100%);
 }
 
 .hero-panel h1,
