@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import apiClient from '../services/apiClient'
+import { useChatStore } from '../stores/chatStore'
 import './ChatWidget.css'
 
 export default function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, closeChat, toggleChat } = useChatStore()
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Cześć! 👋 Jestem BusBot. Szukasz przewoźnika? Napisz skąd i dokąd chcesz jechać.' }
   ])
@@ -65,7 +66,7 @@ export default function ChatWidget() {
   return (
     <div className={`chat-widget ${isOpen ? 'open' : ''}`}>
       {!isOpen && (
-        <button className="chat-toggle-btn" onClick={() => setIsOpen(true)}>
+        <button className="chat-toggle-btn" onClick={toggleChat}>
           💬
         </button>
       )}
@@ -76,7 +77,7 @@ export default function ChatWidget() {
             <div className="chat-title">
               <span>🚌 BusBot</span>
             </div>
-            <button className="chat-close-btn" onClick={() => setIsOpen(false)}>✕</button>
+            <button className="chat-close-btn" onClick={closeChat}>✕</button>
           </div>
 
           <div className="chat-messages">

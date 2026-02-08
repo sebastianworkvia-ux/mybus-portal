@@ -72,6 +72,26 @@
   margin-right: 10px;
 }
 
+/* Chat Button */
+.fab-chat {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(102, 126, 234, 0.8);
+  }
+}
+
+.fab-chat:hover {
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+}
+
 /* Map Button */
 .fab-map {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
