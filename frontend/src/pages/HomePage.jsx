@@ -25,7 +25,7 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 8
+  // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 6 (zmienione z 8)
   const featuredCarriers = useMemo(() => {
     if (!carriers || carriers.length === 0) return []
     
@@ -40,41 +40,60 @@ export default function HomePage() {
       [shuffledFree[i], shuffledFree[j]] = [shuffledFree[j], shuffledFree[i]]
     }
     
-    // Połącz: wszystkie premium + losowe free (do 8 total)
+    // Połącz: wszystkie premium + losowe free (do 6 total - było 8)
     const featured = [...premiumCarriers]
-    const remainingSlots = 8 - featured.length
+    const remainingSlots = 6 - featured.length
     if (remainingSlots > 0) {
       featured.push(...shuffledFree.slice(0, remainingSlots))
     }
     
-    return featured.slice(0, 8)
+    return featured.slice(0, 6)
   }, [carriers])
 
   return (
     <div className="home-page">
       <PromoSidebar />
-      <section className="hero">
-        <div className="hero-background-image" style={{backgroundImage: "url('/hero-bus.png')"}}>
-          {/* Tło ustawi się przez CSS jeśli plik nie istnieje, lub style inline nadpisze jak użytkownik wrzuci plik */}
-        </div>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>{t('hero.title')}</h1>
-            <p>{t('hero.description')}</p>
+      
+      {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
+      <section className="hero-dual">
+        {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
+        <div className="hero-panel hero-customers">
+          <div className="hero-panel-content">
+            <div className="hero-panel-icon">🔍</div>
+            <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
+            <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
+            <p className="hero-panel-description">{t('hero.customers.description', '190+ zweryfikowanych firm | 6 krajów | Transport na lotnisko, fury, międzynarodowe')}</p>
+            <div className="hero-panel-stats">
+              <div className="stat"><strong>✅ 190+</strong><br/>Przewoźników</div>
+              <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
+              <div className="stat"><strong>🚌 6 Krajów</strong><br/>Europa</div>
+            </div>
+            <Link to="/search" className="btn-hero btn-hero-primary" onClick={() => window.scrollTo(0, 0)}>
+              {t('hero.customers.cta', 'Szukaj przewoźnika teraz')} →
+            </Link>
           </div>
-          {/* Ilustracja usunięta, bo mamy zdjęcie w tle */}
-          <div className="hero-image" style={{opacity: 0}}></div> 
+        </div>
+
+        {/* PRAWO: Dla PRZEWOŹNIKÓW (oferujących usługi) */}
+        <div className="hero-panel hero-carriers">
+          <div className="hero-panel-content">
+            <div className="hero-panel-icon">📈</div>
+            <h2>{t('hero.carriers.title', 'Zdobywaj nowych klientów')}</h2>
+            <p className="hero-panel-subtitle">{t('hero.carriers.subtitle', 'Panel dla transportowców')}</p>
+            <p className="hero-panel-description">{t('hero.carriers.description', 'Rejestracja za darmo | Promocje i oferty | Zarządzaj rezerwacjami | Zweryfikowana społeczność')}</p>
+            <div className="hero-panel-stats">
+              <div className="stat"><strong>💰 Zarobki</strong><br/>Bez pośredników</div>
+              <div className="stat"><strong>📊 Analytics</strong><br/>Dashboard</div>
+              <div className="stat"><strong>✉️ Wiadomości</strong><br/>Bezpośrednie</div>
+            </div>
+            <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
+              {t('hero.carriers.cta', 'Załóż konto transportowca')} →
+            </Link>
+          </div>
         </div>
       </section>
 
-      <div className="search-section-wrapper">
-        <div className="container">
-          <SearchBar />
-        </div>
-      </div>
-
-      <div className="container" style={{marginTop: '3rem'}}>
+      <div className="container" style={{marginTop: '0rem'}}>
         {/* Usługi - Kategorie */}
         <section className="services-categories">
           <h2>{t('services.title')}</h2>
@@ -195,18 +214,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="search-section">
-          <h2>{t('searchSection.title')}</h2>
-          <SearchBar />
-          <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-            <Link to="/map" className="btn-map">
-              {t('searchSection.viewMap')}
-            </Link>
-          </div>
-        </section>
-
         <section className="featured-carriers">
           <h2>{t('featuredCarriers.title')}</h2>
+          <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
           
           {loading && (
             <div className="loading">
@@ -243,29 +253,32 @@ export default function HomePage() {
           )}
         </section>
 
-        <section className="facebook-cta-section">
-          <div className="facebook-cta-card">
-            <div className="facebook-icon">📘</div>
-            <h2>{t('cta.facebook')}</h2>
-            <p>{t('cta.facebookDesc')}</p>
-            <a 
-              href="https://www.facebook.com/profile.php?id=61584903104321" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="btn-facebook"
-            >
-              {t('cta.followFB')}
-            </a>
-            <p className="facebook-subtext">{t('cta.facebookSubtext')}</p>
+        {/* DUALNA CTA SEKCJA - Dla klientów i przewoźników */}
+        <section className="footer-cta-dual">
+          <div className="cta-dual-panel cta-panel-customers">
+            <div className="cta-panel-content">
+              <h3>{t('cta.followUs', 'Bądź na bieżąco')}</h3>
+              <p>{t('cta.facebookDesc')}</p>
+              <a 
+                href="https://www.facebook.com/profile.php?id=61584903104321" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn-cta-fb"
+              >
+                👍 {t('cta.followFB')}
+              </a>
+            </div>
           </div>
-        </section>
 
-        <section className="cta-section">
-          <h2>{t('cta.carrier')}</h2>
-          <p>{t('cta.carrierDesc')}</p>
-          <Link to="/register" className="btn-join">
-            {t('cta.joinFree')}
-          </Link>
+          <div className="cta-dual-panel cta-panel-carriers">
+            <div className="cta-panel-content">
+              <h3>{t('cta.joinNow', 'Dołącz jako transportowiec')}</h3>
+              <p>{t('cta.carrierDesc')}</p>
+              <Link to="/register" className="btn-cta-join" onClick={() => window.scrollTo(0, 0)}>
+                🚀 {t('cta.joinFree')}
+              </Link>
+            </div>
+          </div>
         </section>
       </div>
 

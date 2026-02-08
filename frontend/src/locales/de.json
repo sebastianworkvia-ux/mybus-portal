@@ -12,8 +12,18 @@
     "logout": "Abmelden"
   },
   "hero": {
-    "title": "Bustransport in ganz Europa – Ihr zuverlässiger Transport",
-    "description": "🎯 Plattform, die Kunden mit über 190 verifizierten Transportunternehmen verbindet | Flughafentransfer, Firmentransport, besondere Anlässe | Polen • Deutschland • Niederlande • Belgien • Frankreich • Österreich und viele mehr."
+    "customers": {
+      "title": "Finden Sie die besten Transportunternehmen",
+      "subtitle": "Bustransport in ganz Europa",
+      "description": "190+ verifizierte Unternehmen | 6 Länder | Flughafentransfers, Geschäftstransport, Sonderveranstaltungen",
+      "cta": "Jetzt nach Transportunternehmen suchen"
+    },
+    "carriers": {
+      "title": "Gewinnen Sie neue Kunden",
+      "subtitle": "Dashboard für Transportunternehmen",
+      "description": "Kostenlose Registrierung | Promotionen und Angebote | Reservierungen verwalten | Verifizierte Gemeinschaft",
+      "cta": "Geschäftskonto erstellen"
+    }
   },
   "search": {
     "placeholder": "Firma oder Ort suchen...",

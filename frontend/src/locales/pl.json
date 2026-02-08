@@ -12,8 +12,18 @@
     "logout": "Wyloguj"
   },
   "hero": {
-    "title": "Przewozy busem po całej Europie – Twój niezawodny transport",
-    "description": "🎯 Portal łączący klientów z ponad 190 zweryfikowanymi przewoźnikami | Transport na lotnisko, przewozy firmowe, okolicznościowe | Polska • Niemcy • Holandia • Belgia • Francja • Austria oraz wiele innych."
+    "customers": {
+      "title": "Znajdź najlepszych przewoźników",
+      "subtitle": "Transport busem po całej Europie",
+      "description": "190+ zweryfikowanych firm | 6 krajów | Transport na lotnisko, fury, międzynarodowe",
+      "cta": "Szukaj przewoźnika teraz"
+    },
+    "carriers": {
+      "title": "Zdobywaj nowych klientów",
+      "subtitle": "Panel dla transportowców",
+      "description": "Rejestracja za darmo | Promocje i oferty | Zarządzaj rezerwacjami | Zweryfikowana społeczność",
+      "cta": "Załóż konto transportowca"
+    }
   },
   "search": {
     "placeholder": "Wyszukaj firmę lub miejscowość...",

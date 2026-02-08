@@ -12,8 +12,18 @@
     "logout": "Log out"
   },
   "hero": {
-    "title": "Bus transport across Europe – Your reliable transportation",
-    "description": "🎯 Platform connecting customers with over 190 verified carriers | Airport transfers, corporate transport, special occasions | Poland • Germany • Netherlands • Belgium • France • Austria and many more."
+    "customers": {
+      "title": "Find the best carriers",
+      "subtitle": "Bus transport across all of Europe",
+      "description": "190+ verified companies | 6 countries | Airport transfers, business transport, special events",
+      "cta": "Search for a carrier now"
+    },
+    "carriers": {
+      "title": "Get new customers",
+      "subtitle": "Dashboard for carriers",
+      "description": "Free registration | Promotions and offers | Manage reservations | Verified community",
+      "cta": "Create a carrier account"
+    }
   },
   "search": {
     "placeholder": "Search company or location...",
