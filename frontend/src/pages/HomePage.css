@@ -2,6 +2,23 @@
   min-height: 100vh;
 }
 
+/* ===== ACCESSIBILITY & UX IMPROVEMENTS ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+*:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 3px;
+}
+
 /* ===== TYPOGRAPHY SCALE ===== */
 h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; }
 h2 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.01em; }
@@ -212,6 +229,10 @@ body, p { font-size: 1rem; line-height: 1.6; }
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-hero-primary {
@@ -259,6 +280,7 @@ body, p { font-size: 1rem; line-height: 1.6; }
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+  padding: 3rem 0;
 }
 
 .feature-card {
@@ -544,8 +566,8 @@ body, p { font-size: 1rem; line-height: 1.6; }
 }
 
 .featured-carriers {
-  margin: 3rem 0;
-  padding: 0;
+  margin: 5rem 0;
+  padding: 2rem 0;
 }
 
 .featured-carriers h2 {
@@ -575,24 +597,26 @@ body, p { font-size: 1rem; line-height: 1.6; }
 
 .loading {
   text-align: center;
-  padding: 3rem 2rem;
-  background: #e3f2fd;
-  border-radius: 8px;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3f4ff 100%);
+  border-radius: 12px;
   color: #1976d2;
   font-size: 1.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 2rem 0;
 }
 
 .spinner {
-  width: 48px;
-  height: 48px;
-  border: 4px solid #e3f2fd;
-  border-top-color: #1976d2;
+  width: 56px;
+  height: 56px;
+  border: 5px solid #e3f2fd;
+  border-top-color: #667eea;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -602,9 +626,11 @@ body, p { font-size: 1rem; line-height: 1.6; }
 .error {
   text-align: center;
   padding: 3rem 2rem;
-  background: #ffebee;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #ffebee 0%, #fff5f5 100%);
+  border-radius: 12px;
   color: #c62828;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.08);
+  margin: 2rem 0;
 }
 
 .error p {
@@ -615,18 +641,24 @@ body, p { font-size: 1rem; line-height: 1.6; }
 .btn-retry {
   background: #c62828;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
 }
 
 .btn-retry:hover {
   background: #b71c1c;
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(183, 28, 28, 0.4);
 }
 
 .no-carriers {
@@ -712,7 +744,9 @@ body, p { font-size: 1rem; line-height: 1.6; }
 
 .btn-cta-fb,
 .btn-cta-join {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.875rem 2rem;
   border-radius: 8px;
   text-decoration: none;
@@ -722,6 +756,7 @@ body, p { font-size: 1rem; line-height: 1.6; }
   border: none;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 48px;
 }
 
 .btn-cta-fb {
@@ -750,6 +785,39 @@ body, p { font-size: 1rem; line-height: 1.6; }
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+/* ===== TABLET BREAKPOINT (Medium Devices) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-panel h1,
+  .hero-panel h2 {
+    font-size: 2.25rem;
+  }
+
+  .hero-panel {
+    padding: 4rem 2.5rem;
+  }
+
+  .services-categories h2,
+  .featured-carriers h2 {
+    font-size: 2rem;
+  }
+
+  .category-card {
+    padding: 1.25rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .featured-carriers h2 {
+    font-size: 2rem;
+  }
+
+  .carriers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Mobile Optimization - Features & CTA */
@@ -802,7 +870,10 @@ body, p { font-size: 1rem; line-height: 1.6; }
 
   .btn-hero {
     padding: 0.875rem 2rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 320px;
+    min-height: 48px;
   }
 
   .footer-cta-dual {
@@ -834,10 +905,11 @@ body, p { font-size: 1rem; line-height: 1.6; }
 
   .btn-cta-fb,
   .btn-cta-join {
-    padding: 0.75rem 1.75rem;
-    font-size: 0.9rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
+    min-height: 48px;
   }
 
   .features-section {
@@ -865,7 +937,109 @@ body, p { font-size: 1rem; line-height: 1.6; }
   }
 
   .container {
+    padding: 0 1rem;
+  }
+
+  .services-categories h2,
+  .featured-carriers h2 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  body, p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .category-card {
+    padding: 1rem;
+    min-height: 120px;
+  }
+
+  .category-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .cat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* ===== VERY SMALL SCREENS (<480px) ===== */
+@media (max-width: 480px) {
+  .hero-panel h1,
+  .hero-panel h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  .hero-panel {
+    padding: 2.5rem 1rem;
+    min-height: 300px;
+  }
+
+  .hero-panel-icon {
+    font-size: 3rem;
+  }
+
+  .hero-panel-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .hero-panel-description {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .stat {
+    padding: 0.875rem;
+  }
+
+  .stat strong {
+    font-size: 1.1rem;
+  }
+
+  .services-categories h2,
+  .featured-carriers h2 {
+    font-size: 1.5rem;
+  }
+
+  .trust-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .trust-badge {
+    min-width: 140px;
+    max-width: 180px;
+    padding: 1.25rem 1rem;
+  }
+
+  .trust-badge-number {
+    font-size: 1.75rem;
+  }
+
+  .trust-badge-label {
+    font-size: 0.8rem;
+  }
+
+  .cta-dual-panel h3 {
+    font-size: 1.25rem;
+  }
+
+  .container {
     padding: 0 0.75rem;
+  }
+
+  .category-card {
+    padding: 0.875rem;
+    min-height: 100px;
   }
 }
 
@@ -925,8 +1099,8 @@ body, p { font-size: 1rem; line-height: 1.6; }
 /* Trust Signals Section */
 .trust-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 3rem 2rem;
-  margin: 4rem 0;
+  padding: 5rem 2rem;
+  margin: 5rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
