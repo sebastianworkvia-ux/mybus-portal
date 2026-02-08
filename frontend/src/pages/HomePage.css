@@ -1,5 +1,8 @@
 .home-page {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* ===== ACCESSIBILITY & UX IMPROVEMENTS ===== */
@@ -79,6 +82,8 @@ body, p { font-size: 1rem; line-height: 1.6; }
   min-height: 550px;
   position: relative;
   overflow: visible;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .hero-panel {
@@ -791,6 +796,8 @@ body, p { font-size: 1rem; line-height: 1.6; }
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===== TABLET BREAKPOINT (Medium Devices) ===== */
