@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
@@ -12,6 +12,32 @@ import './HomePage.css'
 export default function HomePage() {
   const { t } = useTranslation()
   const { carriers, loading, error, getCarriers } = useCarrierStore()
+  const observerRef = useRef(null)
+
+  // Initialize Intersection Observer for scroll animations
+  useEffect(() => {
+    const elements = document.querySelectorAll('.scroll-fade-in, .services-categories, .featured-carriers')
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          // Stop observing once element is visible
+          observer.unobserve(entry.target)
+        }
+      })
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    })
+
+    elements.forEach((el) => observer.observe(el))
+    observerRef.current = observer
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el))
+    }
+  }, [carriers])
 
   useEffect(() => {
     const loadCarriers = async () => {
@@ -95,7 +121,7 @@ export default function HomePage() {
 
       <div className="container" style={{marginTop: '0rem'}}>
         {/* Usługi - Kategorie */}
-        <section className="services-categories">
+        <section className="services-categories scroll-fade-in">
           <h2>{t('services.title')}</h2>
           <div className="categories-grid">
             <Link to="/search?service=transport" className="category-card">
@@ -162,7 +188,7 @@ export default function HomePage() {
         </section>
 
         {/* Features section */}
-        <section className="features-section" style={{marginTop: '4rem'}}>
+        <section className="features-section scroll-fade-in" style={{marginTop: '4rem'}}>
           <div className="feature-card">
             <SearchIllustration />
             <h3>{t('features.searchTitle')}</h3>
@@ -214,7 +240,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="featured-carriers">
+        <section className="featured-carriers scroll-fade-in">
           <h2>{t('featuredCarriers.title')}</h2>
           <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
           
