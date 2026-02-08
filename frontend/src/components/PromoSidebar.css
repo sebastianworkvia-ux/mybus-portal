@@ -1,7 +1,7 @@
 .promo-sidebar {
   position: fixed;
-  right: 20px;
-  top: 120px;
+  left: 20px;
+  bottom: 20px;
   width: 280px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 16px;
@@ -17,11 +17,11 @@
 
 @keyframes slideInRight {
   from {
-    transform: translateX(120%);
+    transform: translateY(120%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -198,7 +198,8 @@
 /* Responsywność */
 @media (max-width: 1200px) {
   .promo-sidebar {
-    right: 10px;
+    left: 10px;
+    bottom: 10px;
     width: 240px;
   }
 
