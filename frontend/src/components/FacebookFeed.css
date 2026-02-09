@@ -51,7 +51,7 @@
 }
 
 /* Kontener Facebook Page Plugin */
-.fb-page {
+.facebook-feed-wrapper iframe {
   background: white;
   border-radius: 12px;
   box-shadow: 
@@ -62,7 +62,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.fb-page:hover {
+.facebook-feed-wrapper iframe:hover {
   transform: translateY(-4px);
   box-shadow: 
     0 8px 12px rgba(0, 0, 0, 0.1),
@@ -130,9 +130,10 @@
     font-size: 1rem;
   }
 
-  .fb-page {
+  .facebook-feed-wrapper iframe {
     width: 100% !important;
     max-width: 100%;
+    height: 500px !important;
   }
 
   .facebook-feed-cta {

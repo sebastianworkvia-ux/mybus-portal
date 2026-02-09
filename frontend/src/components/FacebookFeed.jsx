@@ -7,8 +7,9 @@ export default function FacebookFeed() {
     if (!window.FB) {
       window.fbAsyncInit = function() {
         window.FB.init({
+          appId: '1234567890', // Możesz zostawić lub utworzyć własne App ID na developers.facebook.com
           xfbml: true,
-          version: 'v18.0'
+          version: 'v19.0'
         })
       }
 
@@ -17,7 +18,7 @@ export default function FacebookFeed() {
       script.async = true
       script.defer = true
       script.crossOrigin = 'anonymous'
-      script.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v18.0'
+      script.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v19.0'
       document.body.appendChild(script)
 
       return () => {
@@ -47,27 +48,18 @@ export default function FacebookFeed() {
         <div className="facebook-feed-wrapper">
           <div id="fb-root"></div>
           
-          {/* Facebook Page Plugin */}
-          <div 
-            className="fb-page" 
-            data-href="https://www.facebook.com/profile.php?id=61584903104321" 
-            data-tabs="timeline"
-            data-width="500"
-            data-height="600"
-            data-small-header="false"
-            data-adapt-container-width="true"
-            data-hide-cover="false"
-            data-show-facepile="true"
-          >
-            <blockquote 
-              cite="https://www.facebook.com/profile.php?id=61584903104321" 
-              className="fb-xfbml-parse-ignore"
-            >
-              <a href="https://www.facebook.com/profile.php?id=61584903104321">
-                My-Bus.eu na Facebooku
-              </a>
-            </blockquote>
-          </div>
+          {/* Facebook Page Plugin - iframe fallback */}
+          <iframe 
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61584903104321&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+            width="500" 
+            height="600" 
+            style={{ border: 'none', overflow: 'hidden' }}
+            scrolling="no" 
+            frameBorder="0" 
+            allowFullScreen={true}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            title="Facebook Page Feed"
+          />
 
           <div className="facebook-feed-cta">
             <p>💙 Polub naszą stronę i nie przegap żadnych nowości!</p>
