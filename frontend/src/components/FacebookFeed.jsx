@@ -7,7 +7,6 @@ export default function FacebookFeed() {
     if (!window.FB) {
       window.fbAsyncInit = function() {
         window.FB.init({
-          appId: '1234567890', // Możesz zostawić lub utworzyć własne App ID na developers.facebook.com
           xfbml: true,
           version: 'v19.0'
         })
@@ -50,12 +49,13 @@ export default function FacebookFeed() {
           
           {/* Facebook Page Plugin - iframe fallback */}
           <iframe 
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61584903104321&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61584903104321&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
             width="500" 
             height="600" 
             style={{ border: 'none', overflow: 'hidden' }}
             scrolling="no" 
             frameBorder="0" 
+            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
             allowFullScreen={true}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
             title="Facebook Page Feed"
