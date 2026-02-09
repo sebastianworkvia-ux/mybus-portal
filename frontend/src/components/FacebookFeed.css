@@ -1,0 +1,180 @@
+.facebook-feed-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.facebook-feed-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3b5998, transparent);
+}
+
+.facebook-feed-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.facebook-feed-header .section-title {
+  font-size: 2.5rem;
+  color: #1e293b;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.fb-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 2px 8px rgba(59, 89, 152, 0.3));
+}
+
+.facebook-feed-subtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.facebook-feed-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Kontener Facebook Page Plugin */
+.fb-page {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.07),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fb-page:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 12px rgba(0, 0, 0, 0.1),
+    0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* CTA pod feedem */
+.facebook-feed-cta {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  width: 100%;
+}
+
+.facebook-feed-cta p {
+  font-size: 1.1rem;
+  color: #334155;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.btn-visit-facebook {
+  display: inline-block;
+  background: linear-gradient(135deg, #3b5998 0%, #2d4373 100%);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 89, 152, 0.3);
+}
+
+.btn-visit-facebook:hover {
+  background: linear-gradient(135deg, #2d4373 0%, #1e2d4f 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 89, 152, 0.4);
+}
+
+.btn-visit-facebook:active {
+  transform: translateY(0);
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .facebook-feed-section {
+    padding: 60px 15px;
+  }
+
+  .facebook-feed-header .section-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .fb-icon {
+    font-size: 2.5rem;
+  }
+
+  .facebook-feed-subtitle {
+    font-size: 1rem;
+  }
+
+  .fb-page {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .facebook-feed-cta {
+    padding: 20px;
+  }
+
+  .facebook-feed-cta p {
+    font-size: 1rem;
+  }
+
+  .btn-visit-facebook {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .facebook-feed-header .section-title {
+    font-size: 1.75rem;
+  }
+
+  .fb-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Animacja pojawienia się */
+.facebook-feed-section {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

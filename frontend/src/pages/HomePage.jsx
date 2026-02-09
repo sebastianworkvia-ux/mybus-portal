@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
 import PromoSidebar from '../components/PromoSidebar'
 import FloatingActionButtons from '../components/FloatingActionButtons'
+import FacebookFeed from '../components/FacebookFeed'
 import { SearchIllustration, TravelIllustration, CommunityIllustration, VerifiedIllustration } from '../components/Illustrations'
 import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
@@ -278,6 +279,9 @@ export default function HomePage() {
             </div>
           )}
         </section>
+
+        {/* Facebook Feed - Ostatnie posty */}
+        <FacebookFeed />
 
         {/* DUALNA CTA SEKCJA - Dla klientów i przewoźników */}
         <section className="footer-cta-dual">
