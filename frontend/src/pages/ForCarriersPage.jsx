@@ -63,9 +63,9 @@ export default function ForCarriersPage() {
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">🌍</div>
-              <h3>Zasięg w 6 Krajach Europy</h3>
+              <h3>Zasięg w Całej Europie</h3>
               <p>
-                Dotrzyjmy do dziesiątków tysięcy Polaków w Niemczech, Holandii, Belgii, Francji, Austrii. 
+                Dotrzyjmy do dziesiątków tysięcy Polaków w całej Europie. 
                 Twój profil widoczny 24/7 dla potencjalnych klientów.
               </p>
             </div>

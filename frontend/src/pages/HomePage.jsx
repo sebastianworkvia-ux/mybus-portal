@@ -88,11 +88,11 @@ export default function HomePage() {
             <div className="hero-panel-icon">🔍</div>
             <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
             <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
-            <p className="hero-panel-description">{t('hero.customers.description', '190+ zweryfikowanych firm | 6 krajów | Transport na lotnisko, fury, międzynarodowe')}</p>
+            <p className="hero-panel-description">{t('hero.customers.description', '190+ zweryfikowanych firm | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
             <div className="hero-panel-stats">
               <div className="stat"><strong>✅ 190+</strong><br/>Przewoźników</div>
               <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
-              <div className="stat"><strong>🚌 6 Krajów</strong><br/>Europa</div>
+              <div className="stat"><strong>🚌 Cała Europa</strong><br/>Zasięg</div>
             </div>
             <Link to="/search" className="btn-hero btn-hero-primary" onClick={() => window.scrollTo(0, 0)}>
               {t('hero.customers.cta', 'Szukaj przewoźnika teraz')} →
