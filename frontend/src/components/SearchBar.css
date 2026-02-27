@@ -1,14 +1,15 @@
 .search-bar {
   background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   align-items: flex-end;
   max-width: 1000px;
   margin: 0 auto;
+  border: 1px solid var(--color-border);
 }
 
 .search-group {
@@ -23,47 +24,52 @@
 .search-group select {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   font-size: 1rem;
-  color: #1e293b;
+  color: var(--color-text-primary);
   background-color: #fff;
-  transition: all 0.2s;
-  height: 50px; /* Uniform height */
+  transition: all 0.2s ease;
+  height: 50px;
+  font-weight: 400;
 }
 
 .search-group input:focus,
 .search-group select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--color-link);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .search-group input::placeholder {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
 }
 
 .btn-search {
-  background: #dc2626;
+  background: var(--color-cta-primary);
   color: white;
   border: none;
   padding: 0 2rem;
   height: 50px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.25s ease;
   white-space: nowrap;
   display: flex;
-  align-items: center;
+  alignitems: center;
   justify-content: center;
   gap: 0.5rem;
   min-width: 140px;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-search:hover {
-  background: #b91c1c;
+  background: var(--color-cta-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Label nad inputami dla lepszej czytelności (pseudo-elementy jeśli brak w HTML) */
