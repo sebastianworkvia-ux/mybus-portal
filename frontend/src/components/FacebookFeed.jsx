@@ -47,19 +47,27 @@ export default function FacebookFeed() {
         <div className="facebook-feed-wrapper">
           <div id="fb-root"></div>
           
-          {/* Facebook Page Plugin - iframe fallback */}
-          <iframe 
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61584903104321&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-            width="500" 
-            height="600" 
-            style={{ border: 'none', overflow: 'hidden' }}
-            scrolling="no" 
-            frameBorder="0" 
-            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            allowFullScreen={true}
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            title="Facebook Page Feed"
-          />
+          {/* Facebook Page Plugin */}
+          <div 
+            className="fb-page" 
+            data-href="https://www.facebook.com/profile.php?id=61584903104321"
+            data-tabs="timeline"
+            data-width="500"
+            data-height="600"
+            data-small-header="false"
+            data-adapt-container-width="true"
+            data-hide-cover="false"
+            data-show-facepile="true"
+          >
+            <blockquote 
+              cite="https://www.facebook.com/profile.php?id=61584903104321" 
+              className="fb-xfbml-parse-ignore"
+            >
+              <a href="https://www.facebook.com/profile.php?id=61584903104321">
+                My-Bus.eu na Facebooku
+              </a>
+            </blockquote>
+          </div>
 
           <div className="facebook-feed-cta">
             <p>💙 Polub naszą stronę i nie przegap żadnych nowości!</p>
