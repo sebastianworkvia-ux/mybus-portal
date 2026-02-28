@@ -2,6 +2,8 @@
   "nav": {
     "home": "Home",
     "search": "Search",
+    "searchCarrier": "Search carrier",
+    "searchMap": "Search on map!",
     "forCarriers": "For carriers",
     "pricing": "Pricing",
     "login": "Log in",

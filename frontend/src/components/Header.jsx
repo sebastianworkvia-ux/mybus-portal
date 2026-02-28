@@ -67,8 +67,8 @@ export default function Header() {
 
           <nav className="nav">
             <Link to="/">{t('nav.home')}</Link>
-            <Link to="/search">{t('nav.search')}</Link>
-            <Link to="/map" className="map-link">🗺️ {t('nav.search')}</Link>
+            <Link to="/search">{t('nav.searchCarrier')}</Link>
+            <Link to="/map" className="map-link">🗺️ {t('nav.searchMap')}</Link>
             <Link to="/for-carriers">{t('nav.forCarriers')}</Link>
 
             {user ? (

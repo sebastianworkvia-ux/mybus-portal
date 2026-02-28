@@ -23,8 +23,7 @@ export default function LanguageSwitcher() {
           className={`lang-btn ${i18n.language === lang.code ? 'active' : ''}`}
           title={lang.name}
         >
-          <span className="flag">{lang.flag}</span>
-          <span className="lang-code">{lang.code.toUpperCase()}</span>
+          {lang.code.toUpperCase()}
         </button>
       ))}
     </div>

@@ -2,6 +2,8 @@
   "nav": {
     "home": "Strona główna",
     "search": "Szukaj",
+    "searchCarrier": "Szukaj przewoźnika",
+    "searchMap": "Szukaj na mapie!",
     "forCarriers": "Dla przewoźników",
     "pricing": "Cennik",
     "login": "Zaloguj się",

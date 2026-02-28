@@ -2,6 +2,8 @@
   "nav": {
     "home": "Startseite",
     "search": "Suchen",
+    "searchCarrier": "Transportunternehmen suchen",
+    "searchMap": "Auf Karte suchen!",
     "forCarriers": "Für Transportunternehmen",
     "pricing": "Preise",
     "login": "Anmelden",
