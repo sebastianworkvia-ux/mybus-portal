@@ -110,7 +110,7 @@ export default function HomePage() {
             <p className="hero-panel-description">{t('hero.carriers.description', 'Rejestracja za darmo | Promocje i oferty | Zarządzaj rezerwacjami | Zweryfikowana społeczność')}</p>
             <div className="hero-panel-stats">
               <div className="stat"><strong>💰 Zarobki</strong><br/>Bez pośredników</div>
-              <div className="stat"><strong>📊 Analytics</strong><br/>Dashboard</div>
+              <div className="stat"><strong>📊 Analityka</strong><br/>Dashboard</div>
               <div className="stat"><strong>✉️ Wiadomości</strong><br/>Bezpośrednie</div>
             </div>
             <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
