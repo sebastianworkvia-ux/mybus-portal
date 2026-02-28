@@ -1,36 +1,6 @@
-import { useEffect } from 'react'
 import './FacebookFeed.css'
 
 export default function FacebookFeed() {
-  useEffect(() => {
-    // Wczytaj Facebook SDK
-    if (!window.FB) {
-      window.fbAsyncInit = function() {
-        window.FB.init({
-          xfbml: true,
-          version: 'v19.0'
-        })
-      }
-
-      // Załaduj SDK asynchronicznie
-      const script = document.createElement('script')
-      script.async = true
-      script.defer = true
-      script.crossOrigin = 'anonymous'
-      script.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v19.0'
-      document.body.appendChild(script)
-
-      return () => {
-        // Cleanup
-        if (script.parentNode) {
-          script.parentNode.removeChild(script)
-        }
-      }
-    } else {
-      // Jeśli SDK już załadowane, parsuj elementy
-      window.FB.XFBML.parse()
-    }
-  }, [])
 
   return (
     <section className="facebook-feed-section">
@@ -45,39 +15,46 @@ export default function FacebookFeed() {
         </div>
 
         <div className="facebook-feed-wrapper">
-          <div id="fb-root"></div>
-          
-          {/* Facebook Page Plugin */}
-          <div 
-            className="fb-page" 
-            data-href="https://www.facebook.com/profile.php?id=61584903104321"
-            data-tabs="timeline"
-            data-width="500"
-            data-height="600"
-            data-small-header="false"
-            data-adapt-container-width="true"
-            data-hide-cover="false"
-            data-show-facepile="true"
-          >
-            <blockquote 
-              cite="https://www.facebook.com/profile.php?id=61584903104321" 
-              className="fb-xfbml-parse-ignore"
+          {/* Bezpośredni link do profilu - Facebook nie pozwala embedować profili osobistych */}
+          <div className="facebook-profile-card">
+            <div className="fb-profile-header">
+              <span className="fb-icon-large">📘</span>
+              <div>
+                <h3>My-Bus.eu</h3>
+                <p>Obserwuj nas na Facebooku!</p>
+              </div>
+            </div>
+            
+            <div className="fb-profile-description">
+              <p>🚌 Sprawdzone firmy transportowe z całej Europy</p>
+              <p>💰 Najlepsze oferty i promocje przewoźników</p>
+              <p>📰 Aktualności ze świata transportu</p>
+              <p>⭐ Opinie i rekomendacje klientów</p>
+            </div>
+
+            <a 
+              href="https://www.facebook.com/profile.php?id=61584903104321" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-visit-facebook-primary"
             >
-              <a href="https://www.facebook.com/profile.php?id=61584903104321">
-                My-Bus.eu na Facebooku
-              </a>
-            </blockquote>
+              👍 Odwiedź nasz profil Facebook
+            </a>
+
+            <p className="fb-follow-note">
+              Polub naszą stronę, aby otrzymywać najnowsze oferty i aktualności!
+            </p>
           </div>
 
           <div className="facebook-feed-cta">
-            <p>💙 Polub naszą stronę i nie przegap żadnych nowości!</p>
+            <p>💙 Dołącz do naszej społeczności na Facebooku!</p>
             <a 
               href="https://www.facebook.com/profile.php?id=61584903104321" 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-visit-facebook"
             >
-              👍 Odwiedź nasz Facebook
+              Zobacz nasze posty →
             </a>
           </div>
         </div>
