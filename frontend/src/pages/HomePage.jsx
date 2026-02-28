@@ -89,9 +89,9 @@ export default function HomePage() {
             <div className="hero-panel-icon">🔍</div>
             <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
             <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
-            <p className="hero-panel-description">{t('hero.customers.description', '190+ zweryfikowanych firm | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
+            <p className="hero-panel-description">{t('hero.customers.description', 'Zweryfikowane firmy | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
             <div className="hero-panel-stats">
-              <div className="stat"><strong>✅ 190+</strong><br/>Przewoźników</div>
+              <div className="stat"><strong>✅ {carriers.length || '190'}+</strong><br/>Przewoźników</div>
               <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
               <div className="stat"><strong>🚌 Cała Europa</strong><br/>Zasięg</div>
             </div>
@@ -167,12 +167,12 @@ export default function HomePage() {
           <div className="trust-badges">
             <div className="trust-badge">
               <div className="trust-badge-icon">✅</div>
-              <div className="trust-badge-number">190+</div>
+              <div className="trust-badge-number">{carriers.length || '190'}+</div>
               <p className="trust-badge-label">{t('trust.carriers', 'Zweryfikowanych Przewoźników')}</p>
             </div>
             <div className="trust-badge">
               <div className="trust-badge-icon">🌍</div>
-              <div className="trust-badge-number">6</div>
+              <div className="trust-badge-number">30+</div>
               <p className="trust-badge-label">{t('trust.countries', 'Krajów w Europie')}</p>
             </div>
             <div className="trust-badge">
