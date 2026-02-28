@@ -265,6 +265,15 @@ body, p {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Hero buttons container */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
 .btn-hero {
   display: inline-block;
   padding: 1rem 2.5rem;
@@ -430,9 +439,15 @@ body, p {
     font-size: 0.75rem;
   }
 
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
   .btn-hero {
     padding: 0.875rem 2rem;
     font-size: 0.9rem;
+    width: 100%;
   }
 }
 

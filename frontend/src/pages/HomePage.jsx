@@ -95,9 +95,14 @@ export default function HomePage() {
               <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
               <div className="stat"><strong>🚌 Cała Europa</strong><br/>Zasięg</div>
             </div>
-            <Link to="/search" className="btn-hero btn-hero-primary" onClick={() => window.scrollTo(0, 0)}>
-              {t('hero.customers.cta', 'Szukaj przewoźnika teraz')} →
-            </Link>
+            <div className="hero-buttons">
+              <Link to="/search" className="btn-hero btn-hero-primary" onClick={() => window.scrollTo(0, 0)}>
+                {t('hero.customers.cta', 'Szukaj przewoźnika teraz')} →
+              </Link>
+              <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
+                {t('hero.customers.createAccount', 'Utwórz konto')}
+              </Link>
+            </div>
           </div>
         </div>
 
