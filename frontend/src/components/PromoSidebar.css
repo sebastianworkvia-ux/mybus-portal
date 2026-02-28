@@ -3,9 +3,9 @@
   left: 20px;
   bottom: 20px;
   width: 280px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
   padding: 0;
   z-index: 1000;
   overflow: hidden;
@@ -28,7 +28,7 @@
 
 .promo-sidebar:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 32px rgba(30, 58, 138, 0.4);
 }
 
 /* Efekt świecenia przy hover */
@@ -39,7 +39,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
   border-radius: 16px;
   opacity: 0;
   z-index: -1;
@@ -49,6 +49,37 @@
 
 .promo-sidebar:hover::before {
   opacity: 0.7;
+}
+
+/* Przycisk zamknięcia */
+.promo-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.promo-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.promo-close:active {
+  transform: scale(0.95);
 }
 
 .promo-header {

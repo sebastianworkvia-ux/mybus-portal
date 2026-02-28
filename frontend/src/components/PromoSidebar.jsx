@@ -7,6 +7,10 @@ export default function PromoSidebar() {
   const [promos, setPromos] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [isVisible, setIsVisible] = useState(() => {
+    // Sprawdź czy użytkownik zamknął sidebar (zapamiętane w localStorage)
+    return localStorage.getItem('promoSidebarClosed') !== 'true'
+  })
 
   useEffect(() => {
     const fetchPromos = async () => {
@@ -45,14 +49,26 @@ export default function PromoSidebar() {
     return () => clearInterval(interval)
   }, [promos.length])
 
-  if (loading || promos.length === 0) {
-    return null // Nie pokazuj sidebara jeśli brak promocji
+  const handleClose = () => {
+    setIsVisible(false)
+    localStorage.setItem('promoSidebarClosed', 'true')
+  }
+
+  if (loading || promos.length === 0 || !isVisible) {
+    return null // Nie pokazuj sidebara jeśli brak promocji lub zamknięty
   }
 
   const currentPromo = promos[currentIndex]
 
   return (
     <div className="promo-sidebar">
+      <button 
+        className="promo-close" 
+        onClick={handleClose}
+        aria-label="Zamknij promocje"
+      >
+        ×
+      </button>
       <div className="promo-header">
         <span className="promo-badge">🔥 PROMOCJA</span>
       </div>
