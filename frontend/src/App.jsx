@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import CookieBanner from './components/CookieBanner'
@@ -7,6 +8,8 @@ import FacebookPopup from './components/FacebookPopup'
 import { trackPageView } from './utils/analytics'
 import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
+import CityPage from './pages/CityPage'
+import CountryTransportPage from './pages/CountryTransportPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -52,42 +55,46 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
-      <PageViewTracker />
-      <Header />
-      <FacebookPopup />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/map" element={<MapPage />} />
-          <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/add-carrier" element={<AddCarrierPage />} />
-          <Route path="/edit-carrier/:id" element={<EditCarrierPage />} />
-          <Route path="/admin" element={<AdminDashboardPage />} />
-          <Route path="/admin/verify" element={<AdminVerifyPage />} />
-          <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/stats" element={<AdminStatsPage />} />
-          <Route path="/admin/carriers" element={<AdminCarriersPage />} />
-          <Route path="/settings" element={<UserSettingsPage />} />
-          <Route path="/messages" element={<MessagesPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-          <Route path="/for-carriers" element={<ForCarriersPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/payment/success" element={<PaymentSuccessPage />} />
-          <Route path="/privacy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/cookies" element={<CookiesPage />} />
-        </Routes>
-      </main>
-      <Footer />
-      <CookieBanner />
-      <ChatWidget />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <PageViewTracker />
+        <Header />
+        <FacebookPopup />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/map" element={<MapPage />} />
+            <Route path="/city/:cityName" element={<CityPage />} />
+            <Route path="/transport-to/:country" element={<CountryTransportPage />} />
+            <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/add-carrier" element={<AddCarrierPage />} />
+            <Route path="/edit-carrier/:id" element={<EditCarrierPage />} />
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin/verify" element={<AdminVerifyPage />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/stats" element={<AdminStatsPage />} />
+            <Route path="/admin/carriers" element={<AdminCarriersPage />} />
+            <Route path="/settings" element={<UserSettingsPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+            <Route path="/for-carriers" element={<ForCarriersPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+          </Routes>
+        </main>
+        <Footer />
+        <CookieBanner />
+        <ChatWidget />
+      </BrowserRouter>
+    </HelmetProvider>
   )
 }
 

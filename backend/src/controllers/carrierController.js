@@ -182,3 +182,74 @@ export const deleteCarrier = async (req, res, next) => {
     next(error)
   }
 }
+
+// Get carriers by destination country (for SEO pages)
+export const getCarriersByDestination = async (req, res, next) => {
+  try {
+    const { country } = req.params
+    
+    // Map country path to country code
+    const countryMap = {
+      'germany': 'DE',
+      'niemcy': 'DE',
+      'netherlands': 'NL',
+      'holandia': 'NL',
+      'belgium': 'BE',
+      'belgia': 'BE',
+      'france': 'FR',
+      'francja': 'FR',
+      'austria': 'AT',
+      'austria': 'AT',
+      'denmark': 'DK',
+      'dania': 'DK',
+      'norway': 'NO',
+      'norwegia': 'NO',
+      'sweden': 'SE',
+      'szwecja': 'SE',
+      'switzerland': 'CH',
+      'szwajcaria': 'CH',
+      'luxembourg': 'LU',
+      'luksemburg': 'LU',
+      'england': 'GB',
+      'anglia': 'GB',
+      'uk': 'GB'
+    }
+    
+    const countryCode = countryMap[country.toLowerCase()]
+    
+    if (!countryCode) {
+      return res.status(404).json({ error: 'Country not found' })
+    }
+    
+    console.log(`🔍 GET /carriers/by-destination/${country} → ${countryCode}`)
+    
+    // Find carriers that operate in this country
+    const carriers = await Carrier.find({
+      isActive: true,
+      operatingCountries: countryCode
+    })
+      .select('-__v')
+      .lean()
+    
+    // Sort: business > premium > free
+    carriers.sort((a, b) => {
+      const getPriority = (carrier) => {
+        if (carrier.subscriptionPlan === 'business') return 3
+        if (carrier.subscriptionPlan === 'premium') return 2
+        return 1
+      }
+      return getPriority(b) - getPriority(a)
+    })
+    
+    console.log(`✅ Znaleziono ${carriers.length} przewoźników do ${country}`)
+    
+    res.json({
+      country: country,
+      countryCode: countryCode,
+      carriers: carriers,
+      count: carriers.length
+    })
+  } catch (error) {
+    next(error)
+  }
+}

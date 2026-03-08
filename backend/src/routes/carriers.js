@@ -5,7 +5,8 @@ import {
   getMyCarrier,
   createCarrier,
   updateCarrier,
-  deleteCarrier
+  deleteCarrier,
+  getCarriersByDestination
 } from '../controllers/carrierController.js'
 import { authMiddleware } from '../middleware/auth.js'
 
@@ -13,6 +14,7 @@ const router = express.Router()
 
 router.get('/', getCarriers)
 router.get('/me', authMiddleware, getMyCarrier) // PRZED /:id!
+router.get('/by-destination/:country', getCarriersByDestination) // Przewoźnicy do danego kraju
 router.get('/:id', getCarrierById)
 router.post('/', authMiddleware, createCarrier)
 router.put('/', authMiddleware, updateCarrier)
