@@ -113,7 +113,54 @@ export const generateSitemap = async (req, res, next) => {
       xml += '  </url>\n'
     })
     
-    // 9. Static pages (legal)
+    // 9. Popular route pages (/bus/:fromCity/:toCity)
+    const popularRoutes = [
+      // Poland to Germany
+      { from: 'warsaw', to: 'berlin' },
+      { from: 'wroclaw', to: 'berlin' },
+      { from: 'poznan', to: 'berlin' },
+      { from: 'krakow', to: 'munich' },
+      { from: 'warsaw', to: 'munich' },
+      { from: 'wroclaw', to: 'dortmund' },
+      { from: 'katowice', to: 'dortmund' },
+      { from: 'warsaw', to: 'hamburg' },
+      { from: 'szczecin', to: 'berlin' },
+      { from: 'gdansk', to: 'bremen' },
+      
+      // Poland to Netherlands
+      { from: 'warsaw', to: 'amsterdam' },
+      { from: 'wroclaw', to: 'amsterdam' },
+      { from: 'krakow', to: 'rotterdam' },
+      { from: 'katowice', to: 'eindhoven' },
+      
+      // Poland to Belgium
+      { from: 'warsaw', to: 'brussels' },
+      { from: 'wroclaw', to: 'brussels' },
+      { from: 'krakow', to: 'antwerp' },
+      
+      // Poland to UK
+      { from: 'warsaw', to: 'london' },
+      { from: 'krakow', to: 'london' },
+      { from: 'wroclaw', to: 'london' },
+      
+      // Poland to France
+      { from: 'warsaw', to: 'paris' },
+      { from: 'krakow', to: 'paris' },
+      
+      // Poland to Austria
+      { from: 'warsaw', to: 'vienna' },
+      { from: 'krakow', to: 'vienna' }
+    ]
+    
+    popularRoutes.forEach(route => {
+      xml += '  <url>\n'
+      xml += `    <loc>${BASE_URL}/bus/${route.from}/${route.to}</loc>\n`
+      xml += '    <changefreq>weekly</changefreq>\n'
+      xml += '    <priority>0.8</priority>\n'
+      xml += '  </url>\n'
+    })
+    
+    // 10. Static pages (legal)
     const staticPages = [
       { path: '/privacy-policy', priority: '0.3' },
       { path: '/terms', priority: '0.3' },
