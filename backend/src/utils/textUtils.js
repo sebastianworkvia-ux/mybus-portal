@@ -191,11 +191,45 @@ export const checkProfanityInObject = (obj, prefix = '') => {
   return null
 }
 
+/**
+ * Convert text to URL-friendly slug
+ * @param {string} text - Text to slugify
+ * @returns {string} - URL-safe slug
+ */
+export const slugify = (text) => {
+  if (!text || typeof text !== 'string') return ''
+  
+  const polishMap = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+    'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+    'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N',
+    'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+  }
+  
+  let slug = text
+  
+  // Replace Polish characters
+  for (const [char, replacement] of Object.entries(polishMap)) {
+    slug = slug.split(char).join(replacement)
+  }
+  
+  // Convert to lowercase and replace spaces/special chars with hyphens
+  slug = slug
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
+    .replace(/^-+|-+$/g, '')      // Remove leading/trailing hyphens
+    .replace(/-+/g, '-')           // Replace multiple hyphens with single
+  
+  return slug
+}
+
 export default {
   fixEncoding,
   cleanText,
   sanitizeObject,
   sanitizeBodyMiddleware,
   containsProfanity,
-  checkProfanityInObject
+  checkProfanityInObject,
+  slugify
 }

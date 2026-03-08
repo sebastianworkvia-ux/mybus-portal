@@ -17,6 +17,7 @@ import analyticsRoutes from './routes/analytics.js'
 import importRoutes from './routes/import.js'
 import messageRoutes from './routes/messages.js'
 import chatRoutes from './routes/chat.js'
+import sitemapRoutes from './routes/sitemap.js'
 import { errorHandler } from './middleware/auth.js'
 
 dotenv.config()
@@ -163,6 +164,9 @@ app.use('/payments', paymentRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/import', importRoutes)
 app.use('/messages', messageRoutes)
+
+// Sitemap (no /api prefix - SEO standard)
+app.use('/', sitemapRoutes)
 
 // /api prefixed routes for frontend baseURL '/api'
 app.use('/api/auth', authRoutes)
