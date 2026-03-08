@@ -250,7 +250,8 @@ export default function CarrierDetailPage() {
           )}
         </div>
 
-        <div className="carrier-content">
+        {/* Główna sekcja informacyjna */}
+        <div className="carrier-main-info">
           <section className="carrier-info-section">
             <h2>📋 Informacje</h2>
             <p><strong>Numer rejestracyjny:</strong> {carrier.companyRegistration}</p>
@@ -269,33 +270,27 @@ export default function CarrierDetailPage() {
             )}
             
             <h3>🚐 Oferowane usługi</h3>
-            <div className="services-detailed-list">
+            <div className="services-badges-list">
               {[
-                { value: 'transport', label: 'Busy międzynarodowe' },
-                { value: 'autokary', label: 'Wycieczki i autokary' },
-                { value: 'transfery-lotniskowe', label: 'Transfery lotniskowe' },
-                { value: 'przejazdy-sluzbowe', label: 'Przejazdy służbowe' },
-                { value: 'paczki', label: 'Paczki' },
-                { value: 'zwierzeta', label: 'Transport zwierząt' },
-                { value: 'laweta', label: 'Lawety / Autotransport' },
-                { value: 'przeprowadzki', label: 'Przeprowadzki' },
-                { value: 'transport-rzeczy', label: 'Transport towarów' },
-                { value: 'dokumenty', label: 'Dokumenty' },
-                { value: 'inne', label: 'Inne' }
-              ].map((service) => {
-                const hasService = carrier.services?.includes(service.value)
-                return (
-                  <div key={service.value} className="service-item">
-                    <span className={`service-status ${hasService ? 'status-yes' : 'status-no-data'}`}>
-                      {hasService ? '✅' : '⚪'}
-                    </span>
-                    <span className="service-name">{service.label}</span>
-                    <span className="service-info">
-                      {hasService ? 'TAK - przewozi' : 'BRAK DANYCH - brak informacji od przewoźnika'}
-                    </span>
-                  </div>
-                )
-              })}
+                { value: 'transport', label: '🚐 Busy międzynarodowe' },
+                { value: 'autokary', label: '🚌 Wycieczki autokarowe' },
+                { value: 'transfery-lotniskowe', label: '✈️ Transfery lotniskowe' },
+                { value: 'przejazdy-sluzbowe', label: '💼 Przejazdy służbowe' },
+                { value: 'paczki', label: '📦 Paczki' },
+                { value: 'zwierzeta', label: '🐾 Transport zwierząt' },
+                { value: 'laweta', label: '🚗 Lawety / Autotransport' },
+                { value: 'przeprowadzki', label: '📦 Przeprowadzki' },
+                { value: 'transport-rzeczy', label: '🚚 Transport towarów' },
+                { value: 'dokumenty', label: '📄 Dokumenty' },
+                { value: 'inne', label: '➕ Inne' }
+              ].filter(service => carrier.services?.includes(service.value)).map((service) => (
+                <span key={service.value} className="service-badge-active">
+                  {service.label}
+                </span>
+              ))}
+              {(!carrier.services || carrier.services.length === 0) && (
+                <p className="no-services-info">Brak informacji o usługach</p>
+              )}
             </div>
 
             <h3>📞 Kontakt</h3>
@@ -331,12 +326,6 @@ export default function CarrierDetailPage() {
                     </span>
                   ))}
                 </div>
-              </div>
-            )}
-            {/* Mapa obszaru działania */}
-            {carrier.operatingRegion && carrier.operatingRegion.length > 2 && (
-              <div className="operating-region-map">
-                <CarrierMapViewer region={carrier.operatingRegion} />
               </div>
             )}
 
@@ -383,8 +372,20 @@ export default function CarrierDetailPage() {
               </>
             )}
           </section>
+        </div>
 
-          <section className="reviews-section">
+        {/* Mapa obszaru działania - pełna szerokość */}
+        {carrier.operatingRegion && carrier.operatingRegion.length > 2 && (
+          <div className="carrier-map-section">
+            <h2>📍 Obszar działania</h2>
+            <div className="map-container-large">
+              <CarrierMapViewer region={carrier.operatingRegion} />
+            </div>
+          </div>
+        )}
+
+        {/* Sekcja opinii - na dole, pełna szerokość */}
+        <section className="reviews-section-bottom">
             <div className="reviews-header">
               <h2>💬 Opinie klientów ({reviews.length})</h2>
               {user && !userReview && (
@@ -478,7 +479,6 @@ export default function CarrierDetailPage() {
               ))}
             </div>
           </section>
-        </div>
       </div>
     </div>
     </>
