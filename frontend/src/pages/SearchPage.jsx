@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
 import PromoSidebar from '../components/PromoSidebar'
@@ -14,8 +15,50 @@ export default function SearchPage() {
     getCarriers(filters)
   }, [])
 
+  // Dynamic SEO based on active filters
+  const seoData = useMemo(() => {
+    const parts = []
+    
+    if (filters.country) {
+      const countryNames = {
+        'DE': 'Niemcy',
+        'NL': 'Holandia',
+        'BE': 'Belgia',
+        'FR': 'Francja',
+        'AT': 'Austria',
+        'GB': 'Wielka Brytania',
+        'PL': 'Polska'
+      }
+      parts.push(countryNames[filters.country] || filters.country)
+    }
+    
+    if (filters.service) {
+      parts.push(filters.service)
+    }
+    
+    const title = parts.length > 0
+      ? `${parts.join(' - ')} - Przewoźnicy Busowi | My-Bus.eu`
+      : t('searchPage.seoTitle', 'Szukaj Przewoźników Busowych | My-Bus.eu')
+    
+    const description = parts.length > 0
+      ? `Znajdź najlepszych przewoźników busowych: ${parts.join(', ')}. Zweryfikowane firmy transportowe w Europie.`
+      : t('searchPage.seoDescription', 'Przeglądaj bazę przewoźników busowych w Europie. Transport osób, paczek, przeprowadzki. Sprawdzone firmy z opiniami.')
+    
+    return { title, description }
+  }, [filters, t])
+
   return (
-    <div className="search-page">
+    <>
+      <Helmet>
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={`https://my-bus.eu/search${filters.country ? `?country=${filters.country}` : ''}`} />
+      </Helmet>
+      
+      <div className="search-page">
       <PromoSidebar />
       <div className="container">
         <h1>{t('searchPage.title')}</h1>
@@ -55,5 +98,6 @@ export default function SearchPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

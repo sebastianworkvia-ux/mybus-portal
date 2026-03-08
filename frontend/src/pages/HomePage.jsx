@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
@@ -78,16 +79,27 @@ export default function HomePage() {
   }, [carriers])
 
   return (
-    <div className="home-page">
-      <PromoSidebar />
+    <>
+      <Helmet>
+        <title>{t('seo.home.title', 'My-Bus.eu - Przewoźnicy Busowi Polska Europa | Transport Osób i Paczek')}</title>
+        <meta name="description" content={t('seo.home.description', 'Znajdź sprawdzonych przewoźników busowych w Europie. Transport osób i paczek Polska-Niemcy-Holandia-Belgia. Zweryfikowane firmy transportowe.')} />
+        <meta property="og:title" content={t('seo.home.title', 'My-Bus.eu - Przewoźnicy Busowi Polska Europa')} />
+        <meta property="og:description" content={t('seo.home.description', 'Znajdź sprawdzonych przewoźników busowych w Europie.')} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://my-bus.eu/" />
+        <link rel="canonical" href="https://my-bus.eu/" />
+      </Helmet>
       
-      {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
-      <section className="hero-dual">
-        {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
-        <div className="hero-panel hero-customers">
-          <div className="hero-panel-content">
-            <div className="hero-panel-icon">🔍</div>
-            <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
+      <div className="home-page">
+        <PromoSidebar />
+        
+        {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
+        <section className="hero-dual">
+          {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
+          <div className="hero-panel hero-customers">
+            <div className="hero-panel-content">
+              <div className="hero-panel-icon">🔍</div>
+              <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
             <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
             <p className="hero-panel-description">{t('hero.customers.description', 'Zweryfikowane firmy | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
             <div className="hero-panel-stats">
@@ -320,5 +332,6 @@ export default function HomePage() {
       {/* Floating Action Buttons */}
       <FloatingActionButtons />
     </div>
+    </>
   )
 }
