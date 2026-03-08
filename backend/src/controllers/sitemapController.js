@@ -95,8 +95,34 @@ export const generateSitemap = async (req, res, next) => {
     })
     
     // 7. All city pages (/city/:cityName)
+    // First add popular Polish cities (always include these)
+    const popularPolishCities = [
+      'warszawa', 'warsaw',
+      'krakow', 'cracow',
+      'wroclaw',
+      'poznan',
+      'gdansk',
+      'szczecin',
+      'lodz',
+      'katowice',
+      'lublin',
+      'bialystok'
+    ]
+    
+    popularPolishCities.forEach(citySlug => {
+      xml += '  <url>\n'
+      xml += `    <loc>${BASE_URL}/city/${citySlug}</loc>\n`
+      xml += '    <changefreq>weekly</changefreq>\n'
+      xml += '    <priority>0.8</priority>\n'
+      xml += '  </url>\n'
+    })
+    
+    // Then add cities from actual carriers (if not already included)
     cities.forEach(city => {
       const slug = slugify(city)
+      // Skip if already in popular cities list
+      if (popularPolishCities.includes(slug.toLowerCase())) return
+      
       xml += '  <url>\n'
       xml += `    <loc>${BASE_URL}/city/${slug}</loc>\n`
       xml += '    <changefreq>weekly</changefreq>\n'

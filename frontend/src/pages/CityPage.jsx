@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
-import { carrierService } from '../services/services'
-import { deslugify } from '../utils/slugify'
+import apiClient from '../services/apiClient'
 import './CityPage.css'
 
 export default function CityPage() {
   const { cityName } = useParams()
   const { t, i18n } = useTranslation()
   const [carriers, setCarriers] = useState([])
+  const [cityData, setCityData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   
-  const city = deslugify(cityName)
   const currentLang = i18n.language
 
   useEffect(() => {
@@ -23,38 +23,40 @@ export default function CityPage() {
         setLoading(true)
         setError(null)
         
-        // Fetch all carriers and filter by city
-        const response = await carrierService.getCarriers({})
+        // Use new backend endpoint for city filtering
+        const response = await apiClient.get(`/carriers/city/${cityName}`)
         
-        // Filter carriers that have this city in their location
-        const cityCarriers = response.data.filter(carrier => 
-          carrier.location?.city?.toLowerCase() === city.toLowerCase()
-        )
-        
-        setCarriers(cityCarriers)
+        setCarriers(response.data.carriers || [])
+        setCityData(response.data.city)
       } catch (err) {
         console.error('Failed to load carriers:', err)
-        setError(t('errors.loadFailed', 'Nie udało się załadować przewoźników'))
+        if (err.response?.status === 404) {
+          setError(t('errors.cityNotFound', 'Nie znaleziono miasta'))
+        } else {
+          setError(t('errors.loadFailed', 'Nie udało się załadować przewoźników'))
+        }
       } finally {
         setLoading(false)
       }
     }
 
     fetchCarriersByCity()
-  }, [cityName, city, t])
+  }, [cityName, t])
+  
+  const city = cityData?.name || cityName
 
   // SEO metadata
   const pageTitle = currentLang === 'pl' 
-    ? `Busy z ${city} do Niemiec, Holandii, Belgii | My-Bus.eu`
+    ? `Busy z ${city} do Niemiec i Europy | My-Bus.eu`
     : currentLang === 'de'
-    ? `Busse von ${city} nach Deutschland, Niederlande | My-Bus.eu`
-    : `Buses from ${city} to Germany, Netherlands, Belgium | My-Bus.eu`
+    ? `Busse von ${city} nach Deutschland und Europa | My-Bus.eu`
+    : `Buses from ${city} to Germany and Europe | My-Bus.eu`
 
   const metaDescription = currentLang === 'pl'
-    ? `Znajdź sprawdzonych przewoźników busowych z ${city}. Transport osób i paczek Polska-Niemcy-Holandia-Belgia. Zweryfikowane firmy transportowe.`
+    ? `Znajdź przewoźników busowych z ${city}. Transport osób i paczek Polska Niemcy Holandia.`
     : currentLang === 'de'
-    ? `Finden Sie zuverlässige Busunternehmen von ${city}. Personen- und Pakettransport Polen-Deutschland-Niederlande-Belgien.`
-    : `Find verified bus carriers from ${city}. Transport of people and packages Poland-Germany-Netherlands-Belgium.`
+    ? `Finden Sie Busunternehmen von ${city}. Personen- und Pakettransport Polen Deutschland Niederlande.`
+    : `Find bus carriers from ${city}. Transport of people and packages Poland Germany Netherlands.`
 
   // Schema.org structured data
   const schemaData = {
@@ -122,6 +124,11 @@ export default function CityPage() {
               {currentLang === 'de' && `Verifizierte Busunternehmen von ${city}. Transport von Personen und Paketen nach Deutschland, Niederlande, Belgien.`}
               {currentLang === 'en' && `Verified bus carriers from ${city}. Transport of people and packages to Germany, Netherlands, Belgium and other EU countries.`}
             </p>
+            
+            {/* Search Bar for filtering */}
+            <div className="city-search-bar">
+              <SearchBar />
+            </div>
           </div>
         </section>
 

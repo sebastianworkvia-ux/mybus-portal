@@ -310,6 +310,64 @@ const CITY_INFO = {
   'birmingham': { pl: 'Birmingham', country: 'GB', voivodeship: null }
 }
 
+// Get carriers by city (for city landing pages)
+export const getCarriersByCity = async (req, res, next) => {
+  try {
+    const { citySlug } = req.params
+    
+    const cityInfo = CITY_INFO[citySlug.toLowerCase()]
+    
+    if (!cityInfo) {
+      return res.status(404).json({ error: 'City not found' })
+    }
+    
+    const query = {
+      isActive: true,
+      $or: [
+        { 'location.city': cityInfo.pl },
+        { 'location.city': { $regex: new RegExp(`^${cityInfo.pl}$`, 'i') } }
+      ]
+    }
+    
+    // If Polish city, also include carriers serving this voivodeship
+    if (cityInfo.voivodeship) {
+      query.$or.push({
+        servedVoivodeships: cityInfo.voivodeship,
+        operatingCountries: { $in: ['DE', 'NL', 'BE', 'FR', 'AT', 'GB'] }
+      })
+    }
+    
+    const carriers = await Carrier.find(query)
+      .select('-__v')
+      .lean()
+    
+    // Sort: business > premium > free
+    carriers.sort((a, b) => {
+      const getPriority = (carrier) => {
+        if (carrier.subscriptionPlan === 'business') return 3
+        if (carrier.subscriptionPlan === 'premium') return 2
+        return 1
+      }
+      return getPriority(b) - getPriority(a)
+    })
+    
+    console.log(`✅ Znaleziono ${carriers.length} przewoźników z ${cityInfo.pl}`)
+    
+    res.json({
+      city: {
+        slug: citySlug,
+        name: cityInfo.pl,
+        country: cityInfo.country,
+        voivodeship: cityInfo.voivodeship
+      },
+      carriers: carriers,
+      count: carriers.length
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const getCarriersByRoute = async (req, res, next) => {
   try {
     const { fromCity, toCity } = req.params
