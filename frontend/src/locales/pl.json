@@ -148,7 +148,14 @@
     "premium": "Premium",
     "free": "Darmowe",
     "active": "Aktywny",
-    "inactive": "Nieaktywny"
+    "inactive": "Nieaktywny",
+    "backToSearch": "Powrót do wyszukiwarki",
+    "searchOther": "Szukaj w innych miastach",
+    "searchAll": "Przeszukaj wszystkich przewoźników"
+  },
+  "city": {
+    "noCarriers": "Brak przewoźników",
+    "foundCarriers": "Znaleziono {{count}} przewoźników"
   },
   "footer": {
     "rights": "Wszelkie prawa zastrzeżone",

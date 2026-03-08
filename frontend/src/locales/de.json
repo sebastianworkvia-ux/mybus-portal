@@ -148,7 +148,14 @@
     "premium": "Premium",
     "free": "Kostenlos",
     "active": "Aktiv",
-    "inactive": "Inaktiv"
+    "inactive": "Inaktiv",
+    "backToSearch": "Zurück zur Suche",
+    "searchOther": "In anderen Städten suchen",
+    "searchAll": "Alle Transportunternehmen durchsuchen"
+  },
+  "city": {
+    "noCarriers": "Keine Transportunternehmen",
+    "foundCarriers": "{{count}} Transportunternehmen gefunden"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten",

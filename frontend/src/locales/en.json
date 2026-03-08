@@ -148,7 +148,14 @@
     "premium": "Premium",
     "free": "Free",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "backToSearch": "Back to search",
+    "searchOther": "Search in other cities",
+    "searchAll": "Search all carriers"
+  },
+  "city": {
+    "noCarriers": "No carriers",
+    "foundCarriers": "Found {{count}} carriers"
   },
   "footer": {
     "rights": "All rights reserved",
