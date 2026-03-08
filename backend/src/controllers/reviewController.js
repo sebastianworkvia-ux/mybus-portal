@@ -16,7 +16,21 @@ const containsProfanity = (text) => {
 export const getReviewsByCarrier = async (req, res, next) => {
   try {
     const { carrierId } = req.params
-    const reviews = await Review.find({ carrierId })
+    
+    // Find carrier by slug or ID
+    let carrier
+    if (carrierId.match(/^[0-9a-fA-F]{24}$/)) {
+      carrier = await Carrier.findById(carrierId)
+    } else {
+      carrier = await Carrier.findOne({ slug: carrierId })
+    }
+    
+    if (!carrier) {
+      return res.status(404).json({ error: 'Przewoźnik nie został znaleziony' })
+    }
+    
+    // Get reviews by actual carrier _id
+    const reviews = await Review.find({ carrierId: carrier._id })
       .populate('userId', 'firstName lastName')
       .sort({ createdAt: -1 })
       .select('-__v')
@@ -55,15 +69,24 @@ export const createReview = async (req, res, next) => {
       })
     }
 
-    // Check if carrier exists
-    const carrier = await Carrier.findById(carrierId)
+    // Check if carrier exists (handle both slug and ID)
+    let carrier
+    if (carrierId.match(/^[0-9a-fA-F]{24}$/)) {
+      carrier = await Carrier.findById(carrierId)
+    } else {
+      carrier = await Carrier.findOne({ slug: carrierId })
+    }
+    
     if (!carrier) {
       return res.status(404).json({ error: 'Przewoźnik nie został znaleziony' })
     }
+    
+    // Use actual carrier _id for creating review
+    const actualCarrierId = carrier._id
 
     // Check if user already reviewed this carrier
     const existingReview = await Review.findOne({
-      carrierId,
+      carrierId: actualCarrierId,
       userId: req.user.id
     })
 
@@ -75,7 +98,7 @@ export const createReview = async (req, res, next) => {
 
     // Create review
     const review = new Review({
-      carrierId,
+      carrierId: actualCarrierId,
       userId: req.user.id,
       rating,
       comment
@@ -84,7 +107,7 @@ export const createReview = async (req, res, next) => {
     await review.save()
 
     // Update carrier rating
-    const allReviews = await Review.find({ carrierId })
+    const allReviews = await Review.find({ carrierId: actualCarrierId })
     const avgRating = allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length
     
     carrier.rating = Math.round(avgRating * 10) / 10 // Round to 1 decimal
