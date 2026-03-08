@@ -284,6 +284,27 @@ export default function RouteDetailsPage() {
                     {currentLang === 'en' && '✅ Convenient booking by phone or email'}
                   </li>
                 </ul>
+                
+                {/* Internal links to city pages */}
+                <div className="city-links">
+                  <p className="city-links-title">
+                    {currentLang === 'pl' && 'Więcej przewoźników z tych miast:'}
+                    {currentLang === 'de' && 'Mehr Transportunternehmen aus diesen Städten:'}
+                    {currentLang === 'en' && 'More carriers from these cities:'}
+                  </p>
+                  <div className="city-links-buttons">
+                    <Link to={`/city/${fromCity.toLowerCase()}`} className="btn-city-link">
+                      🚌 {currentLang === 'pl' && `Wszystkie busy z ${fromName}`}
+                      {currentLang === 'de' && `Alle Busse von ${fromName}`}
+                      {currentLang === 'en' && `All buses from ${fromName}`}
+                    </Link>
+                    <Link to={`/city/${toCity.toLowerCase()}`} className="btn-city-link">
+                      🚌 {currentLang === 'pl' && `Wszystkie busy z ${toName}`}
+                      {currentLang === 'de' && `Alle Busse von ${toName}`}
+                      {currentLang === 'en' && `All buses from ${toName}`}
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

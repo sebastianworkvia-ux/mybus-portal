@@ -210,6 +210,48 @@
   line-height: 1.6;
 }
 
+/* City Links Section */
+.city-links {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #d1fae5;
+}
+
+.city-links-title {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.city-links-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn-city-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: white;
+  color: #10b981;
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.btn-city-link:hover {
+  background: #10b981;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
 /* FAQ Section */
 .route-faq {
   background: #f9fafb;
@@ -277,6 +319,15 @@
 
   .info-card {
     padding: 1.5rem;
+  }
+
+  .city-links-buttons {
+    flex-direction: column;
+  }
+
+  .btn-city-link {
+    width: 100%;
+    justify-content: center;
   }
 
   .route-carriers {
