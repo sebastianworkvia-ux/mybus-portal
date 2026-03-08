@@ -214,3 +214,32 @@ export const generateSitemap = async (req, res, next) => {
     next(error)
   }
 }
+
+// Generate robots.txt
+export const generateRobotsTxt = (req, res) => {
+  const BACKEND_URL = process.env.BACKEND_URL || 'https://mybus-backend-aygc.onrender.com'
+  
+  const robotsTxt = `# Robots.txt for My-Bus.eu
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: ${BACKEND_URL}/sitemap.xml
+
+# Crawl-delay (optional, for politeness)
+Crawl-delay: 1
+
+# Disallow admin and API routes
+Disallow: /api/admin
+Disallow: /api/auth
+Disallow: /api/password
+
+# Allow public API endpoints
+Allow: /api/carriers
+Allow: /api/reviews
+`
+  
+  res.header('Content-Type', 'text/plain; charset=utf-8')
+  res.header('Cache-Control', 'public, max-age=86400') // Cache for 24 hours
+  res.send(robotsTxt)
+}
