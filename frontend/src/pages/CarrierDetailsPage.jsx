@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { carrierService, reviewService, messageService } from '../services/services'
 import { useAuthStore } from '../stores/authStore'
 import CarrierMapViewer from '../components/CarrierMapViewer'
@@ -124,8 +125,64 @@ export default function CarrierDetailPage() {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
   const userReview = reviews.find(r => r.userId?._id === user?.id)
 
+  // Prepare Schema.org structured data
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "TransportService",
+    "name": carrier.companyName,
+    "telephone": carrier.phone,
+    "email": carrier.email,
+    "url": carrier.website || `https://my-bus.eu/carrier/${carrier._id}`,
+    "description": carrier.description || carrier.detailedDescription || `${carrier.companyName} - transport services`,
+    "areaServed": carrier.operatingCountries?.map(country => ({
+      "@type": "Country",
+      "name": country
+    })),
+    "serviceType": carrier.services?.join(', ') || "Transport services",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": carrier.location?.city,
+      "postalCode": carrier.location?.postalCode,
+      "addressCountry": carrier.country
+    }
+  }
+
+  // Add aggregate rating if reviews exist
+  if (carrier.rating && carrier.reviewCount > 0) {
+    schemaData.aggregateRating = {
+      "@type": "AggregateRating",
+      "ratingValue": carrier.rating,
+      "reviewCount": carrier.reviewCount,
+      "bestRating": 5,
+      "worstRating": 1
+    }
+  }
+
+  // SEO meta tags
+  const pageTitle = `${carrier.companyName} - ${carrier.country} | My-Bus.eu`
+  const metaDescription = carrier.description 
+    ? `${carrier.description} | Przewoźnik ${carrier.companyName} - kontakt, opinie, usługi transportowe.`
+    : `${carrier.companyName} - przewoźnik z ${carrier.country}. Transport osób i paczek. Sprawdzone opinie klientów.`
+
   return (
-    <div className="carrier-detail-page">
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://my-bus.eu/carrier/${carrier._id}`} />
+        {carrier.logo && <meta property="og:image" content={carrier.logo} />}
+        <link rel="canonical" href={`https://my-bus.eu/carrier/${carrier._id}`} />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaData)}
+        </script>
+      </Helmet>
+
+      <div className="carrier-detail-page">
       <div className="container">
         <Link to="/search" className="btn-back-link">← Powrót do wyszukiwania</Link>
 
@@ -424,5 +481,6 @@ export default function CarrierDetailPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
