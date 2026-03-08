@@ -125,7 +125,7 @@ export default function CarrierCard({ carrier }) {
         </p>
       )}
 
-      <Link to={`/carrier/${carrier._id}`} className="btn-details">
+      <Link to={`/carrier/${carrier.slug || carrier._id}`} className="btn-details">
         Więcej szczegółów
       </Link>
     </div>

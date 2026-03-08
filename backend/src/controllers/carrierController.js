@@ -63,9 +63,21 @@ export const getCarriers = async (req, res, next) => {
 export const getCarrierById = async (req, res, next) => {
   try {
     const { id } = req.params
-    const carrier = await Carrier.findById(id)
-      .populate('userId', 'email firstName lastName')
-      .select('-__v')
+    
+    // Try to find by slug first, then by ID (backward compatibility)
+    let carrier
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      // It's a MongoDB ObjectId
+      carrier = await Carrier.findById(id)
+        .populate('userId', 'email firstName lastName')
+        .select('-__v')
+    } else {
+      // It's a slug
+      carrier = await Carrier.findOne({ slug: id })
+        .populate('userId', 'email firstName lastName')
+        .select('-__v')
+    }
+    
     if (!carrier) {
       return res.status(404).json({ error: 'Carrier not found' })
     }

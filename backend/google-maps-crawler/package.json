@@ -1,0 +1,32 @@
+{
+  "name": "google-maps-transport-crawler",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Google Maps crawler for collecting transport companies data",
+  "main": "index.cjs",
+  "scripts": {
+    "start": "node index.cjs",
+    "crawl": "node index.cjs",
+    "import": "node import-to-mongodb.js"
+  },
+  "keywords": [
+    "google-maps",
+    "crawler",
+    "scraper",
+    "puppeteer",
+    "transport",
+    "web-scraping"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parser": "^3.2.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.6.1",
+    "mongoose": "^8.23.0",
+    "puppeteer": "^21.9.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

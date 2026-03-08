@@ -29,7 +29,7 @@ export const generateSitemap = async (req, res, next) => {
     
     // Fetch all active carriers
     const carriers = await Carrier.find({ isActive: true })
-      .select('_id location.city updatedAt')
+      .select('_id slug location.city updatedAt')
       .lean()
     
     // Extract unique cities (for /city/:cityName pages)
@@ -80,14 +80,17 @@ export const generateSitemap = async (req, res, next) => {
     xml += '    <priority>0.7</priority>\n'
     xml += '  </url>\n'
     
-    // 6. All carrier detail pages (/carrier/:id)
+    // 6. All carrier detail pages (/carrier/:slug)
     carriers.forEach(carrier => {
       const lastmod = carrier.updatedAt 
         ? new Date(carrier.updatedAt).toISOString().split('T')[0] 
         : new Date().toISOString().split('T')[0]
       
+      // Use slug if available, fallback to _id for backward compatibility
+      const carrierPath = carrier.slug || carrier._id
+      
       xml += '  <url>\n'
-      xml += `    <loc>${BASE_URL}/carrier/${carrier._id}</loc>\n`
+      xml += `    <loc>${BASE_URL}/carrier/${carrierPath}</loc>\n`
       xml += `    <lastmod>${lastmod}</lastmod>\n`
       xml += '    <changefreq>weekly</changefreq>\n'
       xml += '    <priority>0.8</priority>\n'

@@ -146,9 +146,53 @@ const carrierSchema = new mongoose.Schema(
         lat: Number, // Szerokość geograficzna (automatycznie z geocoding)
         lng: Number  // Długość geograficzna (automatycznie z geocoding)
       }
+    },
+    // SEO-friendly slug (generowany automatycznie z companyName)
+    slug: {
+      type: String,
+      unique: true,
+      sparse: true, // Pozwala na null, ale unikalne gdy istnieje
+      lowercase: true,
+      trim: true
     }
   },
   { timestamps: true }
 )
+
+// Helper function to generate slug from company name
+function generateSlug(companyName) {
+  return companyName
+    .toLowerCase()
+    .replace(/[ąàáäâ]/g, 'a')
+    .replace(/[ćç]/g, 'c')
+    .replace(/[ęèéëê]/g, 'e')
+    .replace(/[ł]/g, 'l')
+    .replace(/[ńñ]/g, 'n')
+    .replace(/[óòöô]/g, 'o')
+    .replace(/[śš]/g, 's')
+    .replace(/[źżž]/g, 'z')
+    .replace(/[^\w\s-]/g, '') // Remove special chars
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/-+/g, '-') // Replace multiple - with single -
+    .trim()
+}
+
+// Pre-save middleware to generate slug automatically
+carrierSchema.pre('save', async function(next) {
+  if (!this.slug && this.companyName) {
+    let baseSlug = generateSlug(this.companyName)
+    let slug = baseSlug
+    let counter = 1
+    
+    // Check if slug exists and add counter if needed
+    while (await mongoose.models.Carrier.findOne({ slug, _id: { $ne: this._id } })) {
+      slug = `${baseSlug}-${counter}`
+      counter++
+    }
+    
+    this.slug = slug
+  }
+  next()
+})
 
 export default mongoose.model('Carrier', carrierSchema)

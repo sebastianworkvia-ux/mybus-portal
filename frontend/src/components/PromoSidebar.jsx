@@ -75,7 +75,7 @@ export default function PromoSidebar() {
 
       <Link 
         key={currentPromo._id} 
-        to={`/carriers/${currentPromo._id}`} 
+        to={`/carrier/${currentPromo.slug || currentPromo._id}`} 
         className="promo-card"
       >
         <div className="promo-content">
