@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
 import CityPage from './pages/CityPage'
 import CountryTransportPage from './pages/CountryTransportPage'
+import RouteDetailsPage from './pages/RouteDetailsPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -67,6 +68,7 @@ function App() {
             <Route path="/map" element={<MapPage />} />
             <Route path="/city/:cityName" element={<CityPage />} />
             <Route path="/transport-to/:country" element={<CountryTransportPage />} />
+            <Route path="/bus/:fromCity/:toCity" element={<RouteDetailsPage />} />
             <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/add-carrier" element={<AddCarrierPage />} />

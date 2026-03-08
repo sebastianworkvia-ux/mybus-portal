@@ -253,3 +253,138 @@ export const getCarriersByDestination = async (req, res, next) => {
     next(error)
   }
 }
+
+// City to country/voivodeship mapping for route pages
+const CITY_INFO = {
+  // Polish cities
+  'warsaw': { pl: 'Warszawa', country: 'PL', voivodeship: 'Mazowieckie' },
+  'warszawa': { pl: 'Warszawa', country: 'PL', voivodeship: 'Mazowieckie' },
+  'krakow': { pl: 'Kraków', country: 'PL', voivodeship: 'Małopolskie' },
+  'cracow': { pl: 'Kraków', country: 'PL', voivodeship: 'Małopolskie' },
+  'wroclaw': { pl: 'Wrocław', country: 'PL', voivodeship: 'Dolnośląskie' },
+  'poznan': { pl: 'Poznań', country: 'PL', voivodeship: 'Wielkopolskie' },
+  'gdansk': { pl: 'Gdańsk', country: 'PL', voivodeship: 'Pomorskie' },
+  'szczecin': { pl: 'Szczecin', country: 'PL', voivodeship: 'Zachodniopomorskie' },
+  'lodz': { pl: 'Łódź', country: 'PL', voivodeship: 'Łódzkie' },
+  'katowice': { pl: 'Katowice', country: 'PL', voivodeship: 'Śląskie' },
+  'lublin': { pl: 'Lublin', country: 'PL', voivodeship: 'Lubelskie' },
+  'bialystok': { pl: 'Białystok', country: 'PL', voivodeship: 'Podlaskie' },
+  
+  // German cities
+  'berlin': { pl: 'Berlin', country: 'DE', voivodeship: null },
+  'munich': { pl: 'Monachium', country: 'DE', voivodeship: null },
+  'monachium': { pl: 'Monachium', country: 'DE', voivodeship: null },
+  'hamburg': { pl: 'Hamburg', country: 'DE', voivodeship: null },
+  'cologne': { pl: 'Kolonia', country: 'DE', voivodeship: null },
+  'frankfurt': { pl: 'Frankfurt', country: 'DE', voivodeship: null },
+  'dortmund': { pl: 'Dortmund', country: 'DE', voivodeship: null },
+  'dusseldorf': { pl: 'Düsseldorf', country: 'DE', voivodeship: null },
+  'bremen': { pl: 'Brema', country: 'DE', voivodeship: null },
+  'hannover': { pl: 'Hanower', country: 'DE', voivodeship: null },
+  
+  // Dutch cities
+  'amsterdam': { pl: 'Amsterdam', country: 'NL', voivodeship: null },
+  'rotterdam': { pl: 'Rotterdam', country: 'NL', voivodeship: null },
+  'hague': { pl: 'Haga', country: 'NL', voivodeship: null },
+  'utrecht': { pl: 'Utrecht', country: 'NL', voivodeship: null },
+  'eindhoven': { pl: 'Eindhoven', country: 'NL', voivodeship: null },
+  
+  // Belgian cities
+  'brussels': { pl: 'Bruksela', country: 'BE', voivodeship: null },
+  'antwerp': { pl: 'Antwerpia', country: 'BE', voivodeship: null },
+  'ghent': { pl: 'Gandawa', country: 'BE', voivodeship: null },
+  'bruges': { pl: 'Brugia', country: 'BE', voivodeship: null },
+  
+  // French cities
+  'paris': { pl: 'Paryż', country: 'FR', voivodeship: null },
+  'lyon': { pl: 'Lyon', country: 'FR', voivodeship: null },
+  'marseille': { pl: 'Marsylia', country: 'FR', voivodeship: null },
+  
+  // Austrian cities
+  'vienna': { pl: 'Wiedeń', country: 'AT', voivodeship: null },
+  'wien': { pl: 'Wiedeń', country: 'AT', voivodeship: null },
+  
+  // UK cities
+  'london': { pl: 'Londyn', country: 'GB', voivodeship: null },
+  'manchester': { pl: 'Manchester', country: 'GB', voivodeship: null },
+  'birmingham': { pl: 'Birmingham', country: 'GB', voivodeship: null }
+}
+
+export const getCarriersByRoute = async (req, res, next) => {
+  try {
+    const { fromCity, toCity } = req.params
+    
+    const fromInfo = CITY_INFO[fromCity.toLowerCase()]
+    const toInfo = CITY_INFO[toCity.toLowerCase()]
+    
+    if (!fromInfo || !toInfo) {
+      return res.status(404).json({ 
+        error: 'City not found',
+        message: 'One or both cities are not supported yet'
+      })
+    }
+    
+    console.log(`🔍 GET /carriers/route/${fromCity}/${toCity}`)
+    console.log(`   From: ${fromInfo.pl} (${fromInfo.country})`)
+    console.log(`   To: ${toInfo.pl} (${toInfo.country})`)
+    
+    // Build query to find carriers operating on this route
+    const query = {
+      isActive: true,
+      $or: []
+    }
+    
+    // 1. Carriers that operate in both countries
+    if (fromInfo.country && toInfo.country) {
+      query.$or.push({
+        operatingCountries: { $all: [fromInfo.country, toInfo.country] }
+      })
+    }
+    
+    // 2. Carriers located in one of these cities
+    query.$or.push({
+      'location.city': { $in: [fromInfo.pl, toInfo.pl] }
+    })
+    
+    // 3. For Polish cities: carriers serving these voivodeships
+    if (fromInfo.voivodeship) {
+      query.$or.push({
+        servedVoivodeships: fromInfo.voivodeship,
+        operatingCountries: toInfo.country
+      })
+    }
+    if (toInfo.voivodeship) {
+      query.$or.push({
+        servedVoivodeships: toInfo.voivodeship,
+        operatingCountries: fromInfo.country
+      })
+    }
+    
+    const carriers = await Carrier.find(query)
+      .select('-__v')
+      .lean()
+    
+    // Sort: business > premium > free
+    carriers.sort((a, b) => {
+      const getPriority = (carrier) => {
+        if (carrier.subscriptionPlan === 'business') return 3
+        if (carrier.subscriptionPlan === 'premium') return 2
+        return 1
+      }
+      return getPriority(b) - getPriority(a)
+    })
+    
+    console.log(`✅ Znaleziono ${carriers.length} przewoźników na trasie ${fromCity}-${toCity}`)
+    
+    res.json({
+      route: {
+        from: { slug: fromCity, name: fromInfo.pl, country: fromInfo.country },
+        to: { slug: toCity, name: toInfo.pl, country: toInfo.country }
+      },
+      carriers: carriers,
+      count: carriers.length
+    })
+  } catch (error) {
+    next(error)
+  }
+}
