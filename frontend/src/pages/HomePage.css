@@ -1122,9 +1122,9 @@ body, p {
 
 .category-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 20px rgba(102, 126, 234, 0.2);
-  border-color: #667eea;
-  background: linear-gradient(135deg, #ffffff 0%, #f3f4ff 100%);
+  box-shadow: 0 12px 28px rgba(30, 64, 175, 0.18);
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
 }
 
 .cat-icon {
@@ -1147,7 +1147,7 @@ body, p {
 
 /* Trust Signals Section */
 .trust-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1e40af 100%);
   padding: 5rem 2rem;
   margin: 5rem 0;
   text-align: center;
@@ -1202,7 +1202,7 @@ body, p {
 
 .trust-badge:hover {
   transform: translateY(-8px) scale(1.06);
-  box-shadow: 0 16px 32px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 16px 32px rgba(30, 64, 175, 0.2);
 }
 
 .trust-badge-icon {
@@ -1216,7 +1216,7 @@ body, p {
 .trust-badge-number {
   font-size: 2rem;
   font-weight: 700;
-  color: #667eea;
+  color: #1e40af;
   margin: 0.5rem 0;
   font-family: 'Inter', sans-serif;
   text-align: center;

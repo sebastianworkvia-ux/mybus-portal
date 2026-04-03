@@ -60,10 +60,13 @@ export default function SearchPage() {
       
       <div className="search-page">
       <PromoSidebar />
+      <div className="search-page-header">
+        <div className="container">
+          <h1>{t('searchPage.title')}</h1>
+          <SearchBar />
+        </div>
+      </div>
       <div className="container">
-        <h1>{t('searchPage.title')}</h1>
-
-        <SearchBar />
 
         {loading && (
           <div className="loading">
@@ -78,9 +81,9 @@ export default function SearchPage() {
         {error && <div className="error">{error}</div>}
 
         <div className="search-results">
-          <div className="results-count">
+          <p className="results-count">
             {t('searchPage.resultsCount')} <strong>{carriers.length}</strong> {t('searchPage.carriers')}
-          </div>
+          </p>
 
           {carriers.length > 0 ? (
             <div className="carriers-grid">
@@ -91,6 +94,8 @@ export default function SearchPage() {
           ) : (
             !loading && (
               <div className="no-results">
+                <span className="no-results-icon">🔍</span>
+                <h3>Brak wyników</h3>
                 <p>{t('searchPage.noResults')}</p>
               </div>
             )

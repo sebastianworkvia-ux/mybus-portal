@@ -1,14 +1,415 @@
+/* ================================================================
+   CARRIER CARD — Premium Marketplace Design
+   Like Airbnb/Booking.com card for transport services
+   ================================================================ */
+
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* === BASE CARD === */
 .carrier-card {
-  background: white;
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-base);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              border-color 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg) var(--space-xl);
+  height: 100%;
+  animation: fadeInCard 0.55s ease-out backwards;
+}
+
+.carrier-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: var(--shadow-xl);
+  border-color: #dbeafe;
+}
+
+/* === TIER STRIPE — colored top accent === */
+.carrier-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: transparent;
+  z-index: 5;
+}
+
+.free-card {
+  border: 1px solid var(--color-border);
+}
+
+.premium-card {
+  border: 1.5px solid #fde68a;
+  background: linear-gradient(to bottom, #fffdf5 0%, #ffffff 60px);
+}
+.premium-card::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+}
+
+.business-premium-card {
+  border: 1.5px solid #ddd6fe;
+  background: linear-gradient(to bottom, #faf8ff 0%, #ffffff 60px);
+}
+.business-premium-card::before {
+  background: linear-gradient(90deg, #7c3aed, #a78bfa, #7c3aed);
+}
+
+/* === LOGO AREA === */
+.carrier-logo {
+  height: 100px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 1rem 1.5rem;
+  overflow: hidden;
+}
+
+.carrier-logo img {
+  max-width: 100%;
+  max-height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+}
+
+/* === CARD HEADER === */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem 0.5rem;
+  gap: 0.75rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.header-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+/* === BADGES === */
+.premium-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.business-badge {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+}
+
+.country-badge {
+  background: var(--color-brand);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+/* === REGISTRATION === */
+.company-reg {
+  padding: 0 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+/* === ANNOUNCEMENT === */
+.card-announcement {
+  margin: 0 1.5rem 0.875rem;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-left: 3px solid #f59e0b;
+  border-radius: 10px;
+  padding: 0.625rem 0.875rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.card-announcement .announcement-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+.card-announcement p {
+  margin: 0;
+  color: #92400e;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* === DESCRIPTION === */
+.description {
+  padding: 0 1.5rem;
+  color: #475569;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin: 0 0 0.875rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  flex-grow: 1;
+}
+
+/* === VOIVODESHIPS === */
+.operating-voivodeships {
+  padding: 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.voivodeship-tag-small {
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 600;
+  border: 1px solid #bfdbfe;
+}
+
+.voivodeship-more {
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 9px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* === OPERATING COUNTRIES === */
+.operating-countries {
+  padding: 0 1.5rem;
+  margin-bottom: 0.875rem;
+}
+
+.operating-countries strong {
+  display: block;
+  font-size: 0.73rem;
+  color: #64748b;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.countries-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.country-tag {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.25);
+}
+
+/* === SERVICES === */
+.services {
+  padding: 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 0.875rem;
+}
+
+.service-tag {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.service-tag:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+/* === AMENITIES === */
+.amenities-icons {
+  padding: 0 1.5rem;
+}
+
+/* === RATING === */
+.rating {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+
+.review-count {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+/* === SCHEDULE INFO === */
+.schedule-info {
+  margin: 0 1.5rem 0.75rem;
+  padding: 0.625rem 0.875rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: #166534;
+}
+
+.schedule-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #166534;
+}
+
+/* === CONTACT === */
+.contact {
+  padding: 0 1.5rem 0.5rem;
+  color: #334155;
+  font-size: 0.875rem;
+}
+
+.contact a {
+  color: var(--color-link);
+  font-weight: 600;
+}
+
+/* === CTA BUTTON === */
+.btn-details {
+  display: block;
+  margin: 0.875rem 1.5rem 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.875rem;
   transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.25);
+  letter-spacing: 0.025em;
   position: relative;
   overflow: hidden;
-  animation: fadeInCard 0.6s ease-out backwards;
-  box-shadow: var(--shadow-sm);
 }
+
+.btn-details::after {
+  content: ' →';
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.btn-details:hover {
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.35);
+  color: white;
+}
+
+.btn-details:hover::after {
+  transform: translateX(4px);
+}
+
+/* Premium carrier gets branded button */
+.premium-card .btn-details {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+}
+.premium-card .btn-details:hover {
+  background: linear-gradient(135deg, #b45309, #d97706);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
+}
+
+.business-premium-card .btn-details {
+  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.3);
+}
+.business-premium-card .btn-details:hover {
+  background: linear-gradient(135deg, #5b21b6, #6d28d9);
+  box-shadow: 0 8px 24px rgba(109, 40, 217, 0.4);
+}
+
+/* === GRID STAGGER ANIMATION === */
+.carriers-grid .carrier-card:nth-child(1) { animation-delay: 0.05s; }
+.carriers-grid .carrier-card:nth-child(2) { animation-delay: 0.1s; }
+.carriers-grid .carrier-card:nth-child(3) { animation-delay: 0.15s; }
+.carriers-grid .carrier-card:nth-child(4) { animation-delay: 0.2s; }
+.carriers-grid .carrier-card:nth-child(5) { animation-delay: 0.25s; }
+.carriers-grid .carrier-card:nth-child(6) { animation-delay: 0.3s; }
+
+/* === MOBILE === */
+@media (max-width: 640px) {
+  .card-header {
+    padding: 1rem 1.25rem 0.5rem;
+  }
+  .description { padding: 0 1.25rem; }
+  .services { padding: 0 1.25rem; }
+  .rating { padding: 0.75rem 1.25rem; }
+  .btn-details { margin: 0.75rem 1.25rem 1.25rem; }
+  .operating-countries,
+  .operating-voivodeships { padding: 0 1.25rem; }
+}
+
 
 @keyframes fadeInCard {
   from {

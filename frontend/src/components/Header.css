@@ -108,16 +108,11 @@
 .map-link::after {
   display: none;
 }
-  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
-  transition: all 0.3s;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
 
 .map-link:hover {
   color: white !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.4);
 }
 
 .user-menu {
@@ -346,7 +341,6 @@
     font-size: 0.75rem;
     white-space: nowrap;
   }
-}
 }
 
 .btn-logout:hover {

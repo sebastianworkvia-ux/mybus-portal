@@ -216,6 +216,7 @@ export default function CarrierDetailPage() {
             </div>
           )}
           
+          <div className="carrier-title-area">
           <div className="carrier-title">
             <h1>{carrier.companyName}</h1>
             {carrier.isPremium && <span className="premium-badge">⭐ PREMIUM</span>}
@@ -245,9 +246,10 @@ export default function CarrierDetailPage() {
               className="btn-contact-carrier"
               disabled={sendingMessage}
             >
-              {sendingMessage ? '...' : '💬 Wyślij wiadomość'}
+              {sendingMessage ? '⏳ Wysyłanie...' : '💬 Wyślij wiadomość'}
             </button>
           )}
+          </div>
         </div>
 
         {/* Główna sekcja informacyjna */}
