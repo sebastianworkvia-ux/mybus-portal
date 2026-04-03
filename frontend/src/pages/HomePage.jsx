@@ -259,8 +259,15 @@ export default function HomePage() {
         </section>
 
         <section className="featured-carriers scroll-fade-in">
-          <h2>{t('featuredCarriers.title')}</h2>
-          <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
+          <div className="featured-carriers-header">
+            <div>
+              <h2>{t('featuredCarriers.title')}</h2>
+              <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
+            </div>
+            <Link to="/search" className="btn-see-all" onClick={() => window.scrollTo(0, 0)}>
+              Zobacz wszystkich →
+            </Link>
+          </div>
           
           {loading && (
             <div className="loading">
@@ -282,9 +289,9 @@ export default function HomePage() {
           )}
 
           {!loading && !error && carriers.length > 0 && (
-            <div className="carriers-grid">
+            <div className="carriers-list">
               {featuredCarriers.map((carrier) => (
-                <CarrierCard key={carrier._id} carrier={carrier} />
+                <CarrierCard key={carrier._id} carrier={carrier} compact />
               ))}
             </div>
           )}

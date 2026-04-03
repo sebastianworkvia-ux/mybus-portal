@@ -15,14 +15,54 @@ const SERVICE_LABELS = {
   'inne': 'Inne'
 }
 
-export default function CarrierCard({ carrier }) {
+export default function CarrierCard({ carrier, compact = false }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
 
   const isBusinessPremium = carrier.subscriptionPlan === 'business'
   const isPremium = carrier.subscriptionPlan === 'premium'
+  const tierClass = isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : 'free-card'
+  const cardLink = `/carrier/${carrier.slug || carrier._id}`
 
+  // ── COMPACT MODE (homepage featured list) ─────────────────────
+  if (compact) {
+    return (
+      <Link to={cardLink} className={`carrier-card-compact ${tierClass}`}>
+        <div className="compact-logo">
+          {carrier.logo
+            ? <img src={carrier.logo} alt={carrier.companyName} />
+            : <div className="compact-avatar">{carrier.companyName?.charAt(0) || '?'}</div>
+          }
+        </div>
+        <div className="compact-body">
+          <div className="compact-top">
+            <span className="compact-name">{carrier.companyName}</span>
+            <div className="compact-badges">
+              {isBusinessPremium && <span className="compact-tier compact-tier-business">💎 BUSINESS</span>}
+              {!isBusinessPremium && isPremium && <span className="compact-tier compact-tier-premium">⭐ PREMIUM</span>}
+              <span className="compact-country">{carrier.country}</span>
+            </div>
+          </div>
+          <div className="compact-bottom">
+            <div className="compact-services">
+              {carrier.services?.slice(0, 3).map(s => (
+                <span key={s} className="compact-chip">{SERVICE_LABELS[s] || s}</span>
+              ))}
+            </div>
+            <div className="compact-meta">
+              {carrier.rating > 0 && (
+                <span className="compact-rating">★ {Number(carrier.rating).toFixed(1)}</span>
+              )}
+              <span className="compact-cta">Więcej →</span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
+  // ── FULL CARD MODE (search page) ──────────────────────────────
   return (
-    <div className={`carrier-card ${isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : 'free-card'}`}>
+    <div className={`carrier-card ${tierClass}`}>
       {carrier.logo && (
         <div className="carrier-logo">
           <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
