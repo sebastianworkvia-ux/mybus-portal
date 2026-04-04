@@ -109,6 +109,34 @@ export default function AdminVerifyPage() {
     }
   }
 
+  const handleBulkReject = async () => {
+    if (selectedCarriers.length === 0) {
+      alert('Nie zaznaczono żadnych firm')
+      return
+    }
+
+    if (!confirm(`⚠️ UWAGA! Czy na pewno chcesz USUNĄĆ ${selectedCarriers.length} firm? Ta operacja jest nieodwracalna.`)) {
+      return
+    }
+
+    try {
+      setBulkLoading(true)
+      const response = await apiClient.post('/admin/reject-carriers-bulk', {
+        carrierIds: selectedCarriers
+      })
+      
+      // Usuń odrzucone firmy z listy
+      setCarriers(carriers.filter(c => !selectedCarriers.includes(c._id)))
+      setSelectedCarriers([])
+      
+      alert(response.data.message || `Usunięto ${selectedCarriers.length} firm!`)
+    } catch (err) {
+      alert(err.response?.data?.error || 'Błąd podczas masowego odrzucania')
+    } finally {
+      setBulkLoading(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="admin-verify-page">
@@ -149,13 +177,22 @@ export default function AdminVerifyPage() {
                 )}
               </div>
               {selectedCarriers.length > 0 && (
-                <button 
-                  className="btn-bulk-verify"
-                  onClick={handleBulkVerify}
-                  disabled={bulkLoading}
-                >
-                  {bulkLoading ? '⏳ Weryfikowanie...' : `✓ Zatwierdź zaznaczone (${selectedCarriers.length})`}
-                </button>
+                <>
+                  <button 
+                    className="btn-bulk-verify"
+                    onClick={handleBulkVerify}
+                    disabled={bulkLoading}
+                  >
+                    {bulkLoading ? '⏳ Weryfikowanie...' : `✓ Zatwierdź zaznaczone (${selectedCarriers.length})`}
+                  </button>
+                  <button 
+                    className="btn-bulk-reject"
+                    onClick={handleBulkReject}
+                    disabled={bulkLoading}
+                  >
+                    {bulkLoading ? '⏳ Usuwanie...' : `✗ Odrzuć zaznaczone (${selectedCarriers.length})`}
+                  </button>
+                </>
               )}
             </div>
 

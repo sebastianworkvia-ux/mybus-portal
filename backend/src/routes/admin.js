@@ -180,6 +180,28 @@ router.post('/verify-carriers-bulk', adminMiddleware, async (req, res) => {
   }
 })
 
+// Bulk reject carriers (masowe odrzucenie i usunięcie)
+router.post('/reject-carriers-bulk', adminMiddleware, async (req, res) => {
+  try {
+    const { carrierIds } = req.body
+    
+    if (!carrierIds || !Array.isArray(carrierIds) || carrierIds.length === 0) {
+      return res.status(400).json({ error: 'Brak firm do odrzucenia' })
+    }
+    
+    const result = await Carrier.deleteMany(
+      { _id: { $in: carrierIds } }
+    )
+    
+    res.json({ 
+      message: `Usunięto ${result.deletedCount} firm`,
+      deleted: result.deletedCount
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 // Reject carrier
 router.post('/reject-carrier/:carrierId', adminMiddleware, async (req, res) => {
   try {

@@ -206,12 +206,27 @@ export const importCarriers = async (req, res, next) => {
       console.log(`📦 Przetwarzanie: "${companyName}"`)
 
       try {
-        // Sprawdź czy firma już istnieje
-        const existingCarrier = await Carrier.findOne({ companyName })
-        if (existingCarrier) {
-          console.log(`  ⏭️ Pomijam - firma już istnieje`)
-          skipped++
-          continue
+        // Sprawdź czy firma już istnieje (PRIORYTET: po telefonie, backup: po nazwie)
+        let existingCarrier = null
+        
+        // 1. Check po telefonie (najlepszy - telefon jest unikalny)
+        if (phone) {
+          existingCarrier = await Carrier.findOne({ phone })
+          if (existingCarrier) {
+            console.log(`  ⏭️ Pomijam - firma z tym telefonem już istnieje (${existingCarrier.companyName})`)
+            skipped++
+            continue
+          }
+        }
+        
+        // 2. Backup check po nazwie firmy
+        if (!existingCarrier && companyName) {
+          existingCarrier = await Carrier.findOne({ companyName })
+          if (existingCarrier) {
+            console.log(`  ⏭️ Pomijam - firma o tej nazwie już istnieje`)
+            skipped++
+            continue
+          }
         }
 
         console.log(`  ✅ Nowa firma - importuję`)
@@ -231,8 +246,9 @@ export const importCarriers = async (req, res, next) => {
           }
         }
         
-        // Geokoduj adres (z opóźnieniem 1s żeby nie przekroczyć limitu API)
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        // Geokoduj adres (z opóźnieniem 300ms żeby nie przekroczyć limitu API)
+        // Nominatim limit: ~1 req/sec, ale dla większych importów stosujemy opóźnienie
+        await new Promise(resolve => setTimeout(resolve, 300))
         const coordinates = await geocodeAddress(postalCode, city, carrierCountry)
 
         // Utwórz przewoźnika (bez konta użytkownika)

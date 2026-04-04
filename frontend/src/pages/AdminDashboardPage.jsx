@@ -59,7 +59,8 @@ export default function AdminDashboardPage() {
       formData.append('file', file)
 
       const response = await apiClient.post('/import/carriers', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 300000 // 5 minut dla importu (geokodowanie + duplicate check dla ~100 firm)
       })
 
       setImportMessage(`✅ Zaimportowano: ${response.data.imported}, Pominięto: ${response.data.skipped}, Błędy: ${response.data.errors}`)
