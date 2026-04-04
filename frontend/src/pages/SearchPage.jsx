@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import SearchBar from '../components/SearchBar'
@@ -9,11 +10,27 @@ import './SearchPage.css'
 
 export default function SearchPage() {
   const { t } = useTranslation()
-  const { carriers, loading, error, getCarriers, filters } = useCarrierStore()
+  const [searchParams] = useSearchParams()
+  const { carriers, loading, error, getCarriers, filters, setFilters } = useCarrierStore()
 
+  // Initialize filters from URL params on mount
   useEffect(() => {
-    getCarriers(filters)
-  }, [])
+    const serviceFromUrl = searchParams.get('service')
+    const countryFromUrl = searchParams.get('country')
+    
+    // Build initial filters from URL
+    const initialFilters = {
+      service: serviceFromUrl || '',
+      country: countryFromUrl || '',
+      search: ''
+    }
+    
+    // Set filters in store
+    setFilters(initialFilters)
+    
+    // Fetch carriers with URL filters
+    getCarriers(initialFilters)
+  }, [searchParams.get('service'), searchParams.get('country')])
 
   // Dynamic SEO based on active filters
   const seoData = useMemo(() => {
