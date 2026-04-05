@@ -316,6 +316,193 @@ body, p {
   box-shadow: var(--shadow-xl);
 }
 
+/* ===== BANERY MARKETINGOWE - DARMOWE KONTA ===== */
+.free-accounts-banners {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.banners-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promo-banner {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.promo-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-cta-primary), var(--color-brand));
+  transition: height 0.3s ease;
+}
+
+.promo-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-cta-primary);
+}
+
+.promo-banner:hover::before {
+  height: 8px;
+}
+
+.banner-carrier::before {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+}
+
+.banner-user::before {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.banner-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.banner-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  text-transform: uppercase;
+}
+
+.banner-content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.banner-content > p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.banner-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem 0;
+}
+
+.banner-features li {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banner-features li::before {
+  content: none;
+}
+
+.btn-banner {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-cta-primary), var(--color-brand));
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, var(--color-cta-hover), #1d4ed8);
+}
+
+.banner-user .btn-banner {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.banner-user .btn-banner:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Mobile responsiveness dla banerów */
+@media (max-width: 768px) {
+  .free-accounts-banners {
+    padding: 2rem 0;
+  }
+
+  .banners-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .promo-banner {
+    padding: 2rem 1.5rem;
+  }
+
+  .banner-icon {
+    font-size: 3rem;
+  }
+
+  .banner-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .banner-content > p {
+    font-size: 0.9rem;
+  }
+
+  .banner-features li {
+    font-size: 0.875rem;
+  }
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

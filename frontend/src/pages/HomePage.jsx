@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
@@ -79,27 +78,16 @@ export default function HomePage() {
   }, [carriers])
 
   return (
-    <>
-      <Helmet>
-        <title>{t('seo.home.title', 'My-Bus.eu - Przewoźnicy Busowi Polska Europa | Transport Osób i Paczek')}</title>
-        <meta name="description" content={t('seo.home.description', 'Znajdź sprawdzonych przewoźników busowych w Europie. Transport osób i paczek Polska-Niemcy-Holandia-Belgia. Zweryfikowane firmy transportowe.')} />
-        <meta property="og:title" content={t('seo.home.title', 'My-Bus.eu - Przewoźnicy Busowi Polska Europa')} />
-        <meta property="og:description" content={t('seo.home.description', 'Znajdź sprawdzonych przewoźników busowych w Europie.')} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://my-bus.eu/" />
-        <link rel="canonical" href="https://my-bus.eu/" />
-      </Helmet>
+    <div className="home-page">
+      <PromoSidebar />
       
-      <div className="home-page">
-        <PromoSidebar />
-        
-        {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
-        <section className="hero-dual">
-          {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
-          <div className="hero-panel hero-customers">
-            <div className="hero-panel-content">
-              <div className="hero-panel-icon">🔍</div>
-              <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
+      {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
+      <section className="hero-dual">
+        {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
+        <div className="hero-panel hero-customers">
+          <div className="hero-panel-content">
+            <div className="hero-panel-icon">🔍</div>
+            <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
             <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
             <p className="hero-panel-description">{t('hero.customers.description', 'Zweryfikowane firmy | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
             <div className="hero-panel-stats">
@@ -133,6 +121,49 @@ export default function HomePage() {
             <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
               {t('hero.carriers.cta', 'Załóż konto transportowca')} →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* BANERY MARKETINGOWE - Darmowe konta */}
+      <section className="free-accounts-banners">
+        <div className="container">
+          <div className="banners-grid">
+            {/* Banner dla przewoźników */}
+            <div className="promo-banner banner-carrier">
+              <div className="banner-icon">🚐</div>
+              <div className="banner-content">
+                <div className="banner-badge">100% DARMOWE</div>
+                <h3>Konto Przewoźnika</h3>
+                <p>Bez opłat miesięcznych • Bez ukrytych kosztów • Bez zobowiązań</p>
+                <ul className="banner-features">
+                  <li>✓ Własny profil firmowy</li>
+                  <li>✓ Bezpośredni kontakt z klientami</li>
+                  <li>✓ Promocje i oferty specjalne</li>
+                </ul>
+                <Link to="/register" className="btn-banner" onClick={() => window.scrollTo(0, 0)}>
+                  Załóż konto teraz →
+                </Link>
+              </div>
+            </div>
+
+            {/* Banner dla użytkowników */}
+            <div className="promo-banner banner-user">
+              <div className="banner-icon">👤</div>
+              <div className="banner-content">
+                <div className="banner-badge">100% DARMOWE</div>
+                <h3>Konto Użytkownika</h3>
+                <p>Szybki kontakt • Porównuj oferty • Sprawdzaj opinie</p>
+                <ul className="banner-features">
+                  <li>✓ Zapisz ulubionych przewoźników</li>
+                  <li>✓ Historia wyszukiwań</li>
+                  <li>✓ Powiadomienia o promocjach</li>
+                </ul>
+                <Link to="/register" className="btn-banner" onClick={() => window.scrollTo(0, 0)}>
+                  Zarejestruj się za darmo →
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -259,15 +290,8 @@ export default function HomePage() {
         </section>
 
         <section className="featured-carriers scroll-fade-in">
-          <div className="featured-carriers-header">
-            <div>
-              <h2>{t('featuredCarriers.title')}</h2>
-              <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
-            </div>
-            <Link to="/search" className="btn-see-all" onClick={() => window.scrollTo(0, 0)}>
-              Zobacz wszystkich →
-            </Link>
-          </div>
+          <h2>{t('featuredCarriers.title')}</h2>
+          <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
           
           {loading && (
             <div className="loading">
@@ -289,9 +313,9 @@ export default function HomePage() {
           )}
 
           {!loading && !error && carriers.length > 0 && (
-            <div className="carriers-list">
+            <div className="carriers-grid">
               {featuredCarriers.map((carrier) => (
-                <CarrierCard key={carrier._id} carrier={carrier} compact />
+                <CarrierCard key={carrier._id} carrier={carrier} />
               ))}
             </div>
           )}
@@ -339,6 +363,5 @@ export default function HomePage() {
       {/* Floating Action Buttons */}
       <FloatingActionButtons />
     </div>
-    </>
   )
 }
