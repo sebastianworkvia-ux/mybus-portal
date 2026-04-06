@@ -125,49 +125,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* BANERY MARKETINGOWE - Darmowe konta */}
-      <section className="free-accounts-banners">
-        <div className="container">
-          <div className="banners-grid">
-            {/* Banner dla przewoźników */}
-            <div className="promo-banner banner-carrier">
-              <div className="banner-icon">🚐</div>
-              <div className="banner-content">
-                <div className="banner-badge">100% DARMOWE</div>
-                <h3>Konto Przewoźnika</h3>
-                <p>Bez opłat miesięcznych • Bez ukrytych kosztów • Bez zobowiązań</p>
-                <ul className="banner-features">
-                  <li>✓ Własny profil firmowy</li>
-                  <li>✓ Bezpośredni kontakt z klientami</li>
-                  <li>✓ Promocje i oferty specjalne</li>
-                </ul>
-                <Link to="/register" className="btn-banner" onClick={() => window.scrollTo(0, 0)}>
-                  Załóż konto teraz →
-                </Link>
-              </div>
-            </div>
-
-            {/* Banner dla użytkowników */}
-            <div className="promo-banner banner-user">
-              <div className="banner-icon">👤</div>
-              <div className="banner-content">
-                <div className="banner-badge">100% DARMOWE</div>
-                <h3>Konto Użytkownika</h3>
-                <p>Szybki kontakt • Porównuj oferty • Sprawdzaj opinie</p>
-                <ul className="banner-features">
-                  <li>✓ Zapisz ulubionych przewoźników</li>
-                  <li>✓ Historia wyszukiwań</li>
-                  <li>✓ Powiadomienia o promocjach</li>
-                </ul>
-                <Link to="/register" className="btn-banner" onClick={() => window.scrollTo(0, 0)}>
-                  Zarejestruj się za darmo →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <div className="container" style={{marginTop: '0rem'}}>
         {/* Usługi - Kategorie */}
         <section className="services-categories scroll-fade-in">
