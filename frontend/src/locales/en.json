@@ -17,7 +17,7 @@
     "customers": {
       "title": "Find the best carriers",
       "subtitle": "Bus transport across all of Europe",
-      "description": "190+ verified companies | All of Europe | Airport transfers, business transport, special events",
+      "description": "1000+ verified companies | All of Europe | Airport transfers, business transport, special events",
       "cta": "Search for a carrier now",
       "createAccount": "Create account"
     },
@@ -60,7 +60,7 @@
   },
   "features": {
     "searchTitle": "🔍 Find Carriers Across Europe",
-    "searchDesc": "Over 190 transport companies on one platform. Filter by country (DE, NL, BE, FR, AT, PL), service type and route. Interactive map shows carriers in your area.",
+    "searchDesc": "Over 1000 transport companies on one platform. Filter by country (DE, NL, BE, FR, AT, PL), service type and route. Interactive map shows carriers in your area.",
     "verifiedTitle": "✅ Verified Carriers",
     "verifiedDesc": "All companies are verified. See reviews from other users and choose the best offer.",
     "contactTitle": "📞 Direct Contact",
