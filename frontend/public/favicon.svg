@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="url(#bg)"/>
+  
+  <!-- Bus body -->
+  <rect x="8" y="18" width="48" height="26" rx="4" fill="white" opacity="0.95"/>
+  
+  <!-- Bus windshield (front) -->
+  <rect x="44" y="22" width="10" height="10" rx="2" fill="#667eea" opacity="0.7"/>
+  
+  <!-- Bus windows (side) -->
+  <rect x="11" y="22" width="8" height="8" rx="1.5" fill="#667eea" opacity="0.7"/>
+  <rect x="22" y="22" width="8" height="8" rx="1.5" fill="#667eea" opacity="0.7"/>
+  <rect x="33" y="22" width="8" height="8" rx="1.5" fill="#667eea" opacity="0.7"/>
+  
+  <!-- Bus door line -->
+  <line x1="20" y1="32" x2="20" y2="44" stroke="#667eea" stroke-width="1.5" opacity="0.5"/>
+  
+  <!-- Wheels -->
+  <circle cx="19" cy="46" r="7" fill="#333"/>
+  <circle cx="19" cy="46" r="4" fill="#555"/>
+  <circle cx="19" cy="46" r="1.5" fill="#aaa"/>
+  
+  <circle cx="45" cy="46" r="7" fill="#333"/>
+  <circle cx="45" cy="46" r="4" fill="#555"/>
+  <circle cx="45" cy="46" r="1.5" fill="#aaa"/>
+  
+  <!-- Undercarriage -->
+  <rect x="8" y="42" width="48" height="4" rx="2" fill="#ddd" opacity="0.8"/>
+</svg>
