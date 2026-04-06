@@ -127,14 +127,32 @@ export const importCarriers = async (req, res, next) => {
     await new Promise((resolve, reject) => {
       const buffer = fs.readFileSync(req.file.path)
       let decoded
-      try {
+
+      // Wykryj kodowanie: sprawdź czy plik jest UTF-8
+      // UTF-8 BOM: EF BB BF
+      const hasBOM = buffer[0] === 0xEF && buffer[1] === 0xBB && buffer[2] === 0xBF
+      // Polskie znaki w UTF-8 to sekwencje 2-bajtowe, np. ą = C4 85, ę = C4 99, ó = C3 B3
+      // Sprawdź czy bufor zawiera typowe polskie sekwencje UTF-8
+      const hasUtf8Polish = (
+        buffer.includes(Buffer.from([0xC4, 0x85])) || // ą
+        buffer.includes(Buffer.from([0xC4, 0x99])) || // ę
+        buffer.includes(Buffer.from([0xC3, 0xB3])) || // ó
+        buffer.includes(Buffer.from([0xC5, 0xBC])) || // ż
+        buffer.includes(Buffer.from([0xC5, 0xBA])) || // ź
+        buffer.includes(Buffer.from([0xC5, 0x82])) || // ł
+        buffer.includes(Buffer.from([0xC5, 0x84])) || // ń
+        buffer.includes(Buffer.from([0xC5, 0x9B])) || // ś
+        buffer.includes(Buffer.from([0xC4, 0x87]))    // ć
+      )
+
+      if (hasBOM || hasUtf8Polish) {
+        // UTF-8 (z lub bez BOM)
+        decoded = hasBOM ? buffer.slice(3).toString('utf-8') : buffer.toString('utf-8')
+        console.log('📝 Wykryto kodowanie: UTF-8')
+      } else {
+        // Windows-1250 (stare polskie pliki)
         decoded = iconv.decode(buffer, 'windows-1250')
-      } catch (e) {
-        try {
-          decoded = iconv.decode(buffer, 'iso-8859-2')
-        } catch (e2) {
-          decoded = buffer.toString('utf-8')
-        }
+        console.log('📝 Wykryto kodowanie: Windows-1250')
       }
 
       console.log('📝 Przykład dekodowanego tekstu:', decoded.substring(0, 200))
