@@ -125,61 +125,72 @@ export const importCarriers = async (req, res, next) => {
 
     // Parsuj CSV z auto-detekcją kodowania
     await new Promise((resolve, reject) => {
-      // Najpierw odczytaj plik jako buffer żeby wykryć kodowanie
       const buffer = fs.readFileSync(req.file.path)
-      
-      // Spróbuj różnych kodowań - Windows-1250 (Europa Środkowa) lub ISO-8859-2
       let decoded
       try {
-        // Próba 1: Windows-1250 (najczęstsze dla polskich plików)
         decoded = iconv.decode(buffer, 'windows-1250')
       } catch (e) {
         try {
-          // Próba 2: ISO-8859-2
           decoded = iconv.decode(buffer, 'iso-8859-2')
         } catch (e2) {
-          // Próba 3: UTF-8 (jeśli jednak był OK)
           decoded = buffer.toString('utf-8')
         }
       }
-      
+
       console.log('📝 Przykład dekodowanego tekstu:', decoded.substring(0, 200))
-      
-      // Parsuj zdekodowany string
+
       Readable.from([decoded])
-        .pipe(csv({ 
+        .pipe(csv({
           separator: ';',
-          mapHeaders: ({ header }) => {
-            return header.replace(/^\uFEFF/, '').trim()
-          },
+          mapHeaders: ({ header }) => header.replace(/^\uFEFF/, '').trim(),
           skipEmptyLines: true
         }))
-        .on('data', (row) => {
-          results.push(row)
-        })
+        .on('data', (row) => results.push(row))
         .on('end', resolve)
         .on('error', reject)
     })
 
     console.log(`📋 Znaleziono ${results.length} wierszy w CSV`)
-
-    // Pokaż nazwy kolumn z pierwszego wiersza
     if (results.length > 0) {
       console.log('📝 Kolumny w CSV:', Object.keys(results[0]))
     }
 
-    // Przetwórz każdy wiersz
+    // OPTYMALIZACJA: Pobierz istniejące telefony i nazwy DO PAMIĘCI (1 zapytanie zamiast 2000)
+    const existingCarriers = await Carrier.find({}).select('phone companyName').lean()
+    const existingPhones = new Set(existingCarriers.map(c => c.phone).filter(Boolean))
+    const existingNames = new Set(existingCarriers.map(c => c.companyName).filter(Boolean))
+    console.log(`📊 Istniejące firmy w bazie: ${existingCarriers.length} (${existingPhones.size} z telefonem)`)
+
+    // Przygotuj dokumenty do wstawienia (batch insert)
+    const toInsert = []
+
     for (const row of results) {
-      // Pomiń całkowicie puste wiersze
       const allFieldsEmpty = Object.values(row).every(val => !val || val.trim() === '')
-      if (allFieldsEmpty) {
+      if (allFieldsEmpty) continue
+
+      const companyName = row['Nazwa firmy']?.trim()
+      if (!companyName) { skipped++; continue }
+
+      const phone = row['Numer telefonu']?.trim()
+
+      // Sprawdź duplikaty w pamięci (błyskawiczne)
+      if (phone && existingPhones.has(phone)) {
+        console.log(`  ⏭️ Pomijam duplikat (tel): ${companyName}`)
+        skipped++
+        continue
+      }
+      if (existingNames.has(companyName)) {
+        console.log(`  ⏭️ Pomijam duplikat (nazwa): ${companyName}`)
+        skipped++
         continue
       }
 
-      const companyName = row['Nazwa firmy']?.trim()
+      // Dodaj do set żeby nie duplikować wewnątrz tego samego CSV
+      if (phone) existingPhones.add(phone)
+      existingNames.add(companyName)
+
       const companyRegistration = row['Numer rejestracyjny firmy']?.trim()
       const country = row['Kraj działalności']?.trim()
-      const phone = row['Numer telefonu']?.trim()
       const email = row['Email']?.trim()
       const website = row['Strona WWW']?.trim()
       const descriptionBase = row['Opis firmy']?.trim()
@@ -190,112 +201,77 @@ export const importCarriers = async (req, res, next) => {
       const departureDays = row['Dni wyjazdów do Polski']?.trim()
       const returnDays = row['Dni powrotów z Polski']?.trim()
       const baggageInfo = row['Informacje o bagażu']?.trim()
-      
-      // Połącz opis z dodatkowymi informacjami
+
       let description = descriptionBase || ''
       if (departureDays) description += `\n\nDni wyjazdów do Polski: ${departureDays}`
       if (returnDays) description += `\n\nDni powrotów z Polski: ${returnDays}`
       if (baggageInfo) description += `\n\nInformacje o bagażu: ${baggageInfo}`
       description = description.trim()
-      
-      if (!companyName) {
-        skipped++
-        continue
+
+      const operatingCountries = parseCountries(operatingCountriesStr)
+      const services = parseServices(servicesStr)
+
+      let carrierCountry = 'PL'
+      if (country) {
+        const countryCode = COUNTRY_MAP[country] || country.toUpperCase()
+        if (['DE', 'NL', 'BE', 'FR', 'AT', 'PL', 'GB', 'SE', 'NO', 'DK'].includes(countryCode)) {
+          carrierCountry = countryCode
+        }
       }
 
-      console.log(`📦 Przetwarzanie: "${companyName}"`)
+      toInsert.push({
+        userId: null,
+        companyName,
+        companyRegistration: companyRegistration || undefined,
+        country: carrierCountry,
+        description,
+        phone,
+        email: email || undefined,
+        website,
+        services,
+        operatingCountries: operatingCountries.slice(0, 8),
+        location: { postalCode, city, coordinates: null },
+        isPremium: false,
+        isVerified: false,
+        isActive: true
+      })
+    }
 
+    console.log(`📦 Do wstawienia: ${toInsert.length} firm (pominięto ${skipped} duplikatów)`)
+
+    // OPTYMALIZACJA: insertMany w batchach po 100 (zamiast create() 1000×)
+    const BATCH_SIZE = 100
+    for (let i = 0; i < toInsert.length; i += BATCH_SIZE) {
+      const batch = toInsert.slice(i, i + BATCH_SIZE)
       try {
-        // Sprawdź czy firma już istnieje (PRIORYTET: po telefonie, backup: po nazwie)
-        let existingCarrier = null
-        
-        // 1. Check po telefonie (najlepszy - telefon jest unikalny)
-        if (phone) {
-          existingCarrier = await Carrier.findOne({ phone })
-          if (existingCarrier) {
-            console.log(`  ⏭️ Pomijam - firma z tym telefonem już istnieje (${existingCarrier.companyName})`)
-            skipped++
-            continue
-          }
-        }
-        
-        // 2. Backup check po nazwie firmy
-        if (!existingCarrier && companyName) {
-          existingCarrier = await Carrier.findOne({ companyName })
-          if (existingCarrier) {
-            console.log(`  ⏭️ Pomijam - firma o tej nazwie już istnieje`)
-            skipped++
-            continue
-          }
-        }
-
-        console.log(`  ✅ Nowa firma - importuję`)
-
-        // Import CSV tworzy TYLKO karty firm, bez kont użytkowników
-        
-        // Parsuj kraje i usługi
-        const operatingCountries = parseCountries(operatingCountriesStr)
-        const services = parseServices(servicesStr)
-        
-        // Mapuj kraj działalności na kod
-        let carrierCountry = 'PL'
-        if (country) {
-          const countryCode = COUNTRY_MAP[country] || country.toUpperCase()
-          if (['DE', 'NL', 'BE', 'FR', 'AT', 'PL'].includes(countryCode)) {
-            carrierCountry = countryCode
-          }
-        }
-        
-        // Geokoduj adres (z opóźnieniem 300ms żeby nie przekroczyć limitu API)
-        // Nominatim limit: ~1 req/sec, ale dla większych importów stosujemy opóźnienie
-        await new Promise(resolve => setTimeout(resolve, 300))
-        const coordinates = await geocodeAddress(postalCode, city, carrierCountry)
-
-        // Utwórz przewoźnika (bez konta użytkownika)
-        await Carrier.create({
-          userId: null,
-          companyName,
-          companyRegistration: companyRegistration || undefined,
-          country: carrierCountry,
-          description,
-          phone,
-          email: email || undefined,
-          website,
-          services,
-          operatingCountries: operatingCountries.slice(0, 5), // max 5 krajów
-          location: {
-            postalCode,
-            city,
-            coordinates
-          },
-          isPremium: false,
-          isVerified: false,
-          isActive: true
-        })
-
-        imported++
-        console.log(`✅ ${companyName} - zaimportowano ${coordinates ? 'z współrzędnymi' : 'bez współrzędnych'}`)
-
-      } catch (itemError) {
-        console.error(`❌ Błąd dla ${companyName}:`, itemError.message)
-        errors.push(`${companyName}: ${itemError.message}`)
+        await Carrier.insertMany(batch, { ordered: false })
+        imported += batch.length
+        console.log(`  ✅ Batch ${Math.floor(i / BATCH_SIZE) + 1}: wstawiono ${batch.length} firm (razem: ${imported})`)
+      } catch (batchErr) {
+        // ordered: false — wstawia co może, raportuje błędy
+        const inserted = batchErr.result?.nInserted || 0
+        imported += inserted
+        const errCount = batch.length - inserted
+        errors.push(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${errCount} błędów`)
+        console.error(`  ⚠️ Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${inserted} ok, ${errCount} błędów`)
       }
     }
 
     // Usuń tymczasowy plik
     fs.unlinkSync(req.file.path)
 
+    console.log(`\n✅ Import zakończony: ${imported} zaimportowano, ${skipped} pominięto, ${errors.length} błędów`)
+
     res.json({
       success: true,
       imported,
       skipped,
       errors: errors.length,
-      errorDetails: errors.slice(0, 10), // tylko pierwsze 10 błędów
+      errorDetails: errors.slice(0, 10),
       total: results.length
     })
 
   } catch (error) {
-    // Usuń plik w razie błędu
     if (req.file && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path)
     }
