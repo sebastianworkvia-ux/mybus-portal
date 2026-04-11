@@ -180,6 +180,7 @@ export default function RegisterPage() {
           {t('register.haveAccount')} <Link to="/login">{t('register.loginLink')}</Link>
         </p>
       </div>
+      </div>
     </>
   )
 }
