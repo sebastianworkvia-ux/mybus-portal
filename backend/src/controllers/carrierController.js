@@ -52,7 +52,18 @@ export const getCarriers = async (req, res, next) => {
       }
       return getPriority(b) - getPriority(a)
     })
-    
+
+    // Śledź wyświetlenia w wyszukiwarce dla premium/business (fire-and-forget)
+    const paidIds = carriers
+      .filter(c => c.subscriptionPlan === 'premium' || c.subscriptionPlan === 'business')
+      .map(c => c._id)
+    if (paidIds.length > 0) {
+      Carrier.updateMany(
+        { _id: { $in: paidIds } },
+        { $inc: { 'analytics.searchAppearances': 1 } }
+      ).catch(() => {})
+    }
+
     console.log(`✅ Znaleziono ${carriers.length} przewoźników`)
     res.json(carriers)
   } catch (error) {

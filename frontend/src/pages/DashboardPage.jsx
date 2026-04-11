@@ -139,6 +139,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
             ) : (
+              <>
               <div className="carrier-info-card">
                 <h3>🏢 Twoja firma w wyszukiwarce</h3>
                 <div className="carrier-details">
@@ -252,6 +253,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
               )}
+              </>
             )}
           </div>
         )}
