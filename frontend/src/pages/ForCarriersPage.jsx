@@ -12,11 +12,11 @@ export default function ForCarriersPage() {
               <h1>🚀 Zwiększ Bazę Klientów o 300% - Bezpłatna Rejestracja!</h1>
               <p className="hero-subtitle">
                 My-Bus.eu – Większa Widoczność, Więcej Zapytań, Większe Zyski. 
-                Dołącz do 190+ przewoźników obsługujących Polskę, Niemcy, Hollandię, Belgię.
+                Dołącz do 1000+ przewoźników obsługujących Polskę, Niemcy, Hollandię, Belgię.
               </p>
               <div className="hero-stats">
                 <div className="stat-item">
-                  <span className="stat-number">190+</span>
+                  <span className="stat-number">1000+</span>
                   <span className="stat-label">Przewoźników</span>
                 </div>
                 <div className="stat-item">
