@@ -151,9 +151,22 @@ const carrierSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: true,
-      sparse: true, // Pozwala na null, ale unikalne gdy istnieje
+      sparse: true,
       lowercase: true,
       trim: true
+    },
+    // Analityka (tylko Premium i Business)
+    analytics: {
+      profileViews: { type: Number, default: 0 },        // Łączna liczba wejść na profil
+      searchAppearances: { type: Number, default: 0 },   // Wyświetlenia w wynikach wyszukiwania
+      contactClicks: { type: Number, default: 0 },       // Kliknięcia w telefon/kontakt
+      // Widoki dzienne - ostatnie 30 dni (Business: wykres trendu)
+      dailyViews: [
+        {
+          date: { type: String }, // 'YYYY-MM-DD'
+          count: { type: Number, default: 0 }
+        }
+      ]
     }
   },
   { timestamps: true }

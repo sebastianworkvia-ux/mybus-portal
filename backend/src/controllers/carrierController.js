@@ -67,12 +67,10 @@ export const getCarrierById = async (req, res, next) => {
     // Try to find by slug first, then by ID (backward compatibility)
     let carrier
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
-      // It's a MongoDB ObjectId
       carrier = await Carrier.findById(id)
         .populate('userId', 'email firstName lastName')
         .select('-__v')
     } else {
-      // It's a slug
       carrier = await Carrier.findOne({ slug: id })
         .populate('userId', 'email firstName lastName')
         .select('-__v')
@@ -81,6 +79,28 @@ export const getCarrierById = async (req, res, next) => {
     if (!carrier) {
       return res.status(404).json({ error: 'Carrier not found' })
     }
+
+    // Śledź wejścia na profil (tylko premium/business, nie właściciel)
+    const isPaidPlan = carrier.subscriptionPlan === 'premium' || carrier.subscriptionPlan === 'business'
+    const isOwner = req.user && carrier.userId && String(carrier.userId._id || carrier.userId) === String(req.user.id)
+    if (isPaidPlan && !isOwner) {
+      const today = new Date().toISOString().slice(0, 10) // 'YYYY-MM-DD'
+      const existingDay = carrier.analytics?.dailyViews?.find(d => d.date === today)
+      if (existingDay) {
+        existingDay.count++
+      } else {
+        if (!carrier.analytics) carrier.analytics = {}
+        if (!carrier.analytics.dailyViews) carrier.analytics.dailyViews = []
+        // Zachowaj tylko ostatnie 30 dni
+        if (carrier.analytics.dailyViews.length >= 30) {
+          carrier.analytics.dailyViews.shift()
+        }
+        carrier.analytics.dailyViews.push({ date: today, count: 1 })
+      }
+      carrier.analytics.profileViews = (carrier.analytics.profileViews || 0) + 1
+      await carrier.save()
+    }
+
     res.json(carrier)
   } catch (error) {
     next(error)
@@ -454,6 +474,99 @@ export const getCarriersByRoute = async (req, res, next) => {
       carriers: carriers,
       count: carriers.length
     })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// GET /api/carriers/analytics — analityka dla zalogowanego przewoźnika (premium/business)
+export const getCarrierAnalytics = async (req, res, next) => {
+  try {
+    const carrier = await Carrier.findOne({ userId: req.user.id })
+      .select('companyName subscriptionPlan analytics')
+      .lean()
+
+    if (!carrier) {
+      return res.status(404).json({ error: 'Nie znaleziono profilu firmy' })
+    }
+
+    const plan = carrier.subscriptionPlan
+    if (plan !== 'premium' && plan !== 'business') {
+      return res.status(403).json({ error: 'Analityka dostępna tylko dla planów Premium i Business' })
+    }
+
+    const a = carrier.analytics || {}
+
+    // Ostatnie 30 dni dailyViews
+    const dailyViews = a.dailyViews || []
+
+    // Ostatnie 7 dni (Business: wykres trendu)
+    const today = new Date()
+    const last7 = []
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today)
+      d.setDate(d.getDate() - i)
+      const dateStr = d.toISOString().slice(0, 10)
+      const found = dailyViews.find(x => x.date === dateStr)
+      last7.push({ date: dateStr, count: found?.count || 0 })
+    }
+
+    // Ten miesiąc vs poprzedni (Business)
+    const thisMonthStr = today.toISOString().slice(0, 7) // 'YYYY-MM'
+    const prevMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1)
+    const prevMonthStr = prevMonth.toISOString().slice(0, 7)
+    const thisMonthViews = dailyViews.filter(d => d.date.startsWith(thisMonthStr)).reduce((s, d) => s + d.count, 0)
+    const prevMonthViews = dailyViews.filter(d => d.date.startsWith(prevMonthStr)).reduce((s, d) => s + d.count, 0)
+
+    const response = {
+      plan,
+      stats: {
+        profileViews: a.profileViews || 0,
+        searchAppearances: a.searchAppearances || 0,
+        contactClicks: a.contactClicks || 0,
+        thisMonthViews,
+      }
+    }
+
+    // Business: dodaj wykres i porównanie miesięczne
+    if (plan === 'business') {
+      response.chart = last7
+      response.stats.prevMonthViews = prevMonthViews
+      response.stats.monthlyChange = prevMonthViews > 0
+        ? Math.round(((thisMonthViews - prevMonthViews) / prevMonthViews) * 100)
+        : null
+    }
+
+    res.json(response)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// POST /api/carriers/:id/click — śledź kliknięcie w kontakt (telefon/email)
+export const trackContactClick = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    let carrier
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      carrier = await Carrier.findById(id).select('subscriptionPlan analytics userId')
+    } else {
+      carrier = await Carrier.findOne({ slug: id }).select('subscriptionPlan analytics userId')
+    }
+
+    if (!carrier) return res.status(404).json({ error: 'Nie znaleziono' })
+
+    const isPaidPlan = carrier.subscriptionPlan === 'premium' || carrier.subscriptionPlan === 'business'
+    const isOwner = req.user && String(carrier.userId) === String(req.user.id)
+
+    if (isPaidPlan && !isOwner) {
+      await Carrier.updateOne(
+        { _id: carrier._id },
+        { $inc: { 'analytics.contactClicks': 1 } }
+      )
+    }
+
+    res.json({ ok: true })
   } catch (error) {
     next(error)
   }

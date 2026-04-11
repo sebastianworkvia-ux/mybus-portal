@@ -10,6 +10,7 @@ export default function DashboardPage() {
   const [hasCarrier, setHasCarrier] = useState(false)
   const [carrier, setCarrier] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [analytics, setAnalytics] = useState(null)
 
   useEffect(() => {
     if (!user) {
@@ -23,6 +24,15 @@ export default function DashboardPage() {
         const response = await carrierService.getMyCarrier()
         setHasCarrier(true)
         setCarrier(response.data)
+
+        // Załaduj analitykę dla premium/business
+        const plan = response.data?.subscriptionPlan
+        if (plan === 'premium' || plan === 'business') {
+          try {
+            const analyticsRes = await carrierService.getAnalytics()
+            setAnalytics(analyticsRes.data)
+          } catch (e) { /* brak planu lub błąd — ignoruj */ }
+        }
       } catch (error) {
         if (error.response?.status === 404) {
           // Użytkownik nie ma jeszcze firmy
@@ -147,6 +157,101 @@ export default function DashboardPage() {
                   </Link>
                 </div>
               </div>
+
+              {/* ANALITYKA — Premium i Business */}
+              {analytics && (
+                <div className="analytics-section">
+                  <div className="analytics-header">
+                    <h3>
+                      {analytics.plan === 'business' ? '💎' : '⭐'} Analityka profilu
+                    </h3>
+                    <span className="analytics-plan-badge analytics-plan-badge--{analytics.plan}">
+                      {analytics.plan === 'business' ? 'BUSINESS' : 'PREMIUM'}
+                    </span>
+                  </div>
+
+                  {/* Kafelki statystyk */}
+                  <div className="analytics-stats">
+                    <div className="analytics-stat">
+                      <div className="analytics-stat-icon">👁️</div>
+                      <div className="analytics-stat-value">{analytics.stats.profileViews.toLocaleString()}</div>
+                      <div className="analytics-stat-label">Wejść na profil</div>
+                    </div>
+                    <div className="analytics-stat">
+                      <div className="analytics-stat-icon">🔍</div>
+                      <div className="analytics-stat-value">{analytics.stats.searchAppearances.toLocaleString()}</div>
+                      <div className="analytics-stat-label">Wyświetleń w wyszukiwarce</div>
+                    </div>
+                    <div className="analytics-stat">
+                      <div className="analytics-stat-icon">📞</div>
+                      <div className="analytics-stat-value">{analytics.stats.contactClicks.toLocaleString()}</div>
+                      <div className="analytics-stat-label">Kliknięć w kontakt</div>
+                    </div>
+                    <div className="analytics-stat">
+                      <div className="analytics-stat-icon">📅</div>
+                      <div className="analytics-stat-value">{analytics.stats.thisMonthViews.toLocaleString()}</div>
+                      <div className="analytics-stat-label">Wejść w tym miesiącu</div>
+                    </div>
+                  </div>
+
+                  {/* Business: wykres + porównanie miesięczne */}
+                  {analytics.plan === 'business' && analytics.chart && (
+                    <div className="analytics-business">
+                      <div className="analytics-trend">
+                        <h4>Trend — ostatnie 7 dni</h4>
+                        <div className="analytics-chart">
+                          {analytics.chart.map((day, i) => {
+                            const max = Math.max(...analytics.chart.map(d => d.count), 1)
+                            const height = Math.max((day.count / max) * 100, 4)
+                            const label = new Date(day.date).toLocaleDateString('pl-PL', { weekday: 'short' })
+                            return (
+                              <div key={i} className="chart-bar-wrap">
+                                <div className="chart-bar-value">{day.count > 0 ? day.count : ''}</div>
+                                <div className="chart-bar" style={{ height: `${height}%` }} />
+                                <div className="chart-bar-label">{label}</div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="analytics-monthly">
+                        <h4>Porównanie miesięczne</h4>
+                        <div className="monthly-comparison">
+                          <div className="month-stat">
+                            <span className="month-label">Ten miesiąc</span>
+                            <span className="month-value">{analytics.stats.thisMonthViews}</span>
+                          </div>
+                          <div className="month-arrow">
+                            {analytics.stats.monthlyChange !== null
+                              ? (analytics.stats.monthlyChange >= 0
+                                  ? <span className="trend-up">▲ {analytics.stats.monthlyChange}%</span>
+                                  : <span className="trend-down">▼ {Math.abs(analytics.stats.monthlyChange)}%</span>)
+                              : <span className="trend-neutral">— brak danych</span>
+                            }
+                          </div>
+                          <div className="month-stat">
+                            <span className="month-label">Poprzedni miesiąc</span>
+                            <span className="month-value">{analytics.stats.prevMonthViews}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Zachęta do premium dla free */}
+              {!analytics && carrier && (carrier.subscriptionPlan === 'free' || !carrier.subscriptionPlan) && (
+                <div className="analytics-locked">
+                  <div className="analytics-locked-icon">📊</div>
+                  <div>
+                    <h4>Odblokuj analitykę profilu</h4>
+                    <p>Sprawdź ile osób odwiedza Twój profil, ile razy pojawia się w wynikach i ile razy klienci klikają w Twój numer. Dostępne w planach Premium i Business.</p>
+                    <Link to="/pricing" className="btn-upgrade-small">⭐ Zobacz plany</Link>
+                  </div>
+                </div>
+              )}
             )}
           </div>
         )}

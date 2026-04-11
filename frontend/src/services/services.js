@@ -15,7 +15,9 @@ export const carrierService = {
     return apiClient.get('/carriers', { params: cleanedParams })
   },
   getCarrierById: (id) => apiClient.get(`/carriers/${id}`),
-  getMyCarrier: () => apiClient.get('/carriers/me'), // Pobierz firmę zalogowanego użytkownika
+  getMyCarrier: () => apiClient.get('/carriers/me'),
+  getAnalytics: () => apiClient.get('/carriers/analytics'),
+  trackContactClick: (id) => apiClient.post(`/carriers/${id}/click`).catch(() => {}), // silent
   createCarrier: (data) => apiClient.post('/carriers', data),
   updateCarrier: (data) => apiClient.put('/carriers', data),
   deleteCarrier: () => apiClient.delete('/carriers')
