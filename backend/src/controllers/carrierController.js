@@ -163,8 +163,13 @@ export const createCarrier = async (req, res, next) => {
         carrier.subscriptionPlan = user.subscriptionPlan
         carrier.isPremium = ['premium', 'business'].includes(user.subscriptionPlan)
         carrier.subscriptionExpiry = user.subscriptionExpiry
-        console.log(`✅ Przypisano plan ${user.subscriptionPlan} do nowej firmy ${companyName}`)
+        console.log(`✅ Przypisano plan ${user.subscriptionPlan} do nowej firmy ${req.body.companyName}`)
       }
+    } else if (user.isPremium) {
+      // Fallback: użytkownik ma isPremium=true ale brak subscriptionPlan (np. ustawiony ręcznie przez admina)
+      carrier.subscriptionPlan = 'premium'
+      carrier.isPremium = true
+      console.log(`✅ Przypisano plan premium (isPremium fallback) do nowej firmy ${req.body.companyName}`)
     }
 
     await carrier.save()

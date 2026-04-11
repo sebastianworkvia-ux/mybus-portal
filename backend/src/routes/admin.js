@@ -227,10 +227,20 @@ router.post('/set-premium/:email', adminMiddleware, async (req, res) => {
   try {
     const { email } = req.params
     
+    const { plan = 'premium' } = req.body
+    const validPlans = ['premium', 'business']
+    if (!validPlans.includes(plan)) {
+      return res.status(400).json({ error: 'Invalid plan. Use: premium or business' })
+    }
+
+    // Subskrypcja na 1 rok od dziś
+    const expiry = new Date()
+    expiry.setFullYear(expiry.getFullYear() + 1)
+
     // Update User
     const user = await User.findOneAndUpdate(
       { email: email.toLowerCase() },
-      { isPremium: true },
+      { isPremium: true, subscriptionPlan: plan, subscriptionExpiry: expiry },
       { new: true }
     )
     
@@ -241,19 +251,22 @@ router.post('/set-premium/:email', adminMiddleware, async (req, res) => {
     // Update Carrier if exists
     const carrier = await Carrier.findOneAndUpdate(
       { userId: user._id },
-      { isPremium: true },
+      { isPremium: true, subscriptionPlan: plan, subscriptionExpiry: expiry },
       { new: true }
     )
     
     res.json({ 
-      message: 'User upgraded to Premium',
+      message: `User upgraded to ${plan}`,
       user: {
         email: user.email,
-        isPremium: user.isPremium
+        isPremium: user.isPremium,
+        subscriptionPlan: user.subscriptionPlan,
+        subscriptionExpiry: user.subscriptionExpiry
       },
       carrier: carrier ? {
         companyName: carrier.companyName,
-        isPremium: carrier.isPremium
+        isPremium: carrier.isPremium,
+        subscriptionPlan: carrier.subscriptionPlan
       } : null
     })
   } catch (error) {
