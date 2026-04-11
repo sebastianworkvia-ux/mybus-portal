@@ -125,6 +125,12 @@ a:hover {
   padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
 /* === Global Utility Animations === */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
