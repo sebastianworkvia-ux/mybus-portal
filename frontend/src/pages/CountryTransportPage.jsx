@@ -67,7 +67,7 @@ export default function CountryTransportPage() {
         setError(null)
         
         // Fetch carriers for this destination country
-        const response = await apiClient.get(`/api/carriers/by-destination/${country}`)
+        const response = await apiClient.get(`/carriers/by-destination/${country}`)
         
         setCarriers(response.data.carriers || [])
       } catch (err) {

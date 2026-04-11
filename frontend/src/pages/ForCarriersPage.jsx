@@ -1,9 +1,20 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import './ForCarriersPage.css'
 
 export default function ForCarriersPage() {
   return (
-    <div className="for-carriers-page">
+    <>
+      <Helmet>
+        <title>Dla Przewoźników - Dołącz do My-Bus.eu | Zwiększ bazę klientów</title>
+        <meta name="description" content="Zarejestruj firmę transportową w My-Bus.eu. 1000+ przewoźników, 15 000 odwiedzin miesięcznie. Darmowe konto, plan Premium od 29,99 €/mies. Niemcy, Holandia, Belgia, Francja, Austria, Polska." />
+        <meta property="og:title" content="Dla Przewoźników - Dołącz do My-Bus.eu" />
+        <meta property="og:description" content="Dotrzyjmy do tysięcy Polaków za granicą. Bezpłatna rejestracja, zarządzanie profilem online, system opinii i analityka." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://my-bus.eu/for-carriers" />
+        <link rel="canonical" href="https://my-bus.eu/for-carriers" />
+      </Helmet>
+      <div className="for-carriers-page">
       {/* Hero Section */}
       <section className="carriers-hero">
         <div className="container">
@@ -329,5 +340,6 @@ export default function ForCarriersPage() {
         </div>
       </section>
     </div>
+    </>
   )
 }

@@ -91,7 +91,7 @@ export default function HomePage() {
             <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
             <p className="hero-panel-description">{t('hero.customers.description', 'Zweryfikowane firmy | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
             <div className="hero-panel-stats">
-              <div className="stat"><strong>✅ {carriers.length || '190'}+</strong><br/>Przewoźników</div>
+              <div className="stat"><strong>✅ {carriers.length || '1000'}+</strong><br/>Przewoźników</div>
               <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
               <div className="stat"><strong>🚌 Cała Europa</strong><br/>Zasięg</div>
             </div>

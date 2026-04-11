@@ -159,10 +159,16 @@ export default function CarrierDetailPage() {
   }
 
   // SEO meta tags
-  const pageTitle = `${carrier.companyName} - ${carrier.country} | My-Bus.eu`
-  const metaDescription = carrier.description 
-    ? `${carrier.description} | Przewoźnik ${carrier.companyName} - kontakt, opinie, usługi transportowe.`
-    : `${carrier.companyName} - przewoźnik z ${carrier.country}. Transport osób i paczek. Sprawdzone opinie klientów.`
+  const cityPart = carrier.location?.city && carrier.location.city !== 'Polska' ? `, ${carrier.location.city}` : ''
+  const countryNames = { DE: 'Niemcy', NL: 'Holandia', BE: 'Belgia', FR: 'Francja', AT: 'Austria', PL: 'Polska', GB: 'Wielka Brytania' }
+  const countryLabel = countryNames[carrier.country] || carrier.country
+  const serviceLabels = { transport: 'transport busem', przeprowadzki: 'przeprowadzki', laweta: 'laweta', 'transfery-lotniskowe': 'transfery lotniskowe', paczki: 'paczki', autokary: 'autokary' }
+  const servicesStr = carrier.services?.map(s => serviceLabels[s] || s).join(', ')
+
+  const pageTitle = `${carrier.companyName}${cityPart} - Przewoźnik ${countryLabel} | My-Bus.eu`
+  const metaDescription = carrier.description
+    ? `${carrier.description.slice(0, 120)} ✅ Kontakt, opinie, usługi: ${servicesStr || 'transport'}.`
+    : `${carrier.companyName}${cityPart} — przewoźnik w ${countryLabel}. Usługi: ${servicesStr || 'transport osób i paczek'}. Zweryfikowane opinie klientów.`
 
   return (
     <>
@@ -171,9 +177,9 @@ export default function CarrierDetailPage() {
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="business.business" />
         <meta property="og:url" content={`https://my-bus.eu/carrier/${carrier._id}`} />
-        {carrier.logo && <meta property="og:image" content={carrier.logo} />}
+        <meta property="og:image" content={carrier.logo || 'https://my-bus.eu/przewoznicy.png'} />
         <link rel="canonical" href={`https://my-bus.eu/carrier/${carrier._id}`} />
         
         {/* Schema.org structured data */}

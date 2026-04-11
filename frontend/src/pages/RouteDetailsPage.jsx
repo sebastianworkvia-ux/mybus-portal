@@ -22,7 +22,7 @@ export default function RouteDetailsPage() {
         setLoading(true)
         setError(null)
         
-        const response = await apiClient.get(`/api/carriers/route/${fromCity}/${toCity}`)
+        const response = await apiClient.get(`/carriers/route/${fromCity}/${toCity}`)
         
         setRouteData(response.data.route)
         setCarriers(response.data.carriers || [])

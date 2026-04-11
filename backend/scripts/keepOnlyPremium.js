@@ -4,50 +4,52 @@ import Carrier from '../src/models/Carrier.js'
 
 dotenv.config()
 
+const isDryRun = !process.argv.includes('--apply')
+
 async function keepOnlyPremium() {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI)
-    console.log('✅ Połączono z MongoDB')
+  await mongoose.connect(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 60000
+  })
+  console.log('✅ Połączono z MongoDB\n')
 
-    // Znajdź wszystkie firmy NIE-premium
-    const carriersToDelete = await Carrier.find({
-      isPremium: { $ne: true }
-    }).select('companyName createdAt')
+  const allCarriers = await Carrier.find({}).select('companyName subscriptionPlan isPremium').lean()
 
-    console.log(`🔍 Znaleziono ${carriersToDelete.length} zwykłych firm do usunięcia:\n`)
-    carriersToDelete.forEach((c, i) => {
-      console.log(`  ${i+1}. ${c.companyName} (${c.createdAt.toISOString()})`)
-    })
+  const toKeep = allCarriers.filter(c =>
+    c.subscriptionPlan === 'premium' || c.subscriptionPlan === 'business'
+  )
+  const toDelete = allCarriers.filter(c =>
+    c.subscriptionPlan !== 'premium' && c.subscriptionPlan !== 'business'
+  )
 
-    if (carriersToDelete.length === 0) {
-      console.log('✅ Brak firm do usunięcia')
-      await mongoose.connection.close()
-      return
-    }
+  console.log('✅ FIRMY KTÓRE ZOSTANĄ (premium/business):')
+  console.log('─────────────────────────────────────────────')
+  toKeep.forEach((c, i) => {
+    console.log(`  ${i + 1}. [${c.subscriptionPlan?.toUpperCase() || 'PREMIUM'}] ${c.companyName}`)
+  })
 
-    // Usuń wszystkie zwykłe firmy
-    const result = await Carrier.deleteMany({
-      isPremium: { $ne: true }
-    })
+  console.log(`\n🗑️  DO USUNIĘCIA: ${toDelete.length} firm (free/brak planu)`)
+  console.log(`\n📊 RAZEM: ${allCarriers.length} → zostanie: ${toKeep.length}`)
 
-    console.log(`\n✅ Usunięto ${result.deletedCount} zwykłych firm`)
-    console.log('✅ Konta użytkowników pozostały bez zmian')
-
-    // Sprawdź co pozostało
-    const remaining = await Carrier.find({ isPremium: true })
-      .select('companyName createdAt')
-    
-    console.log(`\n⭐ Pozostało ${remaining.length} firm premium:`)
-    remaining.forEach((c, i) => {
-      console.log(`  ${i+1}. ${c.companyName}`)
-    })
-
+  if (isDryRun) {
+    console.log('\n👆 DRY-RUN — żadnych zmian. Uruchom z --apply żeby usunąć.\n')
     await mongoose.connection.close()
-    console.log('\n✅ Rozłączono z MongoDB')
-  } catch (error) {
-    console.error('❌ Błąd:', error)
-    process.exit(1)
+    return
   }
+
+  console.log('\n🗑️  Usuwam...')
+  const result = await Carrier.deleteMany({
+    subscriptionPlan: { $nin: ['premium', 'business'] }
+  })
+
+  console.log(`✅ Usunięto: ${result.deletedCount} firm`)
+  console.log(`✅ Zostało w bazie: ${toKeep.length} firm\n`)
+
+  await mongoose.connection.close()
 }
 
-keepOnlyPremium()
+keepOnlyPremium().catch(async err => {
+  console.error('❌ Błąd:', err.message)
+  await mongoose.connection.close()
+  process.exit(1)
+})

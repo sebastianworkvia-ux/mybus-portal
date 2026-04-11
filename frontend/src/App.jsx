@@ -9,8 +9,6 @@ import { trackPageView } from './utils/analytics'
 import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
 import CityPage from './pages/CityPage'
-import CountryTransportPage from './pages/CountryTransportPage'
-import RouteDetailsPage from './pages/RouteDetailsPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -33,6 +31,8 @@ import MapPage from './pages/MapPage'
 import PricingPage from './pages/PricingPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import MessagesPage from './pages/MessagesPage'
+import CountryTransportPage from './pages/CountryTransportPage'
+import RouteDetailsPage from './pages/RouteDetailsPage'
 import ChatWidget from './components/ChatWidget'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
@@ -67,8 +67,8 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/city/:cityName" element={<CityPage />} />
-            <Route path="/transport-to/:country" element={<CountryTransportPage />} />
-            <Route path="/bus/:fromCity/:toCity" element={<RouteDetailsPage />} />
+            <Route path="/transport/:country" element={<CountryTransportPage />} />
+            <Route path="/route/:fromCity/:toCity" element={<RouteDetailsPage />} />
             <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/add-carrier" element={<AddCarrierPage />} />

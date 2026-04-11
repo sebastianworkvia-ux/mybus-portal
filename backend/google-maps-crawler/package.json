@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node index.cjs",
     "crawl": "node index.cjs",
+    "crawler": "node gmaps-crawler.js",
     "import": "node import-to-mongodb.js"
   },
   "keywords": [
@@ -24,7 +25,9 @@
     "csv-writer": "^1.6.0",
     "dotenv": "^16.6.1",
     "mongoose": "^8.23.0",
-    "puppeteer": "^21.9.0"
+    "puppeteer": "^21.9.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "engines": {
     "node": ">=16.0.0"

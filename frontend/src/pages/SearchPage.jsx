@@ -72,7 +72,7 @@ export default function SearchPage() {
         <meta property="og:title" content={seoData.title} />
         <meta property="og:description" content={seoData.description} />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href={`https://my-bus.eu/search${filters.country ? `?country=${filters.country}` : ''}`} />
+        <link rel="canonical" href={`https://my-bus.eu/search${filters.country || filters.service ? `?${[filters.country ? `country=${filters.country}` : '', filters.service ? `service=${filters.service}` : ''].filter(Boolean).join('&')}` : ''}`} />
       </Helmet>
       
       <div className="search-page">

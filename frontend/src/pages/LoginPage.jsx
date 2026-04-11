@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import { useAuthStore } from '../stores/authStore'
 import './AuthPages.css'
 
@@ -31,7 +32,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-page">
+    <>
+      <Helmet>
+        <title>Logowanie | My-Bus.eu</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="auth-page">
       <div className="auth-container">
         <h1>{t('login.title')}</h1>
 
@@ -76,5 +82,6 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+    </>
   )
 }

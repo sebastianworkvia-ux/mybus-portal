@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { paymentService } from '../services/services'
 import { useAuthStore } from '../stores/authStore'
 import './PricingPage.css'
@@ -92,7 +93,17 @@ function PricingPage() {
   }
 
   return (
-    <div className="pricing-page">
+    <>
+      <Helmet>
+        <title>Cennik - Plany Premium i Business | My-Bus.eu</title>
+        <meta name="description" content="Wybierz plan abonamentowy dla swojej firmy transportowej. ProBus (Premium) od 29,99 €/mies — wyższe pozycje, badge, statystyki. BizBus (Business) od 49,99 €/mies — najwyższa pozycja + social media." />
+        <meta property="og:title" content="Cennik planów dla przewoźników | My-Bus.eu" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://my-bus.eu/pricing" />
+        <link rel="canonical" href="https://my-bus.eu/pricing" />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
+      <div className="pricing-page">
       <div className="container">
         <div className="pricing-header">
           <h1>Wybierz swój plan abonamentowy</h1>
@@ -191,6 +202,7 @@ function PricingPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

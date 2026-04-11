@@ -82,7 +82,7 @@ export default function CityPage() {
           "@type": "Country",
           "name": c
         })),
-        "url": `${window.location.origin}/carriers/${carrier._id}`
+        "url": `${window.location.origin}/carrier/${carrier._id}`
       }
     }))
   }
