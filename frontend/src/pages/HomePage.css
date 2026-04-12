@@ -611,6 +611,49 @@ body, p {
   margin: 5rem 0;
 }
 
+/* Business featured section */
+.business-featured-section {
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #faf8ff 0%, #f3f0ff 100%);
+  border: 1.5px solid #ddd6fe;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.business-featured-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.business-featured-badge {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.business-featured-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #3b0764;
+}
+
+.business-featured-header p {
+  margin: 0;
+  font-size: 0.825rem;
+  color: #6d28d9;
+  opacity: 0.8;
+  flex-basis: 100%;
+}
+
 .featured-carriers-header {
   display: flex;
   align-items: flex-end;

@@ -52,12 +52,18 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Losuj przewoźników do wyświetlenia: wszystkie premium/business + losowe free do 6 (zmienione z 8)
+  // Wyodrębnij firmy Business (wyróżnione) i pozostałe (premium + free)
+  const businessCarriers = useMemo(() => {
+    if (!carriers || carriers.length === 0) return []
+    return carriers.filter(c => c.subscriptionPlan === 'business')
+  }, [carriers])
+
+  // Losuj przewoźników do wyświetlenia: wszystkie premium + losowe free do 6
   const featuredCarriers = useMemo(() => {
     if (!carriers || carriers.length === 0) return []
     
-    // Rozdziel na premium/business i free
-    const premiumCarriers = carriers.filter(c => c.subscriptionPlan === 'business' || c.subscriptionPlan === 'premium')
+    // Rozdziel na premium (bez business) i free
+    const premiumCarriers = carriers.filter(c => c.subscriptionPlan === 'premium')
     const freeCarriers = carriers.filter(c => c.subscriptionPlan === 'free' || !c.subscriptionPlan)
     
     // Shuffle free carriers (Fisher-Yates shuffle)
@@ -67,7 +73,7 @@ export default function HomePage() {
       [shuffledFree[i], shuffledFree[j]] = [shuffledFree[j], shuffledFree[i]]
     }
     
-    // Połącz: wszystkie premium + losowe free (do 6 total - było 8)
+    // Połącz: wszystkie premium + losowe free (do 6 total)
     const featured = [...premiumCarriers]
     const remainingSlots = 6 - featured.length
     if (remainingSlots > 0) {
@@ -247,6 +253,22 @@ export default function HomePage() {
         </section>
 
         <section className="featured-carriers scroll-fade-in">
+          {/* Sekcja wyróżnionych firm Business */}
+          {!loading && !error && businessCarriers.length > 0 && (
+            <div className="business-featured-section">
+              <div className="business-featured-header">
+                <span className="business-featured-badge">💎 BUSINESS</span>
+                <h3>Wyróżnieni Przewoźnicy</h3>
+                <p>Firmy z planem Business — najwyższa jakość usług</p>
+              </div>
+              <div className="carriers-list">
+                {businessCarriers.map((carrier) => (
+                  <CarrierCard key={carrier._id} carrier={carrier} compact />
+                ))}
+              </div>
+            </div>
+          )}
+
           <h2>{t('featuredCarriers.title')}</h2>
           <p className="section-subtitle">{t('featuredCarriers.subtitle', 'Polecani przewoźnicy z całej Europy')}</p>
           

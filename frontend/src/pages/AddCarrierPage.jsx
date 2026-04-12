@@ -154,6 +154,11 @@ export default function AddCarrierPage() {
   const handleLogoChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Logo nie może przekraczać 2MB')
+        e.target.value = ''
+        return
+      }
       setLogoFile(file)
       const reader = new FileReader()
       reader.onloadend = () => {
@@ -232,10 +237,10 @@ export default function AddCarrierPage() {
           maxWeight: formData.luggageMaxWeight,
           additionalInfo: formData.luggageAdditionalInfo
         },
-        location: locationData
+        location: locationData,
+        ...(logoPreview ? { logo: logoPreview } : {})
       }
 
-      // TODO: Dodać upload logo przez FormData gdy backend będzie obsługiwał
       await carrierService.createCarrier(carrierData)
       
       alert('Zgłoszenie wysłane! Twoja firma zostanie dodana do listy po weryfikacji przez administratora.')
