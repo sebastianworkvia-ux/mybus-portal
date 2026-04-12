@@ -138,6 +138,10 @@ const carrierSchema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
+    isDemo: {
+      type: Boolean,
+      default: false
+    }, // Firma przykładowa (do celów demonstracyjnych)
     // Lokalizacja - tylko kod pocztowy i miasto
     location: {
       postalCode: String, // Kod pocztowy (np. "10115", "1012 AB")
