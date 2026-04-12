@@ -40,6 +40,15 @@ const paymentSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  billingPeriod: {
+    type: String,
+    enum: ['monthly', 'yearly'],
+    default: 'monthly'
+  },
+  duration: {
+    type: Number,
+    default: 30  // actual subscription days (30 or 365)
+  },
   metadata: {
     type: Object,
     default: {}

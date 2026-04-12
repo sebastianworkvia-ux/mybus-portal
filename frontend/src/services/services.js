@@ -34,7 +34,9 @@ export const paymentService = {
   createPayment: (data) => apiClient.post('/payments/create', data),
   getPaymentStatus: (paymentId) => apiClient.get(`/payments/${paymentId}/status`),
   getPaymentHistory: () => apiClient.get('/payments/history'),
-  cancelPayment: (paymentId) => apiClient.delete(`/payments/${paymentId}/cancel`)
+  cancelPayment: (paymentId) => apiClient.delete(`/payments/${paymentId}/cancel`),
+  // Fallback activation: only succeeds if there is an actual paid payment in DB
+  activatePremium: () => apiClient.post('/payments/activate-premium')
 }
 
 export const messageService = {

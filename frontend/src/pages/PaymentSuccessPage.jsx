@@ -26,42 +26,25 @@ function PaymentSuccessPage() {
         const paymentData = response.data
         setPayment(paymentData)
         
-        // Jeśli płatność została opłacona, AUTOMATYCZNIE aktywuj Premium
+        // Jeśli płatność została opłacona, aktywuj Premium jako fallback (gdy webhook nie dotrze)
         if (paymentData.status === 'paid' && !sessionStorage.getItem('premiumActivated')) {
           try {
-            console.log('💰 Płatność opłacona - aktywuję Premium automatycznie...')
-            
-            // Wywołaj endpoint activate-premium (backup gdy webhook nie działa)
-            const token = localStorage.getItem('token')
-            const activateResponse = await fetch('https://mybus-backend-aygc.onrender.com/payments/activate-premium', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ 
-                planType: paymentData.planType,
-                duration: 30 
-              })
-            })
-            
-            if (activateResponse.ok) {
-              const activateData = await activateResponse.json()
-              console.log(`✅ Premium aktywowane! Zaktualizowano ${activateData.carriersUpdated} firm(y)`)
-              
-              // Pobierz świeże dane użytkownika
-              const profileResponse = await authService.getProfile()
-              localStorage.setItem('user', JSON.stringify(profileResponse.data))
-              sessionStorage.setItem('premiumActivated', 'true')
-              
-              // RELOAD strony po 1 sekundzie żeby dashboard odświeżył dane
-              console.log('🔄 Odświeżam stronę za 1s żeby zaktualizować dane...')
-              setTimeout(() => {
-                window.location.reload()
-              }, 1000)
-            }
+            console.log('💰 Płatność opłacona - aktywuję Premium (fallback)...')
+            const activateData = await paymentService.activatePremium()
+            console.log(`✅ Premium aktywowane! Zaktualizowano ${activateData.data.carriersUpdated} firm(y)`)
+
+            // Pobierz świeże dane użytkownika
+            const profileResponse = await authService.getProfile()
+            localStorage.setItem('user', JSON.stringify(profileResponse.data))
+            sessionStorage.setItem('premiumActivated', 'true')
+
+            setTimeout(() => { window.location.reload() }, 1000)
           } catch (err) {
-            console.error('⚠️ Błąd automatycznej aktywacji:', err)
+            // 403 = brak paid payment lub już aktywowane przez webhook — OK
+            if (err.response?.status !== 403) {
+              console.error('⚠️ Błąd aktywacji fallback:', err)
+            }
+            sessionStorage.setItem('premiumActivated', 'true')
           }
         }
         

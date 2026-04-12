@@ -1,5 +1,6 @@
 import User from '../models/User.js'
 import jwt from 'jsonwebtoken'
+import { checkAndDowngradeIfExpired } from './paymentController.js'
 
 export const register = async (req, res, next) => {
   try {
@@ -98,6 +99,8 @@ export const login = async (req, res, next) => {
         firstName: user.firstName,
         userType: user.userType,
         isPremium: user.isPremium || false,
+        subscriptionPlan: user.subscriptionPlan || null,
+        subscriptionExpiry: user.subscriptionExpiry || null,
         isAdmin: user.isAdmin || false
       }
     })
@@ -108,7 +111,12 @@ export const login = async (req, res, next) => {
 
 export const getProfile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user.id).select('-password -resetPasswordToken -resetPasswordExpires')
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    // Auto-downgrade if subscription has expired
+    await checkAndDowngradeIfExpired(user)
+
     res.json(user)
   } catch (error) {
     next(error)

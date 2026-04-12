@@ -242,7 +242,9 @@ export default function AddCarrierPage() {
       navigate('/dashboard')
     } catch (err) {
       // Obsługa błędów walidacji z backendu
-      if (err.response?.data?.message) {
+      if (err.response?.data?.error === 'LIMIT_REACHED') {
+        setError(`⭐ ${err.response.data.message} Przejdź do /pricing, aby ulepszyć plan.`)
+      } else if (err.response?.data?.message) {
         setError(err.response.data.message)
       } else {
         setError(err.response?.data?.error || 'Błąd podczas dodawania firmy')

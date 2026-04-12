@@ -3,6 +3,30 @@ import Payment from '../models/Payment.js'
 import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
 
+/**
+ * Utility: check and downgrade expired subscriptions.
+ * Call this on any request where premium status matters.
+ * Returns true if user was downgraded.
+ */
+export const checkAndDowngradeIfExpired = async (user) => {
+  if (!user || !user.isPremium || !user.subscriptionExpiry) return false
+  if (new Date() <= new Date(user.subscriptionExpiry)) return false
+
+  // Subscription expired — downgrade
+  user.isPremium = false
+  user.subscriptionPlan = null
+  user.subscriptionExpiry = null
+  await user.save()
+
+  await Carrier.updateMany(
+    { userId: user._id },
+    { $set: { subscriptionPlan: 'free', isPremium: false, subscriptionExpiry: null } }
+  )
+
+  console.log(`⏰ Auto-downgraded expired subscription for ${user.email}`)
+  return true
+}
+
 // Inicjalizacja klienta Mollie - lazy loading
 let mollieClient = null
 const getMollieClient = () => {
@@ -102,9 +126,12 @@ export const createPayment = async (req, res, next) => {
       status: 'pending',
       molliePaymentId: payment.id,
       mollieCheckoutUrl: payment.getCheckoutUrl(),
-      description: plan.description,
+      description: description,
+      billingPeriod,
+      duration, // correctly: 30 for monthly, 365 for yearly
       metadata: {
-        duration: plan.duration
+        duration: duration,  // FIX was plan.duration (always 30)
+        billingPeriod
       }
     })
 
@@ -350,52 +377,79 @@ export const cancelSubscription = async (req, res, next) => {
 }
 
 /**
- * TESTOWY endpoint - aktywuj Premium dla zalogowanego użytkownika
+ * Aktywuj Premium na podstawie opłaconej płatności w bazie danych.
+ * Jest to fallback gdy webhook Mollie nie dotrze.
  * POST /payments/activate-premium
+ * SECURITY: activates ONLY if there is an actual 'paid' Payment record for this user.
  */
 export const activatePremiumTest = async (req, res, next) => {
   try {
     const userId = req.user.id
-    const { planType = 'premium', duration = 30 } = req.body
-    
+
+    // SECURITY: find the most recent paid payment for this user
+    const latestPaid = await Payment.findOne({ userId, status: 'paid' }).sort({ paidAt: -1 })
+    if (!latestPaid) {
+      return res.status(403).json({
+        error: 'Brak opłaconej płatności dla tego konta',
+        code: 'NO_PAID_PAYMENT'
+      })
+    }
+
+    const planType = latestPaid.planType
+    const duration = latestPaid.duration || latestPaid.metadata?.duration || 30
+
     const user = await User.findById(userId)
     if (!user) {
       return res.status(404).json({ error: 'Użytkownik nie znaleziony' })
     }
-    
+
+    // Already active with same plan and not expired — no-op
+    if (
+      user.isPremium &&
+      user.subscriptionPlan === planType &&
+      user.subscriptionExpiry &&
+      new Date(user.subscriptionExpiry) > new Date()
+    ) {
+      return res.json({
+        message: 'Premium już aktywne',
+        alreadyActive: true,
+        user: {
+          email: user.email,
+          isPremium: user.isPremium,
+          subscriptionPlan: user.subscriptionPlan,
+          subscriptionExpiry: user.subscriptionExpiry
+        }
+      })
+    }
+
     user.isPremium = true
     user.subscriptionPlan = planType
-    
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getDate() + duration)
     user.subscriptionExpiry = expiryDate
-    
     await user.save()
-    
-    console.log(`✅ TEST: Aktywowano ${planType} dla użytkownika ${user.email}`)
-    
-    // Aktywuj Premium dla wszystkich firm użytkownika
+
+    console.log(`✅ Aktywowano (fallback) ${planType} dla użytkownika ${user.email}`)
+
     const carriers = await Carrier.find({ userId })
-    let updatedCarriers = 0
     for (const carrier of carriers) {
       carrier.subscriptionPlan = planType
       carrier.isPremium = ['premium', 'business'].includes(planType)
       carrier.subscriptionExpiry = expiryDate
       await carrier.save()
-      updatedCarriers++
     }
-    
-    console.log(`✅ TEST: Zaktualizowano ${updatedCarriers} firm(y)`)
-    
-    res.json({ 
-      message: 'Premium aktywowane (TEST)', 
+
+    console.log(`✅ Zaktualizowano ${carriers.length} firm(y)`)
+
+    res.json({
+      message: 'Premium aktywowane',
+      carriersUpdated: carriers.length,
       user: {
         email: user.email,
         isPremium: user.isPremium,
         subscriptionPlan: user.subscriptionPlan,
         subscriptionExpiry: user.subscriptionExpiry
-      },
-      carriersUpdated: updatedCarriers
+      }
     })
   } catch (error) {
     next(error)
