@@ -145,7 +145,7 @@ export default function MessagesPage() {
 
                 <div className="messages-list">
                   {messages.map((msg) => {
-                    const isSent = msg.senderId?._id === user.id || msg.senderId === user.id
+                    const isSent = msg.senderId?._id?.toString() === user.id || msg.senderId?.toString() === user.id
                     return (
                       <div key={msg._id} className={`message ${isSent ? 'sent' : 'received'}`}>
                         <div className="message-bubble">

@@ -163,7 +163,6 @@ app.use('/user', userSettingsRoutes)
 app.use('/payments', paymentRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/import', importRoutes)
-app.use('/messages', messageRoutes)
 
 // Sitemap (no /api prefix - SEO standard)
 app.use('/', sitemapRoutes)
