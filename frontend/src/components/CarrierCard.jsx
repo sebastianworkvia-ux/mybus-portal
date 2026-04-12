@@ -57,6 +57,12 @@ export default function CarrierCard({ carrier, compact = false }) {
               <span className="compact-cta">Więcej →</span>
             </div>
           </div>
+          {isBusinessPremium && carrier.announcement && (
+            <div className="compact-announcement">
+              <span>📢</span>
+              <p>{carrier.announcement}</p>
+            </div>
+          )}
         </div>
       </Link>
     )
