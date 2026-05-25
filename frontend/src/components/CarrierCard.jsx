@@ -15,11 +15,18 @@ const SERVICE_LABELS = {
   'inne': 'Inne'
 }
 
+const getInitials = (name = '') => {
+  const words = name.trim().split(/\s+/)
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
+  return (words[0]?.[0] || '?').toUpperCase()
+}
+
 export default function CarrierCard({ carrier, compact = false }) {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
 
   const isBusinessPremium = carrier.subscriptionPlan === 'business'
   const isPremium = carrier.subscriptionPlan === 'premium'
+  const isPaidTier = isBusinessPremium || isPremium
   const isDemo = carrier.isDemo === true
   const tierClass = isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : 'free-card'
   const cardLink = `/carrier/${carrier.slug || carrier._id}`
@@ -29,10 +36,15 @@ export default function CarrierCard({ carrier, compact = false }) {
     return (
       <Link to={cardLink} className={`carrier-card-compact ${tierClass}`}>
         <div className="compact-logo">
-          {carrier.logo
-            ? <img src={carrier.logo} alt={carrier.companyName} />
-            : <div className="compact-avatar">{carrier.companyName?.charAt(0) || '?'}</div>
-          }
+          {isPaidTier ? (
+            carrier.logo
+              ? <img src={carrier.logo} alt={carrier.companyName} />
+              : <div className={`compact-avatar compact-avatar--premium${isBusinessPremium ? ' compact-avatar--business' : ''}`}>
+                  {getInitials(carrier.companyName)}
+                </div>
+          ) : (
+            <div className="compact-avatar compact-avatar--free">🚐</div>
+          )}
         </div>
         <div className="compact-body">
           <div className="compact-top">
@@ -71,11 +83,20 @@ export default function CarrierCard({ carrier, compact = false }) {
   // ── FULL CARD MODE (search page) ──────────────────────────────
   return (
     <div className={`carrier-card ${tierClass}`}>
-      {carrier.logo && (
-        <div className="carrier-logo">
-          <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
-        </div>
-      )}
+      {/* Logo area — zawsze widoczny, styl zależy od planu */}
+      <div className={`carrier-logo-area${isBusinessPremium ? ' logo-area--business' : isPremium ? ' logo-area--premium' : ' logo-area--free'}`}>
+        {isPaidTier ? (
+          carrier.logo
+            ? <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
+            : <div className={`logo-placeholder--premium${isBusinessPremium ? ' logo-placeholder--business' : ''}`}>
+                <span className="logo-initials">{getInitials(carrier.companyName)}</span>
+              </div>
+        ) : (
+          <div className="logo-placeholder--free">
+            <span className="logo-free-icon">🚐</span>
+          </div>
+        )}
+      </div>
       
       <div className="card-header">
         <h3>{carrier.companyName}</h3>
