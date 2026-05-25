@@ -43,6 +43,7 @@ export default function SearchBar() {
       </div>
 
       <div className="search-group">
+        <span className="search-label">Skąd?</span>
         <select value={routeFrom} onChange={(e) => setRouteFrom(e.target.value)}>
           <option value="">{t('search.fromCountry')}</option>
           <option value="PL">Polska</option>
@@ -59,6 +60,7 @@ export default function SearchBar() {
       </div>
 
       <div className="search-group">
+        <span className="search-label">Dokąd?</span>
         <select value={routeTo} onChange={(e) => setRouteTo(e.target.value)}>
           <option value="">{t('search.toCountry')}</option>
           <option value="PL">Polska</option>
@@ -75,6 +77,7 @@ export default function SearchBar() {
       </div>
 
       <div className="search-group">
+        <span className="search-label">Typ transportu</span>
         <select value={service} onChange={(e) => setService(e.target.value)}>
           <option value="">{t('search.allServices')}</option>
           <optgroup label={t('search.passengerTransport')}>

@@ -87,12 +87,15 @@ export default function HomePage() {
     <div className="home-page">
       <PromoSidebar />
       
-      {/* HERO SEKCJA - Marketplace-first: klient dominuje, przewoźnik jako box boczny */}
+      {/* HERO SEKCJA - 1:1 z mockupem */}
       <section className="hero-new">
+        <div className="hero-inner">
 
-        {/* LEWO ~70%: wyszukiwarka + headline */}
-        <div className="hero-main">
-          <div className="hero-main-content">
+          {/* LEWA część ~70%: wyszukiwarka */}
+          <div className="hero-content">
+            <div className="hero-eyebrow">
+              🚐 {carriers.length > 50 ? `${carriers.length}+` : '1074+'} firm transportowych w jednym miejscu
+            </div>
             <h1 className="hero-title">
               Nie czekaj na oferty —<br />znajdź przewoźnika od razu
             </h1>
@@ -104,37 +107,53 @@ export default function HomePage() {
               <SearchBar />
             </div>
 
-            {/* Social proof */}
-            <div className="hero-social-proof">
-              <span className="proof-pill">✅ {carriers.length > 50 ? carriers.length : 1074}+ firm</span>
-              <span className="proof-pill">🌍 Cała Europa</span>
-              <span className="proof-pill">🔒 Zweryfikowani przewoźnicy</span>
-              <span className="proof-pill">⭐ 4.8/5</span>
+            {/* Proof cards — glass morphism */}
+            <div className="hero-proof">
+              <div className="hero-proof-card">
+                <strong>{carriers.length > 50 ? `${carriers.length}+` : '1074+'}</strong>
+                <span>firm transportowych</span>
+              </div>
+              <div className="hero-proof-card">
+                <strong>Europa</strong>
+                <span>trasy międzynarodowe</span>
+              </div>
+              <div className="hero-proof-card">
+                <strong>4.8/5</strong>
+                <span>średnia ocena</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* PRAWO ~30%: prosty box dla przewoźnika */}
-        <div className="hero-carrier-box">
-          <div className="hero-carrier-box-inner">
-            <div className="carrier-box-icon">🚐</div>
-            <h3>Jesteś przewoźnikiem?</h3>
-            <p>Zdobądź nowych klientów i pokaż swoją firmę osobom szukającym transportu.</p>
-            <Link to="/register" className="btn-carrier-register" onClick={() => window.scrollTo(0, 0)}>
-              Załóż konto przewoźnika
-            </Link>
-            <Link to="/for-carriers" className="btn-carrier-learn" onClick={() => window.scrollTo(0, 0)}>
-              Dowiedz się więcej →
-            </Link>
-          </div>
-        </div>
+          {/* PRAWA część ~30%: box dla przewoźnika */}
+          <aside className="hero-carrier-box">
+            <div className="carrier-box-tag">Dla przewoźników</div>
+            <h2 className="carrier-box-h2">Jesteś przewoźnikiem?</h2>
+            <p className="carrier-box-desc">
+              Pokaż swoją firmę osobom, które właśnie szukają busa, lawety, transferu lub transportu rzeczy.
+            </p>
+            <ul className="carrier-benefits">
+              <li>Profil firmy w wyszukiwarce</li>
+              <li>Lepsza widoczność dla klientów</li>
+              <li>Bezpośredni kontakt bez pośredników</li>
+            </ul>
+            <div className="carrier-cta">
+              <Link to="/register" className="btn-carrier-register" onClick={() => window.scrollTo(0, 0)}>
+                Załóż konto przewoźnika
+              </Link>
+              <Link to="/for-carriers" className="btn-carrier-learn" onClick={() => window.scrollTo(0, 0)}>
+                Dowiedz się więcej
+              </Link>
+            </div>
+          </aside>
 
+        </div>
       </section>
 
       <div className="container" style={{marginTop: '0rem'}}>
         {/* Usługi - Kategorie */}
         <section className="services-categories scroll-fade-in">
-          <h2>{t('services.title')}</h2>
+          <h2>{t('services.title', 'Wybierz kategorię transportu')}</h2>
+          <p className="section-subtitle">Znajdź firmę według usługi, której potrzebujesz.</p>
           <div className="categories-grid">
             <Link to="/search?service=transport" className="category-card">
               <span className="cat-icon">🚐</span>

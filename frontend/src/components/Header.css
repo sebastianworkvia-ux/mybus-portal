@@ -25,7 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  height: 72px;
   gap: 1rem;
 }
 
@@ -50,8 +50,8 @@
 }
 
 .logo-text {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
 }
 
 /* DESKTOP NAV */
@@ -92,10 +92,10 @@
 .map-link {
   background: var(--color-cta-primary);
   color: white !important;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.8rem;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9375rem;
   transition: all 0.25s ease;
 }
 
@@ -136,12 +136,12 @@
 }
 
 .btn-login {
-  padding: 0.45rem 1rem;
-  border: 1.5px solid rgba(255,255,255,0.5);
-  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   background: transparent;
   color: white;
   text-decoration: none;
@@ -157,12 +157,12 @@
 }
 
 .btn-register {
-  padding: 0.45rem 1rem;
+  padding: 10px 16px;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.8rem;
+  font-weight: 700;
+  font-size: 0.875rem;
   background: var(--color-cta-primary);
   color: white;
   text-decoration: none;
