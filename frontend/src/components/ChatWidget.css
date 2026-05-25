@@ -92,6 +92,17 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
+.chat-link {
+  color: #667eea;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chat-link:hover {
+  color: #553c9a;
+}
+
 .typing {
   font-style: italic;
   color: #718096;

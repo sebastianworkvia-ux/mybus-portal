@@ -15,19 +15,22 @@ try {
 }
 
 const SYSTEM_PROMPT = `
-Jesteś wirtualnym asystentem portalu transportowego "Przewoźnicy".
-Twoim celem jest pomóc użytkownikom znaleźć odpowiedniego przewoźnika.
+Jesteś wirtualnym asystentem portalu "Przewoźnicy.eu" — bazy polskich firm transportowych działających w Europie.
+Pomagasz użytkownikom znaleźć przewoźnika dopasowanego do ich trasy i potrzeb.
 
-Masz do dyspozycji narzędzie "searchCarriers", które pozwala przeszukiwać bazę firm.
-Jeśli użytkownik pyta o transport, ZAWSZE używaj tego narzędzia, wyciągając z jego pytania parametry:
+Masz narzędzie "searchCarriers" do przeszukiwania bazy firm. Używaj go gdy użytkownik pyta o transport, przewoźnika, busy, paczki, lawetę itp.
+Z pytania użytkownika wyciągaj:
 - from: kraj wyjazdu (kod ISO: PL, DE, NL, BE, FR, AT, GB, SE, NO, DK)
 - to: kraj docelowy (kod ISO)
-- voivodeship: województwo (jeśli podano polskie miasto lub region)
-- date: dzień tygodnia (poniedziałek, wtorek...)
+- service: typ usługi (transport, paczki, laweta, przeprowadzki, transfery-lotniskowe, zwierzeta)
 
-Jeśli nie jesteś pewien parametrów, dopytaj użytkownika.
-Odpowiadaj krótko, konkretnie i pomocnie.
-Gdy znajdziesz przewoźników, wymień ich nazwy i zaproponuj sprawdzenie ich profili.
+ZASADY ODPOWIEDZI:
+1. Gdy znajdziesz przewoźników, ZAWSZE podaj linki do ich profili w formacie: [Nazwa firmy](/carrier/SLUG)
+2. Wymieniaj max 4-5 firm z krótkim opisem (telefon lub kraj obsługi)
+3. Odpowiadaj po polsku, krótko i przyjaźnie
+4. Jeśli nic nie znaleziono — zaproponuj wyszukanie z innymi parametrami lub wejście na /search
+5. Nie pytaj o województwo — ten filtr nie jest używany
+6. Jeśli pytanie nie dotyczy transportu, odpowiedz krótko i zaproponuj pomoc w szukaniu przewoźnika
 `
 
 export const handleChat = async (userMessage, history = []) => {
@@ -41,7 +44,7 @@ export const handleChat = async (userMessage, history = []) => {
         type: "function",
         function: {
           name: "searchCarriers",
-          description: "Wyszukaj firmy transportowe na podstawie kryteriów",
+          description: "Wyszukaj firmy transportowe na podstawie kryteriów trasy i usługi",
           parameters: {
             type: "object",
             properties: {
@@ -57,15 +60,7 @@ export const handleChat = async (userMessage, history = []) => {
               },
               service: {
                 type: "string",
-                description: "Typ usługi np. transport (osoby), paczki, laweta"
-              },
-              voivodeship: {
-                type: "string",
-                description: "Polskie województwo (np. Mazowieckie)"
-              },
-              day: {
-                type: "string",
-                description: "Dzień tygodnia"
+                description: "Typ usługi: transport, paczki, laweta, przeprowadzki, transfery-lotniskowe, zwierzeta, autokary"
               }
             }
           }
@@ -112,8 +107,9 @@ export const handleChat = async (userMessage, history = []) => {
         
         // Sformatuj wyniki dla AI
         const searchResultContent = carriers.length > 0
-          ? `Znaleziono ${carriers.length} firm: ${carriers.map(c => `${c.companyName} (Tel: ${c.phone})`).join(", ")}`
-          : "Nie znaleziono żadnych firm spełniających te kryteria."
+          ? `Znaleziono ${carriers.length} firm (podaj linki do profili w odpowiedzi):\n` +
+            carriers.map(c => `- ${c.companyName} | link: /carrier/${c.slug || c._id} | tel: ${c.phone || 'brak'} | kraje: ${(c.operatingCountries || []).join(', ')}`).join('\n')
+          : "Nie znaleziono żadnych firm. Zaproponuj wejście na /search z szerszymi filtrami."
 
         // Wyślij wyniki z powrotem do AI, żeby ułożyło odpowiedź dla człowieka
         messages.push(responseMessage)
@@ -128,7 +124,7 @@ export const handleChat = async (userMessage, history = []) => {
           openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: messages,
-            max_tokens: 300,
+            max_tokens: 600,
           }),
           new Promise((_, reject) => setTimeout(() => reject(new Error('OpenAI timeout')), 15000))
         ])
@@ -164,27 +160,28 @@ async function searchCarriersInDb(args) {
 
   console.log("🤖 AI Search Query:", args)
 
-  if (args.from && args.from !== 'PL') {
-    query.operatingCountries = args.from
-  }
-  if (args.to && args.to !== 'PL') {
-    query.operatingCountries = args.to
-  }
-  
-  // Jeśli z Polski, spróbujmy dopasować województwo
-  if (args.voivodeship) {
-    // Proste dopasowanie (case insensitive regex)
-    query.servedVoivodeships = { $regex: args.voivodeship, $options: 'i' }
+  // Zbierz kraje do filtrowania (oba kierunki)
+  const countryCodes = []
+  if (args.from) countryCodes.push(args.from.toUpperCase())
+  if (args.to) countryCodes.push(args.to.toUpperCase())
+
+  if (countryCodes.length > 0) {
+    // Usuń PL z filtrowania po operatingCountries (większość firm jest z PL)
+    const foreignCodes = countryCodes.filter(c => c !== 'PL')
+    if (foreignCodes.length > 0) {
+      // Wymagaj wszystkich zagranicznych krajów
+      query.operatingCountries = { $all: foreignCodes }
+    }
   }
 
   if (args.service) {
-     query.services = { $regex: args.service, $options: 'i' }
+    query.services = { $regex: args.service, $options: 'i' }
   }
 
-  // Wyszukaj i zwróć max 5 wyników (żeby nie przeładować kontekstu AI)
+  // Sortuj: business > premium > free, zwróć max 5
   return await Carrier.find(query)
-    .select('companyName phone servedVoivodeships operatingCountries')
-    .sort('-isPremium')
+    .select('companyName phone operatingCountries slug subscriptionPlan')
+    .sort({ subscriptionPlan: -1, isPremium: -1 })
     .limit(5)
     .lean()
 }

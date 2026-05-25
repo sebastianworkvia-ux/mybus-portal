@@ -1,16 +1,39 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import apiClient from '../services/apiClient'
 import { useChatStore } from '../stores/chatStore'
 import './ChatWidget.css'
 
+// Parsuje markdown linki i nowe linie w odpowiedziach asystenta
+function renderAssistantMessage(content) {
+  // Zamień [tekst](/sciezka) na klikalne linki (wewnętrzne)
+  const withLinks = content.replace(
+    /\[([^\]]+)\]\((\/?[^)]+)\)/g,
+    (match, text, url) => {
+      const isExternal = url.startsWith('http')
+      if (isExternal) {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="chat-link">${text}</a>`
+      }
+      return `<a href="${url}" class="chat-link chat-link-internal" data-href="${url}">${text}</a>`
+    }
+  )
+  // Zamień **tekst** na bold
+  const withBold = withLinks.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  // Zamień nowe linie na <br>
+  const withBreaks = withBold.replace(/\n/g, '<br>')
+  return withBreaks
+}
+
 export default function ChatWidget() {
   const { isOpen, closeChat } = useChatStore()
+  const navigate = useNavigate()
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Cześć! 👋 Jestem BusBot. Szukasz przewoźnika? Napisz skąd i dokąd chcesz jechać.' }
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -74,10 +97,28 @@ export default function ChatWidget() {
             <button className="chat-close-btn" onClick={closeChat}>✕</button>
           </div>
 
-          <div className="chat-messages">
+          <div className="chat-messages" ref={messagesContainerRef} onClick={(e) => {
+              // Obsługa kliknięć w wewnętrzne linki chatbota
+              const link = e.target.closest('.chat-link-internal')
+              if (link) {
+                e.preventDefault()
+                const href = link.getAttribute('data-href')
+                if (href) {
+                  closeChat()
+                  navigate(href)
+                }
+              }
+            }}>
             {messages.map((msg, idx) => (
               <div key={idx} className={`message ${msg.role}`}>
-                <div className="message-bubble">{msg.content}</div>
+                {msg.role === 'assistant' ? (
+                  <div
+                    className="message-bubble"
+                    dangerouslySetInnerHTML={{ __html: renderAssistantMessage(msg.content) }}
+                  />
+                ) : (
+                  <div className="message-bubble">{msg.content}</div>
+                )}
               </div>
             ))}
             {loading && (
