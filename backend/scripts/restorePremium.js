@@ -69,6 +69,7 @@ const premiumCarriers = [
       postalCode: '80331',
       city: 'München'
     },
+    logo: '/logos/munchen-shuttle-logo.png',
     isPremium: true,
     isVerified: true,
     isActive: true
