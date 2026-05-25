@@ -390,9 +390,17 @@
 }
 
 .schedule-info p {
-  margin: 0;
+  margin: 0 0 0.25rem;
   font-size: 0.8rem;
   color: #166534;
+}
+
+.schedule-info p:last-child { margin-bottom: 0; }
+
+.no-data-text {
+  color: #94a3b8;
+  font-style: italic;
+  font-weight: 400;
 }
 
 /* === CONTACT === */

@@ -30,6 +30,8 @@ const premiumCarriers = [
       postalCode: '00-001',
       city: 'Warszawa'
     },
+    departureDays: ['poniedziałek', 'środa', 'piątek'],
+    returnDays: ['wtorek', 'czwartek', 'sobota'],
     isPremium: true,
     isVerified: true,
     isActive: true
@@ -49,6 +51,8 @@ const premiumCarriers = [
       postalCode: '02-001',
       city: 'Warszawa'
     },
+    departureDays: ['wtorek', 'piątek'],
+    returnDays: ['środa', 'sobota'],
     logo: '/logos/poland-express-transport.png',
     isPremium: true,
     isVerified: true,
@@ -69,6 +73,8 @@ const premiumCarriers = [
       postalCode: '80331',
       city: 'München'
     },
+    departureDays: ['poniedziałek', 'czwartek'],
+    returnDays: ['wtorek', 'piątek'],
     logo: '/logos/munchen-shuttle-logo.png',
     isPremium: true,
     isVerified: true,
@@ -89,6 +95,8 @@ const premiumCarriers = [
       postalCode: '1010',
       city: 'Wien'
     },
+    departureDays: ['środa', 'sobota'],
+    returnDays: ['czwartek', 'niedziela'],
     isPremium: true,
     isVerified: true,
     isActive: true

@@ -139,16 +139,17 @@ export default function CarrierCard({ carrier, compact = false }) {
         </div>
       )}
 
-      {carrier.operatingCountries && carrier.operatingCountries.length > 0 && (
-        <div className="operating-countries">
+      <div className="operating-countries">
           <strong>🌍 Obsługiwane kraje:</strong>
           <div className="countries-list">
-            {carrier.operatingCountries.map(country => (
-              <span key={country} className="country-tag">{country}</span>
-            ))}
+            {carrier.operatingCountries && carrier.operatingCountries.length > 0
+              ? carrier.operatingCountries.map(country => (
+                  <span key={country} className="country-tag">{country}</span>
+                ))
+              : <span className="no-data-text">—</span>
+            }
           </div>
         </div>
-      )}
 
       <div className="services">
         {carrier.services?.map((service) => (
@@ -174,22 +175,22 @@ export default function CarrierCard({ carrier, compact = false }) {
         </span>
       </div>
 
-      {(carrier.departureDays?.length > 0 || carrier.returnDays?.length > 0 || carrier.isFlexible) && (
-        <div className="schedule-info" style={{marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a5568'}}>
-          {carrier.isFlexible ? (
-            <p><strong>📅</strong> Elastyczne terminy</p>
-          ) : (
-            <>
-              {carrier.departureDays?.length > 0 && (
-                <p><strong>→ Do Polski:</strong> {carrier.departureDays.join(', ')}</p>
-              )}
-              {carrier.returnDays?.length > 0 && (
-                <p><strong>← Z Polski:</strong> {carrier.returnDays.join(', ')}</p>
-              )}
-            </>
-          )}
-        </div>
-      )}
+      <div className="schedule-info">
+        {carrier.isFlexible ? (
+          <p>📅 <strong>Elastyczne terminy</strong></p>
+        ) : (
+          <>
+            <p>
+              <strong>→ Wyjazdy do Polski:</strong>{' '}
+              {carrier.departureDays?.length > 0 ? carrier.departureDays.join(', ') : <span className="no-data-text">brak danych</span>}
+            </p>
+            <p>
+              <strong>← Przyjazdy z Polski:</strong>{' '}
+              {carrier.returnDays?.length > 0 ? carrier.returnDays.join(', ') : <span className="no-data-text">brak danych</span>}
+            </p>
+          </>
+        )}
+      </div>
 
       {carrier.phone && (
         <p className="contact">
