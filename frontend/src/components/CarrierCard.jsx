@@ -198,7 +198,7 @@ export default function CarrierCard({ carrier, compact = false }) {
       )}
 
       <Link to={`/carrier/${carrier.slug || carrier._id}`} className="btn-details">
-        Więcej szczegółów
+        Sprawdź firmę
       </Link>
     </div>
   )
