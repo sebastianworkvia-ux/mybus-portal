@@ -81,11 +81,7 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Label nad inputami dla lepszej czytelności (pseudo-elementy jeśli brak w HTML) */
-.search-group {
-  position: relative;
-}
-
+/* search-group - duplicate position:relative removed, defined above */
 @media (max-width: 768px) {
   .search-bar {
     flex-direction: column;
