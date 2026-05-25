@@ -414,12 +414,18 @@ body, p {
   }
 
   .hero-proof {
-    grid-template-columns: 1fr;
-    max-width: 400px;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+    gap: 10px;
   }
 
   .hero-carrier-box {
     max-width: 620px;
+    width: 100%;
+  }
+
+  .features-section {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -439,61 +445,6 @@ body, p {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Mobile hero */
-@media (max-width: 900px) {
-  .hero-new {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
-  .hero-main {
-    padding: 3rem 1.5rem;
-    min-height: 420px;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.975rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-search-wrapper .search-bar {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem;
-  }
-
-  .hero-search-wrapper .search-group {
-    min-width: unset;
-    width: 100%;
-  }
-
-  .hero-search-wrapper .btn-search {
-    width: 100%;
-    min-width: unset;
-    margin-top: 0.25rem;
-  }
-
-  .hero-social-proof {
-    gap: 0.4rem;
-  }
-
-  .proof-pill {
-    font-size: 0.78rem;
-    padding: 0.3rem 0.7rem;
-  }
-
-  .hero-carrier-box {
-    padding: 2.5rem 1.5rem;
-    border-left: none;
-    border-top: 1px solid var(--color-border);
-    background: #f8fafc;
   }
 }
 
@@ -1080,6 +1031,11 @@ body, p {
   .featured-carriers {
     grid-template-columns: 1fr;
     gap: 1rem;
+    margin: 2.5rem 0;
+  }
+
+  .carriers-list {
+    grid-template-columns: 1fr;
   }
 
   .container {
@@ -1121,6 +1077,44 @@ body, p {
 
 /* ===== VERY SMALL SCREENS (<480px) ===== */
 @media (max-width: 480px) {
+  .hero-inner {
+    padding: 36px 16px 30px;
+  }
+
+  .hero-title {
+    font-size: clamp(28px, 8vw, 38px);
+    letter-spacing: -0.04em;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(15px, 4vw, 18px);
+    margin-bottom: 20px;
+  }
+
+  .hero-proof {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hero-proof-card {
+    padding: 14px 16px;
+  }
+
+  .hero-proof-card strong {
+    font-size: 22px;
+  }
+
+  .hero-carrier-box {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .hero-search-wrapper .search-bar {
+    padding: 12px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
   .hero-panel h1,
   .hero-panel h2 {
     font-size: 1.5rem;
