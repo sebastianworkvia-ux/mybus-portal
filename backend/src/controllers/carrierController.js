@@ -4,8 +4,8 @@ import { checkProfanityInObject } from '../utils/textUtils.js'
 
 export const getCarriers = async (req, res, next) => {
   try {
-    const { routeFrom, routeTo, service, search, voivodeship, hasPromo } = req.query
-    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search, voivodeship, hasPromo })
+    const { routeFrom, routeTo, service, search, hasPromo } = req.query
+    console.log('🔍 GET /carriers params:', { routeFrom, routeTo, service, search, hasPromo })
     
     const query = { isActive: true }
 
@@ -24,10 +24,6 @@ export const getCarriers = async (req, res, next) => {
       
       // Przewoźnik musi obsługiwać oba kraje (jeśli podane)
       query.operatingCountries = { $all: countryConditions }
-    }
-
-    if (voivodeship) {
-      query.servedVoivodeships = voivodeship
     }
 
     if (service) query.services = service
