@@ -87,48 +87,48 @@ export default function HomePage() {
     <div className="home-page">
       <PromoSidebar />
       
-      {/* DUALNA HERO SEKCJA - Dla klientów i przewoźników */}
-      <section className="hero-dual">
-        {/* LEWO: Dla KLIENTÓW (szukających transportu) */}
-        <div className="hero-panel hero-customers">
-          <div className="hero-panel-content">
-            <div className="hero-panel-icon">🔍</div>
-            <h1>{t('hero.customers.title', 'Znajdź najlepszych przewoźników')}</h1>
-            <p className="hero-panel-subtitle">{t('hero.customers.subtitle', 'Transport busem po całej Europie')}</p>
-            <p className="hero-panel-description">{t('hero.customers.description', 'Zweryfikowane firmy | Cała Europa | Transport na lotnisko, fury, międzynarodowe')}</p>
-            <div className="hero-panel-stats">
-              <div className="stat"><strong>✅ {carriers.length || '1000'}+</strong><br/>Przewoźników</div>
-              <div className="stat"><strong>⭐ 4.8/5</strong><br/>Średnia ocena</div>
-              <div className="stat"><strong>🚌 Cała Europa</strong><br/>Zasięg</div>
+      {/* HERO SEKCJA - Marketplace-first: klient dominuje, przewoźnik jako box boczny */}
+      <section className="hero-new">
+
+        {/* LEWO ~70%: wyszukiwarka + headline */}
+        <div className="hero-main">
+          <div className="hero-main-content">
+            <h1 className="hero-title">
+              Nie czekaj na oferty —<br />znajdź przewoźnika od razu
+            </h1>
+            <p className="hero-subtitle">
+              Busy, lawety, transfery lotniskowe, transport zwierząt i paczek — cała Europa w jednym miejscu.
+            </p>
+
+            <div className="hero-search-wrapper">
+              <SearchBar />
             </div>
-            <div className="hero-buttons">
-              <Link to="/search" className="btn-hero btn-hero-primary" onClick={() => window.scrollTo(0, 0)}>
-                {t('hero.customers.cta', 'Szukaj przewoźnika teraz')} →
-              </Link>
-              <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
-                {t('hero.customers.createAccount', 'Utwórz konto')}
-              </Link>
+
+            {/* Social proof */}
+            <div className="hero-social-proof">
+              <span className="proof-pill">✅ {carriers.length > 50 ? carriers.length : 1074}+ firm</span>
+              <span className="proof-pill">🌍 Cała Europa</span>
+              <span className="proof-pill">🔒 Zweryfikowani przewoźnicy</span>
+              <span className="proof-pill">⭐ 4.8/5</span>
             </div>
           </div>
         </div>
 
-        {/* PRAWO: Dla PRZEWOŹNIKÓW (oferujących usługi) */}
-        <div className="hero-panel hero-carriers">
-          <div className="hero-panel-content">
-            <div className="hero-panel-icon">📈</div>
-            <h2>{t('hero.carriers.title', 'Zdobywaj nowych klientów')}</h2>
-            <p className="hero-panel-subtitle">{t('hero.carriers.subtitle', 'Panel dla transportowców')}</p>
-            <p className="hero-panel-description">{t('hero.carriers.description', 'Rejestracja za darmo | Promocje i oferty | Zarządzaj rezerwacjami | Zweryfikowana społeczność')}</p>
-            <div className="hero-panel-stats">
-              <div className="stat"><strong>💰 Zarobki</strong><br/>Bez pośredników</div>
-              <div className="stat"><strong>📊 Analityka</strong><br/>Dashboard</div>
-              <div className="stat"><strong>✉️ Wiadomości</strong><br/>Bezpośrednie</div>
-            </div>
-            <Link to="/register" className="btn-hero btn-hero-secondary" onClick={() => window.scrollTo(0, 0)}>
-              {t('hero.carriers.cta', 'Załóż konto transportowca')} →
+        {/* PRAWO ~30%: prosty box dla przewoźnika */}
+        <div className="hero-carrier-box">
+          <div className="hero-carrier-box-inner">
+            <div className="carrier-box-icon">🚐</div>
+            <h3>Jesteś przewoźnikiem?</h3>
+            <p>Zdobądź nowych klientów i pokaż swoją firmę osobom szukającym transportu.</p>
+            <Link to="/register" className="btn-carrier-register" onClick={() => window.scrollTo(0, 0)}>
+              Załóż konto przewoźnika
+            </Link>
+            <Link to="/for-carriers" className="btn-carrier-learn" onClick={() => window.scrollTo(0, 0)}>
+              Dowiedz się więcej →
             </Link>
           </div>
         </div>
+
       </section>
 
       <div className="container" style={{marginTop: '0rem'}}>
