@@ -49,6 +49,7 @@ const premiumCarriers = [
       postalCode: '02-001',
       city: 'Warszawa'
     },
+    logo: '/logos/poland-express-transport.png',
     isPremium: true,
     isVerified: true,
     isActive: true
