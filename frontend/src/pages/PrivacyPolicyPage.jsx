@@ -5,7 +5,7 @@ export default function PrivacyPolicyPage() {
     <div className="legal-page">
       <div className="container">
         <h1>Polityka Prywatności</h1>
-        <p className="last-updated">Ostatnia aktualizacja: 14 grudnia 2025</p>
+        <p className="last-updated">Ostatnia aktualizacja: 30 maja 2026</p>
 
         <section>
           <h2>1. Administrator Danych</h2>
@@ -99,7 +99,53 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2>10. Kontakt</h2>
+          <h2>10. Dane firm transportowych pozyskane ze źródeł publicznych</h2>
+          <p>
+            Serwis My-Bus.eu prezentuje profile firm transportowych, których dane zostały
+            pozyskane wyłącznie z <strong>ogólnodostępnych, publicznych źródeł</strong>, tj.:
+          </p>
+          <ul>
+            <li>Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG)</li>
+            <li>Krajowego Rejestru Sądowego (KRS)</li>
+            <li>Publicznych stron internetowych firm i portali branżowych</li>
+            <li>Ogólnodostępnych map i katalogów usług (np. Google Maps)</li>
+          </ul>
+          <p>
+            Przetwarzanie tych danych odbywa się na podstawie <strong>art. 6 ust. 1 lit. f RODO
+            (prawnie uzasadniony interes administratora)</strong>, polegającego na prowadzeniu
+            katalogu podmiotów świadczących usługi przewozowe dostępnego dla osób
+            poszukujących takich usług. Interes ten nie narusza praw i wolności osób,
+            których dane dotyczą, ponieważ dane te zostały przez te podmioty
+            dobrowolnie ujawnione publicznie w związku z prowadzoną działalnością gospodarczą.
+          </p>
+          <p>
+            Zgodnie z <strong>art. 14 RODO</strong> informujemy, że:
+          </p>
+          <ul>
+            <li>Prezentowane dane obejmują wyłącznie informacje służbowe związane z
+            prowadzoną działalnością (nazwa firmy, dane kontaktowe służbowe, zakres usług,
+            obszar działania) – <strong>nie są to dane prywatne osób fizycznych</strong>.</li>
+            <li>Podmiot, którego dane są prezentowane, ma prawo w każdej chwili:
+              <ul>
+                <li>zażądać sprostowania lub uzupełnienia danych,</li>
+                <li>wnieść sprzeciw wobec przetwarzania,</li>
+                <li>zażądać usunięcia profilu z serwisu.</li>
+              </ul>
+            </li>
+            <li>Żądania należy kierować na adres:
+            <a href="mailto:kontakt.mybus@gmail.com">kontakt.mybus@gmail.com</a>.
+            Zostaną rozpatrzone w terminie 30 dni.</li>
+          </ul>
+          <p>
+            My-Bus.eu <strong>nie ponosi odpowiedzialności</strong> za aktualność danych
+            pobranych ze źródeł zewnętrznych. Dane prezentowane w serwisie mają charakter
+            informacyjny. W przypadku rozbieżności wiążące są dane zawarte w oficjalnych
+            rejestrach publicznych.
+          </p>
+        </section>
+
+        <section>
+          <h2>11. Kontakt</h2>
           <p>
             W sprawach dotyczących ochrony danych osobowych skontaktuj się z nami:
             <br />

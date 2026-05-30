@@ -5,7 +5,7 @@ export default function TermsPage() {
     <div className="legal-page">
       <div className="container">
         <h1>Regulamin Serwisu</h1>
-        <p className="last-updated">Ostatnia aktualizacja: 18 stycznia 2026</p>
+        <p className="last-updated">Ostatnia aktualizacja: 30 maja 2026</p>
 
         <section>
           <h2>§1 Postanowienia ogólne</h2>
@@ -51,29 +51,58 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2>§4 Zasady dla Przewoźników</h2>
+          <h2>§4 Profile firm – źródła danych i prawa podmiotów</h2>
           <p>
-            1. Serwis może tworzyć profile podstawowe firm transportowych automatycznie 
-            na podstawie publicznie dostępnych danych (rejestry publiczne, ogłoszenia, 
-            strony internetowe).
+            1. Serwis My-Bus.eu prezentuje profile firm transportowych. Dane do profili
+            podstawowych (nieaktywowanych przez właściciela) pozyskiwane są wyłącznie
+            z <strong>ogólnodostępnych, publicznych rejestrów i źródeł</strong>, w szczególności:
+          </p>
+          <ul>
+            <li>Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG),</li>
+            <li>Krajowego Rejestru Sądowego (KRS),</li>
+            <li>publicznych stron internetowych firm,</li>
+            <li>ogólnodostępnych map i katalogów usług (np. Google Maps).</li>
+          </ul>
+          <p>
+            2. Przetwarzanie danych ze źródeł publicznych odbywa się na podstawie
+            <strong>art. 6 ust. 1 lit. f RODO (prawnie uzasadniony interes administratora)</strong>
+            polegającego na ułatwieniu konsumentom dostępu do informacji o podmiotach
+            świadczących publicznie usługi transportowe. Prezentowane dane mają
+            wyłącznie charakter służbowy i zostały dobrowolnie ujawnione przez
+            podmioty w związku z prowadzoną przez nie działalnością gospodarczą.
           </p>
           <p>
-            2. Właściciel firmy może w każdej chwili zgłosić się w celu przejęcia 
-            kontroli nad profilem lub zażądać jego usunięcia.
+            3. My-Bus.eu <strong>nie weryfikuje na bieżąco</strong> aktualności danych
+            pobranych ze źródeł zewnętrznych i nie ponosi odpowiedzialności za ich
+            zgodność ze stanem rzeczywistym. Wiążące są dane zawarte w oficjalnych
+            rejestrach publicznych.
           </p>
           <p>
-            3. Przewoźnik zobowiązany jest do podania prawdziwych informacji o firmie.
+            4. Podmiot, którego dane są prezentowane w serwisie, ma prawo:
+          </p>
+          <ul>
+            <li><strong>przejąć kontrolę nad profilem</strong> – po weryfikacji tożsamości
+            i rejestracji konta,</li>
+            <li><strong>zażądać sprostowania</strong> nieprawidłowych lub nieaktualnych danych,</li>
+            <li><strong>wnieść sprzeciw</strong> wobec przetwarzania danych i zażądać
+            usunięcia profilu z serwisu.</li>
+          </ul>
+          <p>
+            Żądania należy kierować na adres e-mail:
+            <strong> kontakt.mybus@gmail.com</strong>.
+            Zostaną rozpatrzone w terminie <strong>30 dni kalendarzowych</strong>.
           </p>
           <p>
-            4. Przewoźnik musi posiadać odpowiednie uprawnienia do prowadzenia 
-            działalności transportowej.
+            5. Przewoźnik, który aktywował własny profil, zobowiązany jest do
+            podawania prawdziwych informacji o firmie i posiadania odpowiednich
+            uprawnień do prowadzenia działalności transportowej.
           </p>
           <p>
-            5. Zakazane jest umieszczanie treści niezgodnych z prawem lub 
+            6. Zakazane jest umieszczanie treści niezgodnych z prawem lub
             wprowadzających w błąd.
           </p>
           <p>
-            6. My-Bus.eu nie ponosi odpowiedzialności za jakość usług świadczonych 
+            7. My-Bus.eu nie ponosi odpowiedzialności za jakość usług świadczonych
             przez Przewoźników.
           </p>
         </section>
