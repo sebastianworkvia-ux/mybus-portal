@@ -167,65 +167,6 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- Wyszukiwanie po usługach -->
-  <url>
-    <loc>https://my-bus.eu/search?service=transport</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?service=przeprowadzki</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?service=laweta</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?service=transfery-lotniskowe</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?service=paczki</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?service=autokary</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <!-- Wyszukiwanie po kraju -->
-  <url>
-    <loc>https://my-bus.eu/search?country=DE</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?country=NL</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?country=BE</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?country=FR</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://my-bus.eu/search?country=AT</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Strony prawne -->
   <url>
     <loc>https://my-bus.eu/privacy</loc>
