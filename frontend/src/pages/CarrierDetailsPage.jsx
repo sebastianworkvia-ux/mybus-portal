@@ -138,7 +138,7 @@ export default function CarrierDetailPage() {
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://my-bus.eu/" },
       { "@type": "ListItem", "position": 2, "name": "Wyszukiwarka", "item": "https://my-bus.eu/search" },
-      { "@type": "ListItem", "position": 3, "name": carrier.companyName }
+      { "@type": "ListItem", "position": 3, "name": carrier.companyName, "item": `https://my-bus.eu/carrier/${carrier.slug || carrier._id}` }
     ]
   }
 
@@ -182,10 +182,18 @@ export default function CarrierDetailPage() {
   const serviceLabels = { transport: 'transport busem', przeprowadzki: 'przeprowadzki', laweta: 'laweta', 'transfery-lotniskowe': 'transfery lotniskowe', paczki: 'paczki', autokary: 'autokary' }
   const servicesStr = carrier.services?.map(s => serviceLabels[s] || s).join(', ')
 
+  const countryCodeToSlug = {
+    DE: 'germany', NL: 'netherlands', BE: 'belgium', FR: 'france',
+    AT: 'austria', GB: 'uk', SE: 'sweden', NO: 'norway', DK: 'denmark'
+  }
+  const transportSlug = countryCodeToSlug[carrier.country] || null
+
   const pageTitle = `${carrier.companyName}${cityPart} - Przewoźnik ${countryLabel} | My-Bus.eu`
   const metaDescription = carrier.description
     ? `${carrier.description.slice(0, 120)} ✅ Kontakt, opinie, usługi: ${servicesStr || 'transport'}.`
-    : `${carrier.companyName}${cityPart} — przewoźnik w ${countryLabel}. Usługi: ${servicesStr || 'transport osób i paczek'}. Zweryfikowane opinie klientów.`
+    : carrier.reviewCount > 0
+      ? `${carrier.companyName}${cityPart} — przewoźnik w ${countryLabel}. Usługi: ${servicesStr || 'transport osób i paczek'}. Zweryfikowane opinie klientów.`
+      : `${carrier.companyName}${cityPart} — profil firmy transportowej w my-bus.eu. Sprawdź dane kontaktowe, obsługiwane kierunki i dostępne usługi.`
 
   return (
     <>
@@ -226,7 +234,7 @@ export default function CarrierDetailPage() {
                 <span className="unclaimed-icon">🏢</span>
                 <div className="unclaimed-text">
                   <h3>Czy to Twoja firma?</h3>
-                  <p>Ten profil został dodany do bazy, ale nie ma jeszcze właściciela. Jeśli jesteś właścicielem firmy <strong>{carrier.companyName}</strong>, możesz przejąć ten profil i zarządzać nim samodzielnie.</p>
+                  <p>Jesteś właścicielem tej firmy? Przejmij profil, uzupełnij dane, dodaj opis, logo i zwiększ widoczność swojej firmy w my-bus.eu.</p>
                 </div>
               </div>
               <div className="unclaimed-actions">
@@ -250,8 +258,12 @@ export default function CarrierDetailPage() {
           
           <div className="carrier-title-area">
           <div className="carrier-title">
-            <h1>{carrier.companyName}</h1>
+            <h1>{carrier.companyName} — firma transportowa</h1>
             {carrier.isPremium && <span className="premium-badge">⭐ PREMIUM</span>}
+            {carrier.isVerified
+              ? <span className="verified-badge">✓ Zweryfikowana firma</span>
+              : <span className="unverified-badge">Profil niezweryfikowany</span>
+            }
             <span className="country-badge-large">{carrier.country}</span>
           </div>
 
@@ -263,13 +275,19 @@ export default function CarrierDetailPage() {
             </div>
           )}
 
+          {carrier.reviewCount > 0 ? (
           <div className="carrier-rating">
             <div className="rating-stars">{stars}</div>
             <div className="rating-info">
-              <span className="rating-number">{carrier.rating || 0}/5</span>
-              <span className="review-count">({carrier.reviewCount || 0} opinii)</span>
+              <span className="rating-number">{carrier.rating}/5</span>
+              <span className="review-count">({carrier.reviewCount} opinii)</span>
             </div>
           </div>
+          ) : (
+          <div className="carrier-rating">
+            <p className="no-rating-info">Brak opinii — jako pierwszy oceń tę firmę.</p>
+          </div>
+          )}
 
           {/* Przycisk kontaktu */}
           {carrier.userId?._id && carrier.userId._id !== user?.id && (
@@ -281,6 +299,22 @@ export default function CarrierDetailPage() {
               {sendingMessage ? '⏳ Wysyłanie...' : '💬 Wyślij wiadomość'}
             </button>
           )}
+
+          {/* CTA kontaktowe */}
+          <div className="contact-cta-section">
+            {carrier.phone && (
+              <a href={`tel:${carrier.phone}`} className="btn-cta-phone">📞 Zadzwoń</a>
+            )}
+            {carrier.email && (
+              <a href={`mailto:${carrier.email}`} className="btn-cta-email">✉️ Wyślij email</a>
+            )}
+            {carrier.website && (
+              <a href={carrier.website} target="_blank" rel="nofollow noopener noreferrer" className="btn-cta-website">🌐 Zobacz stronę</a>
+            )}
+            {!carrier.userId && (
+              <a href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}`} className="btn-cta-claim">✅ Przejmij profil</a>
+            )}
+          </div>
           </div>
         </div>
 
@@ -344,7 +378,7 @@ export default function CarrierDetailPage() {
               </>
             )}
             {carrier.website && (
-              <p><strong>Strona:</strong> <a href={carrier.website} target="_blank" rel="noopener noreferrer">{carrier.website}</a></p>
+              <p><strong>Strona:</strong> <a href={carrier.website} target="_blank" rel="nofollow noopener noreferrer">{carrier.website}</a></p>
             )}
             {(carrier.location?.city || carrier.location?.postalCode) && (
               <p><strong>Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}</p>
@@ -408,12 +442,54 @@ export default function CarrierDetailPage() {
           </section>
         </div>
 
+        {/* Trasy */}
+        {carrier.routes && carrier.routes.length > 0 && (
+          <div className="routes-section">
+            <h2>🛣️ Obsługiwane trasy</h2>
+            <div className="routes-list">
+              {carrier.routes.map((route, idx) => (
+                <div key={idx} className="route-item">
+                  <span className="route-from-to">{route.from} → {route.to}</span>
+                  {route.days && route.days.length > 0 && (
+                    <span className="route-days">{route.days.join(', ')}</span>
+                  )}
+                  {route.time && <span className="route-time">godz. {route.time}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Mapa obszaru działania - pełna szerokość */}
         {carrier.operatingRegion && carrier.operatingRegion.length > 2 && (
           <div className="carrier-map-section">
             <h2>📍 Obszar działania</h2>
             <div className="map-container-large">
               <CarrierMapViewer region={carrier.operatingRegion} />
+            </div>
+          </div>
+        )}
+
+        {/* Linki wewnętrzne */}
+        {(carrier.location?.city || transportSlug || (carrier.services && carrier.services.length > 0)) && (
+          <div className="related-links-section">
+            <h3>🔍 Zobacz także</h3>
+            <div className="related-links">
+              {carrier.location?.city && (
+                <Link to={`/city/${encodeURIComponent(carrier.location.city)}`} className="related-link">
+                  Przewoźnicy — {carrier.location.city}
+                </Link>
+              )}
+              {transportSlug && (
+                <Link to={`/transport/${transportSlug}`} className="related-link">
+                  Transport do {countryLabel}
+                </Link>
+              )}
+              {carrier.services?.slice(0, 2).map(service => (
+                <Link key={service} to={`/search?service=${service}`} className="related-link">
+                  {serviceLabels[service] || service}
+                </Link>
+              ))}
             </div>
           </div>
         )}

@@ -1501,3 +1501,178 @@
   border-radius: 6px;
   font-size: 0.9rem;
 }
+
+/* === ETAP 9: Verified / Unverified badges === */
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.unverified-badge {
+  display: inline-flex;
+  align-items: center;
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+/* === ETAP 9: No-rating info === */
+.no-rating-info {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+/* === ETAP 9: Contact CTA section === */
+.contact-cta-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0 2.5rem 2rem;
+}
+
+.btn-cta-phone,
+.btn-cta-email,
+.btn-cta-website,
+.btn-cta-claim {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-cta-phone {
+  background: #16a34a;
+  color: white;
+}
+.btn-cta-phone:hover { background: #15803d; }
+
+.btn-cta-email {
+  background: #2563eb;
+  color: white;
+}
+.btn-cta-email:hover { background: #1d4ed8; }
+
+.btn-cta-website {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+.btn-cta-website:hover { background: #e2e8f0; }
+
+.btn-cta-claim {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+.btn-cta-claim:hover { background: #fde68a; }
+
+/* === ETAP 9: Routes section === */
+.routes-section {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-base);
+  border: 1px solid var(--color-border);
+}
+
+.routes-section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.routes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.route-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.route-from-to {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.route-days {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.route-time {
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* === ETAP 9: Related links section === */
+.related-links-section {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--color-border);
+}
+
+.related-links-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.related-link {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.related-link:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  color: #1e40af;
+}
