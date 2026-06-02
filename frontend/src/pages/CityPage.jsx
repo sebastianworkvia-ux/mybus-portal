@@ -87,10 +87,18 @@ export default function CityPage() {
     }))
   }
 
+  // noindex dla pustych stron — nie ustawiamy podczas ładowania
+  const robotsMeta = loading
+    ? 'index, follow'
+    : (!error && carriers.length > 0)
+      ? 'index, follow'
+      : 'noindex, follow'
+
   return (
     <>
       <Helmet>
         <title>{pageTitle}</title>
+        <meta name="robots" content={robotsMeta} />
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />

@@ -47,6 +47,7 @@ export default function RouteDetailsPage() {
       <>
         <Helmet>
           <title>Trasa nie znaleziona | My-Bus.eu</title>
+          <meta name="robots" content="noindex, follow" />
         </Helmet>
         <div className="route-details-page">
           <section className="route-hero">
@@ -164,10 +165,14 @@ export default function RouteDetailsPage() {
     ]
   }
 
+  // noindex dla pustych tras — loading i error wykluczone przez early returns powyżej
+  const robotsMeta = carriers.length > 0 ? 'index, follow' : 'noindex, follow'
+
   return (
     <>
       <Helmet>
         <title>{pageTitle}</title>
+        <meta name="robots" content={robotsMeta} />
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
