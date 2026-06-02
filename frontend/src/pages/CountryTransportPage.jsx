@@ -27,7 +27,7 @@ const countryNames = {
   'holandia': { pl: 'Holandia', de: 'Niederlande', en: 'Netherlands', code: 'NL' },
   'belgia': { pl: 'Belgia', de: 'Belgien', en: 'Belgium', code: 'BE' },
   'francja': { pl: 'Francja', de: 'Frankreich', en: 'France', code: 'FR' },
-  'austria': { pl: 'Austria', de: 'Österreich', en: 'Austria', code: 'AT' },
+  // 'austria' intentionally omitted — identical to English key above
   'dania': { pl: 'Dania', de: 'Dänemark', en: 'Denmark', code: 'DK' },
   'norwegia': { pl: 'Norwegia', de: 'Norwegen', en: 'Norway', code: 'NO' },
   'szwecja': { pl: 'Szwecja', de: 'Schweden', en: 'Sweden', code: 'SE' },
