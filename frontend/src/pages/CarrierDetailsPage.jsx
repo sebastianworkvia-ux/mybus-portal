@@ -36,8 +36,14 @@ export default function CarrierDetailPage() {
           carrierService.getCarrierById(id),
           reviewService.getReviewsByCarrier(id)
         ])
-        setCarrier(carrierRes.data)
+        const carrierData = carrierRes.data
+        setCarrier(carrierData)
         setReviews(reviewsRes.data)
+
+        // Przekieruj z MongoDB _id na slug (SEO: unikaj duplikatów URL)
+        if (carrierData.slug && id !== carrierData.slug) {
+          navigate(`/carrier/${carrierData.slug}`, { replace: true })
+        }
       } catch (err) {
         setError(err.response?.data?.error || 'Błąd ładowania danych')
       } finally {
@@ -132,7 +138,7 @@ export default function CarrierDetailPage() {
     "name": carrier.companyName,
     "telephone": carrier.phone,
     "email": carrier.email,
-    "url": carrier.website || `https://my-bus.eu/carrier/${carrier._id}`,
+    "url": carrier.website || `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`,
     "description": carrier.description || carrier.detailedDescription || `${carrier.companyName} - transport services`,
     "areaServed": carrier.operatingCountries?.map(country => ({
       "@type": "Country",
@@ -178,9 +184,9 @@ export default function CarrierDetailPage() {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="business.business" />
-        <meta property="og:url" content={`https://my-bus.eu/carrier/${carrier._id}`} />
+        <meta property="og:url" content={`https://my-bus.eu/carrier/${carrier.slug || carrier._id}`} />
         <meta property="og:image" content={carrier.logo || 'https://my-bus.eu/przewoznicy.png'} />
-        <link rel="canonical" href={`https://my-bus.eu/carrier/${carrier._id}`} />
+        <link rel="canonical" href={`https://my-bus.eu/carrier/${carrier.slug || carrier._id}`} />
         
         {/* Schema.org structured data */}
         <script type="application/ld+json">

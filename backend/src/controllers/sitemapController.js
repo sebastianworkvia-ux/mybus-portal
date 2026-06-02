@@ -218,6 +218,43 @@ export const generateSitemap = async (req, res, next) => {
   }
 }
 
+// Generate carriers-only sitemap (for /api/sitemap-carriers.xml via Vercel proxy)
+export const generateCarriersSitemap = async (req, res, next) => {
+  try {
+    const BASE_URL = process.env.FRONTEND_URL || 'https://my-bus.eu'
+
+    const carriers = await Carrier.find({ isActive: true })
+      .select('slug _id updatedAt')
+      .lean()
+
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+    carriers.forEach(carrier => {
+      const lastmod = carrier.updatedAt
+        ? new Date(carrier.updatedAt).toISOString().split('T')[0]
+        : new Date().toISOString().split('T')[0]
+      const carrierPath = carrier.slug || carrier._id
+
+      xml += '  <url>\n'
+      xml += `    <loc>${BASE_URL}/carrier/${carrierPath}</loc>\n`
+      xml += `    <lastmod>${lastmod}</lastmod>\n`
+      xml += '    <changefreq>weekly</changefreq>\n'
+      xml += '    <priority>0.8</priority>\n'
+      xml += '  </url>\n'
+    })
+
+    xml += '</urlset>'
+
+    res.header('Content-Type', 'application/xml; charset=utf-8')
+    res.header('Cache-Control', 'public, max-age=3600')
+    res.send(xml)
+  } catch (error) {
+    console.error('❌ Carriers sitemap generation error:', error)
+    next(error)
+  }
+}
+
 // Generate robots.txt
 export const generateRobotsTxt = (req, res) => {
   const BACKEND_URL = process.env.BACKEND_URL || 'https://mybus-backend-aygc.onrender.com'

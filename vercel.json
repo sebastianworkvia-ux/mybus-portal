@@ -23,6 +23,10 @@
       "destination": "https://mybus-backend-aygc.onrender.com/:path*" 
     },
     { 
+      "source": "/sitemap-carriers.xml", 
+      "destination": "https://mybus-backend-aygc.onrender.com/sitemap-carriers.xml" 
+    },
+    { 
       "source": "/(.*)", 
       "destination": "/" 
     }

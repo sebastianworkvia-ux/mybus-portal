@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import SearchBar from '../components/SearchBar'
 import CarrierCard from '../components/CarrierCard'
@@ -85,6 +86,14 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      <Helmet>
+        <title>My-Bus.eu – Wyszukiwarka Przewoźników Busowych | PL-DE-NL-BE-FR-AT</title>
+        <meta name="description" content={`${carriers.length > 50 ? carriers.length + '+' : '1074+'} zweryfikowanych przewoźników busowych w Europie. Transport osób, paczek, lawety, przeprowadzki. Polska ↔ Niemcy, Holandia, Belgia, Francja, Austria.`} />
+        <link rel="canonical" href="https://my-bus.eu/" />
+        <meta property="og:url" content="https://my-bus.eu/" />
+        <meta property="og:title" content="My-Bus.eu – Wyszukiwarka Przewoźników Busowych w Europie" />
+        <meta property="og:description" content={`${carriers.length > 50 ? carriers.length + '+' : '1074+'} zweryfikowanych przewoźników. Transport Polska–Europa. Bezpośredni kontakt z firmą.`} />
+      </Helmet>
       <PromoSidebar />
       
       {/* HERO SEKCJA - 1:1 z mockupem */}
