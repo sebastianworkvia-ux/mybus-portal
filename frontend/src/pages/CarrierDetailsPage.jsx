@@ -131,6 +131,17 @@ export default function CarrierDetailPage() {
   const stars = '⭐'.repeat(Math.floor(carrier.rating || 0))
   const userReview = reviews.find(r => r.userId?._id === user?.id)
 
+  // BreadcrumbList JSON-LD
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://my-bus.eu/" },
+      { "@type": "ListItem", "position": 2, "name": "Wyszukiwarka", "item": "https://my-bus.eu/search" },
+      { "@type": "ListItem", "position": 3, "name": carrier.companyName }
+    ]
+  }
+
   // Prepare Schema.org structured data
   const schemaData = {
     "@context": "https://schema.org",
@@ -192,11 +203,20 @@ export default function CarrierDetailPage() {
         <script type="application/ld+json">
           {JSON.stringify(schemaData)}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
       </Helmet>
 
       <div className="carrier-detail-page">
       <div className="container">
-        <Link to="/search" className="btn-back-link">← Powrót do wyszukiwania</Link>
+        <nav className="breadcrumbs" aria-label="Breadcrumb">
+          <Link to="/">Strona główna</Link>
+          <span className="separator">›</span>
+          <Link to="/search">Wyszukiwarka</Link>
+          <span className="separator">›</span>
+          <span className="current">{carrier.companyName}</span>
+        </nav>
 
         <div className="carrier-header">
           {/* Banner dla niezarejestrowanych firm */}

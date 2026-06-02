@@ -82,7 +82,7 @@ export default function CityPage() {
           "@type": "Country",
           "name": c
         })),
-        "url": `${window.location.origin}/carrier/${carrier._id}`
+        "url": `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`
       }
     }))
   }
@@ -95,10 +95,21 @@ export default function CityPage() {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <link rel="canonical" href={window.location.href} />
+        <meta property="og:url" content={`https://my-bus.eu/city/${cityName}`} />
+        <link rel="canonical" href={`https://my-bus.eu/city/${cityName}`} />
         <script type="application/ld+json">
           {JSON.stringify(schemaData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://my-bus.eu/" },
+              { "@type": "ListItem", "position": 2, "name": "Szukaj", "item": "https://my-bus.eu/search" },
+              { "@type": "ListItem", "position": 3, "name": city }
+            ]
+          })}
         </script>
       </Helmet>
 

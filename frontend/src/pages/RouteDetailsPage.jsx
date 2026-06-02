@@ -119,7 +119,7 @@ export default function RouteDetailsPage() {
           { "@type": "Place", "name": fromName },
           { "@type": "Place", "name": toName }
         ],
-        "url": `${window.location.origin}/carrier/${carrier._id}`
+        "url": `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`
       }
     }))
   }
@@ -172,8 +172,8 @@ export default function RouteDetailsPage() {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <link rel="canonical" href={window.location.href} />
+        <meta property="og:url" content={`https://my-bus.eu/route/${fromCity}/${toCity}`} />
+        <link rel="canonical" href={`https://my-bus.eu/route/${fromCity}/${toCity}`} />
         
         {/* Schema.org structured data */}
         <script type="application/ld+json">
@@ -181,6 +181,17 @@ export default function RouteDetailsPage() {
         </script>
         <script type="application/ld+json">
           {JSON.stringify(faqData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://my-bus.eu/" },
+              { "@type": "ListItem", "position": 2, "name": "Szukaj", "item": "https://my-bus.eu/search" },
+              { "@type": "ListItem", "position": 3, "name": `${fromName} → ${toName}` }
+            ]
+          })}
         </script>
       </Helmet>
 
