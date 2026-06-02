@@ -1,7 +1,7 @@
 import Carrier from '../models/Carrier.js'
 import { slugify } from '../utils/textUtils.js'
 
-// Supported countries for /transport-to/:country pages
+// Supported countries for /transport/:country pages
 const COUNTRIES = [
   'germany', 'niemcy',
   'netherlands', 'holandia',
@@ -133,16 +133,16 @@ export const generateSitemap = async (req, res, next) => {
       xml += '  </url>\n'
     })
     
-    // 8. All country transport pages (/transport-to/:country)
+    // 8. All country transport pages (/transport/:country)
     UNIQUE_COUNTRIES.forEach(country => {
       xml += '  <url>\n'
-      xml += `    <loc>${BASE_URL}/transport-to/${country}</loc>\n`
+      xml += `    <loc>${BASE_URL}/transport/${country}</loc>\n`
       xml += '    <changefreq>weekly</changefreq>\n'
       xml += '    <priority>0.8</priority>\n'
       xml += '  </url>\n'
     })
     
-    // 9. Popular route pages (/bus/:fromCity/:toCity)
+    // 9. Popular route pages (/route/:fromCity/:toCity)
     const popularRoutes = [
       // Poland to Germany
       { from: 'warsaw', to: 'berlin' },
@@ -183,7 +183,7 @@ export const generateSitemap = async (req, res, next) => {
     
     popularRoutes.forEach(route => {
       xml += '  <url>\n'
-      xml += `    <loc>${BASE_URL}/bus/${route.from}/${route.to}</loc>\n`
+      xml += `    <loc>${BASE_URL}/route/${route.from}/${route.to}</loc>\n`
       xml += '    <changefreq>weekly</changefreq>\n'
       xml += '    <priority>0.8</priority>\n'
       xml += '  </url>\n'
@@ -191,7 +191,7 @@ export const generateSitemap = async (req, res, next) => {
     
     // 10. Static pages (legal)
     const staticPages = [
-      { path: '/privacy-policy', priority: '0.3' },
+      { path: '/privacy', priority: '0.3' },
       { path: '/terms', priority: '0.3' },
       { path: '/cookies', priority: '0.3' }
     ]
