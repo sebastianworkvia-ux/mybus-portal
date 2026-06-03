@@ -1676,3 +1676,98 @@
   border-color: #93c5fd;
   color: #1e40af;
 }
+
+/* === ETAP 14: Mobile CTA fixes === */
+@media (max-width: 768px) {
+  /* Dodatkowy padding-bottom żeby treść nie była przykryta sticky barem */
+  .carrier-detail-page {
+    padding-bottom: 80px;
+  }
+
+  /* Fix padding contact-cta-section na mobile */
+  .contact-cta-section {
+    padding: 0 1.5rem 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .btn-cta-phone,
+  .btn-cta-email,
+  .btn-cta-website,
+  .btn-cta-claim {
+    justify-content: center;
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+/* === ETAP 14: Sticky mobile CTA bar === */
+.sticky-mobile-cta {
+  display: none; /* ukryty na desktop domyślnie */
+}
+
+@media (max-width: 768px) {
+  .sticky-mobile-cta {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 1rem;
+    /* safe-area dla iPhone z notchem */
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .sticky-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: all 0.2s ease;
+  }
+
+  .sticky-cta-phone {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
+  }
+
+  .sticky-cta-phone:hover,
+  .sticky-cta-phone:active {
+    background: linear-gradient(135deg, #15803d, #166534);
+    color: white;
+  }
+
+  .sticky-cta-email {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  }
+
+  .sticky-cta-email:hover,
+  .sticky-cta-email:active {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    color: white;
+  }
+
+  .sticky-cta-claim {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+  }
+
+  .sticky-cta-claim:hover,
+  .sticky-cta-claim:active {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: white;
+  }
+}

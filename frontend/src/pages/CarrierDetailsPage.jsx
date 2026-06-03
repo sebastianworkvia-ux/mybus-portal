@@ -642,6 +642,28 @@ export default function CarrierDetailPage() {
           </section>
       </div>
     </div>
+
+      {/* Sticky mobile CTA bar */}
+      {(carrier.phone || carrier.email || !carrier.userId) && (
+        <div className="sticky-mobile-cta" aria-label="Kontakt z przewoźnikiem">
+          {carrier.phone ? (
+            <a href={`tel:${carrier.phone}`} className="sticky-cta-btn sticky-cta-phone">
+              📞 Zadzwoń
+            </a>
+          ) : carrier.email ? (
+            <a href={`mailto:${carrier.email}`} className="sticky-cta-btn sticky-cta-email">
+              ✉️ Napisz email
+            </a>
+          ) : !carrier.userId ? (
+            <a
+              href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}`}
+              className="sticky-cta-btn sticky-cta-claim"
+            >
+              ✅ Przejmij profil
+            </a>
+          ) : null}
+        </div>
+      )}
     </>
   )
 }
