@@ -103,6 +103,34 @@
   color: white;
 }
 
+.unclaimed-note {
+  font-size: 0.8rem !important;
+  color: #92400e !important;
+  font-style: italic;
+  margin-top: 0.25rem !important;
+  opacity: 0.85;
+}
+
+.btn-learn-more {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #1e40af;
+  border: 1.5px solid #bfdbfe;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-learn-more:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1e3a8a;
+}
+
 .btn-remove-profile {
   display: inline-flex;
   align-items: center;

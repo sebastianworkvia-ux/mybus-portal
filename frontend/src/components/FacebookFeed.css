@@ -50,6 +50,59 @@
   gap: 30px;
 }
 
+/* Wrapper skalujący FB widget – API max 500px, kontener wizualnie szerszy */
+.fb-page-scaler {
+  width: 100%;
+  max-width: 860px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.07),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  position: relative;
+}
+
+/* Skalowanie iframe od FB – 500px → ~860px = scale 1.72 */
+.fb-page-scaler .fb-page,
+.fb-page-scaler span,
+.fb-page-scaler iframe {
+  display: block !important;
+  width: 500px !important;
+  transform: scale(1.72);
+  transform-origin: top left;
+}
+
+/* Wysokość kontenera = 700px * 1.72 */
+.fb-page-scaler {
+  height: 1204px;
+}
+
+@media (max-width: 900px) {
+  .fb-page-scaler .fb-page,
+  .fb-page-scaler span,
+  .fb-page-scaler iframe {
+    transform: scale(1.2);
+  }
+  .fb-page-scaler {
+    max-width: 600px;
+    height: 840px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fb-page-scaler .fb-page,
+  .fb-page-scaler span,
+  .fb-page-scaler iframe {
+    transform: scale(1);
+  }
+  .fb-page-scaler {
+    max-width: 500px;
+    height: 700px;
+    box-shadow: none;
+  }
+}
+
 /* Kontener Facebook Page Plugin */
 .facebook-feed-wrapper iframe {
   background: white;

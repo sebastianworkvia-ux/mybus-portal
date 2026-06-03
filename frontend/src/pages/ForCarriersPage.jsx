@@ -20,15 +20,15 @@ export default function ForCarriersPage() {
         <div className="container">
           <div className="carriers-hero-content">
             <div className="carriers-hero-text">
-              <h1>🚀 Zwiększ Bazę Klientów o 300% - Bezpłatna Rejestracja!</h1>
+              <h1>🚀 Rozwijaj firmę transportową z My-Bus.eu</h1>
               <p className="hero-subtitle">
-                My-Bus.eu – Większa Widoczność, Więcej Zapytań, Większe Zyski. 
-                Dołącz do 1000+ przewoźników obsługujących Polskę, Niemcy, Hollandię, Belgię.
+                Baza ponad 1900 profili firm transportowych. Bezpłatna rejestracja,
+                panel zarządzania, opinie klientów i statystyki wyświetleń.
               </p>
               <div className="hero-stats">
                 <div className="stat-item">
-                  <span className="stat-number">1000+</span>
-                  <span className="stat-label">Przewoźników</span>
+                  <span className="stat-number">1900+</span>
+                  <span className="stat-label">Profili firm</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-number">15,000+</span>
@@ -156,42 +156,72 @@ export default function ForCarriersPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Co możesz zyskać */}
       <section className="testimonials-section">
         <div className="container">
-          <h2 className="section-title">Co mówią przewoźnicy?</h2>
+          <h2 className="section-title">Co zyskujesz po przejęciu lub rejestracji profilu?</h2>
           <div className="testimonials-grid">
             <div className="testimonial-card">
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+              <div className="testimonial-stars">📋</div>
               <p className="testimonial-text">
-                "W pierwszym miesiącu dostałem 12 zapytań! Wcześniej musiałem 
-                płacić za reklamy na Facebooku. Teraz klienci sami mnie znajdują."
+                Edytujesz dane firmy: opis, usługi, numer telefonu, stronę WWW i obszar działania.
               </p>
               <div className="testimonial-author">
-                <strong>Jan Kowalski</strong>
-                <span>ABC Transport, Düsseldorf</span>
+                <strong>Pełna kontrola profilu</strong>
               </div>
             </div>
             <div className="testimonial-card">
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+              <div className="testimonial-stars">⭐</div>
               <p className="testimonial-text">
-                "Świetna platforma! Łatwa w obsłudze, a efekty przeszły moje 
-                oczekiwania. Polecam każdemu przewoźnikowi!"
+                Klienci mogą wystawiać opinie bezpośrednio na Twoim profilu. Możesz śledzić swoją reputację.
               </p>
               <div className="testimonial-author">
-                <strong>Maria Nowak</strong>
-                <span>Express Shuttle, Amsterdam</span>
+                <strong>System opinii</strong>
               </div>
             </div>
             <div className="testimonial-card">
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+              <div className="testimonial-stars">📊</div>
               <p className="testimonial-text">
-                "Najlepsza inwestycja jaką zrobiłem. Plan Premium zwrócił się 
-                po pierwszym kliencie. Mam już stałych klientów dzięki My-Bus.eu."
+                Plany Premium i Business oferują statystyki: liczba wejść na profil, wyświetleń w wyszukiwarce i kliknięć w kontakt.
               </p>
               <div className="testimonial-author">
-                <strong>Piotr Wiśniewski</strong>
-                <span>Poland-Berlin Transport</span>
+                <strong>Analityka (plany płatne)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Masz już profil */}
+      <section className="how-it-works">
+        <div className="container">
+          <h2 className="section-title">Masz już profil w my-bus.eu?</h2>
+          <p style={{ textAlign: 'center', color: '#475569', maxWidth: '640px', margin: '0 auto 2rem' }}>
+            Jeśli Twoja firma jest już w naszej wyszukiwarce, nie musisz dodawać jej od nowa.
+            Wejdź na profil firmy i kliknij <strong>„Przejmij profil"</strong> — wyślemy Ci instrukcje, jak potwierdzić własność lub reprezentację firmy.
+          </p>
+          <div className="steps">
+            <div className="step">
+              <div className="step-number">1</div>
+              <div className="step-content">
+                <h3>Znajdź profil</h3>
+                <p>Wyszukaj nazwę swojej firmy w wyszukiwarce my-bus.eu.</p>
+              </div>
+            </div>
+            <div className="step-arrow">→</div>
+            <div className="step">
+              <div className="step-number">2</div>
+              <div className="step-content">
+                <h3>Kliknij „Przejmij profil"</h3>
+                <p>Na stronie profilu znajdziesz baner z przyciskiem do zgłoszenia przejęcia.</p>
+              </div>
+            </div>
+            <div className="step-arrow">→</div>
+            <div className="step">
+              <div className="step-number">3</div>
+              <div className="step-content">
+                <h3>Weryfikacja i dostęp</h3>
+                <p>Po weryfikacji (do 48h) uzyskasz dostęp do edycji profilu.</p>
               </div>
             </div>
           </div>
@@ -329,7 +359,7 @@ export default function ForCarriersPage() {
         <div className="container">
           <div className="cta-content">
             <h2>Gotowy na więcej klientów?</h2>
-            <p>Dołącz do 500+ przewoźników, którzy już rozwijają biznes z MyBus</p>
+            <p>Dołącz do przewoźników, którzy już zarządzają swoimi profilami w my-bus.eu</p>
             <Link to="/register" className="btn-cta-large">
               Załóż darmowe konto teraz →
             </Link>

@@ -56,12 +56,13 @@ export default function FacebookFeed() {
           <div id="fb-root"></div>
           
           {/* Facebook Page Plugin dla Business Page */}
+          <div className="fb-page-scaler">
           <div 
             className="fb-page" 
             data-href="https://www.facebook.com/profile.php?id=61584903104321"
             data-tabs="timeline"
             data-width="500"
-            data-height="600"
+            data-height="700"
             data-small-header="false"
             data-adapt-container-width="true"
             data-hide-cover="false"
@@ -76,6 +77,7 @@ export default function FacebookFeed() {
                 My-Bus.eu na Facebooku
               </a>
             </blockquote>
+          </div>
           </div>
 
           <div className="facebook-feed-cta">

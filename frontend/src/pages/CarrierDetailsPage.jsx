@@ -161,6 +161,27 @@ export default function CarrierDetailPage() {
 
   const profileUrl = `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`
 
+  // Prefillowany mailto dla przejęcia profilu — używany we wszystkich "Przejmij profil" CTA
+  const claimMailBody = [
+    'Witam,',
+    '',
+    'Chcę przejąć profil tej firmy w my-bus.eu.',
+    '',
+    `Nazwa firmy: ${carrier.companyName}`,
+    ...(carrier.companyRegistration ? [`Numer rejestracyjny/NIP: ${carrier.companyRegistration}`] : []),
+    `Link do profilu: ${profileUrl}`,
+    '',
+    'Moje dane kontaktowe:',
+    'Imię i nazwisko: ',
+    'Telefon: ',
+    'Email: ',
+    'Rola w firmie: ',
+    'Dodatkowa wiadomość: ',
+    '',
+    'Pozdrawiam',
+  ].join('\n')
+  const claimMailHref = `mailto:kontakt.mybus@gmail.com?subject=${encodeURIComponent('Przejęcie profilu - ' + carrier.companyName)}&body=${encodeURIComponent(claimMailBody)}`
+
   // @type: LocalBusiness lub ["LocalBusiness","MovingCompany"] dla firm przeprowadzkowych
   const schemaType = carrier.services?.includes('przeprowadzki')
     ? ['LocalBusiness', 'MovingCompany']
@@ -284,16 +305,19 @@ export default function CarrierDetailPage() {
               <div className="unclaimed-content">
                 <span className="unclaimed-icon">🏢</span>
                 <div className="unclaimed-text">
-                  <h3>Czy to Twoja firma?</h3>
-                  <p>Jesteś właścicielem tej firmy? Przejmij profil, uzupełnij dane, dodaj opis, logo i zwiększ widoczność swojej firmy w my-bus.eu.</p>
+                  <h3>To Twoja firma?</h3>
+                  <p>Przejmij profil bezpłatnie — uzupełnij dane, dodaj opis, logo, trasy i zwiększ widoczność swojej firmy w my-bus.eu.</p>
+                  <p className="unclaimed-note">Po zgłoszeniu zweryfikujemy, czy jesteś właścicielem lub przedstawicielem firmy.</p>
                 </div>
               </div>
               <div className="unclaimed-actions">
-                <a href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}&body=Witam,%0D%0A%0D%0AChciałbym przejąć profil firmy: ${carrier.companyName}%0D%0ANumer rejestracyjny: ${carrier.companyRegistration}%0D%0A%0D%0APrzykładam dokumenty potwierdzające własność firmy.%0D%0A%0D%0APozdrawiam`} 
-                   className="btn-claim">
+                <a href={claimMailHref} className="btn-claim">
                   ✅ Przejmij profil
                 </a>
-                <a href={`mailto:kontakt.mybus@gmail.com?subject=Usunięcie profilu - ${carrier.companyName}&body=Witam,%0D%0A%0D%0AProszę o usunięcie profilu firmy: ${carrier.companyName}%0D%0ANumer rejestracyjny: ${carrier.companyRegistration}%0D%0A%0D%0APrzykładam dokumenty potwierdzające, że jestem właścicielem.%0D%0A%0D%0APozdrawiam`}
+                <Link to="/for-carriers" className="btn-learn-more">
+                  Dowiedz się więcej →
+                </Link>
+                <a href={`mailto:kontakt.mybus@gmail.com?subject=${encodeURIComponent('Usunięcie profilu - ' + carrier.companyName)}&body=${encodeURIComponent('Witam,\n\nProszę o usunięcie profilu firmy: ' + carrier.companyName + (carrier.companyRegistration ? '\nNumer rejestracyjny: ' + carrier.companyRegistration : '') + '\n\nPozdrawiam')}`}
                    className="btn-remove-profile">
                   🗑️ Poproś o usunięcie
                 </a>
@@ -363,7 +387,7 @@ export default function CarrierDetailPage() {
               <a href={carrier.website} target="_blank" rel="nofollow noopener noreferrer" className="btn-cta-website">🌐 Zobacz stronę</a>
             )}
             {!carrier.userId && (
-              <a href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}`} className="btn-cta-claim">✅ Przejmij profil</a>
+              <a href={claimMailHref} className="btn-cta-claim">✅ Przejmij profil</a>
             )}
           </div>
           </div>
@@ -656,7 +680,7 @@ export default function CarrierDetailPage() {
             </a>
           ) : !carrier.userId ? (
             <a
-              href={`mailto:kontakt.mybus@gmail.com?subject=Przejęcie profilu - ${carrier.companyName}`}
+              href={claimMailHref}
               className="sticky-cta-btn sticky-cta-claim"
             >
               ✅ Przejmij profil

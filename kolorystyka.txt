@@ -1,0 +1,71 @@
+Główna paleta
+1. Ciemny granat / ciemny niebieski
+HEX: #071B3A
+RGB: 7, 27, 58
+
+To będzie główne tło, sekcje, ciemne boksy.
+
+2. Pomarańczowy główny
+HEX: #F97316
+RGB: 249, 115, 22
+
+To dobry kolor na przyciski, CTA, wyróżnienia i ważne nagłówki.
+
+3. Biały
+HEX: #FFFFFF
+RGB: 255, 255, 255
+
+Na tekst, kontrast i czyste elementy.
+
+Dodatkowe odcienie pomocnicze
+
+Żeby grafiki były spójne, ale nie płaskie, możesz też używać:
+
+4. Jaśniejszy granat
+HEX: #0D2A57
+RGB: 13, 42, 87
+
+Na boksy, obramowania, tła pod ikonami.
+
+5. Jasny niebieski akcent
+HEX: #3B82F6
+RGB: 59, 130, 246
+
+Do lekkich poświat, ikonek, detali, aktywnych elementów.
+
+6. Jasny szary / biel złamana
+HEX: #F3F4F6
+RGB: 243, 244, 246
+
+Na delikatne pola, tła kart, jaśniejsze sekcje.
+
+Najprostszy zestaw, jeśli chcesz tylko 3 kolory
+
+Jeśli chcesz absolutne minimum, to trzymaj się tego:
+
+Granat: #071B3A
+Pomarańczowy: #F97316
+Biały: #FFFFFF
+Jak ich używać
+
+Żeby wszystko wyglądało profesjonalnie:
+
+70% – granat / ciemny niebieski
+20% – biały
+10% – pomarańczowy jako akcent
+
+Czyli:
+
+tło i sekcje → granat
+tekst główny → biały
+CTA, przyciski, wyróżnienia, liczby → pomarańczowy
+Krótka wersja do zapisania
+
+Paleta my-bus.eu:
+
+#071B3A
+#0D2A57
+#F97316
+#3B82F6
+#FFFFFF
+#F3F4F6
