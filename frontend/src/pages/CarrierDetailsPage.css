@@ -1681,7 +1681,7 @@
 @media (max-width: 768px) {
   /* Dodatkowy padding-bottom żeby treść nie była przykryta sticky barem */
   .carrier-detail-page {
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Fix padding contact-cta-section na mobile */
