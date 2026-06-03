@@ -142,29 +142,80 @@ export default function CarrierDetailPage() {
     ]
   }
 
+  // Schema.org — mapa kodów krajów na angielskie nazwy (standard schema.org)
+  const schemaCountryNames = {
+    DE: 'Germany', NL: 'Netherlands', BE: 'Belgium', FR: 'France',
+    AT: 'Austria', PL: 'Poland', GB: 'United Kingdom', SE: 'Sweden',
+    NO: 'Norway', DK: 'Denmark', CH: 'Switzerland', IT: 'Italy',
+    ES: 'Spain', CZ: 'Czech Republic', SK: 'Slovakia'
+  }
+
+  // Mapa usług do czytelnych etykiet (reużywa serviceLabels zdefiniowanych niżej)
+  const schemaServiceLabels = {
+    transport: 'Transport busem', przeprowadzki: 'Przeprowadzki', laweta: 'Laweta / Autotransport',
+    'transfery-lotniskowe': 'Transfery lotniskowe', paczki: 'Transport paczek',
+    autokary: 'Wycieczki autokarowe', 'przejazdy-sluzbowe': 'Przejazdy służbowe',
+    zwierzeta: 'Transport zwierząt', dokumenty: 'Transport dokumentów',
+    'transport-rzeczy': 'Transport towarów', inne: 'Inne usługi transportowe'
+  }
+
+  const profileUrl = `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`
+
+  // @type: LocalBusiness lub ["LocalBusiness","MovingCompany"] dla firm przeprowadzkowych
+  const schemaType = carrier.services?.includes('przeprowadzki')
+    ? ['LocalBusiness', 'MovingCompany']
+    : 'LocalBusiness'
+
   // Prepare Schema.org structured data
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "TransportService",
+    "@type": schemaType,
+    "@id": profileUrl,
     "name": carrier.companyName,
-    "telephone": carrier.phone,
-    "email": carrier.email,
-    "url": carrier.website || `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`,
-    "description": carrier.description || carrier.detailedDescription || `${carrier.companyName} - transport services`,
-    "areaServed": carrier.operatingCountries?.map(country => ({
-      "@type": "Country",
-      "name": country
-    })),
-    "serviceType": carrier.services?.join(', ') || "Transport services",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": carrier.location?.city,
-      "postalCode": carrier.location?.postalCode,
-      "addressCountry": carrier.country
-    }
+    "url": profileUrl,
+    "description": carrier.description
+      || carrier.detailedDescription
+      || `${carrier.companyName} — firma transportowa w my-bus.eu`
   }
 
-  // Add aggregate rating if reviews exist
+  // telephone — tylko gdy istnieje
+  if (carrier.phone) schemaData.telephone = carrier.phone
+
+  // email — tylko gdy istnieje
+  if (carrier.email) schemaData.email = carrier.email
+
+  // sameAs — strona firmy (nie url)
+  if (carrier.website) schemaData.sameAs = [carrier.website]
+
+  // image/logo — tylko gdy istnieje
+  if (carrier.logo) {
+    schemaData.image = carrier.logo
+    schemaData.logo = carrier.logo
+  }
+
+  // address — tylko gdy mamy choć jedno pole lokalizacji
+  if (carrier.location?.city || carrier.location?.postalCode || carrier.country) {
+    const address = { "@type": "PostalAddress" }
+    if (carrier.location?.city)       address.addressLocality = carrier.location.city
+    if (carrier.location?.postalCode) address.postalCode = carrier.location.postalCode
+    if (carrier.country)              address.addressCountry = carrier.country
+    schemaData.address = address
+  }
+
+  // areaServed — kody → pełne nazwy krajów
+  if (carrier.operatingCountries?.length > 0) {
+    schemaData.areaServed = carrier.operatingCountries.map(code => ({
+      "@type": "Country",
+      "name": schemaCountryNames[code] || code
+    }))
+  }
+
+  // serviceType — tablica czytelnych etykiet
+  if (carrier.services?.length > 0) {
+    schemaData.serviceType = carrier.services.map(s => schemaServiceLabels[s] || s)
+  }
+
+  // aggregateRating — tylko gdy istnieją realne opinie
   if (carrier.rating && carrier.reviewCount > 0) {
     schemaData.aggregateRating = {
       "@type": "AggregateRating",
