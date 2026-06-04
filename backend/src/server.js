@@ -17,6 +17,7 @@ import analyticsRoutes from './routes/analytics.js'
 import importRoutes from './routes/import.js'
 import messageRoutes from './routes/messages.js'
 import chatRoutes from './routes/chat.js'
+import claimRoutes from './routes/claims.js'
 import sitemapRoutes from './routes/sitemap.js'
 import { errorHandler } from './middleware/auth.js'
 
@@ -180,6 +181,7 @@ app.use('/api/analytics', analyticsRoutes)
 app.use('/api/import', importRoutes)
 app.use('/api/messages', messageRoutes)
 app.use('/api/chat', chatRoutes)
+app.use('/api/claims', claimRoutes)
 
 // Error handling middleware
 app.use(errorHandler)

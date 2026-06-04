@@ -161,27 +161,6 @@ export default function CarrierDetailPage() {
 
   const profileUrl = `https://my-bus.eu/carrier/${carrier.slug || carrier._id}`
 
-  // Prefillowany mailto dla przejęcia profilu — używany we wszystkich "Przejmij profil" CTA
-  const claimMailBody = [
-    'Witam,',
-    '',
-    'Chcę przejąć profil tej firmy w my-bus.eu.',
-    '',
-    `Nazwa firmy: ${carrier.companyName}`,
-    ...(carrier.companyRegistration ? [`Numer rejestracyjny/NIP: ${carrier.companyRegistration}`] : []),
-    `Link do profilu: ${profileUrl}`,
-    '',
-    'Moje dane kontaktowe:',
-    'Imię i nazwisko: ',
-    'Telefon: ',
-    'Email: ',
-    'Rola w firmie: ',
-    'Dodatkowa wiadomość: ',
-    '',
-    'Pozdrawiam',
-  ].join('\n')
-  const claimMailHref = `mailto:kontakt.mybus@gmail.com?subject=${encodeURIComponent('Przejęcie profilu - ' + carrier.companyName)}&body=${encodeURIComponent(claimMailBody)}`
-
   // @type: LocalBusiness lub ["LocalBusiness","MovingCompany"] dla firm przeprowadzkowych
   const schemaType = carrier.services?.includes('przeprowadzki')
     ? ['LocalBusiness', 'MovingCompany']
@@ -311,9 +290,9 @@ export default function CarrierDetailPage() {
                 </div>
               </div>
               <div className="unclaimed-actions">
-                <a href={claimMailHref} className="btn-claim">
+                <Link to={`/claim/${carrier.slug || carrier._id}`} className="btn-claim">
                   ✅ Przejmij profil
-                </a>
+                </Link>
                 <Link to="/for-carriers" className="btn-learn-more">
                   Dowiedz się więcej →
                 </Link>
@@ -387,7 +366,7 @@ export default function CarrierDetailPage() {
               <a href={carrier.website} target="_blank" rel="nofollow noopener noreferrer" className="btn-cta-website">🌐 Zobacz stronę</a>
             )}
             {!carrier.userId && (
-              <a href={claimMailHref} className="btn-cta-claim">✅ Przejmij profil</a>
+              <Link to={`/claim/${carrier.slug || carrier._id}`} className="btn-cta-claim">✅ Przejmij profil</Link>
             )}
           </div>
           </div>
@@ -679,12 +658,12 @@ export default function CarrierDetailPage() {
               ✉️ Napisz email
             </a>
           ) : !carrier.userId ? (
-            <a
-              href={claimMailHref}
+            <Link
+              to={`/claim/${carrier.slug || carrier._id}`}
               className="sticky-cta-btn sticky-cta-claim"
             >
               ✅ Przejmij profil
-            </a>
+            </Link>
           ) : null}
         </div>
       )}

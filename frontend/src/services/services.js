@@ -39,6 +39,10 @@ export const paymentService = {
   activatePremium: () => apiClient.post('/payments/activate-premium')
 }
 
+export const claimService = {
+  submitClaim: (data) => apiClient.post('/claims', data)
+}
+
 export const messageService = {
   sendMessage: (data) => apiClient.post('/messages', data),
   getConversations: () => apiClient.get('/messages/conversations'),

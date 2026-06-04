@@ -33,6 +33,7 @@ import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import MessagesPage from './pages/MessagesPage'
 import CountryTransportPage from './pages/CountryTransportPage'
 import RouteDetailsPage from './pages/RouteDetailsPage'
+import ClaimProfilePage from './pages/ClaimProfilePage'
 import ChatWidget from './components/ChatWidget'
 import { startKeepAlive } from './utils/keepAlive'
 import './App.css'
@@ -70,6 +71,7 @@ function App() {
             <Route path="/transport/:country" element={<CountryTransportPage />} />
             <Route path="/route/:fromCity/:toCity" element={<RouteDetailsPage />} />
             <Route path="/carrier/:id" element={<CarrierDetailsPage />} />
+            <Route path="/claim/:slug" element={<ClaimProfilePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/add-carrier" element={<AddCarrierPage />} />
             <Route path="/edit-carrier/:id" element={<EditCarrierPage />} />
