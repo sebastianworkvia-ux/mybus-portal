@@ -7,7 +7,7 @@ export default function ForCarriersPage() {
     <>
       <Helmet>
         <title>Dla Przewoźników - Dołącz do My-Bus.eu | Zwiększ bazę klientów</title>
-        <meta name="description" content="Zarejestruj firmę transportową w My-Bus.eu. 1000+ przewoźników, 15 000 odwiedzin miesięcznie. Darmowe konto, plan Premium od 29,99 €/mies. Niemcy, Holandia, Belgia, Francja, Austria, Polska." />
+        <meta name="description" content="Zarejestruj firmę transportową w My-Bus.eu. Ponad 1900 profili firm transportowych w bazie, darmowy profil i możliwość lepszej prezentacji firmy w planie Premium." />
         <meta property="og:title" content="Dla Przewoźników - Dołącz do My-Bus.eu" />
         <meta property="og:description" content="Dotrzyjmy do tysięcy Polaków za granicą. Bezpłatna rejestracja, zarządzanie profilem online, system opinii i analityka." />
         <meta property="og:type" content="website" />
@@ -49,8 +49,8 @@ export default function ForCarriersPage() {
             <div className="carriers-hero-image">
               <div className="hero-card">
                 <div className="card-icon">📈</div>
-                <h3>+300%</h3>
-                <p>Wzrost zapytań</p>
+                <h3>1900+</h3>
+                <p>Profili firm</p>
               </div>
               <div className="hero-card">
                 <div className="card-icon">💰</div>
