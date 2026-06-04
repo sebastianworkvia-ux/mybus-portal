@@ -182,6 +182,7 @@ app.use('/api/import', importRoutes)
 app.use('/api/messages', messageRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/claims', claimRoutes)
+app.use('/claims', claimRoutes)
 
 // Error handling middleware
 app.use(errorHandler)
