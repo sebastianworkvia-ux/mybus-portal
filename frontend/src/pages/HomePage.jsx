@@ -67,18 +67,17 @@ export default function HomePage() {
     const premiumCarriers = carriers.filter(c => c.subscriptionPlan === 'premium')
     const freeCarriers = carriers.filter(c => c.subscriptionPlan === 'free' || !c.subscriptionPlan)
     
-    // Shuffle free carriers (Fisher-Yates shuffle)
-    const shuffledFree = [...freeCarriers]
-    for (let i = shuffledFree.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledFree[i], shuffledFree[j]] = [shuffledFree[j], shuffledFree[i]]
-    }
-    
-    // Połącz: wszystkie premium + losowe free (do 6 total)
+    // Sortuj free: najpierw zweryfikowani, potem ostatnio dodani (createdAt DESC)
+    const sortedFree = [...freeCarriers].sort((a, b) => {
+      if (a.isVerified !== b.isVerified) return a.isVerified ? -1 : 1
+      return new Date(b.createdAt) - new Date(a.createdAt)
+    })
+
+    // Połącz: business > premium > ostatnio dodani/zweryfikowani free (do 6 total)
     const featured = [...premiumCarriers]
     const remainingSlots = 6 - featured.length
     if (remainingSlots > 0) {
-      featured.push(...shuffledFree.slice(0, remainingSlots))
+      featured.push(...sortedFree.slice(0, remainingSlots))
     }
     
     return featured.slice(0, 6)
