@@ -140,7 +140,7 @@ router.post('/', claimLimiter, async (req, res) => {
 
       createTransporter().sendMail({
         from: `MyBus <${process.env.SMTP_USER}>`,
-        to: 'kontakt.mybus@gmail.com',
+        to: process.env.CLAIM_ADMIN_EMAIL || process.env.SMTP_USER || 'kontakt.mybus@gmail.com',
         replyTo: requesterEmail,
         subject: `[MyBus Claim] Przejęcie profilu: ${companyName || carrier.companyName}`,
         html: emailHtml
