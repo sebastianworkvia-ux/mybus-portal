@@ -101,7 +101,7 @@ function PricingPage() {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://my-bus.eu/pricing" />
         <link rel="canonical" href="https://my-bus.eu/pricing" />
-        <meta name="robots" content="noindex, follow" />
+        <meta name="robots" content="index, follow" />
       </Helmet>
       <div className="pricing-page">
       <div className="container">

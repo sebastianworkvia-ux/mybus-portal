@@ -318,7 +318,6 @@ export default function CarrierDetailPage() {
               ? <span className="verified-badge">✓ Zweryfikowana firma</span>
               : <span className="unverified-badge">Profil niezweryfikowany</span>
             }
-            <span className="country-badge-large">{carrier.country}</span>
           </div>
 
           {/* Ogłoszenie Premium */}

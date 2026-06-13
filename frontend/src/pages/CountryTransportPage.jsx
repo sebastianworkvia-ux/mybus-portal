@@ -147,17 +147,11 @@ export default function CountryTransportPage() {
   }
 
   // noindex dla pustych stron — nie ustawiamy podczas ładowania
-  const robotsMeta = loading
-    ? 'index, follow'
-    : (!error && carriers.length > 0)
-      ? 'index, follow'
-      : 'noindex, follow'
-
   return (
     <>
       <Helmet>
         <title>{pageTitle}</title>
-        <meta name="robots" content={robotsMeta} />
+        <meta name="robots" content="index, follow" />
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
@@ -305,32 +299,32 @@ export default function CountryTransportPage() {
                 </h3>
                 <div className="destinations-grid">
                   {country !== 'germany' && country !== 'niemcy' && (
-                    <Link to="/transport-to/germany" className="destination-link">
+                    <Link to="/transport/germany" className="destination-link">
                       🇩🇪 {currentLang === 'pl' ? 'Transport do Niemiec' : currentLang === 'de' ? 'Transport nach Deutschland' : 'Transport to Germany'}
                     </Link>
                   )}
                   {country !== 'netherlands' && country !== 'holandia' && (
-                    <Link to="/transport-to/netherlands" className="destination-link">
+                    <Link to="/transport/netherlands" className="destination-link">
                       🇳🇱 {currentLang === 'pl' ? 'Transport do Holandii' : currentLang === 'de' ? 'Transport in die Niederlande' : 'Transport to Netherlands'}
                     </Link>
                   )}
                   {country !== 'belgium' && country !== 'belgia' && (
-                    <Link to="/transport-to/belgium" className="destination-link">
+                    <Link to="/transport/belgium" className="destination-link">
                       🇧🇪 {currentLang === 'pl' ? 'Transport do Belgii' : currentLang === 'de' ? 'Transport nach Belgien' : 'Transport to Belgium'}
                     </Link>
                   )}
                   {country !== 'france' && country !== 'francja' && (
-                    <Link to="/transport-to/france" className="destination-link">
+                    <Link to="/transport/france" className="destination-link">
                       🇫🇷 {currentLang === 'pl' ? 'Transport do Francji' : currentLang === 'de' ? 'Transport nach Frankreich' : 'Transport to France'}
                     </Link>
                   )}
                   {country !== 'austria' && (
-                    <Link to="/transport-to/austria" className="destination-link">
+                    <Link to="/transport/austria" className="destination-link">
                       🇦🇹 {currentLang === 'pl' ? 'Transport do Austrii' : currentLang === 'de' ? 'Transport nach Österreich' : 'Transport to Austria'}
                     </Link>
                   )}
                   {country !== 'uk' && country !== 'england' && country !== 'anglia' && (
-                    <Link to="/transport-to/uk" className="destination-link">
+                    <Link to="/transport/uk" className="destination-link">
                       🇬🇧 {currentLang === 'pl' ? 'Transport do Wielkiej Brytanii' : currentLang === 'de' ? 'Transport nach Großbritannien' : 'Transport to UK'}
                     </Link>
                   )}

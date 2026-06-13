@@ -199,16 +199,6 @@
   box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
 }
 
-.country-badge {
-  background: var(--color-brand);
-  color: white;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-}
-
 .demo-badge {
   background: #f1f5f9;
   color: #64748b;
@@ -651,16 +641,6 @@
   background: #f1f5f9;
   color: #64748b;
   border: 1px dashed #94a3b8;
-}
-
-.compact-country {
-  font-size: 0.7rem;
-  font-weight: 700;
-  background: #f1f5f9;
-  color: #475569;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
 }
 
 .compact-bottom {

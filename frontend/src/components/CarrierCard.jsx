@@ -53,7 +53,6 @@ export default function CarrierCard({ carrier, compact = false }) {
               {isBusinessPremium && <span className="compact-tier compact-tier-business">💎 BUSINESS</span>}
               {!isBusinessPremium && isPremium && <span className="compact-tier compact-tier-premium">⭐ PREMIUM</span>}
               {isDemo && <span className="compact-tier demo-badge-compact">🧪 PRZYKŁAD</span>}
-              <span className="compact-country">{carrier.country}</span>
             </div>
           </div>
           <div className="compact-bottom">
@@ -110,7 +109,6 @@ export default function CarrierCard({ carrier, compact = false }) {
           {isDemo && (
             <div className="demo-badge">🧪 Firma przykładowa</div>
           )}
-          <span className="country-badge">{carrier.country}</span>
         </div>
       </div>
 

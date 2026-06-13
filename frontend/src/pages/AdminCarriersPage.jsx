@@ -197,7 +197,6 @@ export default function AdminCarriersPage() {
                       <small>{carrier.phone}</small>
                     </td>
                     <td>
-                      <span className="country-badge">{carrier.country}</span>
                     </td>
                     <td>
                       {carrier.userId ? (

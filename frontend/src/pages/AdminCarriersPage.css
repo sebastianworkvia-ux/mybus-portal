@@ -121,15 +121,6 @@
   background: #f8f9fa;
 }
 
-.country-badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background: #e9ecef;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
 .no-owner {
   color: #999;
   font-style: italic;
