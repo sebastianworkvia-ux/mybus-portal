@@ -27,5 +27,6 @@ Allow: /terms
 Allow: /cookies
 
 # Sitemap
+Sitemap: https://my-bus.eu/sitemap-index.xml
 Sitemap: https://my-bus.eu/sitemap.xml
 Sitemap: https://my-bus.eu/sitemap-carriers.xml
