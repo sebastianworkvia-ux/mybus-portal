@@ -232,6 +232,7 @@ export default function AddCarrierPage() {
 
       const carrierData = {
         ...formData,
+        routes: formData.routes.filter(route => route.from?.trim() && route.to?.trim()),
         luggageInfo: {
           maxPieces: formData.luggageMaxPieces,
           maxWeight: formData.luggageMaxWeight,

@@ -238,6 +238,9 @@ export default function CarrierDetailPage() {
     AT: 'austria', GB: 'uk', SE: 'sweden', NO: 'norway', DK: 'denmark'
   }
   const transportSlug = countryCodeToSlug[carrier.country] || null
+  const validRoutes = (carrier.routes || []).filter(route =>
+    route?.from?.trim() && route?.to?.trim()
+  )
 
   const pageTitle = `${carrier.companyName}${cityPart} - Przewoźnik ${countryLabel} | My-Bus.eu`
   const metaDescription = carrier.description
@@ -496,11 +499,11 @@ export default function CarrierDetailPage() {
         </div>
 
         {/* Trasy */}
-        {carrier.routes && carrier.routes.length > 0 && (
+        {validRoutes.length > 0 && (
           <div className="routes-section">
             <h2>🛣️ Obsługiwane trasy</h2>
             <div className="routes-list">
-              {carrier.routes.map((route, idx) => (
+              {validRoutes.map((route, idx) => (
                 <div key={idx} className="route-item">
                   <span className="route-from-to">{route.from} → {route.to}</span>
                   {route.days && route.days.length > 0 && (

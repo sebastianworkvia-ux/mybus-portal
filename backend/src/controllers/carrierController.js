@@ -2,6 +2,18 @@ import Carrier from '../models/Carrier.js'
 import User from '../models/User.js'
 import { checkProfanityInObject } from '../utils/textUtils.js'
 
+const sanitizeCarrierPayload = (payload) => {
+  const sanitized = { ...payload }
+
+  if (Array.isArray(sanitized.routes)) {
+    sanitized.routes = sanitized.routes.filter(route =>
+      route?.from?.trim() && route?.to?.trim()
+    )
+  }
+
+  return sanitized
+}
+
 export const getCarriers = async (req, res, next) => {
   try {
     const { routeFrom, routeTo, service, search, hasPromo } = req.query
@@ -156,7 +168,7 @@ export const createCarrier = async (req, res, next) => {
     // Utwórz obiekt z wszystkich dozwolonych pól w req.body
     // Mongoose przefiltruje pola, które nie są w schemacie, ale warto być jawnym
     const carrierData = {
-      ...req.body,
+      ...sanitizeCarrierPayload(req.body),
       userId: req.user.id,
       country: req.body.country ? req.body.country.toUpperCase() : undefined,
     }
@@ -204,7 +216,7 @@ export const updateCarrier = async (req, res, next) => {
       })
     }
 
-    Object.assign(carrier, req.body)
+    Object.assign(carrier, sanitizeCarrierPayload(req.body))
     await carrier.save()
 
     res.json(carrier)
