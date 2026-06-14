@@ -15,6 +15,22 @@ const SERVICE_LABELS = {
   'inne': 'Inne'
 }
 
+const COUNTRY_LABELS = {
+  PL: 'Polska',
+  DE: 'Niemcy',
+  NL: 'Holandia',
+  BE: 'Belgia',
+  FR: 'Francja',
+  AT: 'Austria',
+  GB: 'Wielka Brytania',
+  SE: 'Szwecja',
+  NO: 'Norwegia',
+  DK: 'Dania',
+  CH: 'Szwajcaria',
+  LU: 'Luksemburg',
+  EU: 'Cała Europa'
+}
+
 const getInitials = (name = '') => {
   const words = name.trim().split(/\s+/)
   if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase()
@@ -30,6 +46,10 @@ export default function CarrierCard({ carrier, compact = false }) {
   const isDemo = carrier.isDemo === true
   const tierClass = isBusinessPremium ? 'business-premium-card' : isPremium ? 'premium-card' : 'free-card'
   const cardLink = `/carrier/${carrier.slug || carrier._id}`
+  const isPolandExpressShowcase = !compact && (
+    carrier.slug === 'poland-express-transport' ||
+    carrier.companyName?.toLowerCase().includes('poland express transport')
+  )
 
   // ── COMPACT MODE (homepage featured list) ─────────────────────
   if (compact) {
@@ -80,6 +100,62 @@ export default function CarrierCard({ carrier, compact = false }) {
   }
 
   // ── FULL CARD MODE (search page) ──────────────────────────────
+  if (isPolandExpressShowcase) {
+    const displayedCountries = [...new Set(carrier.operatingCountries || [])].filter(Boolean)
+    const displayedServices = (carrier.services || []).slice(0, 4)
+
+    return (
+      <div className={`carrier-card carrier-card-showcase ${tierClass}`}>
+        <div className="showcase-topline">
+          <span className="showcase-label">Przykład nowej karty</span>
+          {carrier.isVerified && <span className="showcase-verified">Zweryfikowana firma</span>}
+        </div>
+
+        <div className="showcase-header">
+          <div className="showcase-logo">
+            {carrier.logo
+              ? <img src={carrier.logo} alt={`${carrier.companyName} logo`} />
+              : <span>{getInitials(carrier.companyName)}</span>
+            }
+          </div>
+          <div>
+            <h3>{carrier.companyName}</h3>
+            <p>{carrier.description || 'Firma transportowa dostępna w marketplace My-Bus.eu.'}</p>
+          </div>
+        </div>
+
+        <div className="showcase-meta-grid">
+          <div>
+            <span className="showcase-meta-label">Zakres</span>
+            <strong>{displayedCountries.length > 0 ? displayedCountries.map(code => COUNTRY_LABELS[code] || code).join(', ') : 'Do ustalenia'}</strong>
+          </div>
+          <div>
+            <span className="showcase-meta-label">Kontakt</span>
+            <strong>{carrier.phone ? 'Telefon dostępny' : 'Dane na profilu'}</strong>
+          </div>
+          <div>
+            <span className="showcase-meta-label">Ocena</span>
+            <strong>{carrier.rating > 0 ? `${Number(carrier.rating).toFixed(1)}/5` : 'Nowy profil'}</strong>
+          </div>
+        </div>
+
+        <div className="showcase-services">
+          {displayedServices.length > 0
+            ? displayedServices.map(service => (
+                <span key={service}>{SERVICE_LABELS[service] || service}</span>
+              ))
+            : <span>Transport busem</span>
+          }
+        </div>
+
+        <div className="showcase-footer">
+          {carrier.phone && <a href={`tel:${carrier.phone}`} className="showcase-phone">Zadzwoń</a>}
+          <Link to={cardLink} className="showcase-details">Sprawdź profil →</Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={`carrier-card ${tierClass}`}>
       {/* Logo area — zawsze widoczny, styl zależy od planu */}

@@ -257,6 +257,10 @@ export default function CarrierDetailPage() {
     route?.from?.trim() && route?.to?.trim()
   )
   const operatingCountries = [...new Set(carrier.operatingCountries || [])].filter(Boolean)
+  const primaryServices = (carrier.services || [])
+    .map(service => serviceLabels[service] || service)
+    .filter(Boolean)
+    .slice(0, 3)
 
   const pageTitle = `${carrier.companyName}${cityPart} - Przewoźnik ${countryLabel} | My-Bus.eu`
   const metaDescription = carrier.description
@@ -386,6 +390,25 @@ export default function CarrierDetailPage() {
             {!carrier.userId && (
               <Link to={`/claim/${carrier.slug || carrier._id}`} className="btn-cta-claim">✅ Przejmij profil</Link>
             )}
+          </div>
+
+          <div className="profile-marketplace-summary">
+            <div className="profile-summary-item">
+              <span>Kraje</span>
+              <strong>{operatingCountries.length > 0 ? operatingCountries.map(code => operatingCountryNames[code] || code).join(', ') : 'Do uzupełnienia'}</strong>
+            </div>
+            <div className="profile-summary-item">
+              <span>Usługi</span>
+              <strong>{primaryServices.length > 0 ? primaryServices.join(', ') : 'Transport'}</strong>
+            </div>
+            <div className="profile-summary-item">
+              <span>Kontakt</span>
+              <strong>{carrier.phone || carrier.email ? 'Dostępny na profilu' : 'Do uzupełnienia'}</strong>
+            </div>
+            <div className="profile-summary-item">
+              <span>Status</span>
+              <strong>{carrier.isVerified ? 'Zweryfikowana firma' : 'Profil informacyjny'}</strong>
+            </div>
           </div>
           </div>
         </div>

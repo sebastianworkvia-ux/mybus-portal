@@ -11,10 +11,14 @@ import { SearchIllustration, TravelIllustration, CommunityIllustration, Verified
 import { useCarrierStore } from '../stores/carrierStore'
 import './HomePage.css'
 
+const FALLBACK_CARRIER_COUNT = 1928
+
 export default function HomePage() {
   const { t } = useTranslation()
   const { carriers, loading, error, getCarriers } = useCarrierStore()
   const observerRef = useRef(null)
+  const carrierCount = carriers.length > 50 ? carriers.length : FALLBACK_CARRIER_COUNT
+  const carrierCountLabel = `${carrierCount}+`
 
   // Initialize Intersection Observer for scroll animations
   useEffect(() => {
@@ -87,11 +91,11 @@ export default function HomePage() {
     <div className="home-page">
       <Helmet>
         <title>My-Bus.eu – Wyszukiwarka Przewoźników Busowych | PL-DE-NL-BE-FR-AT</title>
-        <meta name="description" content={`${carriers.length > 50 ? carriers.length + '+' : '1074+'} zweryfikowanych przewoźników busowych w Europie. Transport osób, paczek, lawety, przeprowadzki. Polska ↔ Niemcy, Holandia, Belgia, Francja, Austria.`} />
+        <meta name="description" content={`${carrierCountLabel} profili przewoźników busowych w Europie. Transport osób, paczek, lawety, przeprowadzki. Polska ↔ Niemcy, Holandia, Belgia, Francja, Austria.`} />
         <link rel="canonical" href="https://my-bus.eu/" />
         <meta property="og:url" content="https://my-bus.eu/" />
         <meta property="og:title" content="My-Bus.eu – Wyszukiwarka Przewoźników Busowych w Europie" />
-        <meta property="og:description" content={`${carriers.length > 50 ? carriers.length + '+' : '1074+'} zweryfikowanych przewoźników. Transport Polska–Europa. Bezpośredni kontakt z firmą.`} />
+        <meta property="og:description" content={`${carrierCountLabel} profili przewoźników. Transport Polska–Europa. Bezpośredni kontakt z firmą.`} />
       </Helmet>
       <PromoSidebar />
       
@@ -102,7 +106,7 @@ export default function HomePage() {
           {/* LEWA część ~70%: wyszukiwarka */}
           <div className="hero-content">
             <div className="hero-eyebrow">
-              🚐 {carriers.length > 50 ? `${carriers.length}+` : '1074+'} firm transportowych w jednym miejscu
+              Marketplace transportowy | {carrierCountLabel} profili firm w jednym miejscu
             </div>
             <h1 className="hero-title">
               Nie czekaj na oferty —<br />znajdź przewoźnika od razu
@@ -118,8 +122,8 @@ export default function HomePage() {
             {/* Proof cards — glass morphism */}
             <div className="hero-proof">
               <div className="hero-proof-card">
-                <strong>{carriers.length > 50 ? `${carriers.length}+` : '1074+'}</strong>
-                <span>firm transportowych</span>
+                <strong>{carrierCountLabel}</strong>
+                <span>profili przewoźników</span>
               </div>
               <div className="hero-proof-card">
                 <strong>Europa</strong>
@@ -205,12 +209,12 @@ export default function HomePage() {
           <div className="trust-badges">
             <div className="trust-badge">
               <div className="trust-badge-icon">✅</div>
-              <div className="trust-badge-number">{carriers.length || '190'}+</div>
+              <div className="trust-badge-number">{carrierCountLabel}</div>
               <p className="trust-badge-label">{t('trust.carriers', 'Zweryfikowanych Przewoźników')}</p>
             </div>
             <div className="trust-badge">
               <div className="trust-badge-icon">🌍</div>
-              <div className="trust-badge-number">30+</div>
+              <div className="trust-badge-number">Europa</div>
               <p className="trust-badge-label">{t('trust.countries', 'Krajów w Europie')}</p>
             </div>
             <div className="trust-badge">
@@ -332,6 +336,65 @@ export default function HomePage() {
               <p className="text-small">{t('featuredCarriers.beFirst')}</p>
             </div>
           )}
+        </section>
+
+        <section className="marketplace-guide-section scroll-fade-in">
+          <div className="section-heading-row">
+            <div>
+              <span className="section-kicker">Poradnik klienta</span>
+              <h2>Jak wybrać przewoźnika bez ryzyka?</h2>
+            </div>
+            <Link to="/search" className="section-link">Porównaj firmy →</Link>
+          </div>
+          <div className="guide-grid">
+            <article className="guide-card">
+              <span className="guide-step">1</span>
+              <h3>Sprawdź obsługiwane kraje i województwa</h3>
+              <p>Najpierw porównaj obszar działania firmy z trasą, której potrzebujesz. Profil powinien jasno pokazywać kierunki i regiony.</p>
+            </article>
+            <article className="guide-card">
+              <span className="guide-step">2</span>
+              <h3>Ustal bagaż, paczki i termin</h3>
+              <p>Przed rezerwacją dopytaj o limit bagażu, możliwość przewozu paczek, zwierząt oraz elastyczność godzin wyjazdu.</p>
+            </article>
+            <article className="guide-card">
+              <span className="guide-step">3</span>
+              <h3>Kontaktuj się bezpośrednio z firmą</h3>
+              <p>My-Bus.eu skraca drogę do przewoźnika. Na profilu widzisz telefon, email, stronę i najważniejsze dane firmy.</p>
+            </article>
+            <article className="guide-card">
+              <span className="guide-step">4</span>
+              <h3>Porównaj kilka ofert</h3>
+              <p>Jeśli trasa jest pilna lub nietypowa, sprawdź kilku przewoźników z tej samej kategorii i wybierz najlepsze warunki.</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="home-faq-section scroll-fade-in">
+          <span className="section-kicker">FAQ</span>
+          <h2>Najczęstsze pytania o przewozy</h2>
+          <div className="faq-list">
+            <details>
+              <summary>Jak znaleźć przewoźnika do Niemiec, Holandii lub Belgii?</summary>
+              <p>Użyj wyszukiwarki i wybierz kraj, miasto albo typ usługi. W wynikach zobaczysz profile firm z danymi kontaktowymi i zakresem działania.</p>
+            </details>
+            <details>
+              <summary>Czy kontakt z firmą jest bezpośredni?</summary>
+              <p>Tak. Platforma pokazuje dane przewoźnika, dzięki czemu możesz zadzwonić, wysłać email albo przejść na stronę firmy.</p>
+            </details>
+            <details>
+              <summary>Czy mogę znaleźć transport paczek, zwierząt albo rzeczy?</summary>
+              <p>Tak. Firmy możesz filtrować według usług: paczki, zwierzęta, przeprowadzki, laweta, transfery lotniskowe i transport rzeczy.</p>
+            </details>
+            <details>
+              <summary>Jak dodać firmę transportową do My-Bus.eu?</summary>
+              <p>Przejdź do sekcji dla przewoźników, załóż konto i uzupełnij profil. Po weryfikacji dane mogą być prezentowane w wyszukiwarce.</p>
+            </details>
+            <details>
+              <summary>Dlaczego liczba firm może zmienić się po odświeżeniu?</summary>
+              <p>Gdy backend na Renderze się wybudzi, strona pokazuje aktualną liczbę z bazy. Do tego czasu widoczna jest ostatnia znana wartość z indeksu.</p>
+            </details>
+          </div>
         </section>
 
         {/* Facebook Feed - Ostatnie posty */}

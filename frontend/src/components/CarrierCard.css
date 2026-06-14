@@ -737,3 +737,195 @@
   .compact-name { max-width: 140px; font-size: 0.875rem; }
   .compact-meta { display: none; }
 }
+
+/* === Showcase card used for one Poland Express Transport example === */
+.carrier-card-showcase {
+  padding: 1.2rem;
+  gap: 1rem;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.96) 38%),
+    #ffffff;
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.carrier-card-showcase::before {
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+}
+
+.showcase-topline,
+.showcase-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.showcase-label,
+.showcase-verified {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.showcase-label {
+  padding: 0.35rem 0.7rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.showcase-verified {
+  padding: 0.35rem 0.65rem;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.showcase-header {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.showcase-logo {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #0f172a;
+  color: white;
+  font-weight: 850;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
+
+.showcase-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.5rem;
+  background: #ffffff;
+}
+
+.showcase-header h3 {
+  margin: 0 0 0.4rem;
+  color: #0f172a;
+  font-size: 1.18rem;
+  line-height: 1.25;
+}
+
+.showcase-header p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.showcase-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.showcase-meta-grid > div {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.showcase-meta-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.showcase-meta-grid strong {
+  color: #0f172a;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.showcase-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.showcase-services span {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  color: #1e40af;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.showcase-phone,
+.showcase-details {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.showcase-phone {
+  padding: 0 1rem;
+  color: #0f172a;
+  background: white;
+  border: 1px solid #cbd5e1;
+}
+
+.showcase-details {
+  flex: 1;
+  padding: 0 1rem;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+.showcase-details:hover,
+.showcase-phone:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .showcase-topline,
+  .showcase-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .showcase-header {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .showcase-logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .showcase-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
