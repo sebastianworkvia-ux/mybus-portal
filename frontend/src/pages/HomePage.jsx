@@ -342,30 +342,40 @@ export default function HomePage() {
           <div className="section-heading-row">
             <div>
               <span className="section-kicker">Poradnik klienta</span>
-              <h2>Jak wybrać przewoźnika bez ryzyka?</h2>
+              <h2>Praktyczne porady według rodzaju transportu</h2>
             </div>
             <Link to="/search" className="section-link">Porównaj firmy →</Link>
           </div>
           <div className="guide-grid">
             <article className="guide-card">
-              <span className="guide-step">1</span>
-              <h3>Sprawdź obsługiwane kraje i województwa</h3>
-              <p>Najpierw porównaj obszar działania firmy z trasą, której potrzebujesz. Profil powinien jasno pokazywać kierunki i regiony.</p>
+              <span className="guide-step">Osoby</span>
+              <h3>Przewóz osób busem</h3>
+              <p>Potwierdź adres odbioru, godzinę, liczbę bagaży i telefon do kierowcy. Przy długiej trasie dopytaj o przerwy, przesiadki i procedurę przy opóźnieniu.</p>
             </article>
             <article className="guide-card">
-              <span className="guide-step">2</span>
-              <h3>Ustal bagaż, paczki i termin</h3>
-              <p>Przed rezerwacją dopytaj o limit bagażu, możliwość przewozu paczek, zwierząt oraz elastyczność godzin wyjazdu.</p>
+              <span className="guide-step">Auto</span>
+              <h3>Transport samochodu lub laweta</h3>
+              <p>Umyj auto, zrób zdjęcia z każdej strony, usuń rzeczy osobiste i zostaw tylko minimum paliwa potrzebne do załadunku. Spisz stan pojazdu przy odbiorze.</p>
             </article>
             <article className="guide-card">
-              <span className="guide-step">3</span>
-              <h3>Kontaktuj się bezpośrednio z firmą</h3>
-              <p>My-Bus.eu skraca drogę do przewoźnika. Na profilu widzisz telefon, email, stronę i najważniejsze dane firmy.</p>
+              <span className="guide-step">Paczki</span>
+              <h3>Paczki i transport rzeczy</h3>
+              <p>Podaj dokładne wymiary, wagę i zawartość. Oznacz rzeczy delikatne, sfotografuj paczkę przed przekazaniem i potwierdź termin doręczenia.</p>
             </article>
             <article className="guide-card">
-              <span className="guide-step">4</span>
-              <h3>Porównaj kilka ofert</h3>
-              <p>Jeśli trasa jest pilna lub nietypowa, sprawdź kilku przewoźników z tej samej kategorii i wybierz najlepsze warunki.</p>
+              <span className="guide-step">Przeprowadzki</span>
+              <h3>Przeprowadzki krajowe i międzynarodowe</h3>
+              <p>Przygotuj listę większych rzeczy, piętro, windę i odległość od parkingu. Ustal, czy cena obejmuje wniesienie, zabezpieczenie i dodatkowy załadunek.</p>
+            </article>
+            <article className="guide-card">
+              <span className="guide-step">Lotnisko</span>
+              <h3>Transfery lotniskowe</h3>
+              <p>Podaj numer lotu, terminal i realny bufor czasowy. Przy powrocie ustal, czy kierowca monitoruje opóźnienie lotu i gdzie dokładnie czeka.</p>
+            </article>
+            <article className="guide-card">
+              <span className="guide-step">Firmy</span>
+              <h3>Przejazdy służbowe</h3>
+              <p>Przed zleceniem potwierdź fakturę, liczbę pasażerów, standard pojazdu, punkty pośrednie i osobę kontaktową odpowiedzialną za zmianę planu.</p>
             </article>
           </div>
         </section>
@@ -391,8 +401,8 @@ export default function HomePage() {
               <p>Przejdź do sekcji dla przewoźników, załóż konto i uzupełnij profil. Po weryfikacji dane mogą być prezentowane w wyszukiwarce.</p>
             </details>
             <details>
-              <summary>Dlaczego liczba firm może zmienić się po odświeżeniu?</summary>
-              <p>Gdy backend na Renderze się wybudzi, strona pokazuje aktualną liczbę z bazy. Do tego czasu widoczna jest ostatnia znana wartość z indeksu.</p>
+              <summary>Jak przygotować samochód do transportu?</summary>
+              <p>Najlepiej umyć pojazd, zrobić aktualne zdjęcia, usunąć prywatne rzeczy, sprawdzić wycieki i alarm oraz ustalić z przewoźnikiem zakres ubezpieczenia.</p>
             </details>
           </div>
         </section>

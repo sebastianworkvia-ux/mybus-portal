@@ -1543,13 +1543,16 @@ body, p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
+  min-width: 34px;
   height: 34px;
+  padding: 0 0.75rem;
   margin-bottom: 1rem;
   border-radius: 10px;
   background: #eff6ff;
   color: #1d4ed8;
+  font-size: 0.78rem;
   font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 .guide-card h3 {
