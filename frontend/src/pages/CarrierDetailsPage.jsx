@@ -229,6 +229,21 @@ export default function CarrierDetailPage() {
   // SEO meta tags
   const cityPart = carrier.location?.city && carrier.location.city !== 'Polska' ? `, ${carrier.location.city}` : ''
   const countryNames = { DE: 'Niemcy', NL: 'Holandia', BE: 'Belgia', FR: 'Francja', AT: 'Austria', PL: 'Polska', GB: 'Wielka Brytania' }
+  const operatingCountryNames = {
+    PL: 'Polska',
+    DE: 'Niemcy',
+    NL: 'Holandia',
+    BE: 'Belgia',
+    FR: 'Francja',
+    AT: 'Austria',
+    GB: 'Wielka Brytania',
+    SE: 'Szwecja',
+    NO: 'Norwegia',
+    DK: 'Dania',
+    CH: 'Szwajcaria',
+    LU: 'Luksemburg',
+    EU: 'Cała Europa'
+  }
   const countryLabel = countryNames[carrier.country] || carrier.country
   const serviceLabels = { transport: 'transport busem', przeprowadzki: 'przeprowadzki', laweta: 'laweta', 'transfery-lotniskowe': 'transfery lotniskowe', paczki: 'paczki', autokary: 'autokary' }
   const servicesStr = carrier.services?.map(s => serviceLabels[s] || s).join(', ')
@@ -241,6 +256,7 @@ export default function CarrierDetailPage() {
   const validRoutes = (carrier.routes || []).filter(route =>
     route?.from?.trim() && route?.to?.trim()
   )
+  const operatingCountries = [...new Set(carrier.operatingCountries || [])].filter(Boolean)
 
   const pageTitle = `${carrier.companyName}${cityPart} - Przewoźnik ${countryLabel} | My-Bus.eu`
   const metaDescription = carrier.description
@@ -438,6 +454,19 @@ export default function CarrierDetailPage() {
             )}
             {(carrier.location?.city || carrier.location?.postalCode) && (
               <p><strong>Adres:</strong> {carrier.location?.postalCode} {carrier.location?.city}</p>
+            )}
+
+            {operatingCountries.length > 0 && (
+              <div className="operating-countries-section">
+                <h3>🌍 Obsługiwane kraje</h3>
+                <div className="operating-countries-list">
+                  {operatingCountries.map(countryCode => (
+                    <span key={countryCode} className="operating-country-badge">
+                      {operatingCountryNames[countryCode] || countryCode}
+                    </span>
+                  ))}
+                </div>
+              </div>
             )}
 
             {carrier.servedVoivodeships && carrier.servedVoivodeships.length > 0 && (
